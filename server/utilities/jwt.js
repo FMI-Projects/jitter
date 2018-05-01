@@ -14,12 +14,8 @@ const createJwt = userId => {
 };
 
 const decodeJwt = token => {
-  try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    return decodedToken;
-  } catch (e) {
-    throw new Error(e);
-  }
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  return decodedToken;
 };
 
 module.exports = {
