@@ -59,6 +59,7 @@ UserSchema.methods.validatePassword = function(password) {
 UserSchema.methods.generateAuthToken = function() {
   const user = this;
   const userId = user._id;
+
   return createJwt(userId);
 };
 
