@@ -4,7 +4,7 @@ const initialState = {
   authenticated: false,
   userId: null,
   token: null,
-  error: null
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -29,7 +29,7 @@ const applyAuthSuccess = (state, action) => {
     authenticated: true,
     userId: action.userId,
     token: action.token,
-    error: null
+    error: null,
   };
 };
 
@@ -39,12 +39,12 @@ const applyAuthLogoutSuccess = state => {
     authenticated: false,
     userId: null,
     token: null,
-    error: null
+    error: null,
   };
 };
 
 const applyAuthError = (state, action) => {
-  return { ...state, error: action.error };
+  return {...state, error: action.error};
 };
 
 export default authReducer;

@@ -1,13 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import {Field, reduxForm} from "redux-form";
 
 import ValidatedField from "../Form/ValidatedField";
-import {
-  required,
-  email,
-  passwordsMustMatch
-} from "../../utilities/validation";
+import {required, email, passwordsMustMatch} from "../../utilities/validation";
 
 const registerForm = props => (
   <form onSubmit={props.handleSubmit}>
@@ -51,7 +47,7 @@ const registerForm = props => (
 );
 
 registerForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
 };
 
-export default reduxForm({ form: "register" })(registerForm);
+export default reduxForm({form: "register"})(registerForm);
