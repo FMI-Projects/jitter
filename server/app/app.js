@@ -6,7 +6,11 @@ const authRouter = require("../routes/authRouter");
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  exposedHeaders: ["x-auth"],
+};
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 

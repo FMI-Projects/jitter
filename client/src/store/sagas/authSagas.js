@@ -17,10 +17,8 @@ export function* authUserSaga(action) {
 
     const expirationDate = new Date(new Date().getTime() + 604800);
 
-    console.log(response);
-
     yield call([localStorage, "setItem"], "token", response.headers["x-auth"]);
-    yield call([localStorage, "setItem"], "userId", response._id);
+    yield call([localStorage, "setItem"], "userId", response.data._id);
     yield call([localStorage, "setItem"], "expirationDate", expirationDate);
 
     yield put(actions.authSuccess());
