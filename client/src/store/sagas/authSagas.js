@@ -1,6 +1,6 @@
 import { put, call } from "redux-saga/effects";
 
-import * as actions from "../actions/index";
+import * as actions from "../actions";
 import { userService, storageService } from "../../services";
 
 export function* authUserSaga(action) {
@@ -19,12 +19,16 @@ export function* authUserSaga(action) {
   }
 }
 
-export function* authLogoutSaga() {
+export function* authLogoutInitSaga() {
   yield call([storageService, "removeUser"]);
   yield put(actions.authLogoutSuccess());
 }
 
 export function* authInitSaga(action) {
   const { userId, token } = yield call([storageService, "getUser"]);
-  yield put(action.authSuccess(userId, token));
+  if (userId && token) {
+    yield put(actions.authSuccess(userId, token));
+  } else {
+    yield put(actions.authLogoutSuccess());
+  }
 }

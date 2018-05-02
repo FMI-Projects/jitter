@@ -3,6 +3,7 @@ import createSagaMiddleware from "redux-saga";
 
 import rootReducer from "../store/reducers";
 import {watchAuth} from "../store/sagas/";
+import * as actions from "./actions";
 
 const saga = createSagaMiddleware();
 
@@ -16,5 +17,7 @@ const store = createStore(
 );
 
 saga.run(watchAuth);
+
+store.dispatch(actions.authInit());
 
 export default store;
