@@ -1,5 +1,12 @@
+const { ObjectID } = require("mongodb");
+
 const User = require("../../../data/models/user");
-const encryption = require("../../../utilities/encryption");
+
+jest.mock("../../../utilities/encryption");
+const { validatePassword } = require("../../../utilities/encryption");
+
+jest.mock("../../../utilities/jwt");
+const { createJwt } = require("../../../utilities/jwt");
 
 describe("user", () => {
   it("should be invalid if email is empty", async () => {
@@ -71,17 +78,63 @@ describe("user", () => {
   });
 
   describe("instance methods", () => {
-    // describe("validatePassword", () => {
-    //   it("should make call to validator with correct input", async () => {
-    //     const spy = jest.spyOn(encryption, "validatePassword");
+    describe("validatePassword", () => {
+      it("should make call to validator with correct input", async () => {
+        const userPassword = "userPassword";
+        const inputPassword = "inputPassword";
+        const user = new User({ password: userPassword });
+        await user.validatePassword(inputPassword);
 
-    //     const userPassword = "userPassword";
-    //     const inputPassword = "inputPassword";
-    //     const user = new User({ password: userPassword });
-    //     user.validatePassword(inputPassword);
+        expect(validatePassword).toHaveBeenCalledWith(
+          inputPassword,
+          userPassword
+        );
+      });
+    });
 
-    //     expect(spy).toHaveBeenCalledWith(inputPassword, userPassword);
-    //   });
-    // });
+    describe("generateAuthToken", () => {
+      it("should make call to generator with correct input", async () => {
+        const userId = new ObjectID();
+        const user = new User({ _id: userId });
+        await user.generateAuthToken();
+
+        expect(createJwt).toHaveBeenCalledWith(userId);
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+  });
+
+  describe("static methods", () => {
+    describe("findByEmail", () => {
+      it("should return user if user exists", async () => {
+        const userToReturn = "someUser";
+        User.findOne = jest.fn(async () => userToReturn);
+
+        const user = await User.findByEmail("someEmail");
+
+        expect(user).toEqual(userToReturn);
+      });
+
+      it("should throw an error if user does not exist", async () => {
+        User.findOne = jest.fn(async () => undefined);
+
+        let error;
+
+        try {
+          await User.findByEmail("someEmail");
+        } catch (e) {
+          error = "User not found";
+        }
+
+        expect(error).toBeDefined();
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
   });
 });
