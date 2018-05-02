@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import {Field, reduxForm} from "redux-form";
 
 import ValidatedField from "../Form/ValidatedField";
-import { required, email } from "../../utilities/validation";
+import {required, email} from "../../utilities/validation";
 
 const loginForm = props => {
   let errorMessage;
@@ -23,12 +23,14 @@ const loginForm = props => {
             component={ValidatedField}
             type="text"
             placeholder="Email"
+            label="Email"
             validate={[required, email]}
           />
           <Field
             name="password"
             component={ValidatedField}
             type="password"
+            label="Password"
             placeholder="Password"
             validate={[required]}
           />
@@ -43,7 +45,7 @@ const loginForm = props => {
 
 loginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
 };
 
-export default reduxForm({ form: "login" })(loginForm);
+export default reduxForm({form: "login"})(loginForm);

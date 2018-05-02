@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import Layout from "./hoc/Layout/Layout";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 class App extends Component {
   static propTypes = {
@@ -17,6 +18,7 @@ class App extends Component {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/" component={Dashboard} />
         <Redirect to="/" />
       </Switch>
     );
@@ -24,6 +26,7 @@ class App extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
+          <Route exact path="/" component={Dashboard} />
           <Redirect to="/" />
         </Switch>
       );
