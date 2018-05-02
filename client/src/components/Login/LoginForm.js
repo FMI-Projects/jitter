@@ -1,51 +1,53 @@
-import React from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {Field, reduxForm} from "redux-form";
 
 import ValidatedField from "../Form/ValidatedField";
 import {required, email} from "../../utilities/validation";
 
-const loginForm = props => {
-  let errorMessage;
+import {TextField} from "redux-form-material-ui";
 
-  if (props.errorMessage) {
-    errorMessage = <div className="info-red">{props.errorMessage}</div>;
-  }
+class LoginForm extends Component {
+  render() {
+    let errorMessage;
 
-  return (
-    <div className="form">
-      <div className="container">
+    if (this.props.errorMessage) {
+      errorMessage = <div className="info-red">{this.props.errorMessage}</div>;
+    }
+
+    return (
+      <div style={{textAlign: "center"}}>
         <h2>Sign in</h2>
         {errorMessage}
-        <form onSubmit={props.handleSubmit}>
-          <Field
-            name="email"
-            component={ValidatedField}
-            type="text"
-            placeholder="Email"
-            label="Email"
-            validate={[required, email]}
-          />
-          <Field
-            name="password"
-            component={ValidatedField}
-            type="password"
-            label="Password"
-            placeholder="Password"
-            validate={[required]}
-          />
-          <button type="submit" className="blue">
-            Sign in
-          </button>
+        <form onSubmit={this.props.handleSubmit}>
+          <div>
+            <Field
+              name="email"
+              component={TextField}
+              label="Email"
+              validate={[required, email]}
+              autoFocus={true}
+            />
+          </div>
+          <div>
+            <Field
+              name="password"
+              component={TextField}
+              label="Password"
+              type="password"
+              validate={[required]}
+            />
+          </div>
+          <button type="submit">Sign in</button>
         </form>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-loginForm.propTypes = {
+LoginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 };
 
-export default reduxForm({form: "login"})(loginForm);
+export default reduxForm({form: "login"})(LoginForm);
