@@ -4,6 +4,10 @@ const User = require("../data/models/user");
 const authenticate = (req, res, next) => {
   const token = req.header("x-auth");
 
+  if (!token) {
+    res.status(401).send();
+  }
+
   try {
     const { _id } = decodeJwt(token);
     const user = User.findById(_id);

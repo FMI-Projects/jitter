@@ -1,17 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {Field, reduxForm} from "redux-form";
+import { Field, reduxForm } from "redux-form";
 
 import ValidatedField from "../Form/ValidatedField";
-import {required, email, passwordsMustMatch} from "../../utilities/validation";
+import { required, email } from "../../utilities/validation";
 
 const loginForm = props => {
+  let errorMessage;
+
+  if (this.props.error) {
+    errorMessage = <div className="info-red">{this.props.error}</div>;
+  }
+
   return (
     <div className="form">
       <div className="container">
         <h2>Sign in</h2>
-        <form onSubmit={this.props.handleSubmit(this.props.submit)}>
+        <form onSubmit={this.props.handleSubmit}>
           <Field
             name="email"
             component={ValidatedField}
@@ -30,14 +36,14 @@ const loginForm = props => {
             Sign in
           </button>
         </form>
-        {this.props.errorMessage()}
+        {errorMessage}
       </div>
     </div>
   );
 };
 
 loginForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 
-export default reduxForm({form: "login"})(loginForm);
+export default reduxForm({ form: "login" })(loginForm);

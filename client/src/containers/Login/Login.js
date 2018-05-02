@@ -18,19 +18,11 @@ class Login extends Component {
     this.props.authUser(email, password);
   };
 
-  errorMessage() {
-    if (this.props.error) {
-      return <div className="info-red">{this.props.error}</div>;
-    }
-  }
-
   render() {
-    const {handleSubmit} = this.props;
     return (
       <LoginForm
-        handleSubmit={handleSubmit}
-        submit={this.submit}
-        errorMessage={this.errorMessage}
+        onSubmit={this.submit}
+        errorMessage={this.props.error}
       />
     );
   }
