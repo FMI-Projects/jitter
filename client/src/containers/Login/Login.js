@@ -1,20 +1,21 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import {Field, reduxForm} from "redux-form";
+import { Field, reduxForm } from "redux-form";
 
-import {authUser} from "../../store/actions/authActions";
-import {connect} from "react-redux";
+import { authUser } from "../../store/actions/authActions";
+import { connect } from "react-redux";
 
 class Login extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     authUser: PropTypes.func.isRequired,
-    error: PropTypes.string,
+    error: PropTypes.string
   };
 
   submit = values => {
-    this.props.authUser(values);
+    const { email, password } = values;
+    this.props.authUser(email, password);
   };
 
   errorMessage() {
@@ -24,7 +25,7 @@ class Login extends Component {
   }
 
   render() {
-    const {handleSubmit} = this.props;
+    const { handleSubmit } = this.props;
     return (
       <div className="form">
         <div className="container">
@@ -55,16 +56,16 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.auth.error,
+    error: state.auth.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    authUser: values => dispatch(authUser(values)),
+    authUser: (email, password) => dispatch(authUser(email, password))
   };
 };
 
-const reduxFormLogin = reduxForm({form: "login"})(Login);
+const reduxFormLogin = reduxForm({ form: "login" })(Login);
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxFormLogin);

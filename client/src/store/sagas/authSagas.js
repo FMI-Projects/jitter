@@ -1,28 +1,30 @@
-import {put, call} from "redux-saga/effects";
-
-import axios from "axios";
+import { put, call } from "redux-saga/effects";
 
 import * as actions from "../actions/index";
+import { userService, storageService } from "../../services";
 
 export function* authUserSaga(action) {
-  const authData = {
-    email: action.email,
-    password: action.password,
-  };
-
   try {
-    const loginUrl = "http://localhost:8000/auth/login";
+    const userData = yield call(
+      [userService, "loginUser"],
+      action.email,
+      action.password
+    );
 
-    const response = yield call([axios, "post"], loginUrl, authData);
+    yield call([storageService, "storeUser"], userData.token, userData._id);
 
-    const expirationDate = new Date(new Date().getTime() + 604800);
-
-    yield call([localStorage, "setItem"], "token", response.headers["x-auth"]);
-    yield call([localStorage, "setItem"], "userId", response.data._id);
-    yield call([localStorage, "setItem"], "expirationDate", expirationDate);
-
-    yield put(actions.authSuccess());
+    yield put(actions.authSuccess(userData.token, userData._id));
   } catch (e) {
     yield put(actions.authError(e.message));
   }
+}
+
+export function* authLogoutSaga() {
+  yield call([storageService, "removeUser"]);
+  yield put(actions.authLogoutSuccess());
+}
+
+export function* authInitSaga(action) {
+  const { userId, token } = yield call([storageService, "getUser"]);
+  yield put(action.authSuccess(userId, token));
 }

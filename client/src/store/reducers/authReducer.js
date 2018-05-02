@@ -1,31 +1,50 @@
-import { AUTH_SUCCESS, AUTH_LOGOUT, AUTH_ERROR } from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  authenticated: false
+  authenticated: false,
+  userId: null,
+  token: null,
+  error: null
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_SUCCESS: {
-      return applyAuthentication(state, true);
+    case actionTypes.AUTH_SUCCESS: {
+      return applyAuthSuccess(state, action);
     }
-    case AUTH_LOGOUT: {
-      return applyAuthentication(state, false);
+    case actionTypes.AUTH_LOGOUT_SUCCESS: {
+      return applyAuthLogoutSuccess(state, action);
     }
-    case AUTH_ERROR: {
-      return applyAuthError(state, action.error);
+    case actionTypes.AUTH_ERROR: {
+      return applyAuthError(state, action);
     }
     default:
       return state;
   }
 };
 
-const applyAuthentication = (state, authenticated) => {
-  return { ...state, authenticated };
+const applyAuthSuccess = (state, action) => {
+  return {
+    ...state,
+    authenticated: true,
+    userId: action.userId,
+    token: action.token,
+    error: null
+  };
 };
 
-const applyAuthError = (state, error) => {
-  return { ...state, error };
+const applyAuthLogoutSuccess = state => {
+  return {
+    ...state,
+    authenticated: false,
+    userId: null,
+    token: null,
+    error: null
+  };
+};
+
+const applyAuthError = (state, action) => {
+  return { ...state, error: action.error };
 };
 
 export default authReducer;

@@ -2,7 +2,7 @@ const request = require("supertest");
 
 require("../config/config");
 const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
-const app = require("../../app/app");
+const app = require("../../app");
 const User = require("../../data/models/user");
 const { populateUsers, users } = require("../seed/users");
 
@@ -32,7 +32,6 @@ describe("authController", () => {
         .expect(res => {
           expect(res.headers["x-auth"]).not.toBeFalsy();
           expect(res.body._id).not.toBeFalsy();
-          expect(res.body.email).toEqual(email);
         });
 
       const user = await User.findByEmail(email);
@@ -96,7 +95,6 @@ describe("authController", () => {
         .expect(res => {
           expect(res.headers["x-auth"]).not.toBeFalsy();
           expect(res.body._id).not.toBeFalsy();
-          expect(res.body.email).toEqual(email);
         });
     });
 

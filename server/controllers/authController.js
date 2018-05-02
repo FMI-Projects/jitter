@@ -1,25 +1,26 @@
 const User = require("../data/models/user");
-const _ = require("lodash");
 
 const login = async (req, res) => {
-  const {email, password} = _.pick(req.body, ["email", "password"]);
+  const {email, password} = req.body;
 
   try {
     const user = await User.findByEmail(email);
     await user.validatePassword(password);
     const token = await user.generateAuthToken();
-    console.log(user);
+
     res
       .header("x-auth", token)
       .status(200)
-      .send(user);
+      .send({
+        _id: user._id
+      });
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
 const register = async (req, res) => {
-  const {email, password} = _.pick(req.body, ["email", "password"]);
+  const {email, password} = req.body;
   let user = new User({email, password});
 
   try {
@@ -28,7 +29,9 @@ const register = async (req, res) => {
     res
       .header("x-auth", token)
       .status(201)
-      .send(user);
+      .send({
+        _id: user._id
+      });
   } catch (e) {
     res.status(400).send(e);
   }

@@ -1,3 +1,3 @@
-require("./config/config");
+require("./config");
 require("./data/mongoose");
-require("./app/app");
+require("./app");

@@ -1,9 +1,13 @@
-import {takeLatest, all} from "redux-saga/effects";
+import { takeLatest, all } from "redux-saga/effects";
 
-import {AUTH_USER} from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
-import {authUserSaga} from "./authSagas";
+import { authUserSaga, authInitSaga, authLogoutSaga } from "./authSagas";
 
 export function* watchAuth() {
-  yield all([takeLatest(AUTH_USER, authUserSaga)]);
+  yield all([
+    takeLatest(actionTypes.AUTH_USER, authUserSaga),
+    takeLatest(actionTypes.AUTH_INIT, authInitSaga),
+    takeLatest(actionTypes.AUTH_LOGOUT_INIT, authLogoutSaga)
+  ]);
 }

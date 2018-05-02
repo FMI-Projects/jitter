@@ -1,22 +1,42 @@
-import { AUTH_SUCCESS, AUTH_USER, AUTH_ERROR } from "./actionTypes";
+import * as actionTypes from "./actionTypes";
 
-export const authSuccess = () => {
+export const authSuccess = (userId, token) => {
   return {
-    type: AUTH_SUCCESS
+    type: actionTypes.AUTH_SUCCESS,
+    userId,
+    token
   };
 };
 
 export const authError = error => {
   return {
-    type: AUTH_ERROR,
+    type: actionTypes.AUTH_ERROR,
     error
   };
 };
 
-export const authUser = ({ email, password }) => {
+export const authUser = (email, password) => {
   return {
-    type: AUTH_USER,
+    type: actionTypes.AUTH_USER,
     email,
     password
+  };
+};
+
+export const authInit = () => {
+  return {
+    type: actionTypes.AUTH_INIT
+  };
+};
+
+export const authLogoutInit = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT_INIT
+  };
+};
+
+export const authLogoutSuccess = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT_SUCCESS
   };
 };
