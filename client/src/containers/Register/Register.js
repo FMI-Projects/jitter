@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import RegisterForm from "../../components/Register/RegisterForm";
 
 class Register extends Component {
-  handleRegister(e) {}
+  handleRegister(values) {
+    console.log(values);
+  }
 
   render() {
-    return (
-      <form onSubmit={this.handleRegister}>
-        <h1>WORKS</h1>
-      </form>
-    );
+    return <RegisterForm onSubmit={this.handleRegister} />;
   }
 }
 
-export default reduxForm({ form: "register" })(Register);
+export default connect()(Register);
