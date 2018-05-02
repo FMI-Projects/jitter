@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "./axios/axios";
 
 export default class HttpService {
   get(url) {
