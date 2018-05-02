@@ -32,3 +32,19 @@ export function* authInitSaga(action) {
     yield put(actions.authLogoutSuccess());
   }
 }
+
+export function* authRegisterInitSaga(action) {
+  try {
+    const userData = yield call(
+      [userService, "registerUser"],
+      action.email,
+      action.password
+    );
+
+    yield call([storageService, "storeUser"], userData.token, userData._id);
+
+    yield put(actions.authSuccess(userData.token, userData._id));
+  } catch (e) {
+    yield put(actions.authError(e.message));
+  }
+}

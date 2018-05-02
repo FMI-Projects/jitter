@@ -40,3 +40,17 @@ export const authLogoutSuccess = () => {
     type: actionTypes.AUTH_LOGOUT_SUCCESS
   };
 };
+
+export const authRegisterInit = (email, password) => {
+  return {
+    type: actionTypes.AUTH_REGISTER_INIT,
+    email,
+    password
+  };
+};
+
+export const authResetError = () => {
+  return {
+    type: actionTypes.AUTH_RESET_ERROR
+  };
+};

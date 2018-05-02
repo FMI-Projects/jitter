@@ -18,6 +18,9 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.AUTH_ERROR: {
       return applyAuthError(state, action);
     }
+    case actionTypes.AUTH_RESET_ERROR: {
+      return applyAuthResetError(state, action);
+    }
     default:
       return state;
   }
@@ -45,6 +48,10 @@ const applyAuthLogoutSuccess = state => {
 
 const applyAuthError = (state, action) => {
   return {...state, error: action.error};
+};
+
+const applyAuthResetError = (state, action) => {
+  return {...state, error: null};
 };
 
 export default authReducer;

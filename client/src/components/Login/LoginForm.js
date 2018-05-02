@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { Field, reduxForm } from "redux-form";
 
 import ValidatedField from "../Form/ValidatedField";
@@ -9,15 +8,16 @@ import { required, email } from "../../utilities/validation";
 const loginForm = props => {
   let errorMessage;
 
-  if (this.props.error) {
-    errorMessage = <div className="info-red">{this.props.error}</div>;
+  if (props.errorMessage) {
+    errorMessage = <div className="info-red">{props.errorMessage}</div>;
   }
 
   return (
     <div className="form">
       <div className="container">
         <h2>Sign in</h2>
-        <form onSubmit={this.props.handleSubmit}>
+        {errorMessage}
+        <form onSubmit={props.handleSubmit}>
           <Field
             name="email"
             component={ValidatedField}
@@ -36,14 +36,14 @@ const loginForm = props => {
             Sign in
           </button>
         </form>
-        {errorMessage}
       </div>
     </div>
   );
 };
 
 loginForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string
 };
 
 export default reduxForm({ form: "login" })(loginForm);
