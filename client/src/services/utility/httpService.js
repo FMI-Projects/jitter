@@ -1,21 +1,19 @@
-import axios from "axios";
-
-const baseUrl = "http://localhost:8000/";
+import axios from "./axios";
 
 export default class HttpService {
   get(url) {
-    return axios.get(baseUrl + url);
+    return axios.get(url);
   }
 
   post(url, data) {
-    return axios.post(baseUrl + url, data);
+    return axios.post(url, data);
   }
 
   put(url, data) {
-    return axios.put(baseUrl + url, data);
+    return axios.put(url, data);
   }
 
   delete(url) {
-    return axios.delete(baseUrl + url);
+    return axios.delete(url);
   }
 }
