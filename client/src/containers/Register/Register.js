@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import React, {Component} from "react";
+import {Field, reduxForm} from "redux-form";
 
 class Register extends Component {
   handleRegister(e) {}
@@ -13,4 +13,4 @@ class Register extends Component {
   }
 }
 
-export default reduxForm({ form: "register" })(Register);
+export default reduxForm({form: "register"})(Register);

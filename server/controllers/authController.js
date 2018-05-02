@@ -2,12 +2,13 @@ const User = require("../data/models/user");
 const _ = require("lodash");
 
 const login = async (req, res) => {
-  const { email, password } = _.pick(req.body, ["email", "password"]);
+  const {email, password} = _.pick(req.body, ["email", "password"]);
 
   try {
     const user = await User.findByEmail(email);
     await user.validatePassword(password);
     const token = await user.generateAuthToken();
+    console.log(user);
     res
       .header("x-auth", token)
       .status(200)
@@ -18,8 +19,8 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { email, password } = _.pick(req.body, ["email", "password"]);
-  let user = new User({ email, password });
+  const {email, password} = _.pick(req.body, ["email", "password"]);
+  let user = new User({email, password});
 
   try {
     user = await user.save();
@@ -35,5 +36,5 @@ const register = async (req, res) => {
 
 module.exports = {
   login,
-  register
+  register,
 };
