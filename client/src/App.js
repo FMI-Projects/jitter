@@ -1,20 +1,42 @@
-import React, {Component} from "react";
-import {Route} from "react-router-dom";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import "./App.css";
+import Layout from "./hoc/Layout/Layout";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 
 class App extends Component {
-  render() {
-    return (
-      <div>
-        <Register />
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired
+  };
 
+  render() {
+    let routes = (
+      <Switch>
         <Route exact path="/login" component={Login} />
-      </div>
+        <Route exact path="/register" component={Register} />
+        <Redirect to="/" />
+      </Switch>
     );
+
+    if (this.props.isAuthenticated) {
+      routes = (
+        <Switch>
+          <Redirect to="/" />
+        </Switch>
+      );
+    }
+
+    return <Layout>{routes}</Layout>;
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(App));
