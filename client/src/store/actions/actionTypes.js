@@ -1,4 +1,4 @@
-export const AUTHENTICATED = "AUTHENTICATED";
-export const NOT_AUTHENTICATED = "NOT_AUTHENTICATED";
+export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const AUTH_USER = "AUTH_USER";
+export const AUTH_LOGOUT = "AUTH_LOGOUT";

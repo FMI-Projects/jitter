@@ -1,27 +1,22 @@
-import {
-  AUTHENTICATED,
-  AUTH_USER,
-  NOT_AUTHENTICATED,
-  AUTH_ERROR,
-} from "./actionTypes";
+import { AUTH_SUCCESS, AUTH_USER, AUTH_ERROR } from "./actionTypes";
 
 export const authSuccess = () => {
   return {
-    type: AUTHENTICATED,
+    type: AUTH_SUCCESS
   };
 };
 
-export const authFail = error => {
+export const authError = error => {
   return {
     type: AUTH_ERROR,
-    error,
+    error
   };
 };
 
-export const authUser = ({email, password}) => {
+export const authUser = ({ email, password }) => {
   return {
     type: AUTH_USER,
     email,
-    password,
+    password
   };
 };

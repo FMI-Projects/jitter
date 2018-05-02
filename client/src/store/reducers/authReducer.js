@@ -1,15 +1,15 @@
-import {
-  AUTHENTICATED,
-  NOT_AUTHENTICATED,
-  AUTH_ERROR,
-} from "../actions/actionTypes";
+import { AUTH_SUCCESS, AUTH_LOGOUT, AUTH_ERROR } from "../actions/actionTypes";
 
-const authReducer = (state = {}, action) => {
+const initialState = {
+  authenticated: false
+};
+
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTHENTICATED: {
+    case AUTH_SUCCESS: {
       return applyAuthentication(state, true);
     }
-    case NOT_AUTHENTICATED: {
+    case AUTH_LOGOUT: {
       return applyAuthentication(state, false);
     }
     case AUTH_ERROR: {
@@ -21,11 +21,11 @@ const authReducer = (state = {}, action) => {
 };
 
 const applyAuthentication = (state, authenticated) => {
-  return {...state, authenticated: authenticated};
+  return { ...state, authenticated };
 };
 
 const applyAuthError = (state, error) => {
-  return {...state, error};
+  return { ...state, error };
 };
 
 export default authReducer;

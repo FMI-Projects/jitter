@@ -1,22 +1,24 @@
+import axios from "axios";
+
 export default class HttpService {
-  constructor(requester, baseUrl) {
-    this.requester = requester;
+  constructor(baseUrl) {
+    this.axios = axios;
     this.baseUrl = baseUrl;
   }
 
   get(url) {
-    return this.requester.get(this.baseUrl + url);
+    return this.axios.get(this.baseUrl + url);
   }
 
   post(url, data) {
-    return this.requester.post(this.baseUrl + url, data);
+    return this.axios.post(this.baseUrl + url, data);
   }
 
   put(url, data) {
-    return this.requester.put(this.baseUrl + url, data);
+    return this.axios.put(this.baseUrl + url, data);
   }
 
   delete(url) {
-    return this.requester.delete(this.baseUrl + url);
+    return this.axios.delete(this.baseUrl + url);
   }
 }

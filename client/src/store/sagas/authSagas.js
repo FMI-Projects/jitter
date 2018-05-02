@@ -23,6 +23,6 @@ export function* authUserSaga(action) {
 
     yield put(actions.authSuccess());
   } catch (e) {
-    yield put(actions.authFail(e.message));
+    yield put(actions.authError(e.message));
   }
 }
