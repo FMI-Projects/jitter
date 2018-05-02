@@ -49,11 +49,11 @@ UserSchema.statics.findByEmail = async function(email) {
   return user;
 };
 
-UserSchema.methods.validatePassword = function(password) {
+UserSchema.methods.validatePassword = async function(password) {
   const user = this;
   const hashedPassword = user.password;
 
-  return validatePassword(password, hashedPassword);
+  return await validatePassword(password, hashedPassword);
 };
 
 UserSchema.methods.generateAuthToken = function() {
