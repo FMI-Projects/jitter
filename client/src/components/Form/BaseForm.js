@@ -15,7 +15,7 @@ const baseForm = props => {
         <Card className={props.classes.card}>
           <CardHeader
             classes={{title: props.classes.cardTitle}}
-            title="Register"
+            title={props.title}
           />
         </Card>
       </Grid>
@@ -27,6 +27,7 @@ const baseForm = props => {
 baseForm.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(baseForm);

@@ -21,7 +21,7 @@ const registerForm = props => {
   }
 
   return (
-    <BaseForm>
+    <BaseForm title="Register">
       {errorMessage}
       <form className={props.classes.form} onSubmit={props.handleSubmit}>
         <div>

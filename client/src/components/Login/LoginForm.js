@@ -24,7 +24,7 @@ const loginForm = props => {
   }
 
   return (
-    <BaseForm>
+    <BaseForm title="Login">
       {errorMessage}
       <form className={props.classes.form} onSubmit={props.handleSubmit}>
         <div>
