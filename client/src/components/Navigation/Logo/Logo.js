@@ -3,7 +3,7 @@ import Typography from "material-ui/Typography";
 
 import NavLink from "../NavLink/NavLink";
 
-const appLogo = props => (
+const logo = props => (
   <NavLink to="/">
     <Typography variant="title" color="inherit">
       Jitter
@@ -11,4 +11,4 @@ const appLogo = props => (
   </NavLink>
 );
 
-export default appLogo;
+export default logo;

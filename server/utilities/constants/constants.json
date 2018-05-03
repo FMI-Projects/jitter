@@ -6,5 +6,10 @@
     "password": {
       "minLength": 6
     }
+  },
+  "profile": {
+    "bio": {
+      "maxLength": 200
+    }
   }
 }

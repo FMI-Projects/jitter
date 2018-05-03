@@ -6,7 +6,7 @@ import Toolbar from "material-ui/Toolbar";
 
 import styles from "./Navigation.styles";
 import NavigationItems from "./NavigationItems/NavigationItems";
-import AppLogo from "./AppLogo/AppLogo";
+import Logo from "./Logo/Logo";
 
 const navigation = props => {
   const { classes } = props;
@@ -15,7 +15,7 @@ const navigation = props => {
       <AppBar position="static">
         <Toolbar>
           <div className={classes.logo}>
-            <AppLogo />
+            <Logo />
           </div>
           <NavigationItems />
         </Toolbar>
