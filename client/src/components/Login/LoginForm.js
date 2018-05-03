@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Field, reduxForm} from "redux-form";
 import {withStyles} from "material-ui/styles";
 
-import styles from "./styles";
+import styles from "../Form/styles";
 
 import {required, email} from "../../utilities/validation";
 
@@ -14,6 +14,8 @@ import {Grid} from "material-ui";
 
 import {TextField} from "redux-form-material-ui";
 
+import BaseForm from "../Form/BaseForm";
+
 const loginForm = props => {
   let errorMessage;
 
@@ -22,49 +24,39 @@ const loginForm = props => {
   }
 
   return (
-    <div className={props.classes.base}>
-      <Grid container>
-        <Card className={props.classes.card}>
-          <CardHeader
-            classes={{title: props.classes.cardTitle}}
-            title="Sign in"
+    <BaseForm>
+      {errorMessage}
+      <form className={props.classes.form} onSubmit={props.handleSubmit}>
+        <div>
+          <Field
+            className={props.classes.textField}
+            name="email"
+            component={TextField}
+            label="Email"
+            validate={[required, email]}
+            autoFocus={true}
           />
-        </Card>
-      </Grid>
-      <Paper className={props.classes.headline}>
-        {errorMessage}
-        <form className={props.classes.form} onSubmit={props.handleSubmit}>
-          <div>
-            <Field
-              className={props.classes.textField}
-              name="email"
-              component={TextField}
-              label="Email"
-              validate={[required, email]}
-              autoFocus={true}
-            />
-          </div>
-          <div>
-            <Field
-              className={props.classes.textField}
-              name="password"
-              component={TextField}
-              margin="dense"
-              label="Password"
-              type="password"
-              validate={[required]}
-            />
-          </div>
-          <Button
-            className={props.classes.button}
-            variant="raised"
-            color="primary"
-            type="submit">
-            Sign in
-          </Button>
-        </form>
-      </Paper>
-    </div>
+        </div>
+        <div>
+          <Field
+            className={props.classes.textField}
+            name="password"
+            component={TextField}
+            margin="dense"
+            label="Password"
+            type="password"
+            validate={[required]}
+          />
+        </div>
+        <Button
+          className={props.classes.button}
+          variant="raised"
+          color="primary"
+          type="submit">
+          Sign in
+        </Button>
+      </form>
+    </BaseForm>
   );
 };
 
