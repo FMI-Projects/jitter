@@ -6,7 +6,6 @@ const app = require("../../app");
 const User = require("../../data/models/user");
 const Profile = require("../../data/models/profile");
 const { populateUsers, users } = require("../seed/users");
-const { populateProfiles, profiles } = require("../seed/profiles");
 
 describe("authController", () => {
   jest.setTimeout(12000);
@@ -37,13 +36,7 @@ describe("authController", () => {
         .expect(201)
         .expect(res => {
           expect(res.headers["x-auth"]).not.toBeFalsy();
-          expect(res.body.user._id).not.toBeFalsy();
-          expect(res.body.profile).toMatchObject({
-            firstName,
-            lastName,
-            _id: expect.any(String),
-            _userId: res.body.user._id
-          });
+          expect(res.body._id).not.toBeFalsy();
         });
 
       const user = await User.findByEmail(email);
@@ -153,11 +146,9 @@ describe("authController", () => {
 
   describe("login", () => {
     const [userOne] = users;
-    const [profileOne] = profiles;
 
     beforeEach(async () => {
       await populateUsers();
-      await populateProfiles();
     });
 
     it("should return valid data with correct input", async () => {
@@ -173,13 +164,7 @@ describe("authController", () => {
         .expect(200)
         .expect(res => {
           expect(res.headers["x-auth"]).not.toBeFalsy();
-          expect(res.body.user._id).toEqual(userOne._id.toHexString());
-          expect(res.body.profile).toMatchObject({
-            _id: expect.any(String),
-            firstName: profileOne.firstName,
-            lastName: profileOne.lastName,
-            _userId: res.body.user._id
-          });
+          expect(res.body._id).toEqual(userOne._id.toHexString());
         });
     });
 

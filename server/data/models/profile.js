@@ -23,7 +23,7 @@ const ProfileSchema = new mongoose.Schema({
   gender: {
     type: String,
     trim: true,
-    enum: ["Male", "Female"],
+    enum: ["Male", "Female", null],
     default: null
   },
   birthday: {
@@ -34,7 +34,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: null,
     validate: {
-      validator: validator.isURL,
+      validator: (value) => !value || validator.isURL(value),
       message: "{VALUE} is not a valid URL"
     }
   },
@@ -42,7 +42,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: null,
     validate: {
-      validator: validator.isURL,
+      validator: (value) => !value || validator.isURL(value),
       message: "{VALUE} is not a valid URL"
     }
   },

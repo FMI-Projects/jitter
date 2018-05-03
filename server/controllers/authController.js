@@ -7,19 +7,13 @@ const login = async (req, res) => {
   try {
     const user = await User.findByEmail(email);
     await user.validatePassword(password);
-    const profile = await Profile.findByUserId(user._id);
     const token = await user.generateAuthToken();
 
     res
       .header("x-auth", token)
       .status(200)
       .send({
-        user: {
-          _id: user._id
-        },
-        profile: {
-          ...profile._doc
-        }
+        _id: user._id
       });
   } catch (e) {
     res.status(400).send(e);
@@ -43,12 +37,7 @@ const register = async (req, res) => {
       .header("x-auth", token)
       .status(201)
       .send({
-        user: {
-          _id: user._id
-        },
-        profile: {
-          ...profile._doc
-        }
+        _id: user._id
       });
   } catch (e) {
     res.status(400).send(e);
