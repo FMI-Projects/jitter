@@ -6,7 +6,7 @@ import Paper from "material-ui/Paper";
 import Card, {CardHeader} from "material-ui/Card";
 import {Grid} from "material-ui";
 
-import styles from "./styles";
+import styles from "./BaseForm.styles";
 
 const baseForm = props => {
   return (

@@ -1,17 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Field, reduxForm} from "redux-form";
-
-import {required, email, passwordsMustMatch} from "../../utilities/validation";
-
-import styles from "../Form/styles";
-
 import {withStyles} from "material-ui/styles";
-import Button from "material-ui/Button";
 
+import Button from "material-ui/Button";
 import {TextField} from "redux-form-material-ui";
 
-import BaseForm from "../Form/BaseForm";
+import BaseForm from "../UI/Forms/BaseForm/BaseForm";
+import {required, email, passwordsMustMatch} from "../../utilities/validation";
+import styles from "../UI/Forms/BaseForm/BaseForm.styles";
 
 const registerForm = props => {
   let errorMessage;

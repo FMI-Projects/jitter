@@ -4,11 +4,11 @@ import { withStyles } from "material-ui/styles";
 import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
 
-import styles from "./Navigation.styles";
+import styles from "./Toolbar.styles";
 import NavigationItems from "./NavigationItems/NavigationItems";
 import Logo from "./Logo/Logo";
 
-const navigation = props => {
+const toolbar = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -24,8 +24,8 @@ const navigation = props => {
   );
 };
 
-navigation.propTypes = {
+toolbar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(navigation);
+export default withStyles(styles)(toolbar);

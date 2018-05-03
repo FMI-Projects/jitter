@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "material-ui/Button";
 
-import NavLink from "../../NavLink/NavLink";
+import NavLink from "../../../UI/NavLink/NavLink";
 
 const navigationItem = props => (
   <NavLink to={props.link}>

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const validatedField = (props) => (
+const formField = (props) => (
   <div>
     <label>{props.label}</label>
     <div>
@@ -13,11 +13,11 @@ const validatedField = (props) => (
   </div>
 );
 
-validatedField.propTypes = {
+formField.propTypes = {
     input: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object.isRequired
 };
 
-export default validatedField;
+export default formField;

@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "material-ui/Typography";
 
-import NavLink from "../NavLink/NavLink";
+import NavLink from "../../UI/NavLink/NavLink";
 
 const logo = props => (
   <NavLink to="/">

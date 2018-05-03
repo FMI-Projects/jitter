@@ -3,15 +3,12 @@ import PropTypes from "prop-types";
 import {Field, reduxForm} from "redux-form";
 import {withStyles} from "material-ui/styles";
 
-import styles from "../Form/styles";
-
-import {required, email} from "../../utilities/validation";
-
 import Button from "material-ui/Button";
-
 import {TextField} from "redux-form-material-ui";
 
-import BaseForm from "../Form/BaseForm";
+import BaseForm from "../UI/Forms/BaseForm/BaseForm";
+import styles from "../UI/Forms/BaseForm/BaseForm.styles";
+import {required, email} from "../../utilities/validation";
 
 const loginForm = props => {
   let errorMessage;

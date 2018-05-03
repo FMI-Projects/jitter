@@ -6,7 +6,7 @@ import {withStyles} from "material-ui/styles";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 
-import styles from "./styles";
+import styles from "./Dashboard.styles";
 
 const dashboard = ({classes}) => {
   return (

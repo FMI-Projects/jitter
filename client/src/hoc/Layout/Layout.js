@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 
-import Navigation from "../../components/Navigation/Navigation";
+import Toolbar from "../../components/Toolbar/Toolbar";
 
 class Layout extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ class Layout extends Component {
   render() {
     return (
       <Fragment>
-        <Navigation />
+        <Toolbar />
         <main>{this.props.children}</main>
       </Fragment>
     );
