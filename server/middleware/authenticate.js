@@ -1,4 +1,4 @@
-const { decodeJwt } = require("../utilities/jwt");
+const authToken = require("../utilities/authToken");
 const User = require("../data/models/user");
 
 const authenticate = (req, res, next) => {
@@ -9,7 +9,7 @@ const authenticate = (req, res, next) => {
   }
 
   try {
-    const { _id } = decodeJwt(token);
+    const { _id } = authToken.decodeJwt(token);
     const user = User.findById(_id);
 
     if (!user) {

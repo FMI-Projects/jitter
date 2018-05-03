@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const constants = require("../../utilities/constants/constants");
-const {
-  hashPassword,
-  validatePassword
-} = require("../../utilities/encryption");
 
-const { createJwt } = require("../../utilities/jwt");
+const constants = require("../../utilities/constants/constants");
+const encryption = require("../../utilities/encryption");
+const authToken = require("../../utilities/authToken");
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -31,7 +28,7 @@ UserSchema.pre("save", async function(next) {
   const user = this;
 
   if (user.isModified("password")) {
-    const hash = await hashPassword(user.password);
+    const hash = await encryption.hashPassword(user.password);
     user.password = hash;
   }
 
@@ -53,14 +50,14 @@ UserSchema.methods.validatePassword = async function(password) {
   const user = this;
   const hashedPassword = user.password;
 
-  return await validatePassword(password, hashedPassword);
+  return await encryption.validatePassword(password, hashedPassword);
 };
 
 UserSchema.methods.generateAuthToken = function() {
   const user = this;
   const userId = user._id;
 
-  return createJwt(userId);
+  return authToken.createJwt(userId);
 };
 
 const User = mongoose.model("User", UserSchema);

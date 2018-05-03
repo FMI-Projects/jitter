@@ -2,11 +2,8 @@ const { ObjectID } = require("mongodb");
 
 const User = require("../../../data/models/user");
 
-jest.mock("../../../utilities/encryption");
-const { validatePassword } = require("../../../utilities/encryption");
-
-jest.mock("../../../utilities/jwt");
-const { createJwt } = require("../../../utilities/jwt");
+const encryption = require("../../../utilities/encryption");
+const authToken = require("../../../utilities/authToken");
 
 describe("user", () => {
   it("should be invalid if email is empty", async () => {
@@ -80,30 +77,42 @@ describe("user", () => {
   describe("instance methods", () => {
     describe("validatePassword", () => {
       it("should make call to validator with correct input", async () => {
+        const result = "validatePasswordResult";
+        jest
+          .spyOn(encryption, "validatePassword")
+          .mockImplementation((password, hashedPassword) => result);
         const userPassword = "userPassword";
         const inputPassword = "inputPassword";
         const user = new User({ password: userPassword });
-        await user.validatePassword(inputPassword);
 
-        expect(validatePassword).toHaveBeenCalledWith(
+        const validatePasswordResult = await user.validatePassword(
+          inputPassword
+        );
+
+        expect(encryption.validatePassword).toHaveBeenCalledWith(
           inputPassword,
           userPassword
         );
+        expect(validatePasswordResult).toEqual(result);
       });
     });
 
     describe("generateAuthToken", () => {
       it("should make call to generator with correct input", async () => {
+        const result = "createJwtResult";
+        jest.spyOn(authToken, "createJwt").mockImplementation(userId => result);
         const userId = new ObjectID();
         const user = new User({ _id: userId });
-        await user.generateAuthToken();
 
-        expect(createJwt).toHaveBeenCalledWith(userId);
+        const generateAuthTokenResult = await user.generateAuthToken();
+
+        expect(authToken.createJwt).toHaveBeenCalledWith(userId);
+        expect(generateAuthTokenResult).toEqual(result);
       });
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      jest.restoreAllMocks();
     });
   });
 
@@ -111,30 +120,38 @@ describe("user", () => {
     describe("findByEmail", () => {
       it("should return user if user exists", async () => {
         const userToReturn = "someUser";
-        User.findOne = jest.fn(async () => userToReturn);
+        jest
+          .spyOn(User, "findOne")
+          .mockImplementation(async params => userToReturn);
+        const email = "someEmail";
 
-        const user = await User.findByEmail("someEmail");
+        const user = await User.findByEmail(email);
 
+        expect(User.findOne).toHaveBeenCalledWith({ email });
         expect(user).toEqual(userToReturn);
       });
 
       it("should throw an error if user does not exist", async () => {
-        User.findOne = jest.fn(async () => undefined);
+        jest
+          .spyOn(User, "findOne")
+          .mockImplementation(async params => undefined);
+        const email = "someEmail";
 
         let error;
 
         try {
-          await User.findByEmail("someEmail");
+          await User.findByEmail(email);
         } catch (e) {
           error = "User not found";
         }
 
+        expect(User.findOne).toHaveBeenCalledWith({ email });
         expect(error).toBeDefined();
       });
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      jest.restoreAllMocks();
     });
   });
 });
