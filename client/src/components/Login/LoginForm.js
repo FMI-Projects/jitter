@@ -8,9 +8,6 @@ import styles from "../Form/styles";
 import {required, email} from "../../utilities/validation";
 
 import Button from "material-ui/Button";
-import Paper from "material-ui/Paper";
-import Card, {CardHeader} from "material-ui/Card";
-import {Grid} from "material-ui";
 
 import {TextField} from "redux-form-material-ui";
 
