@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {Route, Switch, withRouter, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Layout from "./hoc/Layout/Layout";
 import Register from "./containers/Register/Register";
@@ -10,7 +10,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 
 class App extends Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   render() {
@@ -38,7 +38,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.authenticated,
+    isAuthenticated: state.auth.authenticated
   };
 };
 

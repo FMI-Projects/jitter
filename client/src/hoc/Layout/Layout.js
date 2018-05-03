@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 import Navigation from "../../components/Navigation/Navigation";
 
@@ -19,10 +18,4 @@ class Layout extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.authenticated
-  };
-};
-
-export default connect(mapStateToProps)(Layout);
+export default Layout;

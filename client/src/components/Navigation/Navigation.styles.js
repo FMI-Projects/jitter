@@ -2,7 +2,7 @@ const styles = {
   root: {
     flexGrow: 1
   },
-  flex: {
+  logo: {
     flex: 1
   }
 };
