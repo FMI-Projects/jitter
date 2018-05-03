@@ -1,13 +1,17 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import {Field, reduxForm} from "redux-form";
 
-import ValidatedField from "../Form/ValidatedField";
-import {
-  required,
-  email,
-  passwordsMustMatch
-} from "../../utilities/validation";
+import {required, email, passwordsMustMatch} from "../../utilities/validation";
+
+import styles from "../Form/styles";
+
+import {withStyles} from "material-ui/styles";
+import Button from "material-ui/Button";
+
+import {TextField} from "redux-form-material-ui";
+
+import BaseForm from "../Form/BaseForm";
 
 const registerForm = props => {
   let errorMessage;
@@ -17,15 +21,15 @@ const registerForm = props => {
   }
 
   return (
-    <Fragment>
-      <h2> Sign up </h2>
+    <BaseForm>
       {errorMessage}
-      <form onSubmit={props.handleSubmit}>
+      <form className={props.classes.form} onSubmit={props.handleSubmit}>
         <div>
           <div>
             <Field
+              className={props.classes.textField}
               name="email"
-              component={ValidatedField}
+              component={TextField}
               type="email"
               label="Email"
               validate={[required, email]}
@@ -35,8 +39,9 @@ const registerForm = props => {
         <div>
           <div>
             <Field
+              className={props.classes.textField}
               name="password"
-              component={ValidatedField}
+              component={TextField}
               type="password"
               label="Password"
               validate={[required]}
@@ -46,25 +51,31 @@ const registerForm = props => {
         <div>
           <div>
             <Field
+              className={props.classes.textField}
               name="confirmPassword"
-              component={ValidatedField}
+              component={TextField}
               type="password"
               label="Confirm Password"
               validate={[passwordsMustMatch]}
             />
           </div>
         </div>
-        <div>
-          <button type="submit">Register</button>
-        </div>
+        <Button
+          className={props.classes.button}
+          variant="raised"
+          color="primary"
+          type="submit">
+          Register
+        </Button>
       </form>
-    </Fragment>
+    </BaseForm>
   );
 };
 
 registerForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  classes: PropTypes.object.isRequired,
 };
 
-export default reduxForm({ form: "register" })(registerForm);
+export default withStyles(styles)(reduxForm({form: "register"})(registerForm));
