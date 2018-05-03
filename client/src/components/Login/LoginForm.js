@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {Field, reduxForm} from "redux-form";
 import {withStyles} from "material-ui/styles";
@@ -14,65 +14,64 @@ import {Grid} from "material-ui";
 
 import {TextField} from "redux-form-material-ui";
 
-class LoginForm extends Component {
-  static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    classes: PropTypes.object.isRequired,
-  };
+const loginForm = props => {
+  let errorMessage;
 
-  render() {
-    let errorMessage;
-
-    if (this.props.errorMessage) {
-      errorMessage = <div className="info-red">{this.props.errorMessage}</div>;
-    }
-
-    const {classes} = this.props;
-
-    return (
-      <div className={classes.base}>
-        <Grid container>
-          <Card className={classes.card}>
-            <CardHeader classes={{title: classes.cardTitle}} title="Sign in" />
-          </Card>
-        </Grid>
-        <Paper className={classes.headline}>
-          {errorMessage}
-          <form className={classes.form} onSubmit={this.props.handleSubmit}>
-            <div>
-              <Field
-                className={classes.textField}
-                name="email"
-                component={TextField}
-                label="Email"
-                validate={[required, email]}
-                autoFocus={true}
-              />
-            </div>
-            <div>
-              <Field
-                className={classes.textField}
-                name="password"
-                component={TextField}
-                margin="dense"
-                label="Password"
-                type="password"
-                validate={[required]}
-              />
-            </div>
-            <Button
-              className={classes.button}
-              variant="raised"
-              color="primary"
-              type="submit">
-              Sign in
-            </Button>
-          </form>
-        </Paper>
-      </div>
-    );
+  if (props.errorMessage) {
+    errorMessage = <div className="info-red">{props.errorMessage}</div>;
   }
-}
 
-export default withStyles(styles)(reduxForm({form: "login"})(LoginForm));
+  return (
+    <div className={props.classes.base}>
+      <Grid container>
+        <Card className={props.classes.card}>
+          <CardHeader
+            classes={{title: props.classes.cardTitle}}
+            title="Sign in"
+          />
+        </Card>
+      </Grid>
+      <Paper className={props.classes.headline}>
+        {errorMessage}
+        <form className={props.classes.form} onSubmit={props.handleSubmit}>
+          <div>
+            <Field
+              className={props.classes.textField}
+              name="email"
+              component={TextField}
+              label="Email"
+              validate={[required, email]}
+              autoFocus={true}
+            />
+          </div>
+          <div>
+            <Field
+              className={props.classes.textField}
+              name="password"
+              component={TextField}
+              margin="dense"
+              label="Password"
+              type="password"
+              validate={[required]}
+            />
+          </div>
+          <Button
+            className={props.classes.button}
+            variant="raised"
+            color="primary"
+            type="submit">
+            Sign in
+          </Button>
+        </form>
+      </Paper>
+    </div>
+  );
+};
+
+loginForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(reduxForm({form: "login"})(loginForm));
