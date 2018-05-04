@@ -22,9 +22,19 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.AUTH_RESET_ERROR: {
       return applyAuthResetError(state, action);
     }
+    case actionTypes.AUTH_LOAD: {
+      return applyAuthLoad(state, action);
+    }
     default:
       return state;
   }
+};
+
+const applyAuthLoad = (state, action) => {
+  return {
+    ...state,
+    loading: true
+  };
 };
 
 const applyAuthSuccess = (state, action) => {
@@ -34,6 +44,7 @@ const applyAuthSuccess = (state, action) => {
     userId: action.userId,
     token: action.token,
     error: null,
+    loading: false
   };
 };
 
@@ -48,11 +59,11 @@ const applyAuthLogoutSuccess = state => {
 };
 
 const applyAuthError = (state, action) => {
-  return {...state, error: action.error};
+  return {...state, error: action.error, loading: false};
 };
 
 const applyAuthResetError = (state, action) => {
-  return {...state, error: null};
+  return {...state, error: null, loading: false};
 };
 
 export default authReducer;

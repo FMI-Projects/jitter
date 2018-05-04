@@ -29,6 +29,12 @@ export const authInit = () => {
   };
 };
 
+export const authLoad = () => {
+  return {
+    type: actionTypes.AUTH_LOAD
+  };
+};
+
 export const authLogoutInit = () => {
   return {
     type: actionTypes.AUTH_LOGOUT_INIT

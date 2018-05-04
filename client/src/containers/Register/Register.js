@@ -7,12 +7,14 @@ import {
   authResetError
 } from "../../store/actions/authActions";
 import RegisterForm from "../../components/Register/RegisterForm";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Register extends PureComponent {
   static propTypes = {
     registerUser: PropTypes.func.isRequired,
     error: PropTypes.string,
-    resetAuthError: PropTypes.func.isRequired
+    resetAuthError: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
   };
 
   componentWillUnmount() {
@@ -25,6 +27,10 @@ class Register extends PureComponent {
   };
 
   render() {
+    if (this.props.loading) {
+      return <Spinner />;
+    }
+
     return (
       <RegisterForm
         errorMessage={this.props.error}
@@ -36,7 +42,8 @@ class Register extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    error: state.auth.error
+    error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 

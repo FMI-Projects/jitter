@@ -5,6 +5,8 @@ import { userService, storageService } from "../../services";
 
 export function* authUserSaga(action) {
   try {
+    yield put(actions.authLoad());
+
     const userData = yield call(
       [userService, "loginUser"],
       action.email,
@@ -35,6 +37,8 @@ export function* authInitSaga(action) {
 
 export function* authRegisterInitSaga(action) {
   try {
+    yield put(actions.authLoad());
+
     const userData = yield call(
       [userService, "registerUser"],
       action.email,
