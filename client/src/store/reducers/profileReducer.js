@@ -16,9 +16,6 @@ const profileReducer = (state = initialState, action) => {
     case actionTypes.PROFILE_SET_INFO: {
       return applyProfileSetInfo(state, action);
     }
-    case actionTypes.PROFILE_SET_UP: {
-      return applyProfileSetUp(state, action);
-    }
     case actionTypes.PROFILE_ERROR: {
       return applyProfileError(state, action);
     }
@@ -37,13 +34,6 @@ const applyProfileSetInfo = (state, action) => {
     navProfilePictureUrl: action.navProfilePictureUrl,
     error: null,
     isProfileLoaded: true
-  };
-};
-
-const applyProfileSetUp = (state, action) => {
-  return {
-    ...state,
-    firstTimeLoggedIn: true
   };
 };
 

@@ -5,7 +5,8 @@ const initialState = {
   userId: null,
   token: null,
   error: null,
-  loading: false
+  loading: false,
+  firstLogin: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -25,9 +26,19 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.AUTH_LOAD: {
       return applyAuthLoad(state, action);
     }
+    case actionTypes.AUTH_FIRST_LOGIN: {
+      return applyAuthFirstLogin(state, action);
+    }
     default:
       return state;
   }
+};
+
+const applyAuthFirstLogin = (state, action) => {
+  return {
+    ...state,
+    firstLogin: true
+  };
 };
 
 const applyAuthLoad = (state, action) => {
@@ -55,15 +66,16 @@ const applyAuthLogoutSuccess = state => {
     userId: null,
     token: null,
     error: null,
+    firstLogin: false
   };
 };
 
 const applyAuthError = (state, action) => {
-  return {...state, error: action.error, loading: false};
+  return { ...state, error: action.error, loading: false };
 };
 
 const applyAuthResetError = (state, action) => {
-  return {...state, error: null, loading: false};
+  return { ...state, error: null, loading: false };
 };
 
 export default authReducer;

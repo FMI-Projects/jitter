@@ -1,10 +1,11 @@
 export default {
-  email: {
-    minLength: 6,
+  bio: {
+    maxLength: 200
+  },
+  firstName: {
     maxLength: 30
   },
-  password: {
-    minLength: 6,
+  lastName: {
     maxLength: 30
   }
 };

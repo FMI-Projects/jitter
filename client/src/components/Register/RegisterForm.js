@@ -13,7 +13,11 @@ import {
   email,
   passwordsMustMatch,
   emailMinLength,
-  passwordMinLength
+  passwordMinLength,
+  emailMaxLength,
+  passwordMaxLength,
+  firstNameMaxLength,
+  lastNameMaxLength
 } from "../../utilities/validation";
 import styles from "../UI/Forms/BaseForm/BaseForm.styles";
 
@@ -41,7 +45,7 @@ const registerForm = props => {
               component={TextField}
               type="email"
               label="Email"
-              validate={[required, email, emailMinLength]}
+              validate={[required, email, emailMinLength, emailMaxLength]}
               autoFocus={true}
             />
           </div>
@@ -54,7 +58,7 @@ const registerForm = props => {
               component={TextField}
               type="text"
               label="First Name"
-              validate={[required]}
+              validate={[required, firstNameMaxLength]}
             />
           </div>
         </div>
@@ -66,7 +70,7 @@ const registerForm = props => {
               component={TextField}
               type="text"
               label="Last Name"
-              validate={[required]}
+              validate={[required, lastNameMaxLength]}
             />
           </div>
         </div>
@@ -78,7 +82,7 @@ const registerForm = props => {
               component={TextField}
               type="password"
               label="Password"
-              validate={[required, passwordMinLength]}
+              validate={[required, passwordMinLength, passwordMaxLength]}
             />
           </div>
         </div>

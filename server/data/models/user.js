@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const constants = require("../../utilities/constants/constants");
+const userConstants = require("../../utilities/constants/userConstants");
 const encryption = require("../../utilities/encryption");
 const authToken = require("../../utilities/authToken");
 
@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    minLength: constants.user.email.minLength,
+    minLength: userConstants.email.minLength,
+    maxLength: userConstants.email.maxLength,
     trim: true,
     unique: true,
     validate: {
@@ -20,7 +21,8 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minLength: constants.user.password.minLength
+    minLength: userConstants.password.minLength,
+    maxLength: userConstants.password.maxLength
   }
 });
 

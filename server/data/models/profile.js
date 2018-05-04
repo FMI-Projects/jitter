@@ -1,23 +1,25 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const constants = require("../../utilities/constants/constants");
+const profileConstants = require("../../utilities/constants/profileConstants");
 
 const ProfileSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    maxLength: profileConstants.firstName.maxLength
   },
   lastName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    maxLength: profileConstants.lastName.maxLength
   },
   bio: {
     type: String,
     trim: true,
-    maxLength: constants.profile.bio.maxLength,
+    maxLength: profileConstants.bio.maxLength,
     default: null
   },
   gender: {

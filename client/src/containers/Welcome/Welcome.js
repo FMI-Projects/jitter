@@ -6,9 +6,9 @@ import {withStyles} from "material-ui/styles";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 
-import styles from "./Dashboard.styles";
+import styles from "./Welcome.styles";
 
-const dashboard = ({classes}) => {
+const welcome = ({classes}) => {
   return (
     <div>
       <Paper elevation={4} className={classes.paper}>
@@ -23,8 +23,8 @@ const dashboard = ({classes}) => {
   );
 };
 
-dashboard.propTypes = {
+welcome.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(dashboard);
+export default withStyles(styles)(welcome);

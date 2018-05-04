@@ -8,7 +8,7 @@ import { TextField } from "redux-form-material-ui";
 
 import BaseForm from "../UI/Forms/BaseForm/BaseForm";
 import styles from "../UI/Forms/BaseForm/BaseForm.styles";
-import { required, email, emailMinLength } from "../../utilities/validation";
+import { required, email } from "../../utilities/validation";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 const loginForm = props => {
@@ -33,7 +33,7 @@ const loginForm = props => {
             name="email"
             component={TextField}
             label="Email"
-            validate={[required, email, emailMinLength]}
+            validate={[required, email]}
             autoFocus={true}
           />
         </div>

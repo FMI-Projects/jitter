@@ -62,3 +62,9 @@ export const authResetError = () => {
     type: actionTypes.AUTH_RESET_ERROR
   };
 };
+
+export const authFirstLogin = () => {
+  return {
+    type: actionTypes.AUTH_FIRST_LOGIN
+  };
+};

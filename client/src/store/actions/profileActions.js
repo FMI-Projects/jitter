@@ -23,12 +23,6 @@ export const profileSetInfo = (
   };
 };
 
-export const profileSetUp = () => {
-  return {
-    type: actionTypes.PROFILE_SET_UP
-  };
-};
-
 export const profileError = error => {
   return {
     type: actionTypes.PROFILE_ERROR,

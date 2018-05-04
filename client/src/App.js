@@ -7,7 +7,7 @@ import Layout from "./hoc/Layout/Layout";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 import Logout from "./containers/Logout/Logout";
-import Dashboard from "./components/Dashboard/Dashboard";
+import Welcome from "./containers/Welcome/Welcome";
 
 class App extends Component {
   static propTypes = {
@@ -19,7 +19,7 @@ class App extends Component {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/" component={Welcome} />
         <Redirect to="/" />
       </Switch>
     );
@@ -28,7 +28,7 @@ class App extends Component {
       routes = (
         <Switch>
           <Route exact path="/logout" component={Logout} />
-          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/" component={Welcome} />
           <Redirect to="/" />
         </Switch>
       );

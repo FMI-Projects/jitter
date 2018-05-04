@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
 
 import rootReducer from "../store/reducers";
-import { watchAuth } from "../store/sagas/";
+import { watchAuth, watchProfile } from "../store/sagas/";
 import setAuthMiddleware from "../services/utility/axios/setAuthMiddleware";
 import * as actions from "./actions";
 
@@ -17,6 +17,7 @@ const store = createStore(
 );
 
 saga.run(watchAuth);
+saga.run(watchProfile);
 
 setAuthMiddleware(store);
 

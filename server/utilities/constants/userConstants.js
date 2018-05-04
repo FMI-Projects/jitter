@@ -1,4 +1,4 @@
-export default {
+const userConstants = {
   email: {
     minLength: 6,
     maxLength: 30
@@ -8,3 +8,4 @@ export default {
     maxLength: 30
   }
 };
+module.exports = userConstants;
