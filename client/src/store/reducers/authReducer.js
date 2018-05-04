@@ -5,6 +5,7 @@ const initialState = {
   userId: null,
   token: null,
   error: null,
+  loading: false
 };
 
 const authReducer = (state = initialState, action) => {

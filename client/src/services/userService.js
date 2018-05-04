@@ -21,11 +21,13 @@ export default class UserService {
     };
   }
 
-  async registerUser(email, password) {
+  async registerUser(email, password, firstName, lastName) {
     const url = "auth/register";
     const authData = {
       email,
       password,
+      firstName,
+      lastName
     };
 
     const response = await this.http.post(url, authData);

@@ -20,8 +20,8 @@ class Register extends PureComponent {
   }
 
   handleRegister = values => {
-    const { email, password } = values;
-    this.props.registerUser(email, password);
+    const { email, password, firstName, lastName } = values;
+    this.props.registerUser(email, password, firstName, lastName);
   };
 
   render() {
@@ -42,8 +42,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    registerUser: (email, password) =>
-      dispatch(authRegisterInit(email, password)),
+    registerUser: (email, password, firstName, lastName) =>
+      dispatch(authRegisterInit(email, password, firstName, lastName)),
     resetAuthError: () => dispatch(authResetError())
   };
 };

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import NavigationItem from "./NavigationItem/NavigationItem";
 
 const navigationItems = props => {
-  let navigationItems;
+  let navigationItems = null;
 
   if (!props.isAuthenticated) {
     navigationItems = (

@@ -1,10 +1,10 @@
 const styles = theme => ({
   base: {
-    marginTop: 200,
+    marginTop: 75,
     textAlign: "center",
   },
   headline: {
-    width: "25%",
+    width: "50%",
     height: "35%",
     marginLeft: "auto",
     marginRight: "auto",
@@ -28,7 +28,11 @@ const styles = theme => ({
   },
   textField: {
     width: "50%",
+    margin: "10px auto"
   },
+  error: {
+    color: "red"
+  }
 });
 
 export default styles;

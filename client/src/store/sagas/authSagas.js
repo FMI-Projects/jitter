@@ -38,12 +38,14 @@ export function* authRegisterInitSaga(action) {
     const userData = yield call(
       [userService, "registerUser"],
       action.email,
-      action.password
+      action.password,
+      action.firstName,
+      action.lastName
     );
 
-    yield call([storageService, "storeUser"], userData.token, userData._id);
+    yield call([storageService, "storeUser"], userData.token, userData.userId);
 
-    yield put(actions.authSuccess(userData.token, userData._id));
+    yield put(actions.authSuccess(userData.token, userData.userId));
   } catch (e) {
     yield put(actions.authError(e.message));
   }

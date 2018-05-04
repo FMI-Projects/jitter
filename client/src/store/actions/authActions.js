@@ -41,11 +41,13 @@ export const authLogoutSuccess = () => {
   };
 };
 
-export const authRegisterInit = (email, password) => {
+export const authRegisterInit = (email, password, firstName, lastName) => {
   return {
     type: actionTypes.AUTH_REGISTER_INIT,
     email,
-    password
+    password,
+    firstName,
+    lastName
   };
 };
 
