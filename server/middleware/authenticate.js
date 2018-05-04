@@ -1,7 +1,7 @@
 const authToken = require("../utilities/authToken");
 const User = require("../data/models/user");
 
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
   const token = req.header("x-auth");
 
   if (!token) {
@@ -10,7 +10,7 @@ const authenticate = (req, res, next) => {
 
   try {
     const { _id } = authToken.decodeJwt(token);
-    const user = User.findById(_id);
+    const user = await User.findById(_id);
 
     if (!user) {
       throw new Error();

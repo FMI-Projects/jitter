@@ -48,7 +48,8 @@ const ProfileSchema = new mongoose.Schema({
   },
   _userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    index: true
   }
 });
 
