@@ -9,12 +9,18 @@ import { TextField } from "redux-form-material-ui";
 import BaseForm from "../UI/Forms/BaseForm/BaseForm";
 import styles from "../UI/Forms/BaseForm/BaseForm.styles";
 import { required, email, emailMinLength } from "../../utilities/validation";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const loginForm = props => {
-  let errorMessage;
+  if (props.loading) {
+    return <Spinner />;
+  }
 
+  let errorMessage;
   if (props.errorMessage) {
-    errorMessage = <div className={props.classes.error}>{props.errorMessage}</div>;
+    errorMessage = (
+      <div className={props.classes.error}>{props.errorMessage}</div>
+    );
   }
 
   return (
@@ -58,7 +64,8 @@ const loginForm = props => {
 loginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(reduxForm({ form: "login" })(loginForm));

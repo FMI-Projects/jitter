@@ -7,7 +7,6 @@ import {
   authResetError
 } from "../../store/actions/authActions";
 import RegisterForm from "../../components/Register/RegisterForm";
-import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Register extends PureComponent {
   static propTypes = {
@@ -27,12 +26,9 @@ class Register extends PureComponent {
   };
 
   render() {
-    if (this.props.loading) {
-      return <Spinner />;
-    }
-
     return (
       <RegisterForm
+        loading={this.props.loading}
         errorMessage={this.props.error}
         onSubmit={this.handleRegister}
       />

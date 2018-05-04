@@ -6,6 +6,7 @@ import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
 
+import Spinner from "../../components/UI/Spinner/Spinner";
 import BaseForm from "../UI/Forms/BaseForm/BaseForm";
 import {
   required,
@@ -17,16 +18,21 @@ import {
 import styles from "../UI/Forms/BaseForm/BaseForm.styles";
 
 const registerForm = props => {
-  let errorMessage;
+  if (props.loading) {
+    return <Spinner />;
+  }
 
+  let errorMessage;
   if (props.errorMessage) {
-    errorMessage = <div className={props.classes.error}>{props.errorMessage}</div>;
+    errorMessage = (
+      <div className={props.classes.error}>{props.errorMessage}</div>
+    );
   }
 
   return (
     <BaseForm title="Register">
       <form className={props.classes.form} onSubmit={props.handleSubmit}>
-      {errorMessage}
+        {errorMessage}
         <div>
           <div>
             <Field
@@ -104,7 +110,8 @@ const registerForm = props => {
 registerForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(

@@ -5,7 +5,6 @@ import { authUser, authResetError } from "../../store/actions/authActions";
 import { connect } from "react-redux";
 
 import LoginForm from "../../components/Login/LoginForm";
-import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Login extends Component {
   static propTypes = {
@@ -25,11 +24,13 @@ class Login extends Component {
   };
 
   render() {
-    if (this.props.loading) {
-      return <Spinner />;
-    }
-
-    return <LoginForm onSubmit={this.submit} errorMessage={this.props.error} />;
+    return (
+      <LoginForm
+        loading={this.props.loading}
+        onSubmit={this.submit}
+        errorMessage={this.props.error}
+      />
+    );
   }
 }
 
