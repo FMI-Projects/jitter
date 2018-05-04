@@ -12,7 +12,7 @@ const navLink = props => (
 );
 
 navLink.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
   to: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
