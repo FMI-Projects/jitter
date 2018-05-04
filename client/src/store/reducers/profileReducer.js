@@ -6,8 +6,6 @@ const initialState = {
   lastName: null,
   profilePictureUrl: null,
   navProfilePictureUrl: null,
-  isProfileLoaded: false,
-  firstTimeLoggedIn: false,
   error: null
 };
 
@@ -32,8 +30,7 @@ const applyProfileSetInfo = (state, action) => {
     lastName: action.lastName,
     profilePictureUrl: action.profilePictureUrl,
     navProfilePictureUrl: action.navProfilePictureUrl,
-    error: null,
-    isProfileLoaded: true
+    error: null
   };
 };
 
