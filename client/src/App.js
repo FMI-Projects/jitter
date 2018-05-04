@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import Layout from "./hoc/Layout/Layout";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
+import Logout from "./containers/Logout/Logout";
 import Dashboard from "./components/Dashboard/Dashboard";
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
+          <Route exact path="/logout" component={Logout} />
           <Route exact path="/" component={Dashboard} />
           <Redirect to="/" />
         </Switch>

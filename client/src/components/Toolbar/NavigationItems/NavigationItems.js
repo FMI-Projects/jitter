@@ -13,6 +13,12 @@ const navigationItems = props => {
         <NavigationItem link="/register">Register</NavigationItem>
       </Fragment>
     );
+  } else {
+    navigationItems = (
+      <Fragment>
+        <NavigationItem link="/logout">Logout</NavigationItem>
+      </Fragment>
+    );
   }
 
   return navigationItems;
