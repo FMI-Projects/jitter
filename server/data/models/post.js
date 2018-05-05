@@ -51,7 +51,7 @@ PostSchema.statics.getById = async function(postId) {
 
 PostSchema.statics.update = async function(postId, data) {
   const Post = this;
-  const post = await Post.findbyIdAndUpdate(postId, req.body, {new: true});
+  const post = await Post.findByIdAndUpdate(postId, {$set: data}, {new: true});
 
   if (!post) {
     return Promise.reject();

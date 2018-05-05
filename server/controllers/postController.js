@@ -23,7 +23,7 @@ const getPost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   try {
-    const post = await Post.update(req.params.id, res.body);
+    const post = await Post.update(req.params.id, req.body);
     res.status(200).send(post);
   } catch (e) {
     res.status(400).send(e);

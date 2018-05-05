@@ -21,8 +21,10 @@ app.use("/api/profile", profileRouter);
 app.use("/api/posts", postRouter);
 
 const port = process.env.PORT;
-app.listen(port, () => {
-  console.log("Started on port", port);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => {
+    console.log("Started on port", port);
+  });
+}
 
 module.exports = app;

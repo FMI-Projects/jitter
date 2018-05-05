@@ -5,7 +5,7 @@ const authenticate = async (req, res, next) => {
   const token = req.header("x-auth");
 
   if (!token) {
-    res.status(401).send();
+    return res.status(401).send();
   }
 
   try {
@@ -18,7 +18,7 @@ const authenticate = async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
-    res.status(401).send();
+    res.status(401).send(e);
   }
 };
 
