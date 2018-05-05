@@ -18,15 +18,15 @@ describe("postController", () => {
   });
 
   beforeEach(async () => {
+    await populateUsers();
+    await populatePosts();
+  });
+
+  afterEach(async () => {
     await resetDatabase();
   });
 
   describe("GET /api/posts/:id", () => {
-    beforeEach(async () => {
-      await populateUsers();
-      await populatePosts();
-    });
-
     it("should get post with correct id", async () => {
       const id = posts[0]._id;
 
@@ -67,10 +67,6 @@ describe("postController", () => {
   });
 
   describe("POST /api/posts/:id", () => {
-    beforeEach(async () => {
-      await populateUsers();
-    });
-
     it("should create a new post with valid data", async () => {
       const data = {
         _id: new ObjectID(),
@@ -108,11 +104,6 @@ describe("postController", () => {
   });
 
   describe("PUT /api/posts/:id", () => {
-    beforeEach(async () => {
-      await populateUsers();
-      await populatePosts();
-    });
-
     it("should update post with correct data", async () => {
       const post = posts[0];
       const data = {
@@ -159,11 +150,6 @@ describe("postController", () => {
   });
 
   describe("DELETE /api/posts/:id", async () => {
-    beforeEach(async () => {
-      await populateUsers();
-      await populatePosts();
-    });
-
     it("deletes a post on valid id", async () => {
       const id = posts[0]._id;
 
@@ -205,11 +191,6 @@ describe("postController", () => {
   });
 
   describe("GET /api/posts", async () => {
-    beforeEach(async () => {
-      await populateUsers();
-      await populatePosts();
-    });
-
     it("should get a user's posts", async () => {
       await request(app)
         .get("/api/posts")
