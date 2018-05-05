@@ -27,8 +27,45 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User"
+  },
+  timestamps: {
+    createdAt: "createdAt",
+    updatedAt: "updatedAt"
   }
 });
+
+Post.statics.getById = async function(postId) {
+  const Post = this;
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return Promise.reject();
+  }
+
+  return post;
+};
+
+Post.statics.update = async function(postId, data) {
+  const Post = this;
+  const post = await Post.findbyIdAndUpdate(postId, req.body, {new: true});
+
+  if (!post) {
+    return Promise.reject();
+  }
+
+  return post;
+};
+
+Post.statics.delete = async function(postId) {
+  const Post = this;
+  const post = await Post.findByIdAndRemove(postId);
+
+  if (!post) {
+    return Promise.reject();
+  }
+
+  return post;
+};
 
 const Post = mongoose.model("Post", PostSchema);
 

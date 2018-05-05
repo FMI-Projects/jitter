@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
   }
 
   try {
-    const { _id } = authToken.decodeJwt(token);
+    const {_id} = authToken.decodeJwt(token);
     const user = await User.findById(_id);
 
     if (!user) {
