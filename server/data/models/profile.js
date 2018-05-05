@@ -8,18 +8,18 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    maxLength: profileConstants.firstName.maxLength
+    maxlength: profileConstants.firstName.maxLength
   },
   lastName: {
     type: String,
     required: true,
     trim: true,
-    maxLength: profileConstants.lastName.maxLength
+    maxlength: profileConstants.lastName.maxLength
   },
   bio: {
     type: String,
     trim: true,
-    maxLength: profileConstants.bio.maxLength,
+    maxlength: profileConstants.bio.maxLength,
     default: null
   },
   gender: {

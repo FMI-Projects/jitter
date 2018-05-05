@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-
 const { ObjectID } = require("mongodb");
+
 const User = require("../../data/models/user");
 
 const userOneId = new ObjectID();
@@ -9,7 +9,7 @@ const userTwoId = new ObjectID();
 const users = [
   {
     _id: userOneId,
-    email: "test@gmail.com",
+    email: "firstTest@gmail.com",
     password: "userOnePass"
   },
   {

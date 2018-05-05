@@ -6,6 +6,10 @@ const {
 } = require("../../utilities/encryption");
 
 describe("encryption", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   describe("validatePassword", () => {
     it("should resolve with correct input", async () => {
       jest
@@ -148,9 +152,5 @@ describe("encryption", () => {
       );
       expect(hashResult).toEqual(hash);
     });
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 });

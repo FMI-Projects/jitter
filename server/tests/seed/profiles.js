@@ -1,6 +1,6 @@
 const { ObjectID } = require("mongodb");
-const Profile = require("../../data/models/profile");
 
+const Profile = require("../../data/models/profile");
 const { users } = require("./users");
 
 const profileOneId = new ObjectID();

@@ -11,19 +11,17 @@ const { populatePosts, posts } = require("../seed/posts");
 const { populateUsers, users } = require("../seed/users");
 
 describe("postController", () => {
-  jest.setTimeout(12000);
-
   beforeAll(async () => {
+    jest.setTimeout(10000);
+
     await prepareDatabase();
   });
 
   beforeEach(async () => {
+    await resetDatabase();
+
     await populateUsers();
     await populatePosts();
-  });
-
-  afterEach(async () => {
-    await resetDatabase();
   });
 
   describe("GET /api/posts/:id", () => {

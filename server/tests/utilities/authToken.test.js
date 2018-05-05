@@ -1,8 +1,13 @@
 const jwt = require("jsonwebtoken");
 const { ObjectID } = require("mongodb");
+
 const { createJwt, decodeJwt } = require("../../utilities/authToken");
 
 describe("authToken", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   describe("createJwt", () => {
     it("should make call to jwt sign with correct input", () => {
       const result = "jwtSignResult";
@@ -36,9 +41,5 @@ describe("authToken", () => {
       );
       expect(decodeJwtResult).toEqual(result);
     });
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 });

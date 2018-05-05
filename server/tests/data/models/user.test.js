@@ -6,6 +6,10 @@ const encryption = require("../../../utilities/encryption");
 const authToken = require("../../../utilities/authToken");
 
 describe("user", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it("should be invalid if email is empty", async () => {
     const user = new User({
       email: "",
@@ -110,10 +114,6 @@ describe("user", () => {
         expect(generateAuthTokenResult).toEqual(result);
       });
     });
-
-    afterEach(() => {
-      jest.restoreAllMocks();
-    });
   });
 
   describe("static methods", () => {
@@ -148,10 +148,6 @@ describe("user", () => {
         expect(User.findOne).toHaveBeenCalledWith({ email });
         expect(error).toBeDefined();
       });
-    });
-
-    afterEach(() => {
-      jest.restoreAllMocks();
     });
   });
 });

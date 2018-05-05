@@ -9,8 +9,8 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    minLength: userConstants.email.minLength,
-    maxLength: userConstants.email.maxLength,
+    minlength: userConstants.email.minLength,
+    maxlength: userConstants.email.maxLength,
     trim: true,
     unique: true,
     validate: {
@@ -21,8 +21,8 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minLength: userConstants.password.minLength,
-    maxLength: userConstants.password.maxLength
+    minlength: userConstants.password.minLength,
+    maxlength: userConstants.password.maxLength
   }
 });
 

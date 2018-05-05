@@ -9,12 +9,14 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minLength: postConstants.title.minLength
+      minlength: postConstants.title.minLength,
+      maxlength: postConstants.title.maxLength
     },
     content: {
       type: String,
       trim: true,
-      default: null
+      default: null,
+      maxlength: postConstants.content.maxLength
     },
     imageUrl: {
       type: String,

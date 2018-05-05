@@ -8,9 +8,9 @@ const Profile = require("../../data/models/profile");
 const { populateUsers, users } = require("../seed/users");
 
 describe("authController", () => {
-  jest.setTimeout(12000);
-
   beforeAll(async () => {
+    jest.setTimeout(10000);
+
     await prepareDatabase();
   });
 
