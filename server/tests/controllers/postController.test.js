@@ -1,14 +1,14 @@
 const request = require("supertest");
-const {ObjectID} = require("mongodb");
+const { ObjectID } = require("mongodb");
 const faker = require("faker");
 
 require("../config/config");
-const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
+const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
 const app = require("../../app");
 const Post = require("../../data/models/post");
 
-const {populatePosts, posts} = require("../seed/posts");
-const {populateUsers, users, token} = require("../seed/users");
+const { populatePosts, posts } = require("../seed/posts");
+const { populateUsers, users } = require("../seed/users");
 
 describe("postController", () => {
   jest.setTimeout(12000);
@@ -32,7 +32,7 @@ describe("postController", () => {
 
       await request(app)
         .get(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(200)
         .expect(res => {
           expect(res.body.title).toEqual(posts[0].title);
@@ -44,7 +44,7 @@ describe("postController", () => {
 
       await request(app)
         .get(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(401);
     });
 
@@ -61,7 +61,7 @@ describe("postController", () => {
 
       await request(app)
         .get(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(400);
     });
   });
@@ -80,7 +80,7 @@ describe("postController", () => {
 
       await request(app)
         .post("/api/posts")
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .send(data)
         .expect(201)
         .expect(res => {
@@ -101,7 +101,7 @@ describe("postController", () => {
     it("should return 400 on invalid data", async () => {
       await request(app)
         .post("/api/posts/")
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .send({})
         .expect(400);
     });
@@ -122,7 +122,7 @@ describe("postController", () => {
 
       await request(app)
         .put(`/api/posts/${post._id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .send(data)
         .expect(200);
 
@@ -135,7 +135,7 @@ describe("postController", () => {
 
       await request(app)
         .delete(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(401);
     });
 
@@ -144,7 +144,7 @@ describe("postController", () => {
 
       await request(app)
         .put(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .send({})
         .expect(400);
     });
@@ -169,7 +169,7 @@ describe("postController", () => {
 
       await request(app)
         .delete(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(200);
 
       const post = await Post.findById(id);
@@ -182,7 +182,7 @@ describe("postController", () => {
 
       await request(app)
         .delete(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(400);
     });
 
@@ -199,7 +199,7 @@ describe("postController", () => {
 
       await request(app)
         .delete(`/api/posts/${id}`)
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(401);
     });
   });
@@ -213,7 +213,7 @@ describe("postController", () => {
     it("should get a user's posts", async () => {
       await request(app)
         .get("/api/posts")
-        .set("x-auth", token)
+        .set("x-auth", users[0].token)
         .expect(200)
         .expect(res => {
           expect(res.body.length).toBeGreaterThan(0);

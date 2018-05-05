@@ -36,7 +36,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: null,
     validate: {
-      validator: (value) => !value || validator.isURL(value),
+      validator: value => !value || validator.isURL(value),
       message: "{VALUE} is not a valid URL"
     }
   },
@@ -44,20 +44,22 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: null,
     validate: {
-      validator: (value) => !value || validator.isURL(value),
+      validator: value => !value || validator.isURL(value),
       message: "{VALUE} is not a valid URL"
     }
   },
-  _userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    index: true
+    index: true,
+    unique: true,
+    ref: "User"
   }
 });
 
 ProfileSchema.statics.findByUserId = async function(userId) {
   const Profile = this;
-  const profile = await Profile.findOne({ _userId: userId });
+  const profile = await Profile.findOne({ user: userId });
 
   if (!profile) {
     return Promise.reject();
