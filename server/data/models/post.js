@@ -3,38 +3,42 @@ const validator = require("validator");
 
 const postConstants = require("../../utilities/constants/postConstants");
 
-const PostSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-    minLength: postConstants.title.minLength
-  },
-  content: {
-    type: String,
-    trim: true,
-    default: null
-  },
-  imageUrl: {
-    type: String,
-    default: null,
-    validate: {
-      validator: value => !value || validator.isURL(value),
-      message: "{VALUES} is not a valid URL"
+const PostSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: postConstants.title.minLength
+    },
+    content: {
+      type: String,
+      trim: true,
+      default: null
+    },
+    imageUrl: {
+      type: String,
+      default: null,
+      validate: {
+        validator: value => !value || validator.isURL(value),
+        message: "{VALUES} is not a valid URL"
+      }
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User"
     }
   },
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User"
-  },
-  timestamps: {
-    createdAt: "createdAt",
-    updatedAt: "updatedAt"
+  {
+    timestamps: {
+      createdAt: "createdAt",
+      updatedAt: "updatedAt"
+    }
   }
-});
+);
 
-Post.statics.getById = async function(postId) {
+PostSchema.statics.getById = async function(postId) {
   const Post = this;
   const post = await Post.findById(postId);
 
@@ -45,7 +49,7 @@ Post.statics.getById = async function(postId) {
   return post;
 };
 
-Post.statics.update = async function(postId, data) {
+PostSchema.statics.update = async function(postId, data) {
   const Post = this;
   const post = await Post.findbyIdAndUpdate(postId, req.body, {new: true});
 
@@ -56,7 +60,7 @@ Post.statics.update = async function(postId, data) {
   return post;
 };
 
-Post.statics.delete = async function(postId) {
+PostSchema.statics.delete = async function(postId) {
   const Post = this;
   const post = await Post.findByIdAndRemove(postId);
 
