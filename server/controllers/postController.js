@@ -14,7 +14,7 @@ const createPost = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
-    const post = await Post.getById(req.params.id);
+    const post = await Post.findById(req.params.id);
     res.status(200).send(post);
   } catch (e) {
     res.status(400).send(e);
@@ -23,7 +23,12 @@ const getPost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   try {
-    const post = await Post.update(req.params.id, req.body);
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      {$set: req.body},
+      {new: true}
+    );
+
     res.status(200).send(post);
   } catch (e) {
     res.status(400).send(e);
@@ -32,7 +37,7 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    const post = await Post.delete(req.params.id);
+    const post = await Post.findByIdAndRemove(req.params.id);
     res.status(200).send(post);
   } catch (e) {
     res.status(400).send(e);

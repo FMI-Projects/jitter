@@ -2,7 +2,7 @@ const Post = require("../data/models/post");
 
 const isPostAuthor = async (req, res, next) => {
   try {
-    const post = await Post.getById(req.params.id);
+    const post = await Post.findById(req.params.id);
 
     if (post.author.toHexString() !== req.user._id.toHexString()) {
       return res.status(401).send();

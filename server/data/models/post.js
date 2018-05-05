@@ -38,39 +38,6 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-PostSchema.statics.getById = async function(postId) {
-  const Post = this;
-  const post = await Post.findById(postId);
-
-  if (!post) {
-    return Promise.reject();
-  }
-
-  return post;
-};
-
-PostSchema.statics.update = async function(postId, data) {
-  const Post = this;
-  const post = await Post.findByIdAndUpdate(postId, {$set: data}, {new: true});
-
-  if (!post) {
-    return Promise.reject();
-  }
-
-  return post;
-};
-
-PostSchema.statics.delete = async function(postId) {
-  const Post = this;
-  const post = await Post.findByIdAndRemove(postId);
-
-  if (!post) {
-    return Promise.reject();
-  }
-
-  return post;
-};
-
 const Post = mongoose.model("Post", PostSchema);
 
 module.exports = Post;
