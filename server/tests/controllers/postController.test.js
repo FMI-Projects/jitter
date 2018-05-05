@@ -18,6 +18,7 @@ describe("postController", () => {
   });
 
   beforeEach(async () => {
+    jest.setTimeout(12000);
     await resetDatabase();
   });
 
@@ -26,6 +27,7 @@ describe("postController", () => {
     const [userOne] = users;
 
     beforeEach(async () => {
+      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
 
@@ -82,6 +84,7 @@ describe("postController", () => {
     let token;
 
     beforeEach(async () => {
+      jest.setTimeout(12000);
       await populateUsers();
 
       const {email, password} = userOne;
@@ -134,6 +137,7 @@ describe("postController", () => {
     const [userOne] = users;
 
     beforeEach(async () => {
+      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
 
@@ -196,6 +200,7 @@ describe("postController", () => {
     const [userOne] = users;
 
     beforeEach(async () => {
+      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
 
@@ -253,6 +258,7 @@ describe("postController", () => {
     const [userOne] = users;
 
     beforeEach(async () => {
+      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
 
