@@ -8,7 +8,7 @@ const app = require("../../app");
 const Post = require("../../data/models/post");
 
 const {populatePosts, posts} = require("../seed/posts");
-const {populateUsers, users} = require("../seed/users");
+const {populateUsers, users, token} = require("../seed/users");
 
 describe("postController", () => {
   jest.setTimeout(12000);
@@ -18,26 +18,13 @@ describe("postController", () => {
   });
 
   beforeEach(async () => {
-    jest.setTimeout(12000);
     await resetDatabase();
   });
 
   describe("GET /api/posts/:id", () => {
-    let token;
-    const [userOne] = users;
-
     beforeEach(async () => {
-      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
-
-      const {email, password} = userOne;
-
-      const res = await request(app)
-        .post("/auth/login")
-        .send({email, password});
-
-      token = res.headers["x-auth"];
     });
 
     it("should get post with correct id", async () => {
@@ -80,20 +67,8 @@ describe("postController", () => {
   });
 
   describe("POST /api/posts/:id", () => {
-    const [userOne] = users;
-    let token;
-
     beforeEach(async () => {
-      jest.setTimeout(12000);
       await populateUsers();
-
-      const {email, password} = userOne;
-
-      const res = await request(app)
-        .post("/auth/login")
-        .send({email, password});
-
-      token = res.headers["x-auth"];
     });
 
     it("should create a new post with valid data", async () => {
@@ -109,7 +84,7 @@ describe("postController", () => {
         .send(data)
         .expect(201)
         .expect(res => {
-          expect(res.body.author).toEqual(userOne._id.toHexString());
+          expect(res.body.author).toEqual(users[0]._id.toHexString());
         });
 
       const post = await Post.findById(data._id);
@@ -133,21 +108,9 @@ describe("postController", () => {
   });
 
   describe("PUT /api/posts/:id", () => {
-    let token;
-    const [userOne] = users;
-
     beforeEach(async () => {
-      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
-
-      const {email, password} = userOne;
-
-      const res = await request(app)
-        .post("/auth/login")
-        .send({email, password});
-
-      token = res.headers["x-auth"];
     });
 
     it("should update post with correct data", async () => {
@@ -196,21 +159,9 @@ describe("postController", () => {
   });
 
   describe("DELETE /api/posts/:id", async () => {
-    let token;
-    const [userOne] = users;
-
     beforeEach(async () => {
-      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
-
-      const {email, password} = userOne;
-
-      const res = await request(app)
-        .post("/auth/login")
-        .send({email, password});
-
-      token = res.headers["x-auth"];
     });
 
     it("deletes a post on valid id", async () => {
@@ -254,21 +205,9 @@ describe("postController", () => {
   });
 
   describe("GET /api/posts", async () => {
-    let token;
-    const [userOne] = users;
-
     beforeEach(async () => {
-      jest.setTimeout(12000);
       await populateUsers();
       await populatePosts();
-
-      const {email, password} = userOne;
-
-      const res = await request(app)
-        .post("/auth/login")
-        .send({email, password});
-
-      token = res.headers["x-auth"];
     });
 
     it("should get a user's posts", async () => {

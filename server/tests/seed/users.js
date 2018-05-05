@@ -1,4 +1,6 @@
-const { ObjectID } = require("mongodb");
+const jwt = require("jsonwebtoken");
+
+const {ObjectID} = require("mongodb");
 const User = require("../../data/models/user");
 
 const userOneId = new ObjectID();
@@ -17,6 +19,10 @@ const users = [
   }
 ];
 
+const token = jwt
+  .sign({_id: userOneId, access: "auth"}, process.env.JWT_SECRET)
+  .toString();
+
 const populateUsers = async () => {
   const userOne = new User(users[0]).save();
   const userTwo = new User(users[1]).save();
@@ -26,5 +32,6 @@ const populateUsers = async () => {
 
 module.exports = {
   populateUsers,
-  users
+  users,
+  token
 };
