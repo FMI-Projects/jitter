@@ -247,4 +247,38 @@ describe("postController", () => {
         .expect(401);
     });
   });
+
+  describe("GET /api/posts", async () => {
+    let token;
+    const [userOne] = users;
+
+    beforeEach(async () => {
+      await populateUsers();
+      await populatePosts();
+
+      const {email, password} = userOne;
+
+      const res = await request(app)
+        .post("/auth/login")
+        .send({email, password});
+
+      token = res.headers["x-auth"];
+    });
+
+    it("should get a user's posts", async () => {
+      await request(app)
+        .get("/api/posts")
+        .set("x-auth", token)
+        .expect(200)
+        .expect(res => {
+          expect(res.body.length).toBeGreaterThan(0);
+        });
+    });
+
+    it("should return 401 on unauthorized request", async () => {
+      await request(app)
+        .get("/api/posts")
+        .expect(401);
+    });
+  });
 });

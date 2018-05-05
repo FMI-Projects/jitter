@@ -44,9 +44,20 @@ const deletePost = async (req, res) => {
   }
 };
 
+const getUserPosts = async (req, res) => {
+  try {
+    const posts = await Post.findUserPosts(req.user._id);
+
+    res.status(200).send(posts);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
 module.exports = {
   createPost,
   getPost,
   updatePost,
-  deletePost
+  deletePost,
+  getUserPosts
 };

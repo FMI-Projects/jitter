@@ -11,6 +11,8 @@ postRouter.get(
   postController.getPost
 );
 
+postRouter.get("/", authenticate, postController.getUserPosts);
+
 postRouter.post("/", authenticate, postController.createPost);
 
 postRouter.put(

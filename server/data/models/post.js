@@ -38,6 +38,18 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
+PostSchema.statics.findUserPosts = async function(userId) {
+  const Post = this;
+
+  const posts = await Post.find({author: userId});
+
+  if (!posts) {
+    return Promise.reject();
+  }
+
+  return posts;
+};
+
 const Post = mongoose.model("Post", PostSchema);
 
 module.exports = Post;
