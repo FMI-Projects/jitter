@@ -13,7 +13,7 @@ class Layout extends Component {
   };
 
   render() {
-    let profileModal = null;
+    let profileModal = <ProfileModal />;
 
     if (this.props.isAuthenticated && this.props.firstLogIn) {
       profileModal = <ProfileModal />;
