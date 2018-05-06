@@ -61,12 +61,7 @@ const applyAuthSuccess = (state, action) => {
 
 const applyAuthLogoutSuccess = state => {
   return {
-    ...state,
-    authenticated: false,
-    userId: null,
-    token: null,
-    error: null,
-    firstLogin: false
+    ...initialState
   };
 };
 

@@ -1,16 +1,11 @@
 import axios from "./axios";
 
-const setAuthMiddleware = (store) => {
-  store.subscribe(userTokenChangeListener);
-
-  function userTokenChangeListener() {
+const setAuthMiddleware = store => {
+  axios.interceptors.request.use((req) => {
     const token = store.getState().auth.token;
-    if (token) {
-      axios.defaults.headers.common["x-auth"] = token;
-    } else {
-      axios.defaults.headers.common["x-auth"] = null;
-    }
-  }
+    req.headers["x-auth"] = token;
+    return req;
+  });
 };
 
 export default setAuthMiddleware;

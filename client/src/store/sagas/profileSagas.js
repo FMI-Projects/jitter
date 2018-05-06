@@ -6,7 +6,7 @@ import { profileService } from "../../services";
 export function* profileGetInfoSaga(action) {
   try {
     const {
-      profileId,
+      _id,
       firstName,
       lastName,
       profilePictureUrl,
@@ -15,7 +15,7 @@ export function* profileGetInfoSaga(action) {
 
     yield put(
       actions.profileSetInfo(
-        profileId,
+        _id,
         firstName,
         lastName,
         profilePictureUrl,

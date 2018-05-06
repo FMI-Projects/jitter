@@ -12,3 +12,5 @@ export const AUTH_FIRST_LOGIN = "AUTH_FIRST_LOGIN";
 export const PROFILE_GET_INFO = "PROFILE_GET_INFO";
 export const PROFILE_SET_INFO = "PROFILE_SET_INFO";
 export const PROFILE_ERROR = "PROFILE_ERROR";
+
+export const RESET = "RESET";

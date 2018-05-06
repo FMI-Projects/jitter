@@ -13,9 +13,9 @@ export function* authUserSaga(action) {
       action.password
     );
 
-    yield call([storageService, "storeUser"], userData.token, userData._id);
+    yield call([storageService, "storeUser"], userData.token, userData.userId);
 
-    yield put(actions.authSuccess(userData.token, userData._id));
+    yield put(actions.authSuccess(userData.userId, userData.token));
   } catch (e) {
     yield put(actions.authError(e.message));
   }
@@ -49,7 +49,7 @@ export function* authRegisterInitSaga(action) {
 
     yield call([storageService, "storeUser"], userData.token, userData.userId);
 
-    yield put(actions.authSuccess(userData.token, userData.userId));
+    yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.authFirstLogin());
   } catch (e) {
     yield put(actions.authError(e.message));

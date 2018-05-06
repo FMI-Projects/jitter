@@ -15,5 +15,7 @@ export function* watchAuth() {
 }
 
 export function* watchProfile() {
-  yield all([actionTypes.PROFILE_GET_INFO, profileSagas.profileGetInfoSaga]);
+  yield all([
+    takeLatest(actionTypes.PROFILE_GET_INFO, profileSagas.profileGetInfoSaga)
+  ]);
 }

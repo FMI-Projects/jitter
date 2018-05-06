@@ -20,8 +20,8 @@ app.use("/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/posts", postRouter);
 
-const port = process.env.PORT;
 if (process.env.NODE_ENV !== "test") {
+  const port = process.env.PORT;
   app.listen(port, () => {
     console.log("Started on port", port);
   });

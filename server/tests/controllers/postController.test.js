@@ -138,7 +138,7 @@ describe("postController", () => {
         .expect(400);
     });
 
-    it("should not return 401 on unauthorized request", async () => {
+    it("should return 401 on unauthorized request", async () => {
       const id = posts[0]._id;
 
       await request(app)
