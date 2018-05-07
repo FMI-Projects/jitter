@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import { withStyles } from "material-ui/styles";
-
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
 
