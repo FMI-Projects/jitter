@@ -1,14 +1,14 @@
 const request = require("supertest");
-const { ObjectID } = require("mongodb");
+const {ObjectID} = require("mongodb");
 const faker = require("faker");
 
 require("../config/config");
-const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
+const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
 const app = require("../../app");
 const Post = require("../../data/models/post");
 
-const { populatePosts, posts } = require("../seed/posts");
-const { populateUsers, users } = require("../seed/users");
+const {populatePosts, posts} = require("../seed/posts");
+const {populateUsers, users} = require("../seed/users");
 
 describe("postController", () => {
   beforeAll(async () => {
@@ -37,16 +37,7 @@ describe("postController", () => {
         });
     });
 
-    it("should not access another user's post", async () => {
-      const id = posts[1]._id;
-
-      await request(app)
-        .get(`/api/posts/${id}`)
-        .set("x-auth", users[0].token)
-        .expect(401);
-    });
-
-    it("should not return 401 on unauthorized request", async () => {
+    it("should return 401 on unauthorized request", async () => {
       const id = posts[0]._id;
 
       await request(app)
@@ -55,7 +46,7 @@ describe("postController", () => {
     });
 
     it("should return 400 on invalid id", async () => {
-      const id = new ObjectID();
+      const id = "123";
 
       await request(app)
         .get(`/api/posts/${id}`)
@@ -64,7 +55,7 @@ describe("postController", () => {
     });
   });
 
-  describe("POST /api/posts/:id", () => {
+  describe("POST /api/posts/", () => {
     it("should create a new post with valid data", async () => {
       const data = {
         _id: new ObjectID(),
@@ -86,9 +77,9 @@ describe("postController", () => {
       expect(post.content).toEqual(data.content);
     });
 
-    it("should not return 401 on unauthorized request", async () => {
+    it("should return 401 on unauthorized request", async () => {
       await request(app)
-        .post(`/api/posts/`)
+        .post("/api/posts/")
         .expect(401);
     });
 
@@ -123,7 +114,7 @@ describe("postController", () => {
       const id = posts[1]._id;
 
       await request(app)
-        .delete(`/api/posts/${id}`)
+        .put(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
         .expect(401);
     });
@@ -142,13 +133,13 @@ describe("postController", () => {
       const id = posts[0]._id;
 
       await request(app)
-        .get(`/api/posts/${id}`)
+        .put(`/api/posts/${id}`)
         .expect(401);
     });
   });
 
   describe("DELETE /api/posts/:id", async () => {
-    it("deletes a post on valid id", async () => {
+    it("should delete post on valid id", async () => {
       const id = posts[0]._id;
 
       await request(app)
@@ -170,7 +161,7 @@ describe("postController", () => {
         .expect(400);
     });
 
-    it("should not return 401 on unauthorized request", async () => {
+    it("should return 401 on unauthorized request", async () => {
       const id = posts[0]._id;
 
       await request(app)

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const commentConstants = require("../../utilities/commentConstants");
+const commentConstants = require("../../utilities/constants/commentConstants");
 
 const CommentSchema = new mongoose.Schema(
   {
@@ -30,6 +30,18 @@ const CommentSchema = new mongoose.Schema(
     }
   }
 );
+
+CommentSchema.statics.findPostComments = async function(postId) {
+  const Comment = this;
+
+  const comments = await Comment.find({post: postId});
+
+  if (!comments) {
+    return Promise.reject();
+  }
+
+  return comments;
+};
 
 const Comment = mongoose.model("Comment", CommentSchema);
 
