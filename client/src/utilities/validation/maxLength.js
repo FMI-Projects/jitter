@@ -10,3 +10,4 @@ export const emailMaxLength = maxLength(userConstants.email.maxLength);
 export const passwordMaxLength = maxLength(userConstants.password.maxLength);
 export const firstNameMaxLength = maxLength(profileConstants.firstName.maxLength);
 export const lastNameMaxLength = maxLength(profileConstants.lastName.maxLength);
+export const bioMaxLength = maxLength(profileConstants.bio.maxLength);
