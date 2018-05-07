@@ -194,6 +194,7 @@ describe("commentController", () => {
 
     it("should return 401 on unauthorized request", async () => {
       const id = posts[0]._id;
+
       await request(app)
         .get(`/api/comments/post/${id}`)
         .expect(401);

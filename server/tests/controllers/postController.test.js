@@ -37,15 +37,6 @@ describe("postController", () => {
         });
     });
 
-    it("should not access another user's post", async () => {
-      const id = posts[1]._id;
-
-      await request(app)
-        .get(`/api/posts/${id}`)
-        .set("x-auth", users[0].token)
-        .expect(401);
-    });
-
     it("should return 401 on unauthorized request", async () => {
       const id = posts[0]._id;
 
