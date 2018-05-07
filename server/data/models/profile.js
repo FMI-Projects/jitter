@@ -68,6 +68,26 @@ ProfileSchema.statics.findByUserId = async function(userId) {
   return profile;
 };
 
+ProfileSchema.statics.findByUserIdAndUpdate = async function(userId, data) {
+  const Profile = this;
+
+  if (data.birthday) {
+    data.birthday = new Date(data.birthday).getTime();
+  }
+
+  const profile = await Profile.findOneAndUpdate(
+    { user: userId },
+    { $set: data },
+    { new: true }
+  );
+
+  if (!profile) {
+    return Promise.reject();
+  }
+
+  return profile;
+};
+
 const Profile = mongoose.model("Profile", ProfileSchema);
 
 module.exports = Profile;
