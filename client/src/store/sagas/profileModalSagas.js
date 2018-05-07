@@ -1,9 +1,13 @@
 import { put, call } from "redux-saga/effects";
 
 import * as actions from "../actions";
-import { profileUpdateSaga } from "./profileSagas";
+import { profileUpdate } from "./generators/profile";
 
 export function* profileModalUpdateSaga(action) {
-  yield call(profileUpdateSaga, action);
-  yield put(actions.profileModalContinue);
+  try {
+    yield call(profileUpdate, action.profileData);
+    yield put(actions.profileModalContinue());
+  } catch (e) {
+    yield put(actions.profileError(e.message));
+  }
 }

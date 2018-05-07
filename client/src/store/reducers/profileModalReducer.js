@@ -35,7 +35,7 @@ const applyProfileModalContinue = (state, action) => {
     case "start":
       nextStep = "personalInfo";
       break;
-    case "profileInfo":
+    case "personalInfo":
       nextStep = "profilePicture";
       break;
     case "profilePicture":

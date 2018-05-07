@@ -36,3 +36,9 @@ export const profileUpdate = profileData => {
     profileData
   };
 };
+
+export const profileLoad = () => {
+  return {
+    type: actionTypes.PROFILE_LOAD
+  };
+};

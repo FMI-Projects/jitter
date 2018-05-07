@@ -2,6 +2,7 @@ import { put, call } from "redux-saga/effects";
 
 import * as actions from "../actions";
 import { profileService } from "../../services";
+import { profileUpdate } from "./generators/profile";
 
 export function* profileGetInfoSaga(action) {
   try {
@@ -29,22 +30,7 @@ export function* profileGetInfoSaga(action) {
 
 export function* profileUpdateSaga(action) {
   try {
-    const {
-      _id,
-      firstName,
-      lastName,
-      profilePictureUrl,
-      navProfilePictureUrl
-    } = yield call([profileService, "updateCurrentUserProfile", action.profileData]);
-    yield put(
-      actions.profileSetInfo(
-        _id,
-        firstName,
-        lastName,
-        profilePictureUrl,
-        navProfilePictureUrl
-      )
-    );
+    yield call(profileUpdate, action.profileData);
   } catch (e) {
     yield put(actions.profileError(e.message));
   }

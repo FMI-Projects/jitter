@@ -6,7 +6,8 @@ const initialState = {
   lastName: null,
   profilePictureUrl: null,
   navProfilePictureUrl: null,
-  error: null
+  error: null,
+  loading: false
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -16,6 +17,9 @@ const profileReducer = (state = initialState, action) => {
     }
     case actionTypes.PROFILE_ERROR: {
       return applyProfileError(state, action);
+    }
+    case actionTypes.PROFILE_LOAD: {
+      return applyProfileLoad(state, action);
     }
     default:
       return state;
@@ -30,14 +34,23 @@ const applyProfileSetInfo = (state, action) => {
     lastName: action.lastName,
     profilePictureUrl: action.profilePictureUrl,
     navProfilePictureUrl: action.navProfilePictureUrl,
-    error: null
+    error: null,
+    loading: false
   };
 };
 
 const applyProfileError = (state, action) => {
   return {
     ...state,
-    error: action.error
+    error: action.error,
+    loading: false
+  };
+};
+
+const applyProfileLoad = (state, action) => {
+  return {
+    ...state,
+    loading: true
   };
 };
 

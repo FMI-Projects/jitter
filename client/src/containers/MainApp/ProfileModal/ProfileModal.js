@@ -16,7 +16,8 @@ class ProfileModal extends Component {
     open: PropTypes.bool.isRequired,
     closeDialog: PropTypes.func.isRequired,
     progress: PropTypes.func.isRequired,
-    openDialog: PropTypes.func.isRequired
+    openDialog: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -50,9 +51,10 @@ class ProfileModal extends Component {
       case "personalInfo":
         modalContent = (
           <PersonalInfoModal
-            error={this.props.error}
+            errorMessage={this.props.error}
+            loading={this.props.loading}
             onCancel={this.closeDialog}
-            onContinue={this.submitProfileInfo}
+            onSubmit={this.submitProfileInfo}
           />
         );
         break;
@@ -77,7 +79,8 @@ const mapStateToProps = state => {
   return {
     step: state.profileModal.step,
     open: state.profileModal.open,
-    error: state.profile.error
+    error: state.profile.error,
+    loading: state.profile.loading
   };
 };
 
