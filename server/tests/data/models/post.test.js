@@ -51,7 +51,7 @@ describe("post", () => {
 
   describe("static methods", () => {
     describe("findUserPosts", () => {
-      it("should make call to get user posts with correct input", async () => {
+      it("should user posts with correct input", async () => {
         const postsToReturn = "somePosts";
 
         jest
