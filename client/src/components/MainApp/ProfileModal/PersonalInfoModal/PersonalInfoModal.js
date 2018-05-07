@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { DialogTitle } from "material-ui/Dialog";
 
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
-// import Spinner from "../../../UI/Spinner/Spinner";
 
 const personalInfoModal = props => {
   return (
@@ -11,9 +10,15 @@ const personalInfoModal = props => {
       <DialogTitle id="profile-dialog-title">
         Tell us more about you...
       </DialogTitle>
-      <PersonalInfoForm />
+      <PersonalInfoForm errorMessage={props.error} onCancel={props.onCancel} onSubmit={props.onContinue} />
     </Fragment>
   );
+};
+
+personalInfoModal.propTypes = {
+  error: PropTypes.string,
+  onCancel: PropTypes.func.isRequired,
+  onContinue: PropTypes.func.isRequired
 };
 
 export default personalInfoModal;

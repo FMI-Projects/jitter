@@ -16,4 +16,8 @@ export default class HttpService {
   delete(url) {
     return axios.delete(url);
   }
+
+  patch(url, data) {
+    return axios.patch(url, data);
+  }
 }

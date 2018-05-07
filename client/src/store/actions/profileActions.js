@@ -29,3 +29,10 @@ export const profileError = error => {
     error
   };
 };
+
+export const profileUpdate = profileData => {
+  return {
+    type: actionTypes.PROFILE_UPDATE,
+    profileData
+  };
+};

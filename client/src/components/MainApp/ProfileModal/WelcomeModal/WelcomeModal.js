@@ -19,7 +19,7 @@ const welcomeModal = props => (
     </DialogContent>
     <DialogActions>
       <Button color="default" onClick={props.onCancel}>
-        Cancel
+        Close
       </Button>
       <Button color="primary" onClick={props.onContinue}>Continue</Button>
     </DialogActions>

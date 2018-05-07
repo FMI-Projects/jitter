@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import reduxReset from "redux-reset";
 
 import rootReducer from "../store/reducers";
-import { watchAuth, watchProfile } from "../store/sagas/";
+import { watchAuth, watchProfile, watchProfileModal } from "../store/sagas/";
 import setAuthMiddleware from "../services/utility/axios/setAuthMiddleware";
 import * as actions from "./actions";
 
@@ -20,6 +20,7 @@ const store = createStore(
 
 saga.run(watchAuth);
 saga.run(watchProfile);
+saga.run(watchProfileModal);
 
 setAuthMiddleware(store);
 

@@ -26,3 +26,26 @@ export function* profileGetInfoSaga(action) {
     yield put(actions.profileError(e.message));
   }
 }
+
+export function* profileUpdateSaga(action) {
+  try {
+    const {
+      _id,
+      firstName,
+      lastName,
+      profilePictureUrl,
+      navProfilePictureUrl
+    } = yield call([profileService, "updateCurrentUserProfile", action.profileData]);
+    yield put(
+      actions.profileSetInfo(
+        _id,
+        firstName,
+        lastName,
+        profilePictureUrl,
+        navProfilePictureUrl
+      )
+    );
+  } catch (e) {
+    yield put(actions.profileError(e.message));
+  }
+}

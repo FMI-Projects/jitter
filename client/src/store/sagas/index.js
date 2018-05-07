@@ -4,6 +4,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 import * as authSagas from "./authSagas";
 import * as profileSagas from "./profileSagas";
+import * as profileModalSagas from "./profileModalSagas";
 
 export function* watchAuth() {
   yield all([
@@ -16,6 +17,16 @@ export function* watchAuth() {
 
 export function* watchProfile() {
   yield all([
-    takeLatest(actionTypes.PROFILE_GET_INFO, profileSagas.profileGetInfoSaga)
+    takeLatest(actionTypes.PROFILE_GET_INFO, profileSagas.profileGetInfoSaga),
+    takeLatest(actionTypes.PROFILE_UPDATE, profileSagas.profileUpdateSaga)
+  ]);
+}
+
+export function* watchProfileModal() {
+  yield all([
+    takeLatest(
+      actionTypes.PROFILE_MODAL_UPDATE,
+      profileModalSagas.profileModalUpdateSaga
+    )
   ]);
 }
