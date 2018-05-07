@@ -4,6 +4,7 @@ const createComment = async (req, res) => {
   try {
     let comment = new Comment(req.body);
     comment.author = req.user._id;
+    comment.post = req.params.id;
     comment = await comment.save();
 
     res.status(201).send(comment);

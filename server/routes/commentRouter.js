@@ -2,7 +2,7 @@ const commentRouter = require("express").Router();
 
 const authenticate = require("../middleware/authenticate");
 const authorization = require("../middleware/authorization");
-const commentController = require("../controllers/commentContoller");
+const commentController = require("../controllers/commentController");
 
 commentRouter.post("/:id", authenticate, commentController.createComment);
 
@@ -20,7 +20,7 @@ commentRouter.delete(
   commentController.deleteComment
 );
 
-commentRouter.get("/", authenticate, commentController.getPostComments);
+commentRouter.get("/post/:id", authenticate, commentController.getPostComments);
 
 commentRouter.get("/:id", authenticate, commentController.getComment);
 

@@ -20,7 +20,7 @@ const isCommentAuthor = async (req, res, next) => {
     const comment = await Comment.findById(req.params.id);
 
     if (comment.author.toHexString() !== req.user._id.toHexString()) {
-      return rest.status(401).send();
+      return res.status(401).send();
     }
 
     next();
