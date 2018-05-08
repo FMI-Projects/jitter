@@ -8,7 +8,7 @@ import {
   DialogActions
 } from "material-ui/Dialog";
 
-const welcomeModal = props => (
+const welcome = props => (
   <Fragment>
     <DialogTitle id="profile-dialog-title">Welcome to Jitter!</DialogTitle>
     <DialogContent>
@@ -26,9 +26,9 @@ const welcomeModal = props => (
   </Fragment>
 );
 
-welcomeModal.propTypes = {
+welcome.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onContinue: PropTypes.func.isRequired
 };
 
-export default welcomeModal;
+export default welcome;

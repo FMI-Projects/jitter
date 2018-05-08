@@ -29,7 +29,7 @@ const ProfileSchema = new mongoose.Schema({
     default: null
   },
   birthday: {
-    type: Number,
+    type: Date,
     default: null
   },
   profilePictureUrl: {
@@ -70,10 +70,6 @@ ProfileSchema.statics.findByUserId = async function(userId) {
 
 ProfileSchema.statics.findByUserIdAndUpdate = async function(userId, data) {
   const Profile = this;
-
-  if (data.birthday) {
-    data.birthday = new Date(data.birthday).getTime();
-  }
 
   const profile = await Profile.findOneAndUpdate(
     { user: userId },

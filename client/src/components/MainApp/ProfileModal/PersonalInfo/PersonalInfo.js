@@ -11,11 +11,11 @@ import { InputLabel } from "material-ui/Input";
 import { FormControl } from "material-ui/Form";
 
 import DatePicker from "../../../UI/Fields/DatePicker/DatePicker";
-import styles from "./PersonalInfoModal.styles";
+import styles from "./PersonalInfo.styles";
 import { bioMaxLength } from "../../../../utilities/validation";
 import Spinner from "../../../UI/Spinner/Spinner";
 
-const personalInfoModal = props => {
+const personalInfo = props => {
   if (props.loading) {
     return <Spinner />;
   }
@@ -82,7 +82,7 @@ const personalInfoModal = props => {
   );
 };
 
-personalInfoModal.propTypes = {
+personalInfo.propTypes = {
   errorMessage: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
@@ -91,5 +91,5 @@ personalInfoModal.propTypes = {
 };
 
 export default withStyles(styles)(
-  reduxForm({ form: "personalInfo" })(personalInfoModal)
+  reduxForm({ form: "personalInfo" })(personalInfo)
 );

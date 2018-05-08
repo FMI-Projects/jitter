@@ -4,8 +4,8 @@ import Dialog from "material-ui/Dialog";
 import { connect } from "react-redux";
 
 import * as actions from "../../../store/actions";
-import WelcomeModal from "../../../components/MainApp/ProfileModal/WelcomeModal/WelcomeModal";
-import PersonalInfoModal from "../../../components/MainApp/ProfileModal/PersonalInfoModal/PersonalInfoModal";
+import Welcome from "../../../components/MainApp/ProfileModal/Welcome/Welcome";
+import PersonalInfo from "../../../components/MainApp/ProfileModal/PersonalInfo/PersonalInfo";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 
 class ProfileModal extends Component {
@@ -42,7 +42,7 @@ class ProfileModal extends Component {
     switch (this.props.step) {
       case "start":
         modalContent = (
-          <WelcomeModal
+          <Welcome
             onCancel={this.closeDialog}
             onContinue={this.progress}
           />
@@ -50,7 +50,7 @@ class ProfileModal extends Component {
         break;
       case "personalInfo":
         modalContent = (
-          <PersonalInfoModal
+          <PersonalInfo
             errorMessage={this.props.error}
             loading={this.props.loading}
             onCancel={this.closeDialog}
