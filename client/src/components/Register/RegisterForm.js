@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import { withStyles } from "material-ui/styles";
@@ -20,102 +20,111 @@ import {
   lastNameMaxLength
 } from "../../utilities/validation";
 import styles from "../UI/Forms/BaseForm/BaseForm.styles";
+import * as actions from "../../store/actions";
 
 const registerForm = props => {
-  if (props.loading) {
-    return <Spinner />;
+  let spinner = null;
+  if (props.submitting) {
+    spinner = <Spinner />;
   }
 
   let errorMessage;
-  if (props.errorMessage) {
-    errorMessage = (
-      <div className={props.classes.error}>{props.errorMessage}</div>
-    );
+  if (props.error) {
+    errorMessage = <div className={props.classes.error}>{props.error}</div>;
   }
 
+  const { handleSubmit } = props;
+  const submit = handleSubmit(actions.register);
+
   return (
-    <BaseForm title="Register">
-      <form className={props.classes.form} onSubmit={props.handleSubmit}>
-        {errorMessage}
-        <div>
+    <Fragment>
+      {spinner}
+      <BaseForm
+        style={{ display: props.submitting ? "none" : "block" }}
+        title="Register"
+      >
+        <form className={props.classes.form} onSubmit={submit}>
+          {errorMessage}
           <div>
-            <Field
-              className={props.classes.textField}
-              name="email"
-              component={TextField}
-              type="email"
-              label="Email"
-              validate={[required, email, emailMinLength, emailMaxLength]}
-              autoFocus={true}
-            />
+            <div>
+              <Field
+                className={props.classes.textField}
+                name="email"
+                component={TextField}
+                type="email"
+                label="Email"
+                validate={[required, email, emailMinLength, emailMaxLength]}
+                autoFocus={true}
+              />
+            </div>
           </div>
-        </div>
-        <div>
           <div>
-            <Field
-              className={props.classes.textField}
-              name="firstName"
-              component={TextField}
-              type="text"
-              label="First Name"
-              validate={[required, firstNameMaxLength]}
-            />
+            <div>
+              <Field
+                className={props.classes.textField}
+                name="firstName"
+                component={TextField}
+                type="text"
+                label="First Name"
+                validate={[required, firstNameMaxLength]}
+              />
+            </div>
           </div>
-        </div>
-        <div>
           <div>
-            <Field
-              className={props.classes.textField}
-              name="lastName"
-              component={TextField}
-              type="text"
-              label="Last Name"
-              validate={[required, lastNameMaxLength]}
-            />
+            <div>
+              <Field
+                className={props.classes.textField}
+                name="lastName"
+                component={TextField}
+                type="text"
+                label="Last Name"
+                validate={[required, lastNameMaxLength]}
+              />
+            </div>
           </div>
-        </div>
-        <div>
           <div>
-            <Field
-              className={props.classes.textField}
-              name="password"
-              component={TextField}
-              type="password"
-              label="Password"
-              validate={[required, passwordMinLength, passwordMaxLength]}
-            />
+            <div>
+              <Field
+                className={props.classes.textField}
+                name="password"
+                component={TextField}
+                type="password"
+                label="Password"
+                validate={[required, passwordMinLength, passwordMaxLength]}
+              />
+            </div>
           </div>
-        </div>
-        <div>
           <div>
-            <Field
-              className={props.classes.textField}
-              name="confirmPassword"
-              component={TextField}
-              type="password"
-              label="Confirm Password"
-              validate={[passwordsMustMatch, required]}
-            />
+            <div>
+              <Field
+                className={props.classes.textField}
+                name="confirmPassword"
+                component={TextField}
+                type="password"
+                label="Confirm Password"
+                validate={[passwordsMustMatch, required]}
+              />
+            </div>
           </div>
-        </div>
-        <Button
-          className={props.classes.button}
-          variant="raised"
-          color="primary"
-          type="submit"
-        >
-          SIGN UP
-        </Button>
-      </form>
-    </BaseForm>
+          <Button
+            className={props.classes.button}
+            variant="raised"
+            color="primary"
+            type="submit"
+          >
+            SIGN UP
+          </Button>
+        </form>
+      </BaseForm>
+    </Fragment>
   );
 };
 
 registerForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
+  error: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
+  submitting: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(

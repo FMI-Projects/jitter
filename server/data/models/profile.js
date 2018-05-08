@@ -40,14 +40,6 @@ const ProfileSchema = new mongoose.Schema({
       message: "{VALUE} is not a valid URL"
     }
   },
-  navProfilePictureUrl: {
-    type: String,
-    default: null,
-    validate: {
-      validator: value => !value || validator.isURL(value),
-      message: "{VALUE} is not a valid URL"
-    }
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

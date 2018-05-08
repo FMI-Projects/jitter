@@ -4,8 +4,6 @@ import * as actions from "../../actions";
 import { profileService } from "../../../services";
 
 export function* profileUpdate(profileData) {
-  yield put(actions.profileLoad());
-
   const {
     _id,
     firstName,

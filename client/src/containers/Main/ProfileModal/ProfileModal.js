@@ -4,21 +4,17 @@ import Dialog from "material-ui/Dialog";
 import { connect } from "react-redux";
 
 import * as actions from "../../../store/actions";
-import Welcome from "../../../components/MainApp/ProfileModal/Welcome/Welcome";
-import PersonalInfo from "../../../components/MainApp/ProfileModal/PersonalInfo/PersonalInfo";
+import Welcome from "../../../components/Main/ProfileModal/Welcome/Welcome";
+import PersonalInfo from "../../../components/Main/ProfileModal/PersonalInfo/PersonalInfo";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 
 class ProfileModal extends Component {
   static propTypes = {
-    updateProfile: PropTypes.func.isRequired,
-    error: PropTypes.string,
     step: PropTypes.string,
     open: PropTypes.bool.isRequired,
     closeDialog: PropTypes.func.isRequired,
     progress: PropTypes.func.isRequired,
-    openDialog: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-    resetError: PropTypes.func.isRequired
+    openDialog: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -26,16 +22,11 @@ class ProfileModal extends Component {
   }
 
   closeDialog = () => {
-    this.props.resetError();
     this.props.closeDialog();
   };
 
   progress = () => {
     this.props.progress();
-  };
-
-  submitProfileInfo = values => {
-    this.props.updateProfile(values);
   };
 
   render() {
@@ -50,10 +41,7 @@ class ProfileModal extends Component {
       case "personalInfo":
         modalContent = (
           <PersonalInfo
-            errorMessage={this.props.error}
-            loading={this.props.loading}
             onCancel={this.closeDialog}
-            onSubmit={this.submitProfileInfo}
           />
         );
         break;
@@ -77,9 +65,7 @@ class ProfileModal extends Component {
 const mapStateToProps = state => {
   return {
     step: state.profileModal.step,
-    open: state.profileModal.open,
-    error: state.profile.error,
-    loading: state.profile.loading
+    open: state.profileModal.open
   };
 };
 
@@ -87,9 +73,7 @@ const mapDispatchToProps = dispatch => {
   return {
     openDialog: () => dispatch(actions.profileModalInit()),
     closeDialog: () => dispatch(actions.profileModalClose()),
-    progress: () => dispatch(actions.profileModalContinue()),
-    updateProfile: values => dispatch(actions.profileModalUpdate(values)),
-    resetError: () => dispatch(actions.profileResetError())
+    progress: () => dispatch(actions.profileModalContinue())
   };
 };
 

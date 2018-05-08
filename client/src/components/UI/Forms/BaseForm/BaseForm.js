@@ -10,7 +10,7 @@ import styles from "./BaseForm.styles";
 
 const baseForm = props => {
   return (
-    <div className={props.classes.base}>
+    <div style={props.style} className={props.classes.base}>
       <Grid container>
         <Card className={props.classes.card}>
           <CardHeader
@@ -28,6 +28,7 @@ baseForm.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
+  style: PropTypes.object
 };
 
 export default withStyles(styles)(baseForm);

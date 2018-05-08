@@ -1,29 +1,55 @@
 import { put, call } from "redux-saga/effects";
+import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
 import { userService, storageService } from "../../services";
 
-export function* authUserSaga(action) {
+export function* authLoginSaga(action) {
   try {
-    yield put(actions.authLoad());
-
     const userData = yield call(
       [userService, "loginUser"],
-      action.email,
-      action.password
+      action.payload.email,
+      action.payload.password
     );
 
     yield call([storageService, "storeUser"], userData.token, userData.userId);
 
     yield put(actions.authSuccess(userData.userId, userData.token));
+    yield put(actions.login.success());
   } catch (e) {
-    yield put(actions.authError(e.message));
+    const formError = new SubmissionError({
+      _error: e.message
+    });
+    yield put(actions.login.failure(formError));
   }
 }
 
-export function* authLogoutInitSaga() {
+export function* authRegisterSaga(action) {
+  try {
+    const userData = yield call(
+      [userService, "registerUser"],
+      action.payload.email,
+      action.payload.password,
+      action.payload.firstName,
+      action.payload.lastName
+    );
+
+    yield call([storageService, "storeUser"], userData.token, userData.userId);
+
+    yield put(actions.authSuccess(userData.userId, userData.token));
+    yield put(actions.authFirstLogin());
+    yield put(actions.register.success());
+  } catch (e) {
+    const formError = new SubmissionError({
+      _error: e.message
+    });
+    yield put(actions.register.failure(formError));
+  }
+}
+
+export function* authLogoutSaga() {
   yield call([storageService, "removeUser"]);
-  yield put(actions.authLogoutSuccess());
+  yield put(actions.reset());
 }
 
 export function* authInitSaga(action) {
@@ -31,27 +57,6 @@ export function* authInitSaga(action) {
   if (userId && token) {
     yield put(actions.authSuccess(userId, token));
   } else {
-    yield put(actions.authLogoutSuccess());
-  }
-}
-
-export function* authRegisterInitSaga(action) {
-  try {
-    yield put(actions.authLoad());
-
-    const userData = yield call(
-      [userService, "registerUser"],
-      action.email,
-      action.password,
-      action.firstName,
-      action.lastName
-    );
-
-    yield call([storageService, "storeUser"], userData.token, userData.userId);
-
-    yield put(actions.authSuccess(userData.userId, userData.token));
-    yield put(actions.authFirstLogin());
-  } catch (e) {
-    yield put(actions.authError(e.message));
+    yield put(actions.reset());
   }
 }

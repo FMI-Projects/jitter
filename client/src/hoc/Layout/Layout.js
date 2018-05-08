@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import Toolbar from "../../components/Toolbar/Toolbar";
-import ProfileModal from "../../containers/MainApp/ProfileModal/ProfileModal";
+import ProfileModal from "../../containers/Main/ProfileModal/ProfileModal";
 
 class Layout extends Component {
   static propTypes = {

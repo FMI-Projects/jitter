@@ -5,17 +5,16 @@ import { connect } from "react-redux";
 
 import * as actions from "./store/actions";
 import Layout from "./hoc/Layout/Layout";
-import Register from "./containers/Register/Register";
-import Login from "./containers/Login/Login";
+import RegisterForm from "./components/Register/RegisterForm";
+import LoginForm from "./components/Login/LoginForm";
 import Logout from "./containers/Logout/Logout";
 import Welcome from "./containers/Welcome/Welcome";
-import Home from "./containers/MainApp/Home/Home";
+import Home from "./containers/Main/Home/Home";
 
 class App extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
-    onAuthenticated: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired
+    onAuthenticated: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -25,18 +24,16 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isAuthenticated !== this.props.isAuthenticated) {
-      this.props.isAuthenticated
-        ? this.props.onAuthenticated()
-        : this.props.onLogout();
+    if (!prevProps.isAuthenticated && this.props.isAuthenticated) {
+      this.props.onAuthenticated();
     }
   }
 
   render() {
     let routes = (
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={LoginForm} />
+        <Route exact path="/register" component={RegisterForm} />
         <Route exact path="/" component={Welcome} />
         <Redirect to="/" />
       </Switch>
@@ -64,8 +61,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuthenticated: () => dispatch(actions.profileGetInfo()),
-    onLogout: () => dispatch(actions.reset())
+    onAuthenticated: () => dispatch(actions.profileGetInfo())
   };
 };
 

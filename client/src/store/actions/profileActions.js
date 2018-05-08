@@ -23,28 +23,9 @@ export const profileSetInfo = (
   };
 };
 
-export const profileError = error => {
-  return {
-    type: actionTypes.PROFILE_ERROR,
-    error
-  };
-};
-
 export const profileUpdate = profileData => {
   return {
     type: actionTypes.PROFILE_UPDATE,
     profileData
-  };
-};
-
-export const profileLoad = () => {
-  return {
-    type: actionTypes.PROFILE_LOAD
-  };
-};
-
-export const profileResetError = () => {
-  return {
-    type: actionTypes.PROFILE_RESET_ERROR
   };
 };
