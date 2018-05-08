@@ -4,23 +4,25 @@ import * as actions from "../actions";
 import { profileService } from "../../services";
 
 export function* profileGetInfoSaga(action) {
-  const { _id, firstName, lastName, profilePictureUrl } = yield call([
-    profileService,
-    "getCurrentProfileInfo"
-  ]);
+  try {
+    const { _id, firstName, lastName, profilePictureUrl } = yield call([
+      profileService,
+      "getCurrentProfileInfo"
+    ]);
 
-  let navProfilePictureUrl = null;
-  if (profilePictureUrl) {
-    navProfilePictureUrl = null;
-  }
+    let navProfilePictureUrl = null;
+    if (profilePictureUrl) {
+      navProfilePictureUrl = null;
+    }
 
-  yield put(
-    actions.profileSetInfo(
-      _id,
-      firstName,
-      lastName,
-      profilePictureUrl,
-      navProfilePictureUrl
-    )
-  );
+    yield put(
+      actions.profileSetInfo(
+        _id,
+        firstName,
+        lastName,
+        profilePictureUrl,
+        navProfilePictureUrl
+      )
+    );
+  } catch (e) {}
 }
