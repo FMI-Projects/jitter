@@ -17,7 +17,8 @@ class ProfileModal extends Component {
     closeDialog: PropTypes.func.isRequired,
     progress: PropTypes.func.isRequired,
     openDialog: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    resetError: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -25,6 +26,7 @@ class ProfileModal extends Component {
   }
 
   closeDialog = () => {
+    this.props.resetError();
     this.props.closeDialog();
   };
 
@@ -42,10 +44,7 @@ class ProfileModal extends Component {
     switch (this.props.step) {
       case "start":
         modalContent = (
-          <Welcome
-            onCancel={this.closeDialog}
-            onContinue={this.progress}
-          />
+          <Welcome onCancel={this.closeDialog} onContinue={this.progress} />
         );
         break;
       case "personalInfo":
@@ -89,7 +88,8 @@ const mapDispatchToProps = dispatch => {
     openDialog: () => dispatch(actions.profileModalInit()),
     closeDialog: () => dispatch(actions.profileModalClose()),
     progress: () => dispatch(actions.profileModalContinue()),
-    updateProfile: values => dispatch(actions.profileModalUpdate(values))
+    updateProfile: values => dispatch(actions.profileModalUpdate(values)),
+    resetError: () => dispatch(actions.profileResetError())
   };
 };
 

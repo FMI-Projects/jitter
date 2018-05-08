@@ -21,6 +21,9 @@ const profileReducer = (state = initialState, action) => {
     case actionTypes.PROFILE_LOAD: {
       return applyProfileLoad(state, action);
     }
+    case actionTypes.PROFILE_RESET_ERROR: {
+      return applyProfileResetError(state, action);
+    }
     default:
       return state;
   }
@@ -51,6 +54,14 @@ const applyProfileLoad = (state, action) => {
   return {
     ...state,
     loading: true
+  };
+};
+
+const applyProfileResetError = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    error: null
   };
 };
 

@@ -6,6 +6,7 @@ const authRouter = require("../routes/authRouter");
 const profileRouter = require("../routes/profileRouter");
 const postRouter = require("../routes/postRouter");
 const commentRouter = require("../routes/commentRouter");
+const imageRouter = require("../routes/imageRouter");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
+app.use("/api/images", imageRouter);
 
 if (process.env.NODE_ENV !== "test") {
   const port = process.env.PORT;

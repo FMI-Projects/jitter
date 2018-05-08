@@ -42,3 +42,9 @@ export const profileLoad = () => {
     type: actionTypes.PROFILE_LOAD
   };
 };
+
+export const profileResetError = () => {
+  return {
+    type: actionTypes.PROFILE_RESET_ERROR
+  };
+};

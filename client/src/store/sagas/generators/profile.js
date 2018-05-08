@@ -12,10 +12,8 @@ export function* profileUpdate(profileData) {
     lastName,
     profilePictureUrl,
     navProfilePictureUrl
-  } = yield call([
-    profileService,
-    "updateCurrentUserProfile"
-  ], profileData);
+  } = yield call([profileService, "updateCurrentUserProfile"], profileData);
+
   yield put(
     actions.profileSetInfo(
       _id,
