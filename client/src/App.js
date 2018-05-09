@@ -61,7 +61,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuthenticated: () => dispatch(actions.profileGetInfo())
+    onAuthenticated: () => dispatch(actions.userProfileGetInfo())
   };
 };
 

@@ -28,7 +28,7 @@ const personalInfo = props => {
   }
 
   const { handleSubmit } = props;
-  const submit = handleSubmit(actions.profilePatch);
+  const submit = handleSubmit(actions.userProfilePatch);
 
   return (
     <Fragment>

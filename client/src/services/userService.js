@@ -4,7 +4,7 @@ export default class UserService {
   }
 
   async loginUser(email, password) {
-    const url = "auth/login";
+    const url = "/auth/login";
     const authData = {
       email,
       password,
@@ -22,7 +22,7 @@ export default class UserService {
   }
 
   async registerUser(email, password, firstName, lastName) {
-    const url = "auth/register";
+    const url = "/auth/register";
     const authData = {
       email,
       password,

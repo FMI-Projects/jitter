@@ -3,9 +3,9 @@ import { takeLatest, takeEvery, all } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 
 import * as authSagas from "./authSagas";
+import * as userProfileSagas from "./userProfileSagas";
+import * as userProfileModalSagas from "./userProfileModalSagas";
 import * as profileSagas from "./profileSagas";
-import * as profileModalSagas from "./profileModalSagas";
-import * as postsSagas from "./postsSagas";
 import * as actions from "../actions";
 
 export function* watchAuth() {
@@ -17,27 +17,27 @@ export function* watchAuth() {
   ]);
 }
 
-export function* watchProfile() {
+export function* watchUserProfile() {
   yield all([
-    takeLatest(actionTypes.PROFILE_GET_INFO, profileSagas.profileGetInfoSaga)
+    takeLatest(actionTypes.USER_PROFILE_GET_INFO, userProfileSagas.userProfileGetInfoSaga)
   ]);
 }
 
-export function* watchProfileModal() {
+export function* watchUserProfileModal() {
   yield all([
     takeLatest(
-      actions.profilePatch.REQUEST,
-      profileModalSagas.profileModalUpdateSaga
+      actions.userProfilePatch.REQUEST,
+      userProfileModalSagas.userProfileModalUpdateSaga
     ),
     takeLatest(
-      actions.profilePicture.REQUEST,
-      profileModalSagas.profileModalPictureSaga
+      actions.userProfilePicture.REQUEST,
+      userProfileModalSagas.userProfileModalPictureSaga
     )
   ]);
 }
 
-export function* watchPosts() {
+export function* watchProfile() {
   yield all([
-    takeEvery(actionTypes.USER_POSTS_GET, postsSagas.userPostsGetSaga)
+    takeEvery(actionTypes.PROFILE_POSTS_GET, profileSagas.profilePostsGetSaga)
   ]);
 }

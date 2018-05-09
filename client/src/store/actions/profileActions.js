@@ -1,31 +1,15 @@
 import * as actionTypes from "./actionTypes";
 
-export const profileGetInfo = () => {
+export const profilePostsGet = profileId => {
   return {
-    type: actionTypes.PROFILE_GET_INFO
+    type: actionTypes.PROFILE_POSTS_GET,
+    profileId
   };
 };
 
-export const profileSetInfo = (
-  profileId,
-  firstName,
-  lastName,
-  profilePictureUrl,
-  navProfilePictureUrl
-) => {
+export const profilePostsGetSuccess = posts => {
   return {
-    type: actionTypes.PROFILE_SET_INFO,
-    profileId,
-    firstName,
-    lastName,
-    profilePictureUrl,
-    navProfilePictureUrl
-  };
-};
-
-export const profileUpdate = profileData => {
-  return {
-    type: actionTypes.PROFILE_UPDATE,
-    profileData
+    type: actionTypes.PROFILE_POSTS_GET_SUCCESS,
+    posts
   };
 };

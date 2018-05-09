@@ -5,23 +5,23 @@ const initialState = {
   open: false
 };
 
-const profileReducer = (state = initialState, action) => {
+const userProfileModalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.PROFILE_MODAL_INIT: {
-      return applyProfileModalInit(state, action);
+    case actionTypes.USER_PROFILE_MODAL_INIT: {
+      return applyUserProfileModalInit(state, action);
     }
-    case actionTypes.PROFILE_MODAL_CONTINUE: {
-      return applyProfileModalContinue(state, action);
+    case actionTypes.USER_PROFILE_MODAL_CONTINUE: {
+      return applyUserProfileModalContinue(state, action);
     }
-    case actionTypes.PROFILE_MODAL_CLOSE: {
-      return applyProfileModalClose(state, action);
+    case actionTypes.USER_PROFILE_MODAL_CLOSE: {
+      return applyUserProfileModalClose(state, action);
     }
     default:
       return state;
   }
 };
 
-const applyProfileModalInit = (state, action) => {
+const applyUserProfileModalInit = (state, action) => {
   return {
     ...state,
     step: "start",
@@ -29,7 +29,7 @@ const applyProfileModalInit = (state, action) => {
   };
 };
 
-const applyProfileModalContinue = (state, action) => {
+const applyUserProfileModalContinue = (state, action) => {
   let nextStep = null;
   switch (state.step) {
     case "start":
@@ -51,10 +51,10 @@ const applyProfileModalContinue = (state, action) => {
   };
 };
 
-const applyProfileModalClose = (state, action) => {
+const applyUserProfileModalClose = (state, action) => {
   return {
     ...initialState
   };
 };
 
-export default profileReducer;
+export default userProfileModalReducer;

@@ -25,7 +25,7 @@ const personalInfo = props => {
   }
 
   const { handleSubmit } = props;
-  const submit = handleSubmit(actions.profilePicture);
+  const submit = handleSubmit(actions.userProfilePicture);
 
   return (
     <Fragment>

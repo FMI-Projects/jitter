@@ -1,28 +1,12 @@
-import { put, call } from "redux-saga/effects";
+import {put, call} from "redux-saga/effects";
 
 import * as actions from "../actions";
-import { profileService } from "../../services";
+import {postsService} from "../../services";
 
-export function* profileGetInfoSaga(action) {
+export function* profilePostsGetSaga(action) {
   try {
-    const { _id, firstName, lastName, profilePictureUrl } = yield call([
-      profileService,
-      "getCurrentProfileInfo"
-    ]);
+    const data = yield call([postsService, "getUserPosts"], action.profileId);
 
-    let navProfilePictureUrl = null;
-    if (profilePictureUrl) {
-      navProfilePictureUrl = null;
-    }
-
-    yield put(
-      actions.profileSetInfo(
-        _id,
-        firstName,
-        lastName,
-        profilePictureUrl,
-        navProfilePictureUrl
-      )
-    );
+    yield put(actions.profilePostsGetSuccess(data));
   } catch (e) {}
 }

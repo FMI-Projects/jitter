@@ -4,7 +4,7 @@ export default class PostsService {
   }
 
   async getUserPosts(profileId) {
-    const url = `/api/posts/user/${profileId}`;
+    const url = `/api/profiles/${profileId}/posts`;
     const {data} = await this.http.get(url);
     return data;
   }

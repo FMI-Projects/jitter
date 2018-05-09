@@ -64,16 +64,16 @@ class ProfileModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    step: state.profileModal.step,
-    open: state.profileModal.open
+    step: state.userProfileModal.step,
+    open: state.userProfileModal.open
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    openDialog: () => dispatch(actions.profileModalInit()),
-    closeDialog: () => dispatch(actions.profileModalClose()),
-    progress: () => dispatch(actions.profileModalContinue())
+    openDialog: () => dispatch(actions.userProfileModalInit()),
+    closeDialog: () => dispatch(actions.userProfileModalClose()),
+    progress: () => dispatch(actions.userProfileModalContinue())
   };
 };
 

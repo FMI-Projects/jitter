@@ -3,7 +3,7 @@ import { put, call } from "redux-saga/effects";
 import * as actions from "../../actions";
 import { profileService } from "../../../services";
 
-export function* profileUpdate(profileData) {
+export function* userProfileUpdate(profileData) {
   const {
     _id,
     firstName,
@@ -13,7 +13,7 @@ export function* profileUpdate(profileData) {
   } = yield call([profileService, "updateCurrentUserProfile"], profileData);
 
   yield put(
-    actions.profileSetInfo(
+    actions.userProfileSetInfo(
       _id,
       firstName,
       lastName,
