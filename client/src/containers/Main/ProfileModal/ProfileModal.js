@@ -43,7 +43,7 @@ class ProfileModal extends Component {
         modalContent = <PersonalInfo onCancel={this.closeDialog} />;
         break;
       case "profilePicture":
-        modalContent = <ProfilePicture />;
+        modalContent = <ProfilePicture onCancel={this.closeDialog} />;
         break;
       default:
         modalContent = <Spinner />;

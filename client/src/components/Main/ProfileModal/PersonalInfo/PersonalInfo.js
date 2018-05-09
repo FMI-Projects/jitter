@@ -59,6 +59,7 @@ const personalInfo = props => {
                   name="birthday"
                   component={DatePicker}
                   label="Birthday"
+                  disableFuture={true}
                   type="date"
                 />
               </FormControl>

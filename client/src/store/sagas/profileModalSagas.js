@@ -16,3 +16,9 @@ export function* profileModalUpdateSaga(action) {
     yield put(actions.profilePatch.failure(formError));
   }
 }
+
+export function* profileModalPictureSaga(action) {
+  try {
+    yield console.log(action);
+  } catch (e) {}
+}

@@ -1,4 +1,4 @@
-import {takeLatest, takeEvery, all} from "redux-saga/effects";
+import { takeLatest, takeEvery, all } from "redux-saga/effects";
 
 import * as actionTypes from "../actions/actionTypes";
 
@@ -24,11 +24,14 @@ export function* watchProfile() {
 }
 
 export function* watchProfileModal() {
-  console.log(actions);
   yield all([
     takeLatest(
       actions.profilePatch.REQUEST,
       profileModalSagas.profileModalUpdateSaga
+    ),
+    takeLatest(
+      actions.profilePicture.REQUEST,
+      profileModalSagas.profileModalPictureSaga
     )
   ]);
 }
