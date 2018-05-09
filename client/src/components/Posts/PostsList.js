@@ -30,14 +30,15 @@ class PostsList extends Component {
     super(props);
 
     this.state = {
-      expanded: false
+      expanded: false,
+      expandedKey: ""
     };
 
     this.handleExpandClick = this.handleExpandClick.bind(this);
   }
 
-  handleExpandClick() {
-    this.setState({expanded: !this.state.expanded});
+  handleExpandClick(postId) {
+    this.setState({expanded: !this.state.expanded, expandedKey: postId});
   }
 
   render() {
@@ -69,15 +70,24 @@ class PostsList extends Component {
                 <CardActions className={classes.actions} disableActionSpacing>
                   <IconButton
                     className={classnames(classes.expand, {
-                      [classes.expandOpen]: this.state.expanded
+                      [classes.expandOpen]:
+                        post._id === this.state.expandedKey &&
+                        this.state.expanded
                     })}
-                    onClick={this.handleExpandClick}
-                    aria-expanded={this.state.expanded}
+                    onClick={() => this.handleExpandClick(post._id)}
+                    aria-expanded={
+                      post._id === this.state.expandedKey && this.state.expanded
+                    }
                     aria-label="Show more">
                     <ExpandMoreIcon />
                   </IconButton>
                 </CardActions>
-                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                <Collapse
+                  in={
+                    post._id === this.state.expandedKey && this.state.expanded
+                  }
+                  timeout="auto"
+                  unmountOnExit>
                   <CardContent>
                     <Typography paragraph variant="body2">
                       {post.content}
