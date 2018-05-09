@@ -18,7 +18,7 @@ describe("authController", () => {
     await resetDatabase();
   });
 
-  describe("register", () => {
+  describe("POST /auth/register", () => {
     it("should create user successfully with correct data", async () => {
       const email = "testEmail@gmail.com";
       const password = "testPassword";
@@ -43,7 +43,7 @@ describe("authController", () => {
       expect(user.email).toEqual(email);
       expect(user.password).not.toEqual(password);
 
-      const profile = await Profile.findByUserId(user._id);
+      const profile = await Profile.findById(user._id);
       expect(profile).not.toBeFalsy();
       expect(profile).toMatchObject({
         firstName,
@@ -144,7 +144,7 @@ describe("authController", () => {
     });
   });
 
-  describe("login", () => {
+  describe("POST /auth/login", () => {
     const [userOne] = users;
 
     beforeEach(async () => {

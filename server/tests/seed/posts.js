@@ -1,7 +1,7 @@
 const {ObjectId} = require("mongodb");
 const Post = require("../../data/models/post");
 
-const {users} = require("./users");
+const {profiles} = require("./profiles");
 
 const faker = require("faker");
 
@@ -13,13 +13,13 @@ const posts = [
     _id: postOneId,
     title: faker.name.title(),
     content: faker.lorem.text(),
-    author: users[0]._id
+    author: profiles[0]._id
   },
   {
     _id: postTwoId,
     title: faker.name.title(),
     content: faker.lorem.text(),
-    author: users[1]._id
+    author: profiles[1]._id
   }
 ];
 

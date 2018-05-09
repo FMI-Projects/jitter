@@ -1,11 +1,10 @@
 const Post = require("../data/models/post");
-const Profile = require("../data/models/profile");
+const Comment = require("../data/models/comment");
 
 const createPost = async (req, res) => {
   try {
     let post = new Post(req.body);
-    const profile = await Profile.findByUserId(req.user._id);
-    post.author = profile._id;
+    post.author = req.user._id;
     post = await post.save();
 
     res.status(201).send(post);
@@ -27,8 +26,8 @@ const updatePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.id,
-      {$set: req.body},
-      {new: true}
+      { $set: req.body },
+      { new: true }
     );
 
     res.status(200).send(post);
@@ -46,11 +45,11 @@ const deletePost = async (req, res) => {
   }
 };
 
-const getUserPosts = async (req, res) => {
+const getPostComments = async (req, res) => {
   try {
-    const posts = await Post.findUserPosts(req.params.id);
+    const comments = await Comment.findPostComments(req.params.id);
 
-    res.status(200).send(posts);
+    res.status(200).send(comments);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -61,5 +60,5 @@ module.exports = {
   getPost,
   updatePost,
   deletePost,
-  getUserPosts
+  getPostComments
 };

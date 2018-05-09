@@ -6,8 +6,6 @@ const postController = require("../controllers/postController");
 
 postRouter.get("/:id", authenticate, postController.getPost);
 
-postRouter.get("/user/:id", authenticate, postController.getUserPosts);
-
 postRouter.post("/", authenticate, postController.createPost);
 
 postRouter.put(
@@ -23,5 +21,7 @@ postRouter.delete(
   authorization.isPostAuthor,
   postController.deletePost
 );
+
+postRouter.get("/:id/comments", authenticate, postController.getPostComments);
 
 module.exports = postRouter;

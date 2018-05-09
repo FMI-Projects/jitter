@@ -25,7 +25,7 @@ const register = async (req, res) => {
 
   try {
     let user = new User({ email, password });
-    let profile = new Profile({ firstName, lastName, user: user._id });
+    let profile = new Profile({ _id: user._id, firstName, lastName });
 
     await user.validate();
     await profile.validate();

@@ -1,14 +1,16 @@
 const request = require("supertest");
-const {ObjectID} = require("mongodb");
+const { ObjectID } = require("mongodb");
 const faker = require("faker");
 
 require("../config/config");
-const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
+const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
 const app = require("../../app");
 const Post = require("../../data/models/post");
 
-const {populatePosts, posts} = require("../seed/posts");
-const {populateUsers, users} = require("../seed/users");
+const { populatePosts, posts } = require("../seed/posts");
+const { populateProfiles } = require("../seed/profiles");
+const { populateUsers, users } = require("../seed/users");
+const { populateComments } = require("../seed/comments");
 
 describe("postController", () => {
   beforeAll(async () => {
@@ -21,7 +23,9 @@ describe("postController", () => {
     await resetDatabase();
 
     await populateUsers();
+    await populateProfiles();
     await populatePosts();
+    await populateComments();
   });
 
   describe("GET /api/posts/:id", () => {
@@ -179,10 +183,12 @@ describe("postController", () => {
     });
   });
 
-  describe("GET /api/posts", () => {
-    it("should get a user's posts", async () => {
+  describe("GET /api/post/:id/comments", () => {
+    it("should get a posts's comments", async () => {
+      const id = posts[0]._id;
+
       await request(app)
-        .get("/api/posts")
+        .get(`/api/posts/${id}/comments`)
         .set("x-auth", users[0].token)
         .expect(200)
         .expect(res => {
@@ -191,8 +197,10 @@ describe("postController", () => {
     });
 
     it("should return 401 on unauthorized request", async () => {
+      const id = posts[0]._id;
+
       await request(app)
-        .get("/api/posts")
+        .get(`/api/posts/${id}/comments`)
         .expect(401);
     });
   });

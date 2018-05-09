@@ -60,7 +60,7 @@ describe("post", () => {
 
         const author = new ObjectID();
 
-        const posts = await Post.findUserPosts(author);
+        const posts = await Post.findProfilePosts(author);
 
         expect(Post.find).toHaveBeenCalledWith({author});
         expect(posts).toEqual(postsToReturn);
@@ -74,7 +74,7 @@ describe("post", () => {
         let error;
 
         try {
-          await Post.findUserPosts(author);
+          await Post.findProfilePosts(author);
         } catch (e) {
           error = "Posts not found";
         }

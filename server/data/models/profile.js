@@ -4,6 +4,10 @@ const validator = require("validator");
 const profileConstants = require("../../utilities/constants/profileConstants");
 
 const ProfileSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
   firstName: {
     type: String,
     required: true,
@@ -39,42 +43,8 @@ const ProfileSchema = new mongoose.Schema({
       validator: value => !value || validator.isURL(value),
       message: "{VALUE} is not a valid URL"
     }
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    index: true,
-    unique: true,
-    ref: "User"
   }
 });
-
-ProfileSchema.statics.findByUserId = async function(userId) {
-  const Profile = this;
-  const profile = await Profile.findOne({ user: userId });
-
-  if (!profile) {
-    return Promise.reject();
-  }
-
-  return profile;
-};
-
-ProfileSchema.statics.findByUserIdAndUpdate = async function(userId, data) {
-  const Profile = this;
-
-  const profile = await Profile.findOneAndUpdate(
-    { user: userId },
-    { $set: data },
-    { new: true }
-  );
-
-  if (!profile) {
-    return Promise.reject();
-  }
-
-  return profile;
-};
 
 const Profile = mongoose.model("Profile", ProfileSchema);
 

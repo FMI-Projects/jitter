@@ -1,26 +1,15 @@
-const Profile = require("../data/models/profile");
+const Post = require("../data/models/post");
 
-const getCurrentUserProfile = async (req, res) => {
-  const userId = req.user._id;
+const getProfilePosts = async (req, res) => {
   try {
-    const profile = await Profile.findByUserId(userId);
-    res.status(200).send(profile);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-};
+    const posts = await Post.findProfilePosts(req.params.id);
 
-const updateCurrentUserProfile = async (req, res) => {
-  const userId = req.user._id;
-  try {
-    const profile = await Profile.findByUserIdAndUpdate(userId, req.body);
-    res.status(200).send(profile);
+    res.status(200).send(posts);
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
 module.exports = {
-  getCurrentUserProfile,
-  updateCurrentUserProfile
+  getProfilePosts
 };

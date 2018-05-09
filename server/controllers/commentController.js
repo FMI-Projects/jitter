@@ -37,15 +37,6 @@ const deleteComment = async (req, res) => {
   }
 };
 
-const getPostComments = async (req, res) => {
-  try {
-    const comments = await Comment.findPostComments(req.params.id);
-
-    res.status(200).send(comments);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-};
 
 const getComment = async (req, res) => {
   try {
@@ -61,6 +52,5 @@ module.exports = {
   createComment,
   editComment,
   deleteComment,
-  getPostComments,
   getComment
 };

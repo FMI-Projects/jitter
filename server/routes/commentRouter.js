@@ -20,8 +20,6 @@ commentRouter.delete(
   commentController.deleteComment
 );
 
-commentRouter.get("/post/:id", authenticate, commentController.getPostComments);
-
 commentRouter.get("/:id", authenticate, commentController.getComment);
 
 module.exports = commentRouter;

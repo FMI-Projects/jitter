@@ -41,10 +41,10 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-PostSchema.statics.findUserPosts = async function(profileId) {
+PostSchema.statics.findProfilePosts = async function(profileId) {
   const Post = this;
 
-  const posts = await Post.find({author: profileId}).populate("author");
+  const posts = await Post.find({author: profileId});
 
   if (!posts) {
     return Promise.reject();
