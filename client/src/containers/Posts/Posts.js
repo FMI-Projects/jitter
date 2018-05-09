@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
+import PostsList from "../../components/Posts/PostsList";
 
 class Posts extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     posts: PropTypes.arrayOf(PropTypes.object),
+    user: PropTypes.object,
     userPostsGet: PropTypes.func.isRequired
   };
 
@@ -18,28 +20,19 @@ class Posts extends Component {
   }
 
   render() {
-    const {posts} = this.props;
-    return (
-      <div>
-        <ul>
-          {posts.map(post => {
-            return (
-              <div key={post._id}>
-                <li>
-                  <h3>{post.title}</h3>
-                </li>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-    );
+    const {posts, user} = this.props;
+    return <PostsList posts={posts} user={user} />;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    posts: state.posts.posts
+    posts: state.posts.posts,
+    user: {
+      firstName: state.profile.firstName,
+      lastName: state.profile.lastName,
+      avatar: state.profile.profilePictureUrl
+    }
   };
 };
 
