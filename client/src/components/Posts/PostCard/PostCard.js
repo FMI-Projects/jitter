@@ -18,6 +18,8 @@ import Typography from "material-ui/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import {formatDate} from "../../../utilities/formatters/dateFormat";
+
 class PostCard extends Component {
   static propTypes = {
     post: PropTypes.object,
@@ -41,6 +43,7 @@ class PostCard extends Component {
 
   render() {
     const {post, user, classes} = this.props;
+    const formattedDate = post.createdAt ? formatDate(post.createdAt) : "N/A";
 
     return (
       <div>
@@ -57,7 +60,7 @@ class PostCard extends Component {
               </IconButton>
             }
             title={post.title}
-            subheader={`${user.firstName} ${user.lastName}`}
+            subheader={`${user.firstName} ${user.lastName} ${formattedDate}`}
           />
           {post.imageUrl ? (
             <CardMedia className={classes.media} src={post.imageUrl} />
