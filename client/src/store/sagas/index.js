@@ -1,10 +1,11 @@
-import { takeLatest, all } from "redux-saga/effects";
+import {takeLatest, takeEvery, all} from "redux-saga/effects";
 
 import * as actionTypes from "../actions/actionTypes";
 
 import * as authSagas from "./authSagas";
 import * as profileSagas from "./profileSagas";
 import * as profileModalSagas from "./profileModalSagas";
+import * as postsSagas from "./postsSagas";
 import * as actions from "../actions";
 
 export function* watchAuth() {
@@ -29,5 +30,11 @@ export function* watchProfileModal() {
       actions.profilePatch.REQUEST,
       profileModalSagas.profileModalUpdateSaga
     )
+  ]);
+}
+
+export function* watchPosts() {
+  yield all([
+    takeEvery(actionTypes.USER_POSTS_GET, postsSagas.userPostsGetSaga)
   ]);
 }
