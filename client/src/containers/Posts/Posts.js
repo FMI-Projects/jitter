@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-// import styles from "./Posts.css";
 
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
@@ -11,34 +10,35 @@ class Posts extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     posts: PropTypes.arrayOf(PropTypes.object),
-    user: PropTypes.object,
+    profileId: PropTypes.string,
     userPostsGet: PropTypes.func.isRequired
   };
 
-  componentDidMount() {
-    this.props.userPostsGet();
+  componentDidUpdate(prevProps) {
+    if (prevProps.profileId !== this.props.profileId) {
+      this.props.userPostsGet(this.props.profileId);
+    }
   }
 
   render() {
-    const {posts, user} = this.props;
-    return <PostsList posts={posts} user={user} />;
+    const {posts} = this.props;
+
+    return (
+      <div>{this.props.profileId ? <PostsList posts={posts} /> : null}</div>
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
     posts: state.posts.posts,
-    user: {
-      firstName: state.profile.firstName,
-      lastName: state.profile.lastName,
-      avatar: state.profile.profilePictureUrl
-    }
+    profileId: state.profile.profileId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    userPostsGet: () => dispatch(actions.userPostsGet())
+    userPostsGet: profileId => dispatch(actions.userPostsGet(profileId))
   };
 };
 

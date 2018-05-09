@@ -30,7 +30,7 @@ const PostSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       index: true,
-      ref: "User"
+      ref: "Profile"
     }
   },
   {
@@ -41,10 +41,10 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-PostSchema.statics.findUserPosts = async function(userId) {
+PostSchema.statics.findUserPosts = async function(profileId) {
   const Post = this;
 
-  const posts = await Post.find({author: userId});
+  const posts = await Post.find({author: profileId}).populate("author");
 
   if (!posts) {
     return Promise.reject();

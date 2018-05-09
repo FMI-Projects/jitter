@@ -179,7 +179,7 @@ describe("postController", () => {
     });
   });
 
-  describe("GET /api/posts", async () => {
+  describe("GET /api/posts", () => {
     it("should get a user's posts", async () => {
       await request(app)
         .get("/api/posts")

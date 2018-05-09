@@ -8,19 +8,18 @@ class PostsList extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     posts: PropTypes.arrayOf(PropTypes.object),
-    classes: PropTypes.object,
-    user: PropTypes.object
+    classes: PropTypes.object
   };
 
   render() {
-    const {posts, user} = this.props;
+    const {posts} = this.props;
 
     return (
       <div>
         {posts.map(post => {
           return (
             <div key={post._id}>
-              <PostCard user={user} post={post} />
+              <PostCard post={post} />
             </div>
           );
         })}

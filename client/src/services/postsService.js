@@ -3,8 +3,8 @@ export default class PostsService {
     this.http = http;
   }
 
-  async getUserPosts() {
-    const url = "/api/posts";
+  async getUserPosts(profileId) {
+    const url = `/api/posts/user/${profileId}`;
     const {data} = await this.http.get(url);
     return data;
   }

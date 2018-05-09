@@ -1,11 +1,13 @@
 const Post = require("../data/models/post");
 const Comment = require("../data/models/comment");
+const Profile = require("../data/models/profile");
 
 const isPostAuthor = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
+    const profile = await Profile.findByUserId(req.user._id);
 
-    if (post.author.toHexString() !== req.user._id.toHexString()) {
+    if (post.author.toHexString() !== profile._id.toHexString()) {
       return res.status(401).send();
     }
 

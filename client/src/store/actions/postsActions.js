@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 
-export const userPostsGet = () => {
+export const userPostsGet = profileId => {
   return {
-    type: actionTypes.USER_POSTS_GET
+    type: actionTypes.USER_POSTS_GET,
+    profileId
   };
 };
 

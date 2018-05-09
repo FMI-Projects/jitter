@@ -1,9 +1,11 @@
 const Post = require("../data/models/post");
+const Profile = require("../data/models/profile");
 
 const createPost = async (req, res) => {
   try {
     let post = new Post(req.body);
-    post.author = req.user._id;
+    const profile = await Profile.findByUserId(req.user._id);
+    post.author = profile._id;
     post = await post.save();
 
     res.status(201).send(post);
@@ -46,7 +48,7 @@ const deletePost = async (req, res) => {
 
 const getUserPosts = async (req, res) => {
   try {
-    const posts = await Post.findUserPosts(req.user._id);
+    const posts = await Post.findUserPosts(req.params.id);
 
     res.status(200).send(posts);
   } catch (e) {
