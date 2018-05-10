@@ -23,7 +23,8 @@ import {formatDate} from "../../../utilities/formatters/dateFormat";
 class PostCard extends Component {
   static propTypes = {
     post: PropTypes.object,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    author: PropTypes.object
   };
 
   constructor(props) {
@@ -41,7 +42,7 @@ class PostCard extends Component {
   }
 
   render() {
-    const {post, classes} = this.props;
+    const {post, author, classes} = this.props;
     const formattedDate = post.createdAt ? formatDate(post.createdAt) : "N/A";
 
     return (
@@ -59,8 +60,8 @@ class PostCard extends Component {
               </IconButton>
             }
             title={post.title}
-            subheader={`${post.author.firstName} ${
-              post.author.lastName
+            subheader={`${author.firstName} ${
+              author.lastName
             } ${formattedDate}`}
           />
           {post.imageUrl ? (

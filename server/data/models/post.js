@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const Profile = require("../models/profile");
 
 const postConstants = require("../../utilities/constants/postConstants");
 
@@ -45,12 +46,13 @@ PostSchema.statics.findProfilePosts = async function(profileId) {
   const Post = this;
 
   const posts = await Post.find({author: profileId});
+  const profile = await Profile.findById(profileId);
 
   if (!posts) {
     return Promise.reject();
   }
 
-  return posts;
+  return {posts, author: profile};
 };
 
 const Post = mongoose.model("Post", PostSchema);

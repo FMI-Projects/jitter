@@ -7,7 +7,7 @@ class PostsList extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    posts: PropTypes.arrayOf(PropTypes.object),
+    posts: PropTypes.object,
     classes: PropTypes.object
   };
 
@@ -16,10 +16,10 @@ class PostsList extends Component {
 
     return (
       <div>
-        {posts.map(post => {
+        {posts.posts.map(post => {
           return (
             <div key={post._id}>
-              <PostCard post={post} />
+              <PostCard post={post} author={posts.author} />
             </div>
           );
         })}

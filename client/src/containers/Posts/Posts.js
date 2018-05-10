@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import PostsList from "../../components/Posts/PostsList";
 
@@ -9,7 +9,7 @@ class Posts extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    posts: PropTypes.arrayOf(PropTypes.object),
+    posts: PropTypes.object,
     profileId: PropTypes.string,
     profilePostsGet: PropTypes.func.isRequired
   };
@@ -19,7 +19,7 @@ class Posts extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const {posts} = this.props;
 
     return (
       <div>{this.props.profileId ? <PostsList posts={posts} /> : null}</div>

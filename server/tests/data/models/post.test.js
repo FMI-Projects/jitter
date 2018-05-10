@@ -1,6 +1,7 @@
 const {ObjectID} = require("mongodb");
 
 const Post = require("../../../data/models/post");
+const Profile = require("../../../data/models/profile");
 
 describe("post", () => {
   afterEach(() => {
@@ -51,23 +52,31 @@ describe("post", () => {
 
   describe("static methods", () => {
     describe("findUserPosts", () => {
-      it("should user posts with correct input", async () => {
+      it("should return user posts with correct input", async () => {
         const postsToReturn = "somePosts";
+        const profileToReturn = "someProfile";
 
         jest
           .spyOn(Post, "find")
           .mockImplementation(async params => postsToReturn);
+        jest
+          .spyOn(Profile, "findById")
+          .mockImplementation(async params => profileToReturn);
 
         const author = new ObjectID();
 
         const posts = await Post.findProfilePosts(author);
 
         expect(Post.find).toHaveBeenCalledWith({author});
-        expect(posts).toEqual(postsToReturn);
+        expect(Profile.findById).toHaveBeenCalledWith(author);
+        expect(posts).toEqual({posts: postsToReturn, author: profileToReturn});
       });
 
       it("should throw error if author does not exist", async () => {
         jest.spyOn(Post, "find").mockImplementation(async params => undefined);
+        jest
+          .spyOn(Profile, "findById")
+          .mockImplementation(async params => undefined);
 
         const author = new ObjectID();
 
@@ -80,6 +89,7 @@ describe("post", () => {
         }
 
         expect(Post.find).toHaveBeenCalledWith({author});
+        expect(Profile.findById).toHaveBeenCalledWith(author);
         expect(error).toBeDefined();
       });
     });

@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  posts: []
+  posts: {posts: [], author: {}}
 };
 
 const profileReducer = (state = initialState, action) => {
