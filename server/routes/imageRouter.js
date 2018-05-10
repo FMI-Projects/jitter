@@ -3,6 +3,6 @@ const imageRouter = require("express").Router();
 const authenticate = require("../middleware/authenticate");
 const imageController = require("../controllers/imageController");
 
-imageRouter.post("/", authenticate, imageController.createImageSignedUrl);
+imageRouter.get("/", authenticate, imageController.createImageSignedUrl);
 
 module.exports = imageRouter;

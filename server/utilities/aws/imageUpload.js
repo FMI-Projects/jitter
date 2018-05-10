@@ -1,15 +1,15 @@
 const s3 = require("./s3");
 const uuid = require("uuid/v1");
 
-const getSignedUrl = (userId, contentType) => {
-  const key = `${userId}/${uuid()}.${contentType}`;
+const getSignedUrl = userId => {
+  const key = `${userId}/${uuid()}.png`;
 
   return new Promise((resolve, reject) => {
     s3.getSignedUrl(
       "putObject",
       {
         Bucket: "jitter-fmi",
-        ContentType: contentType,
+        ContentType: "png",
         Key: key
       },
       (err, url) => {
