@@ -7,9 +7,10 @@ export const postCommentsGet = postId => {
   };
 };
 
-export const postCommentsGetSuccess = comments => {
+export const postCommentsGetSuccess = (comments, post) => {
   return {
     type: actionTypes.POST_COMMENTS_GET_SUCCESS,
-    comments
+    comments,
+    post
   };
 };
