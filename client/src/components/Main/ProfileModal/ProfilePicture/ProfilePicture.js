@@ -2,7 +2,11 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { DialogTitle } from "material-ui/Dialog";
 import { Field, reduxForm } from "redux-form";
-import { DialogContent, DialogActions, DialogContentText } from "material-ui/Dialog";
+import {
+  DialogContent,
+  DialogActions,
+  DialogContentText
+} from "material-ui/Dialog";
 import Button from "material-ui/Button";
 import { withStyles } from "material-ui/styles";
 
@@ -40,10 +44,10 @@ const personalInfo = props => {
         </DialogTitle>
         <form onSubmit={submit}>
           <DialogContent className={props.classes.content}>
+            {errorMessage}
             <DialogContentText variant="body1">
               Help others recognise you by adding a profile picture.
             </DialogContentText>
-            {errorMessage}
             <div>
               <Field
                 id="profilePicture"

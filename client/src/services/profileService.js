@@ -11,6 +11,11 @@ export default class ProfileService {
 
   async updateCurrentUserProfile(profileData) {
     const url = "/profile/";
+
+    if (profileData.birthday) {
+      profileData.birthday = new Date(profileData.birthday);
+    }
+
     const { data } = await this.http.patch(url, profileData);
     return data;
   }
