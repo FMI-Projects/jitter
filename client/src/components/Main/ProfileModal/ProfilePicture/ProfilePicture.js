@@ -10,8 +10,11 @@ import { FormControl } from "material-ui/Form";
 import styles from "./ProfilePicture.styles";
 import Spinner from "../../../UI/Spinner/Spinner";
 import * as actions from "../../../../store/actions";
-import FileInput from "../../../UI/Fields/FileInput/FileInput";
-import { validImageType, validImageSize } from "../../../../utilities/validation";
+import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
+import {
+  validImageType,
+  validImageSize
+} from "../../../../utilities/validation";
 
 const personalInfo = props => {
   let spinner = null;
@@ -40,6 +43,7 @@ const personalInfo = props => {
             <div>
               <FormControl>
                 <Field
+                  id="profilePicture"
                   name="profilePicture"
                   component={FileInput}
                   validate={[validImageSize, validImageType]}

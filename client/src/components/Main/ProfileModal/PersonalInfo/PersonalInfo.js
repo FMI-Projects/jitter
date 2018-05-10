@@ -43,6 +43,7 @@ const personalInfo = props => {
             <div>
               <FormControl className={props.classes.field}>
                 <Field
+                  id="bio"
                   name="bio"
                   component={TextField}
                   label="Biography"
@@ -56,6 +57,7 @@ const personalInfo = props => {
             <div>
               <FormControl className={props.classes.field}>
                 <Field
+                  id="birthday"
                   name="birthday"
                   component={DatePicker}
                   label="Birthday"

@@ -5,7 +5,6 @@ import { profileService } from "../../../services";
 
 export function* userProfileUpdate(profileData) {
   const {
-    _id,
     firstName,
     lastName,
     profilePictureUrl,
@@ -14,7 +13,6 @@ export function* userProfileUpdate(profileData) {
 
   yield put(
     actions.userProfileSetInfo(
-      _id,
       firstName,
       lastName,
       profilePictureUrl,

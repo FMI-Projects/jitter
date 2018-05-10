@@ -8,9 +8,10 @@ const datePicker = props => {
   return (
     <DatePicker
       {...props.input}
+      id={props.id}
+      label={props.label}
       value={value}
       format={"MM/DD/YYYY"}
-      label={props.label}
       disableFuture={props.disableFuture}
       className={props.className}
       clearable
@@ -22,7 +23,8 @@ datePicker.propTypes = {
   input: PropTypes.object.isRequired,
   label: PropTypes.string,
   disableFuture: PropTypes.bool,
-  className: PropTypes.object
+  className: PropTypes.object,
+  id: PropTypes.string.isRequired
 };
 
 export default datePicker;
