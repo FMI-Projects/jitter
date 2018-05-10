@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  comments: []
+  comments: {}
 };
 
 const postReducer = (state = initialState, action) => {
@@ -15,8 +15,15 @@ const postReducer = (state = initialState, action) => {
 };
 
 const applyPostComments = (state, action) => {
-  // TODO fix issue with different post comments overwriting each other
-  return {...state, comments: action.comments};
+  const stateComments = {
+    ...state.comments,
+    [action.post]: {
+      comments: action.comments.comments,
+      post: action.comments.post,
+      author: action.comments.author
+    }
+  };
+  return {comments: stateComments};
 };
 
 export default postReducer;

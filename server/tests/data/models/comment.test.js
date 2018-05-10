@@ -48,7 +48,6 @@ describe("comment", () => {
       it("should return post comments with correct input", async () => {
         const commentsToReturn = "postComments";
         const profileToReturn = "someProfile";
-        const postToReturn = "somePost";
 
         jest
           .spyOn(Comment, "find")
@@ -56,9 +55,6 @@ describe("comment", () => {
         jest
           .spyOn(Profile, "findById")
           .mockImplementation(async params => profileToReturn);
-        jest
-          .spyOn(Post, "findById")
-          .mockImplementation(async params => postToReturn);
 
         const post = new ObjectID();
         const author = new ObjectID();
@@ -66,11 +62,9 @@ describe("comment", () => {
         const comments = await Comment.findPostComments(post, author);
 
         expect(Comment.find).toHaveBeenCalledWith({post});
-        expect(Post.findById).toHaveBeenCalledWith(post);
         expect(Profile.findById).toHaveBeenCalledWith(author);
         expect(comments).toEqual({
           comments: commentsToReturn,
-          post: postToReturn,
           author: profileToReturn
         });
       });
@@ -81,9 +75,6 @@ describe("comment", () => {
           .mockImplementation(async params => undefined);
         jest
           .spyOn(Profile, "findById")
-          .mockImplementation(async params => undefined);
-        jest
-          .spyOn(Post, "findById")
           .mockImplementation(async params => undefined);
 
         const post = new ObjectID();
@@ -99,7 +90,6 @@ describe("comment", () => {
 
         expect(Comment.find).toHaveBeenCalledWith({post});
         expect(Profile.findById).toHaveBeenCalledWith(author);
-        expect(Post.findById).toHaveBeenCalledWith(post);
         expect(error).toBeDefined();
       });
     });

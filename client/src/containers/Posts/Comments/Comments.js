@@ -9,7 +9,7 @@ class Comments extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     postId: PropTypes.string,
-    comments: PropTypes.array,
+    comments: PropTypes.object,
     postCommentsGet: PropTypes.func.isRequired
   };
 
@@ -18,10 +18,13 @@ class Comments extends Component {
   }
 
   render() {
-    const {comments} = this.props;
+    const {comments, postId} = this.props;
+    const commentsList = comments[`${postId}`]
+      ? comments[`${postId}`].comments
+      : [];
     return (
       <div>
-        {comments.map(comment => {
+        {commentsList.map(comment => {
           return (
             <div key={comment._id}>
               {/*<p>

@@ -37,14 +37,13 @@ CommentSchema.statics.findPostComments = async function(postId, authorId) {
   const Comment = this;
 
   const comments = await Comment.find({post: postId});
-  const post = await Post.findById(postId);
   const profile = await Profile.findById(authorId);
 
-  if (!comments || !post || !profile) {
+  if (!comments || !profile) {
     return Promise.reject();
   }
 
-  return {comments, post, author: profile};
+  return {comments, author: profile};
 };
 
 const Comment = mongoose.model("Comment", CommentSchema);
