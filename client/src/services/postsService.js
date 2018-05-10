@@ -8,4 +8,10 @@ export default class PostsService {
     const {data} = await this.http.get(url);
     return data;
   }
+
+  async getPostComments(postId) {
+    const url = `/api/posts/${postId}/comments`;
+    const {data} = await this.http.get(url);
+    return data;
+  }
 }

@@ -18,6 +18,8 @@ import Typography from "material-ui/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import Comments from "../../../containers/Posts/Comments/Comments";
+
 import {formatDate} from "../../../utilities/formatters/dateFormat";
 
 class PostCard extends Component {
@@ -83,6 +85,7 @@ class PostCard extends Component {
               <Typography paragraph variant="body2">
                 {post.content}
               </Typography>
+              <Comments postId={post._id} />
             </CardContent>
           </Collapse>
         </Card>

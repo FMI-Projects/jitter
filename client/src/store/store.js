@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import createSagaMiddleware from "redux-saga";
 import reduxReset from "redux-reset";
 import formActionSaga from "redux-form-saga";
@@ -8,7 +8,8 @@ import {
   watchAuth,
   watchUserProfile,
   watchUserProfileModal,
-  watchProfile
+  watchProfile,
+  watchPosts
 } from "../store/sagas/";
 import setAuthMiddleware from "../services/utility/axios/setAuthMiddleware";
 import * as actions from "./actions";
@@ -28,6 +29,7 @@ saga.run(watchAuth);
 saga.run(watchUserProfile);
 saga.run(watchUserProfileModal);
 saga.run(watchProfile);
+saga.run(watchPosts);
 saga.run(formActionSaga);
 
 setAuthMiddleware(store);
