@@ -8,7 +8,7 @@ export const validImageType = value => {
   const validImageTypes = imageConstants.validTypes;
   const valueType = value.type;
   let isTypeValid = false;
-  for (const validImageType in validImageTypes) {
+  for (const validImageType of validImageTypes) {
     if (valueType === "image/" + validImageType) {
       isTypeValid = true;
     }

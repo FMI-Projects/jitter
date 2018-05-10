@@ -2,11 +2,12 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { DialogTitle } from "material-ui/Dialog";
 import { Field, reduxForm } from "redux-form";
-import { DialogContent, DialogActions } from "material-ui/Dialog";
+import { DialogContent, DialogActions, DialogContentText } from "material-ui/Dialog";
 import Button from "material-ui/Button";
 import { withStyles } from "material-ui/styles";
-import { FormControl } from "material-ui/Form";
 
+import defaultProfilePicture from "../../../../assets/images/defaultUser.png";
+import imageConstants from "../../../../utilities/constants/imageConstants";
 import styles from "./ProfilePicture.styles";
 import Spinner from "../../../UI/Spinner/Spinner";
 import * as actions from "../../../../store/actions";
@@ -39,17 +40,21 @@ const personalInfo = props => {
         </DialogTitle>
         <form onSubmit={submit}>
           <DialogContent className={props.classes.content}>
+            <DialogContentText variant="body1">
+              Help others recognise you by adding a profile picture.
+            </DialogContentText>
             {errorMessage}
             <div>
-              <FormControl>
-                <Field
-                  id="profilePicture"
-                  name="profilePicture"
-                  component={FileInput}
-                  validate={[validImageSize, validImageType]}
-                  label="Profile Picture"
-                />
-              </FormControl>
+              <Field
+                id="profilePicture"
+                name="profilePicture"
+                defaultPicture={defaultProfilePicture}
+                height={imageConstants.defaultProfilePicture.height}
+                width={imageConstants.defaultProfilePicture.width}
+                component={FileInput}
+                validate={[validImageSize, validImageType]}
+                label="Profile Picture"
+              />
             </div>
           </DialogContent>
           <DialogActions>
