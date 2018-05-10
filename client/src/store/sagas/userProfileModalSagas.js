@@ -21,13 +21,15 @@ export function* userProfileModalUpdateSaga(action) {
 export function* userProfileModalPictureSaga(action) {
   try {
     yield put(actions.userProfilePatch.success());
-    const { url, key } = yield call([imageService, "getSignedUrl"]);
-    yield call(
-      [imageService, "uploadImage"],
-      url,
-      action.payload.profilePicture
-    );
-    yield call(userProfileUpdate, { profilePictureUrl: key });
+    if (action.payload.profilePicture) {
+      const { url, key } = yield call([imageService, "getSignedUrl"]);
+      yield call(
+        [imageService, "uploadImage"],
+        url,
+        action.payload.profilePicture
+      );
+      yield call(userProfileUpdate, { profilePictureUrl: key });
+    }
     yield put(actions.userProfileModalContinue());
     yield put(actions.userProfilePicture.success());
   } catch (e) {

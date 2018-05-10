@@ -8,6 +8,7 @@ import Welcome from "../../../components/Main/ProfileModal/Welcome/Welcome";
 import PersonalInfo from "../../../components/Main/ProfileModal/PersonalInfo/PersonalInfo";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import ProfilePicture from "../../../components/Main/ProfileModal/ProfilePicture/ProfilePicture";
+import Finish from "../../../components/Main/ProfileModal/Finish/Finish";
 
 class ProfileModal extends Component {
   static propTypes = {
@@ -44,6 +45,9 @@ class ProfileModal extends Component {
         break;
       case "profilePicture":
         modalContent = <ProfilePicture onCancel={this.closeDialog} />;
+        break;
+      case "finish":
+        modalContent = <Finish onCancel={this.closeDialog} />;
         break;
       default:
         modalContent = <Spinner />;
