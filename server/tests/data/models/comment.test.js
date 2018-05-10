@@ -1,6 +1,8 @@
 const {ObjectID} = require("mongodb");
 
 const Comment = require("../../../data/models/comment");
+const Profile = require("../../../data/models/profile");
+const Post = require("../../../data/models/post");
 
 describe("comment", () => {
   afterEach(() => {
@@ -45,35 +47,59 @@ describe("comment", () => {
     describe("findPostComments", () => {
       it("should return post comments with correct input", async () => {
         const commentsToReturn = "postComments";
+        const profileToReturn = "someProfile";
+        const postToReturn = "somePost";
 
         jest
           .spyOn(Comment, "find")
           .mockImplementation(async params => commentsToReturn);
+        jest
+          .spyOn(Profile, "findById")
+          .mockImplementation(async params => profileToReturn);
+        jest
+          .spyOn(Post, "findById")
+          .mockImplementation(async params => postToReturn);
 
         const post = new ObjectID();
+        const author = new ObjectID();
 
-        const comments = await Comment.findPostComments(post);
+        const comments = await Comment.findPostComments(post, author);
 
         expect(Comment.find).toHaveBeenCalledWith({post});
-        expect(comments).toEqual(commentsToReturn);
+        expect(Post.findById).toHaveBeenCalledWith(post);
+        expect(Profile.findById).toHaveBeenCalledWith(author);
+        expect(comments).toEqual({
+          comments: commentsToReturn,
+          post: postToReturn,
+          author: profileToReturn
+        });
       });
 
       it("should throw error if post does not exist", async () => {
         jest
           .spyOn(Comment, "find")
           .mockImplementation(async params => undefined);
+        jest
+          .spyOn(Profile, "findById")
+          .mockImplementation(async params => undefined);
+        jest
+          .spyOn(Post, "findById")
+          .mockImplementation(async params => undefined);
 
         const post = new ObjectID();
+        const author = new ObjectID();
 
         let error;
 
         try {
-          await Comment.findPostComments(post);
+          await Comment.findPostComments(post, author);
         } catch (e) {
           error = "Comments not found";
         }
 
         expect(Comment.find).toHaveBeenCalledWith({post});
+        expect(Profile.findById).toHaveBeenCalledWith(author);
+        expect(Post.findById).toHaveBeenCalledWith(post);
         expect(error).toBeDefined();
       });
     });

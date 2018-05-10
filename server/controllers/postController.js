@@ -26,8 +26,8 @@ const updatePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
-      { new: true }
+      {$set: req.body},
+      {new: true}
     );
 
     res.status(200).send(post);
@@ -47,7 +47,10 @@ const deletePost = async (req, res) => {
 
 const getPostComments = async (req, res) => {
   try {
-    const comments = await Comment.findPostComments(req.params.id);
+    const comments = await Comment.findPostComments(
+      req.params.id,
+      req.user._id
+    );
 
     res.status(200).send(comments);
   } catch (e) {

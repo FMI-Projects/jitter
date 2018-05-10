@@ -1,16 +1,16 @@
 const request = require("supertest");
-const { ObjectID } = require("mongodb");
+const {ObjectID} = require("mongodb");
 const faker = require("faker");
 
 require("../config/config");
-const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
+const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
 const app = require("../../app");
 const Post = require("../../data/models/post");
 
-const { populatePosts, posts } = require("../seed/posts");
-const { populateProfiles } = require("../seed/profiles");
-const { populateUsers, users } = require("../seed/users");
-const { populateComments } = require("../seed/comments");
+const {populatePosts, posts} = require("../seed/posts");
+const {populateProfiles} = require("../seed/profiles");
+const {populateUsers, users} = require("../seed/users");
+const {populateComments} = require("../seed/comments");
 
 describe("postController", () => {
   beforeAll(async () => {
@@ -192,7 +192,7 @@ describe("postController", () => {
         .set("x-auth", users[0].token)
         .expect(200)
         .expect(res => {
-          expect(res.body.length).toBeGreaterThan(0);
+          expect(res.body.comments.length).toBeGreaterThan(0);
         });
     });
 
