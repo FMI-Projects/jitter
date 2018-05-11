@@ -4,9 +4,11 @@ import StorageService from "./utility/storageService";
 import ProfileService from "./profileService";
 import PostsService from "./postsService";
 import ImageService from "./imageService";
+import TimeService from "./utility/timeService";
 
 const http = new HttpService();
 
+export const timeService = new TimeService();
 export const storageService = new StorageService();
 export const userService = new UserService(http);
 export const profileService = new ProfileService(http);
