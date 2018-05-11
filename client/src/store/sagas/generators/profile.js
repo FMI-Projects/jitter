@@ -1,9 +1,16 @@
 import { put, call } from "redux-saga/effects";
 
 import * as actions from "../../actions";
-import { profileService } from "../../../services";
+import { profileService, timeService } from "../../../services";
 
 export function* userProfileUpdate(profileData) {
+  if (profileData.birthday) {
+    profileData.birthday = yield call(
+      [timeService, "getUtcDate"],
+      profileData.birthday
+    );
+  }
+
   const {
     firstName,
     lastName,

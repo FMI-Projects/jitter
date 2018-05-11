@@ -12,7 +12,7 @@ import { withStyles } from "material-ui/styles";
 
 import defaultProfilePicture from "../../../../assets/images/defaultUser.png";
 import imageConstants from "../../../../utilities/constants/imageConstants";
-import styles from "./ProfilePicture.styles";
+import styles from "../ProfileModal.styles";
 import Spinner from "../../../UI/Spinner/Spinner";
 import * as actions from "../../../../store/actions";
 import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
@@ -39,16 +39,21 @@ const personalInfo = props => {
     <Fragment>
       {spinner}
       <div style={{ display: props.submitting ? "none" : "block" }}>
-        <DialogTitle id="profile-dialog-title">
+        <DialogTitle className={props.classes.title} id="profile-dialog-title">
           We&#39;re almost there...
         </DialogTitle>
         <form onSubmit={submit}>
-          <DialogContent className={props.classes.content}>
+          <DialogContent
+            className={[
+              props.classes.contentNoPaddingTop,
+              props.classes.content
+            ].join(" ")}
+          >
             {errorMessage}
             <DialogContentText variant="body1">
               Help others recognise you by adding a profile picture.
             </DialogContentText>
-            <div>
+            <div className={props.classes.centered}>
               <Field
                 id="profilePicture"
                 name="profilePicture"
@@ -61,7 +66,7 @@ const personalInfo = props => {
               />
             </div>
           </DialogContent>
-          <DialogActions>
+          <DialogActions className={props.classes.centered}>
             <Button onClick={props.onCancel} color="default">
               Close
             </Button>

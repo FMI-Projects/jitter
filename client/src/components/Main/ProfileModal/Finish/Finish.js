@@ -7,17 +7,20 @@ import {
   DialogContent,
   DialogActions
 } from "material-ui/Dialog";
+import { withStyles } from "material-ui/styles";
+
+import styles from "../ProfileModal.styles";
 
 const finish = props => (
   <Fragment>
-    <DialogTitle id="profile-dialog-title">That&#39;s all for now!</DialogTitle>
-    <DialogContent>
+    <DialogTitle className={props.classes.title} id="profile-dialog-title">That&#39;s all for now!</DialogTitle>
+    <DialogContent className={props.classes.content}>
       <DialogContentText variant="body1">
         We hope you have a great time connecting with people all around the
         world using Jitter.
       </DialogContentText>
     </DialogContent>
-    <DialogActions>
+    <DialogActions className={props.classes.centered}>
       <Button color="default" onClick={props.onCancel}>
         Close
       </Button>
@@ -26,7 +29,8 @@ const finish = props => (
 );
 
 finish.propTypes = {
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-export default finish;
+export default withStyles(styles)(finish);
