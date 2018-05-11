@@ -1,7 +1,7 @@
-const {ObjectID} = require("mongodb");
+const { ObjectID } = require("mongodb");
+const { Query } = require("mongoose");
 
 const Comment = require("../../../data/models/comment");
-const Profile = require("../../../data/models/profile");
 
 describe("comment", () => {
   afterEach(() => {
@@ -9,7 +9,7 @@ describe("comment", () => {
   });
 
   it("should be invalid if data is invalid", async () => {
-    const comment = new Comment({content: "", author: "", post: ""});
+    const comment = new Comment({ content: "", author: "", post: "" });
 
     let error;
 
@@ -45,24 +45,19 @@ describe("comment", () => {
   describe("static methods", () => {
     describe("findPostComments", () => {
       it("should return post comments with correct input", async () => {
-        const commentsToReturn = {
-          populate: function() {
-            return this;
-          },
-          exec: function(callback) {
-            callback(null, "postComments");
-          }
+        const commentsToReturn = "commentsToReturn";
+
+        const mockQuery = {
+          populate: jest.fn().mockResolvedValue(commentsToReturn)
         };
 
-        jest
-          .spyOn(Comment, "find")
-          .mockImplementation(async params => commentsToReturn);
+        jest.spyOn(Comment, "find").mockImplementation(params => mockQuery);
 
         const post = new ObjectID();
 
         const comments = await Comment.findPostComments(post);
 
-        expect(Comment.find).toHaveBeenCalledWith({post});
+        expect(Comment.find).toHaveBeenCalledWith({ post });
         expect(comments).toEqual(commentsToReturn);
       });
 
@@ -81,7 +76,7 @@ describe("comment", () => {
           error = "Comments not found";
         }
 
-        expect(Comment.find).toHaveBeenCalledWith({post});
+        expect(Comment.find).toHaveBeenCalledWith({ post });
         expect(error).toBeDefined();
       });
     });
