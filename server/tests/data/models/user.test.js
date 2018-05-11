@@ -1,4 +1,4 @@
-const { ObjectID } = require("mongodb");
+const {ObjectID} = require("mongodb");
 
 const User = require("../../../data/models/user");
 
@@ -87,7 +87,7 @@ describe("user", () => {
           .mockImplementation((password, hashedPassword) => result);
         const userPassword = "userPassword";
         const inputPassword = "inputPassword";
-        const user = new User({ password: userPassword });
+        const user = new User({password: userPassword});
 
         const validatePasswordResult = await user.validatePassword(
           inputPassword
@@ -106,7 +106,7 @@ describe("user", () => {
         const result = "createJwtResult";
         jest.spyOn(authToken, "createJwt").mockImplementation(userId => result);
         const userId = new ObjectID();
-        const user = new User({ _id: userId });
+        const user = new User({_id: userId});
 
         const generateAuthTokenResult = await user.generateAuthToken();
 
@@ -127,7 +127,7 @@ describe("user", () => {
 
         const user = await User.findByEmail(email);
 
-        expect(User.findOne).toHaveBeenCalledWith({ email });
+        expect(User.findOne).toHaveBeenCalledWith({email});
         expect(user).toEqual(userToReturn);
       });
 
@@ -145,7 +145,7 @@ describe("user", () => {
           error = "User not found";
         }
 
-        expect(User.findOne).toHaveBeenCalledWith({ email });
+        expect(User.findOne).toHaveBeenCalledWith({email});
         expect(error).toBeDefined();
       });
     });

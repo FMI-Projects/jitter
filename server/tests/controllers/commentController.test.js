@@ -7,7 +7,7 @@ const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
 const app = require("../../app");
 const Comment = require("../../data/models/comment");
 
-const {populatePosts, posts} = require("../seed/posts");
+const {populatePosts} = require("../seed/posts");
 const {populateUsers, users} = require("../seed/users");
 const {populateComments, comments} = require("../seed/comments");
 const {populateProfiles} = require("../seed/profiles");

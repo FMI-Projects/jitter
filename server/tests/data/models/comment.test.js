@@ -2,7 +2,6 @@ const {ObjectID} = require("mongodb");
 
 const Comment = require("../../../data/models/comment");
 const Profile = require("../../../data/models/profile");
-const Post = require("../../../data/models/post");
 
 describe("comment", () => {
   afterEach(() => {

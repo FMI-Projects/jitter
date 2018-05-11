@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const commentConstants = require("../../utilities/constants/commentConstants");
-const Post = require("./post");
 const Profile = require("./profile");
 
 const CommentSchema = new mongoose.Schema(
