@@ -1,4 +1,6 @@
 const express = require("express");
+const http = require("http");
+const socketIO = require("socket.io");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -10,6 +12,8 @@ const commentRouter = require("../routes/commentRouter");
 const imageRouter = require("../routes/imageRouter");
 
 const app = express();
+const server = http.createServer(app);
+app.io = socketIO(server);
 
 const corsOptions = {
   exposedHeaders: ["x-auth"]
@@ -28,7 +32,7 @@ app.use("/api/images", imageRouter);
 
 if (process.env.NODE_ENV !== "test") {
   const port = process.env.PORT;
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log("Started on port", port);
   });
 }

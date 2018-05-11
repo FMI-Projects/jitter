@@ -1,5 +1,4 @@
 const { ObjectID } = require("mongodb");
-const { Query } = require("mongoose");
 
 const Comment = require("../../../data/models/comment");
 

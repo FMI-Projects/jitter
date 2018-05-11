@@ -51,6 +51,7 @@ class ImagePreview extends Component {
 
   render() {
     const {
+      // eslint-disable-next-line no-unused-vars
       input: { value: omitValue, onChange, onBlur, ...inputProps },
       meta: { error }
     } = this.props;

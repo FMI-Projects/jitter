@@ -1,11 +1,18 @@
-import {takeLatest, takeEvery, all} from "redux-saga/effects";
+import {
+  takeLatest,
+  takeEvery,
+  all,
+  put,
+  call,
+  take
+} from "redux-saga/effects";
 
 import * as actionTypes from "../actions/actionTypes";
 
+import initializeSocket from "./sockets/socket";
 import * as authSagas from "./authSagas";
 import * as userProfileSagas from "./userProfileSagas";
 import * as userProfileModalSagas from "./userProfileModalSagas";
-// import * as profileSagas from "./profileSagas";
 import * as postSagas from "./postSagas";
 import * as actions from "../actions";
 
@@ -40,15 +47,17 @@ export function* watchUserProfileModal() {
   ]);
 }
 
-// export function* watchProfile() {
-//   yield all([
-//     takeEvery(actionTypes.PROFILE_POSTS_GET, profileSagas.profilePostsGetSaga)
-//   ]);
-// }
-
 export function* watchPosts() {
   yield all([
     takeEvery(actionTypes.POST_COMMENTS_GET, postSagas.postCommentsGetSaga),
     takeEvery(actionTypes.POSTS_GET, postSagas.postsGetSaga)
   ]);
+}
+
+export function* watchWebSocket() {
+  const channel = yield call(initializeSocket);
+  while (true) {
+    const action = yield take(channel);
+    yield put(action);
+  }
 }
