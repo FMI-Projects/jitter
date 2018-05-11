@@ -10,3 +10,11 @@ export function* postCommentsGetSaga(action) {
     yield put(actions.postCommentsGetSuccess(data, action.postId));
   } catch (e) {}
 }
+
+export function* postsGetSaga(action) {
+  try {
+    const data = yield call([postsService, "getUserPosts"], action.profileId);
+
+    yield put(actions.postsGetSuccess(data));
+  } catch (e) {}
+}

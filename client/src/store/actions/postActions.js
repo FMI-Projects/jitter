@@ -14,3 +14,17 @@ export const postCommentsGetSuccess = (comments, post) => {
     post
   };
 };
+
+export const postsGet = profileId => {
+  return {
+    type: actionTypes.POSTS_GET,
+    profileId
+  };
+};
+
+export const postsGetSuccess = posts => {
+  return {
+    type: actionTypes.POSTS_GET_SUCCESS,
+    posts
+  };
+};

@@ -7,19 +7,23 @@ class PostsList extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    posts: PropTypes.object,
-    classes: PropTypes.object
+    posts: PropTypes.array,
+    classes: PropTypes.object,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    profilePictureUrl: PropTypes.string
   };
 
   render() {
-    const {posts} = this.props;
+    const {posts, firstName, lastName, profilePictureUrl} = this.props;
+    const author = {firstName, lastName, profilePictureUrl};
 
     return (
       <div>
-        {posts.posts.map(post => {
+        {posts.map(post => {
           return (
             <div key={post._id}>
-              <PostCard post={post} author={posts.author} />
+              <PostCard post={post} author={author} />
             </div>
           );
         })}

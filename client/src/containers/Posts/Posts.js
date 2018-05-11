@@ -9,34 +9,49 @@ class Posts extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    posts: PropTypes.object,
+    posts: PropTypes.array,
     profileId: PropTypes.string,
-    profilePostsGet: PropTypes.func.isRequired
+    postsGet: PropTypes.func.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    profilePictureUrl: PropTypes.string
   };
 
   componentDidMount() {
-    this.props.profilePostsGet(this.props.profileId);
+    this.props.postsGet(this.props.profileId);
   }
 
   render() {
-    const {posts} = this.props;
+    const {posts, firstName, lastName, profilePictureUrl} = this.props;
 
     return (
-      <div>{this.props.profileId ? <PostsList posts={posts} /> : null}</div>
+      <div>
+        {this.props.profileId ? (
+          <PostsList
+            posts={posts}
+            firstName={firstName}
+            lastName={lastName}
+            profilePictureUrl={profilePictureUrl}
+          />
+        ) : null}
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    posts: state.profile.posts,
-    profileId: state.auth.userId
+    posts: state.posts.posts,
+    profileId: state.auth.userId,
+    firstName: state.userProfile.firstName,
+    lastName: state.userProfile.lastName,
+    profilePictureUrl: state.userProfile.profilePictureUrl
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    profilePostsGet: profileId => dispatch(actions.profilePostsGet(profileId))
+    postsGet: profileId => dispatch(actions.postsGet(profileId))
   };
 };
 
