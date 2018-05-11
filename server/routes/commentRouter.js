@@ -4,8 +4,6 @@ const authenticate = require("../middleware/authenticate");
 const authorization = require("../middleware/authorization");
 const commentController = require("../controllers/commentController");
 
-commentRouter.post("/:id", authenticate, commentController.createComment);
-
 commentRouter.put(
   "/:id",
   authenticate,

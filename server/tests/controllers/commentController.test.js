@@ -1,16 +1,16 @@
 const request = require("supertest");
-const { ObjectID } = require("mongodb");
+const {ObjectID} = require("mongodb");
 const faker = require("faker");
 
 require("../config/config");
-const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
+const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
 const app = require("../../app");
 const Comment = require("../../data/models/comment");
 
-const { populatePosts, posts } = require("../seed/posts");
-const { populateUsers, users } = require("../seed/users");
-const { populateComments, comments } = require("../seed/comments");
-const { populateProfiles } = require("../seed/profiles");
+const {populatePosts, posts} = require("../seed/posts");
+const {populateUsers, users} = require("../seed/users");
+const {populateComments, comments} = require("../seed/comments");
+const {populateProfiles} = require("../seed/profiles");
 
 describe("commentController", () => {
   beforeAll(async () => {
@@ -26,39 +26,6 @@ describe("commentController", () => {
     await populateProfiles();
     await populatePosts();
     await populateComments();
-  });
-
-  describe("POST /api/comments/:id", () => {
-    it("should create a new comment with valid data", async () => {
-      const data = {
-        _id: new ObjectID(),
-        content: faker.lorem.text()
-      };
-
-      await request(app)
-        .post(`/api/comments/${posts[0]._id}`)
-        .set("x-auth", users[0].token)
-        .send(data)
-        .expect(201)
-        .expect(res => {
-          expect(res.body.author).toEqual(users[0]._id.toHexString());
-          expect(res.body.post).toEqual(posts[0]._id.toHexString());
-        });
-    });
-
-    it("should return 401 on unauthorized request", async () => {
-      await request(app)
-        .post(`/api/comments/${posts[0]._id}`)
-        .expect(401);
-    });
-
-    it("should return 400 on invalid data", async () => {
-      await request(app)
-        .post(`/api/comments/${posts[0]._id}`)
-        .set("x-auth", users[0].token)
-        .send({})
-        .expect(400);
-    });
   });
 
   describe("PUT /api/comments/:id", () => {

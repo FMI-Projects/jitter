@@ -58,10 +58,24 @@ const getPostComments = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  try {
+    let comment = new Comment(req.body);
+    comment.author = req.user._id;
+    comment.post = req.params.id;
+    comment = await comment.save();
+
+    res.status(201).send(comment);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
 module.exports = {
   createPost,
   getPost,
   updatePost,
   deletePost,
-  getPostComments
+  getPostComments,
+  createComment
 };

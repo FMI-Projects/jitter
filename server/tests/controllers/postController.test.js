@@ -204,4 +204,37 @@ describe("postController", () => {
         .expect(401);
     });
   });
+
+  describe("POST /api/comments/:id", () => {
+    it("should create a new comment with valid data", async () => {
+      const data = {
+        _id: new ObjectID(),
+        content: faker.lorem.text()
+      };
+
+      await request(app)
+        .post(`/api/posts/${posts[0]._id}/comments`)
+        .set("x-auth", users[0].token)
+        .send(data)
+        .expect(201)
+        .expect(res => {
+          expect(res.body.author).toEqual(users[0]._id.toHexString());
+          expect(res.body.post).toEqual(posts[0]._id.toHexString());
+        });
+    });
+
+    it("should return 401 on unauthorized request", async () => {
+      await request(app)
+        .post(`/api/posts/${posts[0]._id}/comments`)
+        .expect(401);
+    });
+
+    it("should return 400 on invalid data", async () => {
+      await request(app)
+        .post(`/api/posts/${posts[0]._id}/comments`)
+        .set("x-auth", users[0].token)
+        .send({})
+        .expect(400);
+    });
+  });
 });

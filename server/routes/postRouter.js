@@ -8,6 +8,8 @@ postRouter.get("/:id", authenticate, postController.getPost);
 
 postRouter.post("/", authenticate, postController.createPost);
 
+postRouter.post("/:id/comments", authenticate, postController.createComment);
+
 postRouter.put(
   "/:id",
   authenticate,

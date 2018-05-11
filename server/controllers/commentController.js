@@ -1,18 +1,5 @@
 const Comment = require("../data/models/comment");
 
-const createComment = async (req, res) => {
-  try {
-    let comment = new Comment(req.body);
-    comment.author = req.user._id;
-    comment.post = req.params.id;
-    comment = await comment.save();
-
-    res.status(201).send(comment);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-};
-
 const editComment = async (req, res) => {
   try {
     const comment = await Comment.findByIdAndUpdate(
@@ -37,7 +24,6 @@ const deleteComment = async (req, res) => {
   }
 };
 
-
 const getComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
@@ -49,7 +35,6 @@ const getComment = async (req, res) => {
 };
 
 module.exports = {
-  createComment,
   editComment,
   deleteComment,
   getComment
