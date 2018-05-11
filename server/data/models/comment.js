@@ -32,17 +32,18 @@ const CommentSchema = new mongoose.Schema(
   }
 );
 
-CommentSchema.statics.findPostComments = async function(postId, authorId) {
+CommentSchema.statics.findPostComments = async function(postId) {
   const Comment = this;
 
-  const comments = await Comment.find({post: postId});
-  const profile = await Profile.findById(authorId);
+  const comments = await Comment.find({post: postId})
+    .populate("author")
+    .exec();
 
-  if (!comments || !profile) {
+  if (!comments) {
     return Promise.reject();
   }
 
-  return {comments, author: profile};
+  return comments;
 };
 
 const Comment = mongoose.model("Comment", CommentSchema);

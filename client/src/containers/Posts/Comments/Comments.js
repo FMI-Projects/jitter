@@ -19,17 +19,15 @@ class Comments extends Component {
 
   render() {
     const {comments, postId} = this.props;
-    const commentsList = comments[`${postId}`]
-      ? comments[`${postId}`].comments
-      : [];
+    const commentsList = comments[`${postId}`] ? comments[`${postId}`] : [];
     return (
       <div>
         {commentsList.map(comment => {
           return (
             <div key={comment._id}>
-              {/*<p>
-                {comments.author.firstName} {comments.author.lastName}
-              </p>*/}
+              <h6>
+                {comment.author.firstName} {comment.author.lastName}
+              </h6>
               <h6>{comment.content}</h6>
             </div>
           );

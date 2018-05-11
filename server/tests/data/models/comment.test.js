@@ -45,50 +45,43 @@ describe("comment", () => {
   describe("static methods", () => {
     describe("findPostComments", () => {
       it("should return post comments with correct input", async () => {
-        const commentsToReturn = "postComments";
-        const profileToReturn = "someProfile";
+        const commentsToReturn = {
+          populate: function() {
+            return this;
+          },
+          exec: function(callback) {
+            callback(null, "postComments");
+          }
+        };
 
         jest
           .spyOn(Comment, "find")
           .mockImplementation(async params => commentsToReturn);
-        jest
-          .spyOn(Profile, "findById")
-          .mockImplementation(async params => profileToReturn);
 
         const post = new ObjectID();
-        const author = new ObjectID();
 
-        const comments = await Comment.findPostComments(post, author);
+        const comments = await Comment.findPostComments(post);
 
         expect(Comment.find).toHaveBeenCalledWith({post});
-        expect(Profile.findById).toHaveBeenCalledWith(author);
-        expect(comments).toEqual({
-          comments: commentsToReturn,
-          author: profileToReturn
-        });
+        expect(comments).toEqual(commentsToReturn);
       });
 
       it("should throw error if post does not exist", async () => {
         jest
           .spyOn(Comment, "find")
           .mockImplementation(async params => undefined);
-        jest
-          .spyOn(Profile, "findById")
-          .mockImplementation(async params => undefined);
 
         const post = new ObjectID();
-        const author = new ObjectID();
 
         let error;
 
         try {
-          await Comment.findPostComments(post, author);
+          await Comment.findPostComments(post);
         } catch (e) {
           error = "Comments not found";
         }
 
         expect(Comment.find).toHaveBeenCalledWith({post});
-        expect(Profile.findById).toHaveBeenCalledWith(author);
         expect(error).toBeDefined();
       });
     });

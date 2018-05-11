@@ -192,7 +192,7 @@ describe("postController", () => {
         .set("x-auth", users[0].token)
         .expect(200)
         .expect(res => {
-          expect(res.body.comments.length).toBeGreaterThan(0);
+          expect(res.body.length).toBeGreaterThan(0);
         });
     });
 

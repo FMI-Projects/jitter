@@ -21,12 +21,9 @@ const postReducer = (state = initialState, action) => {
 const applyPostComments = (state, action) => {
   const stateComments = {
     ...state.comments,
-    [action.post]: {
-      comments: action.comments.comments,
-      post: action.comments.post,
-      author: action.comments.author
-    }
+    [action.post]: action.comments
   };
+
   return {...state, comments: stateComments};
 };
 
