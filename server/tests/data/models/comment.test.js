@@ -58,13 +58,18 @@ describe("comment", () => {
         const comments = await Comment.findPostComments(post);
 
         expect(Comment.find).toHaveBeenCalledWith({ post });
+        expect(mockQuery.populate).toHaveBeenCalledWith("author");
         expect(comments).toEqual(commentsToReturn);
       });
 
       it("should throw error if post does not exist", async () => {
+        const mockQuery = {
+          populate: jest.fn().mockResolvedValue(undefined)
+        };
+
         jest
           .spyOn(Comment, "find")
-          .mockImplementation(async params => undefined);
+          .mockImplementation(params => mockQuery);
 
         const post = new ObjectID();
 
@@ -77,6 +82,7 @@ describe("comment", () => {
         }
 
         expect(Comment.find).toHaveBeenCalledWith({ post });
+        expect(mockQuery.populate).toHaveBeenCalledWith("author");
         expect(error).toBeDefined();
       });
     });
