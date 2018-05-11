@@ -11,7 +11,7 @@ import { InputLabel } from "material-ui/Input";
 import { FormControl } from "material-ui/Form";
 
 import DatePicker from "../../../UI/Fields/DatePicker/DatePicker";
-import styles from "./PersonalInfo.styles";
+import styles from "../ProfileModal.styles";
 import { bioMaxLength } from "../../../../utilities/validation";
 import Spinner from "../../../UI/Spinner/Spinner";
 import * as actions from "../../../../store/actions";
@@ -34,11 +34,16 @@ const personalInfo = props => {
     <Fragment>
       {spinner}
       <div style={{ display: props.submitting ? "none" : "block" }}>
-        <DialogTitle id="profile-dialog-title">
+        <DialogTitle className={props.classes.title} id="profile-dialog-title">
           Tell us more about you...
         </DialogTitle>
         <form onSubmit={submit}>
-          <DialogContent className={props.classes.content}>
+          <DialogContent
+            className={[
+              props.classes.contentNoPaddingTop,
+              props.classes.content
+            ].join(" ")}
+          >
             {errorMessage}
             <div>
               <FormControl className={props.classes.field}>
@@ -77,7 +82,7 @@ const personalInfo = props => {
               </FormControl>
             </div>
           </DialogContent>
-          <DialogActions>
+          <DialogActions className={props.classes.centered}>
             <Button onClick={props.onCancel} color="default">
               Close
             </Button>

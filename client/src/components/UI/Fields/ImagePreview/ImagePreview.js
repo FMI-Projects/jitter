@@ -68,11 +68,13 @@ class ImagePreview extends Component {
     return (
       <div style={{ width: this.props.width }}>
         <div>
-          <img
-            style={{ width: this.props.width, height: this.props.height }}
-            alt="profile"
-            src={selectedImage}
-          />
+          {selectedImage ? (
+            <img
+              style={{ width: this.props.width, height: this.props.height }}
+              alt="profile"
+              src={selectedImage}
+            />
+          ) : null}
         </div>
         <div>
           <Button

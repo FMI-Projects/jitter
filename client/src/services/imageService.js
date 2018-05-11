@@ -1,4 +1,4 @@
-export default class PostsService {
+export default class ImageService {
   constructor(http) {
     this.http = http;
   }
