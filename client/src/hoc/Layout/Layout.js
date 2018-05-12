@@ -2,16 +2,19 @@ import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Grid from "material-ui/Grid";
+import { withStyles } from "material-ui/styles";
 
 import Toolbar from "../../components/Toolbar/Toolbar";
 import ProfileModal from "../../containers/Main/ProfileModal/ProfileModal";
 import OnlineFriends from "../../containers/Main/OnlineFriends/OnlineFriends";
+import styles from "./Layout.styles";
 
 class Layout extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    firstLogIn: PropTypes.bool.isRequired
+    firstLogIn: PropTypes.bool.isRequired,
+    classes: PropTypes.object.isRequired
   };
 
   render() {
@@ -38,7 +41,7 @@ class Layout extends Component {
     return (
       <Fragment>
         <Toolbar />
-        <main>{body}</main>
+        <main className={this.props.classes.main}>{body}</main>
         {profileModal}
       </Fragment>
     );
@@ -52,4 +55,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Layout);
+export default withStyles(styles)(connect(mapStateToProps)(Layout));
