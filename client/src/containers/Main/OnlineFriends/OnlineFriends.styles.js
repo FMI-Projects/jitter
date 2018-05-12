@@ -6,7 +6,8 @@ const styles = {
     overflowY: "scroll"
   },
   icon: {
-    verticalAlign: "bottom"
+    verticalAlign: "bottom",
+    paddingLeft: "10px"
   },
   online: {
     display: "inline-block",
