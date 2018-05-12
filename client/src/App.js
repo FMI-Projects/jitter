@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 
 import * as actions from "./store/actions";
 import Layout from "./hoc/Layout/Layout";
-import RegisterForm from "./components/Register/RegisterForm";
-import LoginForm from "./components/Login/LoginForm";
+import Register from "./containers/Register/Register";
+import Login from "./containers/Login/Login";
 import Logout from "./containers/Logout/Logout";
 import Welcome from "./containers/Welcome/Welcome";
-import Home from "./containers/Main/Home/Home";
+import Home from "./containers/Home/Home";
 
 class App extends Component {
   static propTypes = {
@@ -32,8 +32,8 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route exact path="/login" component={LoginForm} />
-        <Route exact path="/register" component={RegisterForm} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Route exact path="/" component={Welcome} />
         <Redirect to="/" />
       </Switch>

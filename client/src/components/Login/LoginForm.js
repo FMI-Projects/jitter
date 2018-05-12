@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import { Field } from "redux-form";
 import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
@@ -9,7 +9,6 @@ import BaseForm from "../../components/UI/Forms/BaseForm/BaseForm";
 import styles from "../../components/UI/Forms/BaseForm/BaseForm.styles";
 import { required, email } from "../../utilities/validation";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import * as actions from "../../store/actions";
 
 const loginForm = props => {
   let spinner = null;
@@ -22,9 +21,6 @@ const loginForm = props => {
     errorMessage = <div className={props.classes.error}>{props.error}</div>;
   }
 
-  const { handleSubmit } = props;
-  const submit = handleSubmit(actions.login);
-
   return (
     <Fragment>
       {spinner}
@@ -32,7 +28,7 @@ const loginForm = props => {
         style={{ display: props.submitting ? "none" : "block" }}
         title="Login"
       >
-        <form className={props.classes.form} onSubmit={submit}>
+        <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
             <Field
@@ -70,10 +66,10 @@ const loginForm = props => {
 };
 
 loginForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(reduxForm({ form: "login" })(loginForm));
+export default withStyles(styles)(loginForm);

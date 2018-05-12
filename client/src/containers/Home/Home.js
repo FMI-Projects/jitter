@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import Posts from "../../Posts/Posts";
+import Profile from "../Profile/Profile";
 
 class Home extends Component {
   render() {
     return (
       <h1>
-        <Posts />
+        <Profile />
       </h1>
     );
   }

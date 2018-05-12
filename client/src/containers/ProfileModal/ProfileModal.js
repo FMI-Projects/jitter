@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 import { connect } from "react-redux";
 
-import * as actions from "../../../store/actions";
-import Welcome from "../../../components/Main/ProfileModal/Welcome/Welcome";
-import PersonalInfo from "../../../components/Main/ProfileModal/PersonalInfo/PersonalInfo";
-import Spinner from "../../../components/UI/Spinner/Spinner";
-import ProfilePicture from "../../../components/Main/ProfileModal/ProfilePicture/ProfilePicture";
-import Finish from "../../../components/Main/ProfileModal/Finish/Finish";
+import * as actions from "../../store/actions";
+import Welcome from "../../components/ProfileModal/Welcome/Welcome";
+import PersonalInfo from "../../components/ProfileModal/PersonalInfo/PersonalInfo";
+import Spinner from "../../components/UI/Spinner/Spinner";
+import ProfilePicture from "../../components/ProfileModal/ProfilePicture/ProfilePicture";
+import Finish from "../../components/ProfileModal/Finish/Finish";
 
 class ProfileModal extends Component {
   static propTypes = {

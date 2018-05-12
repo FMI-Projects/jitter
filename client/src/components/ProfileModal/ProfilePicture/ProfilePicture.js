@@ -10,16 +10,16 @@ import {
 import Button from "material-ui/Button";
 import { withStyles } from "material-ui/styles";
 
-import defaultProfilePicture from "../../../../assets/images/defaultUser.png";
-import imageConstants from "../../../../utilities/constants/imageConstants";
+import defaultProfilePicture from "../../../assets/images/defaultUser.png";
+import imageConstants from "../../../utilities/constants/imageConstants";
 import styles from "../ProfileModal.styles";
-import Spinner from "../../../UI/Spinner/Spinner";
-import * as actions from "../../../../store/actions";
-import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
+import Spinner from "../../UI/Spinner/Spinner";
+import * as actions from "../../../store/actions";
+import FileInput from "../../UI/Fields/ImagePreview/ImagePreview";
 import {
   validImageType,
   validImageSize
-} from "../../../../utilities/validation";
+} from "../../../utilities/validation";
 
 const personalInfo = props => {
   let spinner = null;

@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import { Field } from "redux-form";
 import { withStyles } from "material-ui/styles";
-
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
 
@@ -20,7 +19,6 @@ import {
   lastNameMaxLength
 } from "../../utilities/validation";
 import styles from "../UI/Forms/BaseForm/BaseForm.styles";
-import * as actions from "../../store/actions";
 
 const registerForm = props => {
   let spinner = null;
@@ -33,9 +31,6 @@ const registerForm = props => {
     errorMessage = <div className={props.classes.error}>{props.error}</div>;
   }
 
-  const { handleSubmit } = props;
-  const submit = handleSubmit(actions.register);
-
   return (
     <Fragment>
       {spinner}
@@ -43,7 +38,7 @@ const registerForm = props => {
         style={{ display: props.submitting ? "none" : "block" }}
         title="Register"
       >
-        <form className={props.classes.form} onSubmit={submit}>
+        <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
             <div>
@@ -121,12 +116,10 @@ const registerForm = props => {
 };
 
 registerForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(
-  reduxForm({ form: "register" })(registerForm)
-);
+export default withStyles(styles)(registerForm);

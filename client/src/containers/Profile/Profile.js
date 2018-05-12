@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import PostsList from "../../components/Posts/PostsList";
 
-class Posts extends Component {
+class Profile extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -55,4 +55,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

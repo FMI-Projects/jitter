@@ -5,7 +5,7 @@ import { withStyles } from "material-ui/styles";
 import { Typography } from "material-ui";
 
 import styles from "./OnlineFriends.styles";
-import OnlineFriend from "../../../components/Main/OnlineFriends/OnlineFriend";
+import OnlineFriend from "../../components/OnlineFriends/OnlineFriend";
 
 class OnlineFriends extends Component {
   static propTypes = {
