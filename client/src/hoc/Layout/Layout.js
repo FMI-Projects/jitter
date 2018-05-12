@@ -1,9 +1,11 @@
 import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Grid from "material-ui/Grid";
 
 import Toolbar from "../../components/Toolbar/Toolbar";
 import ProfileModal from "../../containers/Main/ProfileModal/ProfileModal";
+import OnlineFriends from "../../containers/Main/OnlineFriends/OnlineFriends";
 
 class Layout extends Component {
   static propTypes = {
@@ -19,10 +21,24 @@ class Layout extends Component {
       profileModal = <ProfileModal />;
     }
 
+    let body = this.props.children;
+    if (this.props.isAuthenticated) {
+      body = (
+        <Grid container>
+          <Grid item sm={10}>
+            {this.props.children}
+          </Grid>
+          <Grid item sm={2}>
+            <OnlineFriends />
+          </Grid>
+        </Grid>
+      );
+    }
+
     return (
       <Fragment>
         <Toolbar />
-        <main>{this.props.children}</main>
+        <main>{body}</main>
         {profileModal}
       </Fragment>
     );
