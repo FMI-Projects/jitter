@@ -18,7 +18,7 @@ import Typography from "material-ui/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import Comments from "../../../containers/Posts/Comments/Comments";
+import Comments from "./Comments/Comments";
 
 import { formatDate } from "../../../utilities/formatters/dateFormat";
 

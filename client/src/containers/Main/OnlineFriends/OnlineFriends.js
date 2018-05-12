@@ -26,7 +26,7 @@ class OnlineFriends extends Component {
 
     return (
       <Paper className={this.props.classes.paper}>
-        <Typography variant="body2">
+        <Typography className={this.props.classes.label} variant="body2">
           <i className={["material-icons", this.props.classes.icon].join(" ")}>
             group
           </i>

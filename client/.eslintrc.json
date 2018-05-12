@@ -6,7 +6,8 @@
     "ecmaVersion": 2017,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "experimentalDecorators": true
     }
   },
   "rules": {

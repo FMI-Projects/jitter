@@ -12,6 +12,9 @@ const styles = {
   online: {
     display: "inline-block",
     marginLeft: "8px"
+  },
+  label: {
+    marginTop: "5px"
   }
 };
 
