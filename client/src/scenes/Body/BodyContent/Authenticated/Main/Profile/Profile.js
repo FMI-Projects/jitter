@@ -15,7 +15,8 @@ class Profile extends Component {
     postsGet: PropTypes.func.isRequired,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    profilePictureUrl: PropTypes.string
+    profilePictureUrl: PropTypes.string,
+    loading: PropTypes.bool.isRequired
   };
 
   componentDidMount() {

@@ -11,11 +11,11 @@ import IconButton from "material-ui/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
-import {formatDate} from "../../../../../utilities/formatters/dateFormat";
+import { formatDate } from "../../../../../utilities/formatters/formatDate";
 
-import {withStyles} from "material-ui/styles";
+import { withStyles } from "material-ui/styles";
 
-const CommentsList = ({comments, classes}) => {
+const CommentsList = ({ comments, classes }) => {
   return (
     <div className={classes.root}>
       <List>
@@ -23,7 +23,7 @@ const CommentsList = ({comments, classes}) => {
           const formattedDate = formatDate(comment.createdAt);
           const secondaryText = `${comment.author.firstName} ${
             comment.author.lastName
-          } ${formattedDate}`;
+          },  ${formattedDate}`;
           return (
             <ListItem key={comment._id}>
               {comment.author.profilePictureUrl ? (

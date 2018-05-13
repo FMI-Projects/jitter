@@ -5,8 +5,7 @@ const styles = {
   container: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    height: "300px"
+    justifyContent: "center"
   }
 };
 

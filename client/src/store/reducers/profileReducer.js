@@ -6,7 +6,8 @@ const initialState = {
   profilePictureUrl: null,
   navProfilePictureUrl: null,
   bio: null,
-  birthday: null
+  birthday: null,
+  gender: null
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -27,7 +28,8 @@ const applyProfile = (state, action) => {
     profilePictureUrl: action.profilePictureUrl,
     navProfilePictureUrl: action.navProfilePictureUrl,
     bio: action.bio,
-    birthday: action.birthday
+    birthday: action.birthday,
+    gender: action.birthday
   };
 };
 

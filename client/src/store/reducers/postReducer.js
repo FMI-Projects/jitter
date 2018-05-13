@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
+import _ from "lodash";
 
 const initialState = {
-  comments: {},
   posts: [],
   loading: false
 };
@@ -26,32 +26,31 @@ const postReducer = (state = initialState, action) => {
 };
 
 const applyPostsGet = (state, action) => {
-  return {...state, loading: true};
-};
-
-const applyCommentsGet = (state, action) => {
-  const stateComments = {
-    ...state.comments,
-    [action.postId]: {loading: true}
-  };
-
-  return {...state, comments: stateComments};
-};
-
-const applyPostComments = (state, action) => {
-  const stateComments = {
-    ...state.comments,
-    [action.post]: {
-      comments: action.comments,
-      loading: false
-    }
-  };
-
-  return {...state, comments: stateComments};
+  const newState = _.cloneDeep(state);
+  newState.loading = true;
+  return newState;
 };
 
 const applyPosts = (state, action) => {
-  return {...state, posts: action.posts, loading: false};
+  const newState = _.cloneDeep(state);
+  newState.posts = action.posts;
+  newState.loading = false;
+  return newState;
+};
+
+const applyCommentsGet = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const post = newState.posts.find(p => p._id === action.postId);
+  post.loading = true;
+  return newState;
+};
+
+const applyPostComments = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const post = newState.posts.find(p => p._id === action.post);
+  post.comments = action.comments;
+  post.loading = false;
+  return newState;
 };
 
 export default postReducer;

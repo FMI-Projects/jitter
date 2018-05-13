@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actions from "../../../../store/actions";
 
 import CommentsList from "./CommentsList/CommentsList";
@@ -12,7 +12,7 @@ class Comments extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     postId: PropTypes.string,
-    comments: PropTypes.object,
+    comments: PropTypes.array,
     postCommentsGet: PropTypes.func.isRequired,
     loading: PropTypes.bool
   };
@@ -22,14 +22,11 @@ class Comments extends Component {
   }
 
   render() {
-    const {comments, loading, postId} = this.props;
+    const { comments, loading } = this.props;
     let commentsList = <Spinner />;
 
     if (loading === false) {
-      const currentComments = comments[`${postId}`]
-        ? comments[`${postId}`]
-        : [];
-      commentsList = <CommentsList comments={currentComments.comments} />;
+      commentsList = <CommentsList comments={comments} />;
     }
 
     return <div>{commentsList}</div>;
@@ -37,14 +34,11 @@ class Comments extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const isLoading = state.posts.comments[ownProps.postId];
-  let loading;
-  if (isLoading) {
-    loading = isLoading.loading;
-  }
+  const post = state.posts.posts.find(p => p._id === ownProps.postId);
+
   return {
-    comments: state.posts.comments,
-    loading: loading
+    comments: post.comments,
+    loading: post.loading
   };
 };
 
