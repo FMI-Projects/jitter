@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import * as actions from "../../../../../../store/actions";
 import PostsList from "../../../../../../components/Posts/PostsList";
+import Spinner from "../../../../../../components/UI/Spinner/Spinner";
 
 class Profile extends Component {
   static propTypes = {
@@ -22,23 +23,26 @@ class Profile extends Component {
   }
 
   render() {
-    const {posts, firstName, lastName, profilePictureUrl} = this.props;
+    let postsList = <Spinner />;
 
-    const postsWithAuthor = posts.map(post => {
-      return {...post, author: {firstName, lastName, profilePictureUrl}};
-    });
+    if (!this.props.loading) {
+      const {posts, firstName, lastName, profilePictureUrl} = this.props;
 
-    return (
-      <div>
-        {this.props.profileId ? <PostsList posts={postsWithAuthor} /> : null}
-      </div>
-    );
+      const postsWithAuthor = posts.map(post => {
+        return {...post, author: {firstName, lastName, profilePictureUrl}};
+      });
+
+      postsList = <PostsList posts={postsWithAuthor} />;
+    }
+
+    return <div>{postsList}</div>;
   }
 }
 
 const mapStateToProps = state => {
   return {
     posts: state.posts.posts,
+    loading: state.posts.loading,
     profileId: state.auth.userId,
     firstName: state.userProfile.firstName,
     lastName: state.userProfile.lastName,

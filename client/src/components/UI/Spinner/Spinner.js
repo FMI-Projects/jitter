@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "material-ui/styles";
-import { CircularProgress } from "material-ui/Progress";
+import {withStyles} from "material-ui/styles";
+import {CircularProgress} from "material-ui/Progress";
 
 import styles from "./Spinner.styles";
 
@@ -19,12 +19,12 @@ class CircularDeterminate extends React.Component {
   }
 
   progress = () => {
-    const { completed } = this.state;
-    this.setState({ completed: completed === 100 ? 0 : completed + 1 });
+    const {completed} = this.state;
+    this.setState({completed: completed === 100 ? 0 : completed + 1});
   };
 
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     return (
       <div className={classes.container}>
