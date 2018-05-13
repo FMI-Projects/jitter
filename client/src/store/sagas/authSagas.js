@@ -7,12 +7,12 @@ import { userService, storageService } from "../../services";
 export function* authLoginSaga(action) {
   try {
     const userData = yield call(
-      [userService, "loginUser"],
+      userService.loginUser,
       action.payload.email,
       action.payload.password
     );
 
-    yield call([storageService, "storeUser"], userData.token, userData.userId);
+    yield call(storageService.storeUser, userData.token, userData.userId);
 
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.login.success());
@@ -27,14 +27,14 @@ export function* authLoginSaga(action) {
 export function* authRegisterSaga(action) {
   try {
     const userData = yield call(
-      [userService, "registerUser"],
+      userService.registerUser,
       action.payload.email,
       action.payload.password,
       action.payload.firstName,
       action.payload.lastName
     );
 
-    yield call([storageService, "storeUser"], userData.token, userData.userId);
+    yield call(storageService.storeUser, userData.token, userData.userId);
 
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.authFirstLogin());
@@ -48,12 +48,12 @@ export function* authRegisterSaga(action) {
 }
 
 export function* authLogoutSaga() {
-  yield call([storageService, "removeUser"]);
+  yield call(storageService.removeUser);
   yield put(actions.reset());
 }
 
 export function* authInitSaga(action) {
-  const { userId, token } = yield call([storageService, "getUser"]);
+  const { userId, token } = yield call(storageService.getUser);
   if (userId && token) {
     yield put(actions.authSuccess(userId, token));
   } else {

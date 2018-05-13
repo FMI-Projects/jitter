@@ -3,13 +3,13 @@ export default class ProfileService {
     this.http = http;
   }
 
-  async getCurrentProfileInfo() {
+  getCurrentProfileInfo = async () => {
     const url = "/profile/";
     const { data } = await this.http.get(url);
     return data;
   }
 
-  async updateCurrentUserProfile(profileData) {
+  updateCurrentUserProfile = async profileData => {
     const url = "/profile/";
 
     if (profileData.birthday) {
@@ -18,5 +18,5 @@ export default class ProfileService {
 
     const { data } = await this.http.patch(url, profileData);
     return data;
-  }
+  };
 }

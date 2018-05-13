@@ -1,10 +1,13 @@
 import WebSocket from "socket.io-client";
 import { eventChannel } from "redux-saga";
 
+const baseUrl = "http://localhost:8000";
+
 export default function initializeSocket() {
+  const ws = new WebSocket(baseUrl, { autoConnect: false });
+
   return eventChannel(emitter => {
-    // init the connection here
-    const ws = new WebSocket("http://localhost:8000");
+    ws.connect();
 
     ws.onmessage = e => {
       // dispatch an action with emitter here
@@ -13,6 +16,7 @@ export default function initializeSocket() {
     // unsubscribe function
     return () => {
       // do whatever to interrupt the socket communication here
+      ws.disconnect();
     };
   });
 }

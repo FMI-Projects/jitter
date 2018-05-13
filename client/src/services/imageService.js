@@ -3,13 +3,13 @@ export default class ImageService {
     this.http = http;
   }
 
-  async getSignedUrl(profileId) {
+  getSignedUrl = async (profileId) => {
     const url = `/api/images`;
     const { data } = await this.http.get(url);
     return data;
   }
 
-  async uploadImage(url, file) {
+  uploadImage = async (url, file) => {
     await this.http.put(url, file);
   }
 }

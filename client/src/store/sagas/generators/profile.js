@@ -6,7 +6,7 @@ import { profileService, timeService } from "../../../services";
 export function* userProfileUpdate(profileData) {
   if (profileData.birthday) {
     profileData.birthday = yield call(
-      [timeService, "getUtcDate"],
+      timeService.getUtcDate,
       profileData.birthday
     );
   }
@@ -16,7 +16,7 @@ export function* userProfileUpdate(profileData) {
     lastName,
     profilePictureUrl,
     navProfilePictureUrl
-  } = yield call([profileService, "updateCurrentUserProfile"], profileData);
+  } = yield call(profileService.updateCurrentUserProfile, profileData);
 
   yield put(
     actions.userProfileSetInfo(

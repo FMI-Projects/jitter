@@ -22,9 +22,9 @@ export function* userProfileModalPictureSaga(action) {
   try {
     yield put(actions.userProfilePatch.success());
     if (action.payload.profilePicture) {
-      const { url, key } = yield call([imageService, "getSignedUrl"]);
+      const { url, key } = yield call(imageService.getSignedUrl);
       yield call(
-        [imageService, "uploadImage"],
+        imageService.uploadImage,
         url,
         action.payload.profilePicture
       );

@@ -5,10 +5,7 @@ import { profileService } from "../../services";
 
 export function* userProfileGetInfoSaga(action) {
   try {
-    const { firstName, lastName, profilePictureUrl } = yield call([
-      profileService,
-      "getCurrentProfileInfo"
-    ]);
+    const { firstName, lastName, profilePictureUrl } = yield call(profileService.getCurrentProfileInfo);
 
     let navProfilePictureUrl = null;
     if (profilePictureUrl) {

@@ -5,7 +5,7 @@ import {postsService} from "../../services";
 
 export function* postCommentsGetSaga(action) {
   try {
-    const data = yield call([postsService, "getPostComments"], action.postId);
+    const data = yield call(postsService.getPostComments, action.postId);
 
     yield put(actions.postCommentsGetSuccess(data, action.postId));
   } catch (e) {}
@@ -13,7 +13,7 @@ export function* postCommentsGetSaga(action) {
 
 export function* postsGetSaga(action) {
   try {
-    const data = yield call([postsService, "getUserPosts"], action.profileId);
+    const data = yield call(postsService.getUserPosts, action.profileId);
 
     yield put(actions.postsGetSuccess(data));
   } catch (e) {}

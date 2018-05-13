@@ -3,7 +3,7 @@ export default class UserService {
     this.http = http;
   }
 
-  async loginUser(email, password) {
+  loginUser = async (email, password) => {
     const url = "/auth/login";
     const authData = {
       email,
@@ -21,7 +21,7 @@ export default class UserService {
     };
   }
 
-  async registerUser(email, password, firstName, lastName) {
+  registerUser = async (email, password, firstName, lastName) => {
     const url = "/auth/register";
     const authData = {
       email,

@@ -50,12 +50,15 @@ export function* watchUserProfileModal() {
 export function* watchPosts() {
   yield all([
     takeEvery(actionTypes.POST_COMMENTS_GET, postSagas.postCommentsGetSaga),
-    takeEvery(actionTypes.POSTS_GET, postSagas.postsGetSaga)
+    takeLatest(actionTypes.POSTS_GET, postSagas.postsGetSaga)
   ]);
 }
 
 export function* watchWebSocket() {
   const channel = yield call(initializeSocket);
+  setTimeout(() => {
+    channel.close();
+  }, 5000);
   while (true) {
     const action = yield take(channel);
     yield put(action);
