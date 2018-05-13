@@ -1,15 +1,27 @@
 import * as actionTypes from "./actionTypes";
 
-export const profilePostsGet = profileId => {
+export const profileGet = profileId => {
   return {
-    type: actionTypes.PROFILE_POSTS_GET,
+    type: actionTypes.PROFILE_GET,
     profileId
   };
 };
 
-export const profilePostsGetSuccess = posts => {
+export const profileGetSuccess = (
+  firstName,
+  lastName,
+  profilePictureUrl,
+  navProfilePictureUrl,
+  bio,
+  birthday
+) => {
   return {
-    type: actionTypes.PROFILE_POSTS_GET_SUCCESS,
-    posts
+    type: actionTypes.PROFILE_GET_SUCCESS,
+    firstName,
+    lastName,
+    profilePictureUrl,
+    navProfilePictureUrl,
+    bio,
+    birthday
   };
 };

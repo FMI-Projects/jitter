@@ -1,21 +1,34 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  posts: {posts: [], author: {}}
+  firstName: null,
+  lastName: null,
+  profilePictureUrl: null,
+  navProfilePictureUrl: null,
+  bio: null,
+  birthday: null
 };
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.PROFILE_POSTS_GET_SUCCESS: {
-      return applyUserPosts(state, action);
+    case actionTypes.PROFILE_GET_SUCCESS: {
+      return applyProfile(state, action);
     }
     default:
       return state;
   }
 };
 
-const applyUserPosts = (state, action) => {
-  return {...state, posts: action.posts};
+const applyProfile = (state, action) => {
+  return {
+    ...state,
+    firstName: action.firstName,
+    lastName: action.lastName,
+    profilePictureUrl: action.profilePictureUrl,
+    navProfilePictureUrl: action.navProfilePictureUrl,
+    bio: action.bio,
+    birthday: action.birthday
+  };
 };
 
 export default profileReducer;
