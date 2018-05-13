@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import styles from "./PostCard.styles";
 
-import { withStyles } from "material-ui/styles";
+import {withStyles} from "material-ui/styles";
 
 import classnames from "classnames";
 import Card, {
@@ -20,13 +20,12 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import Comments from "./Comments/Comments";
 
-import { formatDate } from "../../../utilities/formatters/dateFormat";
+import {formatDate} from "../../../utilities/formatters/dateFormat";
 
 class PostCard extends Component {
   static propTypes = {
     post: PropTypes.object,
-    classes: PropTypes.object,
-    author: PropTypes.object
+    classes: PropTypes.object
   };
 
   state = {
@@ -34,11 +33,11 @@ class PostCard extends Component {
   };
 
   handleExpandClick = () => {
-    this.setState({ expanded: !this.state.expanded });
+    this.setState({expanded: !this.state.expanded});
   };
 
   render() {
-    const { post, author, classes } = this.props;
+    const {post, classes} = this.props;
     const formattedDate = post.createdAt ? formatDate(post.createdAt) : "N/A";
 
     return (
@@ -56,8 +55,8 @@ class PostCard extends Component {
               </IconButton>
             }
             title={post.title}
-            subheader={`${author.firstName} ${
-              author.lastName
+            subheader={`${post.author.firstName} ${
+              post.author.lastName
             } ${formattedDate}`}
           />
           {post.imageUrl ? (
@@ -70,8 +69,7 @@ class PostCard extends Component {
               })}
               onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
-              aria-label="Show more"
-            >
+              aria-label="Show more">
               <ExpandMoreIcon />
             </IconButton>
           </CardActions>

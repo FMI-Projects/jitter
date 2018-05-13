@@ -24,16 +24,13 @@ class Profile extends Component {
   render() {
     const {posts, firstName, lastName, profilePictureUrl} = this.props;
 
+    const postsWithAuthor = posts.map(post => {
+      return {...post, author: {firstName, lastName, profilePictureUrl}};
+    });
+
     return (
       <div>
-        {this.props.profileId ? (
-          <PostsList
-            posts={posts}
-            firstName={firstName}
-            lastName={lastName}
-            profilePictureUrl={profilePictureUrl}
-          />
-        ) : null}
+        {this.props.profileId ? <PostsList posts={postsWithAuthor} /> : null}
       </div>
     );
   }
