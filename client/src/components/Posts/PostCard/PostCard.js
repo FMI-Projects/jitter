@@ -62,6 +62,11 @@ class PostCard extends Component {
           {post.imageUrl ? (
             <CardMedia className={classes.media} src={post.imageUrl} />
           ) : null}
+          <CardContent>
+            <Typography paragraph variant="body1">
+              {post.content}
+            </Typography>
+          </CardContent>
           <CardActions className={classes.actions} disableActionSpacing>
             <IconButton
               className={classnames(classes.expand, {
@@ -75,9 +80,6 @@ class PostCard extends Component {
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph variant="body2">
-                {post.content}
-              </Typography>
               <Comments postId={post._id} />
             </CardContent>
           </Collapse>

@@ -1,5 +1,8 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
+import styles from "./PostsList.styles";
+
+import {withStyles} from "material-ui/styles";
 
 import PostCard from "./PostCard/PostCard";
 
@@ -12,15 +15,15 @@ class PostsList extends Component {
   };
 
   render() {
-    const {posts} = this.props;
+    const {posts, classes} = this.props;
 
     return (
-      <div>
+      <div className={classes.root}>
         {posts.map(post => {
           return (
-            <div key={post._id}>
+            <Fragment key={post._id}>
               <PostCard post={post} />
-            </div>
+            </Fragment>
           );
         })}
       </div>
@@ -28,4 +31,4 @@ class PostsList extends Component {
   }
 }
 
-export default PostsList;
+export default withStyles(styles)(PostsList);

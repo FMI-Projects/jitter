@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import * as actions from "../../../../store/actions";
 
+import CommentsList from "./CommentsList/CommentsList";
+
 class Comments extends Component {
   static propTypes = {
     children: PropTypes.node,
@@ -22,16 +24,7 @@ class Comments extends Component {
     const commentsList = comments[`${postId}`] ? comments[`${postId}`] : [];
     return (
       <div>
-        {commentsList.map(comment => {
-          return (
-            <div key={comment._id}>
-              <h6>
-                {comment.author.firstName} {comment.author.lastName}
-              </h6>
-              <h6>{comment.content}</h6>
-            </div>
-          );
-        })}
+        <CommentsList comments={commentsList} />
       </div>
     );
   }
