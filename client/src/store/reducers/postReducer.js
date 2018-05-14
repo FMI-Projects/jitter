@@ -20,6 +20,9 @@ const postReducer = (state = initialState, action) => {
     case actionTypes.POSTS_GET_SUCCESS: {
       return applyPosts(state, action);
     }
+    case actionTypes.POSTS_CREATE_SUCCESS: {
+      return applyPostsCreateSuccess(state, action);
+    }
     default:
       return state;
   }
@@ -50,6 +53,13 @@ const applyPostComments = (state, action) => {
   const post = newState.posts.find(p => p._id === action.post);
   post.comments = action.comments;
   post.loading = false;
+  return newState;
+};
+
+const applyPostsCreateSuccess = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const posts = newState.posts;
+  posts.unshift(action.post);
   return newState;
 };
 

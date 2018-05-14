@@ -28,3 +28,10 @@ export const postsGetSuccess = posts => {
     posts
   };
 };
+
+export const postsCreateSuccess = post => {
+  return {
+    type: actionTypes.POSTS_CREATE_SUCCESS,
+    post
+  };
+};

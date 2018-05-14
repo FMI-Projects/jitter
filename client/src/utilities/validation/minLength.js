@@ -1,4 +1,5 @@
 import userConstants from "../../utilities/constants/userConstants";
+import postConstants from "../../utilities/constants/postConstants";
 
 export const minLength = length => value =>
   value && value.length < length
@@ -7,3 +8,4 @@ export const minLength = length => value =>
 
 export const emailMinLength = minLength(userConstants.email.minLength);
 export const passwordMinLength = minLength(userConstants.password.minLength);
+export const postTitleMinLength = minLength(postConstants.title.minLength);

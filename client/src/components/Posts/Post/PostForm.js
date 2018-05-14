@@ -5,15 +5,17 @@ import {withStyles} from "material-ui/styles";
 import Button from "material-ui/Button";
 import {TextField} from "redux-form-material-ui";
 
-import BaseForm from "../../../../../../components/UI/Forms/BaseForm/BaseForm";
-import styles from "../../../../../../components/UI/Forms/BaseForm/BaseForm.styles";
-import {required, email} from "../../../../../../utilities/validation";
-import Spinner from "../../../../../../components/UI/Spinner/Spinner";
+import {required, postTitleMinLength} from "../../../utilities/validation";
+import Spinner from "../../../components/UI/Spinner/Spinner";
 
-const loginForm = props => {
+import BaseForm from "../../UI/Forms/BaseForm/BaseForm";
+import styles from "./PostForm.styles";
+
+const postForm = props => {
   let spinner = null;
+
   if (props.submitting) {
-    spinner = <Spinner />;
+    spinner = <Spinner size={50} />;
   }
 
   let errorMessage;
@@ -26,28 +28,25 @@ const loginForm = props => {
       {spinner}
       <BaseForm
         style={{display: props.submitting ? "none" : "block"}}
-        title="Login">
+        title="Post">
         <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
             <Field
               className={props.classes.textField}
-              name="email"
+              name="title"
               component={TextField}
-              label="Email"
-              validate={[required, email]}
-              autoFocus={true}
+              label="title"
+              validate={[required, postTitleMinLength]}
             />
           </div>
           <div>
             <Field
               className={props.classes.textField}
-              name="password"
+              name="content"
               component={TextField}
               margin="dense"
-              label="Password"
-              type="password"
-              validate={[required]}
+              label="content"
             />
           </div>
           <Button
@@ -55,7 +54,7 @@ const loginForm = props => {
             variant="raised"
             color="primary"
             type="submit">
-            Sign in
+            Post
           </Button>
         </form>
       </BaseForm>
@@ -63,11 +62,11 @@ const loginForm = props => {
   );
 };
 
-loginForm.propTypes = {
+postForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(loginForm);
+export default withStyles(styles)(postForm);
