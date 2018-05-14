@@ -8,8 +8,11 @@ import {TextField} from "redux-form-material-ui";
 import {required, postTitleMinLength} from "../../../utilities/validation";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 
-import BaseForm from "../../UI/Forms/BaseForm/BaseForm";
 import styles from "./PostForm.styles";
+
+import Paper from "material-ui/Paper";
+import Card, {CardHeader} from "material-ui/Card";
+import {Grid} from "material-ui";
 
 const postForm = props => {
   let spinner = null;
@@ -26,9 +29,12 @@ const postForm = props => {
   return (
     <Fragment>
       {spinner}
-      <BaseForm
-        style={{display: props.submitting ? "none" : "block"}}
-        title="Post">
+      <Grid container>
+        <Card className={props.classes.card}>
+          <CardHeader classes={{title: props.classes.cardTitle}} title="Post" />
+        </Card>
+      </Grid>
+      <Paper className={props.classes.headline}>
         <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
@@ -46,7 +52,9 @@ const postForm = props => {
               name="content"
               component={TextField}
               margin="dense"
-              label="content"
+              label="What's jittering?"
+              multiline
+              rows={4}
             />
           </div>
           <Button
@@ -57,7 +65,7 @@ const postForm = props => {
             Post
           </Button>
         </form>
-      </BaseForm>
+      </Paper>
     </Fragment>
   );
 };

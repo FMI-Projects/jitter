@@ -1,30 +1,30 @@
-const styles = theme => ({
+const styles = {
   base: {
     marginTop: 75,
-    textAlign: "center",
+    textAlign: "center"
   },
   headline: {
     width: "50%",
     height: "35%",
     marginLeft: "auto",
-    marginRight: "auto",
+    marginRight: "auto"
   },
   form: {
     textAlign: "center",
-    padding: "70px 0",
+    padding: "70px 0"
   },
   card: {
     width: "20%",
     marginBottom: "-45px",
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "#3F51B5",
+    backgroundColor: "#3F51B5"
   },
   cardTitle: {
-    color: "#FFFFFF",
+    color: "#FFFFFF"
   },
   button: {
-    marginTop: "20px",
+    marginTop: "20px"
   },
   textField: {
     width: "50%",
@@ -33,6 +33,6 @@ const styles = theme => ({
   error: {
     color: "red"
   }
-});
+};
 
 export default styles;
