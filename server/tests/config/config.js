@@ -3,4 +3,3 @@ require("../../config");
 require("../config/mockgoose");
 require("../../data/mongoose");
 require("../../app");
-require("../../sockets/io");

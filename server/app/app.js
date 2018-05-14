@@ -13,7 +13,9 @@ const imageRouter = require("../routes/imageRouter");
 
 const app = express();
 const server = http.createServer(app);
-app.io = socketIO(server);
+const io = socketIO(server);
+
+require("../sockets/io")(io);
 
 const corsOptions = {
   exposedHeaders: ["x-auth"]
