@@ -1,8 +1,11 @@
-import WebSocket from "socket.io-client";
+import io from "socket.io-client";
+import wildcard from "socketio-wildcard";
 import { eventChannel } from "redux-saga";
 import { put, call, take } from "redux-saga/effects";
 
+const patch = wildcard(io.Manager);
 const baseUrl = "http://localhost:8000";
+
 let socketChannel;
 
 export function* openSocket(token) {
@@ -22,14 +25,16 @@ export function closeSocket() {
 
 function initializeSocket(token) {
   return eventChannel(emitter => {
-    const socket = new WebSocket(baseUrl);
+    const socket = io(baseUrl);
+    patch(socket);
 
     socket.on("connect", function() {
       socket.emit("authentication", { token });
       socket.on("authenticated", () => {
-        socket.onmessage = e => {
-          return emitter({ type: "ACTION_TYPE" });
-        };
+        socket.on("*", params => {
+          console.log(params);
+          // return emitter({ type: "ACTION_TYPE" });
+        });
       });
     });
 

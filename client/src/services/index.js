@@ -2,7 +2,7 @@ import HttpService from "./utility/httpService";
 import UserService from "./userService";
 import StorageService from "./utility/storageService";
 import ProfileService from "./profileService";
-import PostsService from "./postsService";
+import PostService from "./postService";
 import ImageService from "./imageService";
 import TimeService from "./utility/timeService";
 
@@ -12,5 +12,5 @@ export const timeService = new TimeService();
 export const storageService = new StorageService();
 export const userService = new UserService(http);
 export const profileService = new ProfileService(http);
-export const postsService = new PostsService(http);
+export const postService = new PostService(http);
 export const imageService = new ImageService(http);

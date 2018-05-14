@@ -42,7 +42,7 @@ const postForm = props => {
               className={props.classes.textField}
               name="title"
               component={TextField}
-              label="title"
+              label="Title"
               validate={[required, postTitleMinLength]}
             />
           </div>

@@ -9,16 +9,16 @@ const initialState = {
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.POST_COMMENTS_GET: {
-      return applyCommentsGet(state, action);
+      return applyPostCommentsGet(state, action);
     }
     case actionTypes.POST_COMMENTS_GET_SUCCESS: {
-      return applyPostComments(state, action);
+      return applyPostCommentsGetSuccess(state, action);
     }
-    case actionTypes.POSTS_GET: {
+    case actionTypes.PROFILE_POSTS_GET: {
       return applyPostsGet(state, action);
     }
     case actionTypes.POSTS_GET_SUCCESS: {
-      return applyPosts(state, action);
+      return applyPostsGetSuccess(state, action);
     }
     case actionTypes.POSTS_CREATE_SUCCESS: {
       return applyPostsCreateSuccess(state, action);
@@ -34,21 +34,21 @@ const applyPostsGet = (state, action) => {
   return newState;
 };
 
-const applyPosts = (state, action) => {
+const applyPostsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   newState.posts = action.posts;
   newState.loading = false;
   return newState;
 };
 
-const applyCommentsGet = (state, action) => {
+const applyPostCommentsGet = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.postId);
   post.loading = true;
   return newState;
 };
 
-const applyPostComments = (state, action) => {
+const applyPostCommentsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.post);
   post.comments = action.comments;

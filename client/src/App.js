@@ -10,6 +10,7 @@ import Login from "./scenes/Body/BodyContent/Anonymous/Login/Login";
 import Logout from "./scenes/Body/BodyContent/Authenticated/Main/Logout/Logout";
 import Welcome from "./scenes/Body/BodyContent/Anonymous/Welcome/Welcome";
 import Home from "./scenes/Body/BodyContent/Authenticated/Main/Home/Home";
+import Profile from "./scenes/Body/BodyContent/Authenticated/Main/Profile/Profile";
 
 class App extends Component {
   static propTypes = {
@@ -43,6 +44,7 @@ class App extends Component {
       routes = (
         <Switch>
           <Route exact path="/logout" component={Logout} />
+          <Route exact path="/profile/:id" component={Profile} />
           <Route exact path="/" component={Home} />
           <Redirect to="/" />
         </Switch>

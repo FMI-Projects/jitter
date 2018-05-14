@@ -7,14 +7,14 @@ export const profileGet = profileId => {
   };
 };
 
-export const profileGetSuccess = (
+export const profileGetSuccess = ({
   firstName,
   lastName,
   profilePictureUrl,
   navProfilePictureUrl,
   bio,
   birthday
-) => {
+}) => {
   return {
     type: actionTypes.PROFILE_GET_SUCCESS,
     firstName,

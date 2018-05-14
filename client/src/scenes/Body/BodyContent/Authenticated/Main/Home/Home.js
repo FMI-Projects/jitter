@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Profile from "../Profile/Profile";
 
 class Home extends Component {
   render() {
-    return <Profile />;
+    return <h1>Empty Home :( </h1>;
   }
 }
 

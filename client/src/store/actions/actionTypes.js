@@ -17,7 +17,7 @@ export const RESET = "RESET";
 export const PROFILE_GET = "PROFILE_GET";
 export const PROFILE_GET_SUCCESS = "PROFILE_GET_SUCCESS";
 
-export const POSTS_GET = "POSTS_GET";
+export const PROFILE_POSTS_GET = "POSTS_GET";
 export const POSTS_GET_SUCCESS = "POSTS_GET_SUCCESS";
 
 export const POSTS_CREATE = "POSTS_CREATE";

@@ -1,5 +1,5 @@
-import React, {Fragment} from "react";
-import {connect} from "react-redux";
+import React, { Fragment } from "react";
+import { connect } from "react-redux";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
 
@@ -16,6 +16,9 @@ const navigationItems = props => {
   } else {
     navigationItems = (
       <Fragment>
+        <NavigationItem link={`/profile/${props.userId}`}>
+          My Profile
+        </NavigationItem>
         <NavigationItem link="/logout">Logout</NavigationItem>
       </Fragment>
     );
@@ -26,7 +29,8 @@ const navigationItems = props => {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.authenticated
+    isAuthenticated: state.auth.authenticated,
+    userId: state.auth.userId
   };
 };
 

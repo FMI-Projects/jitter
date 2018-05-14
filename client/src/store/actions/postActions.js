@@ -17,7 +17,7 @@ export const postCommentsGetSuccess = (comments, post) => {
 
 export const postsGet = profileId => {
   return {
-    type: actionTypes.POSTS_GET,
+    type: actionTypes.PROFILE_POSTS_GET,
     profileId
   };
 };

@@ -3,7 +3,7 @@ import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
 import { userService, storageService } from "../../services";
-import * as socket from "./sockets/socket";
+import * as socket from "./sockets/io";
 
 export function* authLoginSaga(action) {
   try {
