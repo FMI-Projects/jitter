@@ -5,8 +5,8 @@ import {withStyles} from "material-ui/styles";
 import Button from "material-ui/Button";
 import {TextField} from "redux-form-material-ui";
 
-import {required, postTitleMinLength} from "../../../utilities/validation";
-import Spinner from "../../../components/UI/Spinner/Spinner";
+import {required, postTitleMinLength} from "../../../../utilities/validation";
+import Spinner from "../../../../components/UI/Spinner/Spinner";
 
 import styles from "./PostForm.styles";
 

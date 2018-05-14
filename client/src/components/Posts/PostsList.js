@@ -6,7 +6,7 @@ import {withStyles} from "material-ui/styles";
 import Grid from "material-ui/Grid";
 
 import PostCard from "./PostCard/PostCard";
-import CreatePost from "./Post/CreatePost/CreatePost";
+import CreatePost from "./Post/CreatePost";
 
 class PostsList extends Component {
   static propTypes = {

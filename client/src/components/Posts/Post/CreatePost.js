@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import {reduxForm} from "redux-form";
 
-import * as actions from "../../../../store/actions";
-import PostForm from "../PostForm";
+import * as actions from "../../../store/actions";
+import PostForm from "./PostForm/PostForm";
 
 const createPost = props => {
   const {handleSubmit} = props;
