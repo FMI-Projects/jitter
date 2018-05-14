@@ -5,7 +5,11 @@ import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
 
-import { required, postTitleMinLength } from "../../../../utilities/validation";
+import {
+  required,
+  postTitleMinLength,
+  postContentMaxLength
+} from "../../../../utilities/validation";
 
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import FileInput from "../../../../components/UI/Fields/ImagePreview/ImagePreview";
@@ -61,6 +65,7 @@ const postForm = props => {
                 className={props.classes.textField}
                 name="content"
                 component={TextField}
+                validate={[postContentMaxLength]}
                 margin="dense"
                 label="What's jittering?"
                 multiline
@@ -69,9 +74,11 @@ const postForm = props => {
             </div>
             <div className={props.classes.imageField}>
               <Field
-                defaultPicture={null}
-                height={200}
-                width={200}
+                id="postImage"
+                name="postImage"
+                defaultPicture=""
+                height="200"
+                width="200"
                 component={FileInput}
                 validate={[validImageSize, validImageType]}
                 label="Add image"
