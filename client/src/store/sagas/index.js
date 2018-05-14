@@ -1,15 +1,7 @@
-import {
-  takeLatest,
-  takeEvery,
-  all,
-  put,
-  call,
-  take
-} from "redux-saga/effects";
+import { takeLatest, takeEvery, all } from "redux-saga/effects";
 
 import * as actionTypes from "../actions/actionTypes";
 
-import initializeSocket from "./sockets/socket";
 import * as authSagas from "./authSagas";
 import * as userProfileSagas from "./userProfileSagas";
 import * as userProfileModalSagas from "./userProfileModalSagas";
@@ -52,15 +44,4 @@ export function* watchPosts() {
     takeEvery(actionTypes.POST_COMMENTS_GET, postSagas.postCommentsGetSaga),
     takeLatest(actionTypes.POSTS_GET, postSagas.postsGetSaga)
   ]);
-}
-
-export function* watchWebSocket() {
-  const channel = yield call(initializeSocket);
-  setTimeout(() => {
-    channel.close();
-  }, 5000);
-  while (true) {
-    const action = yield take(channel);
-    yield put(action);
-  }
 }

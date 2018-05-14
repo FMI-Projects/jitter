@@ -1,8 +1,9 @@
-import { put, call } from "redux-saga/effects";
+import { put, call, fork } from "redux-saga/effects";
 import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
 import { userService, storageService } from "../../services";
+import * as socket from "./sockets/socket";
 
 export function* authLoginSaga(action) {
   try {
@@ -13,6 +14,7 @@ export function* authLoginSaga(action) {
     );
 
     yield call(storageService.storeUser, userData.token, userData.userId);
+    yield fork(socket.openSocket, userData.token);
 
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.login.success());
@@ -35,6 +37,7 @@ export function* authRegisterSaga(action) {
     );
 
     yield call(storageService.storeUser, userData.token, userData.userId);
+    yield fork(socket.openSocket, userData.token);
 
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.authFirstLogin());
@@ -49,12 +52,14 @@ export function* authRegisterSaga(action) {
 
 export function* authLogoutSaga() {
   yield call(storageService.removeUser);
+  yield call(socket.closeSocket);
   yield put(actions.reset());
 }
 
 export function* authInitSaga(action) {
   const { userId, token } = yield call(storageService.getUser);
   if (userId && token) {
+    yield fork(socket.openSocket, token);
     yield put(actions.authSuccess(userId, token));
   } else {
     yield put(actions.reset());

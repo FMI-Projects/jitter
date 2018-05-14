@@ -5,7 +5,7 @@ const authenticate = async (socket, data, callback) => {
   const token = data.token;
   const decodedToken = jwt.decodeJwt(token);
 
-  const userId = decodedToken.userId;
+  const userId = decodedToken._id;
   const user = await User.findById(userId);
 
   if (user) {
