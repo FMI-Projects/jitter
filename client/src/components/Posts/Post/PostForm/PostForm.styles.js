@@ -9,12 +9,16 @@ const styles = {
   },
   form: {
     ...baseStyles.form,
-    width: "100%",
-    marginBottom: 90
+    width: "100%"
   },
   textField: {
     ...baseStyles.textField,
     width: "80%"
+  },
+  imageField: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   cardTitle: {
     ...baseStyles.cardTitle,
@@ -23,8 +27,7 @@ const styles = {
   headline: {
     width: "73%",
     marginLeft: "auto",
-    marginTop: 10,
-    height: "70%"
+    marginTop: 10
   }
 };
 
