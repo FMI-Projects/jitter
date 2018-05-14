@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>profile.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "data\\models\\profile.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>profile.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+<span class="hljs-keyword">const</span> validator = <span class="hljs-built_in">require</span>(<span class="hljs-string">"validator"</span>);
+
+<span class="hljs-keyword">const</span> profileConstants = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../../utilities/constants/profileConstants"</span>);
+
+<span class="hljs-keyword">const</span> ProfileSchema = <span class="hljs-keyword">new</span> mongoose.Schema({
+  <span class="hljs-attr">_id</span>: {
+    <span class="hljs-attr">type</span>: mongoose.Schema.Types.ObjectId,
+    <span class="hljs-attr">ref</span>: <span class="hljs-string">"User"</span>
+  },
+  <span class="hljs-attr">firstName</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">trim</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">maxlength</span>: profileConstants.firstName.maxLength
+  },
+  <span class="hljs-attr">lastName</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">trim</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">maxlength</span>: profileConstants.lastName.maxLength
+  },
+  <span class="hljs-attr">bio</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">trim</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">maxlength</span>: profileConstants.bio.maxLength,
+    <span class="hljs-attr">default</span>: <span class="hljs-literal">null</span>
+  },
+  <span class="hljs-attr">gender</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">trim</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">enum</span>: [<span class="hljs-string">"Male"</span>, <span class="hljs-string">"Female"</span>, <span class="hljs-literal">null</span>],
+    <span class="hljs-attr">default</span>: <span class="hljs-literal">null</span>
+  },
+  <span class="hljs-attr">birthday</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">Date</span>,
+    <span class="hljs-attr">default</span>: <span class="hljs-literal">null</span>
+  },
+  <span class="hljs-attr">profilePictureUrl</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">default</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">validate</span>: {
+      <span class="hljs-attr">validator</span>: <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> !value || validator.isURL(value),
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"{VALUE} is not a valid URL"</span>
+    }
+  }
+});
+
+<span class="hljs-keyword">const</span> Profile = mongoose.model(<span class="hljs-string">"Profile"</span>, ProfileSchema);
+
+<span class="hljs-built_in">module</span>.exports = Profile;
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

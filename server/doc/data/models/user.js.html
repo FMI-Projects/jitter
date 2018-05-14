@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>user.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "data\\models\\user.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>user.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">"mongoose"</span>);
+<span class="hljs-keyword">const</span> validator = <span class="hljs-built_in">require</span>(<span class="hljs-string">"validator"</span>);
+
+<span class="hljs-keyword">const</span> userConstants = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../../utilities/constants/userConstants"</span>);
+<span class="hljs-keyword">const</span> encryption = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../../utilities/encryption"</span>);
+<span class="hljs-keyword">const</span> authToken = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../../utilities/authToken"</span>);
+
+<span class="hljs-keyword">const</span> UserSchema = <span class="hljs-keyword">new</span> mongoose.Schema({
+  <span class="hljs-attr">email</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">minlength</span>: userConstants.email.minLength,
+    <span class="hljs-attr">maxlength</span>: userConstants.email.maxLength,
+    <span class="hljs-attr">trim</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">validate</span>: {
+      <span class="hljs-attr">validator</span>: validator.isEmail,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"{VALUE} is not a valid email"</span>
+    }
+  },
+  <span class="hljs-attr">password</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">minlength</span>: userConstants.password.minLength,
+    <span class="hljs-attr">maxlength</span>: userConstants.password.maxLength
+  }
+});
+
+UserSchema.pre(<span class="hljs-string">"save"</span>, <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">next</span>) </span>{
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>;
+
+  <span class="hljs-keyword">if</span> (user.isModified(<span class="hljs-string">"password"</span>)) {
+    <span class="hljs-keyword">const</span> hash = <span class="hljs-keyword">await</span> encryption.hashPassword(user.password);
+    user.password = hash;
+  }
+
+  next();
+});
+
+UserSchema.statics.findByEmail = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">email</span>) </span>{
+  <span class="hljs-keyword">const</span> User = <span class="hljs-keyword">this</span>;
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findOne({ email });
+
+  <span class="hljs-keyword">if</span> (!user) {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject();
+  }
+
+  <span class="hljs-keyword">return</span> user;
+};
+
+UserSchema.methods.validatePassword = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">password</span>) </span>{
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>;
+  <span class="hljs-keyword">const</span> hashedPassword = user.password;
+
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> encryption.validatePassword(password, hashedPassword);
+};
+
+UserSchema.methods.generateAuthToken = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">this</span>;
+  <span class="hljs-keyword">const</span> userId = user._id;
+
+  <span class="hljs-keyword">return</span> authToken.createJwt(userId);
+};
+
+<span class="hljs-keyword">const</span> User = mongoose.model(<span class="hljs-string">"User"</span>, UserSchema);
+
+<span class="hljs-built_in">module</span>.exports = User;
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

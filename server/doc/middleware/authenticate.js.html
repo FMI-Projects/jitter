@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>authenticate.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../";
+    var thisFile = "middleware\\authenticate.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>authenticate.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">const</span> authToken = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../utilities/authToken"</span>);
+<span class="hljs-keyword">const</span> User = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../data/models/user"</span>);
+
+<span class="hljs-keyword">const</span> authenticate = <span class="hljs-keyword">async</span> (req, res, next) =&gt; {
+  <span class="hljs-keyword">const</span> token = req.header(<span class="hljs-string">"x-auth"</span>);
+
+  <span class="hljs-keyword">if</span> (!token) {
+    <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">401</span>).send();
+  }
+
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> {_id} = authToken.decodeJwt(token);
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.findById(_id);
+
+    <span class="hljs-keyword">if</span> (!user) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>();
+    }
+    req.user = user;
+    next();
+  } <span class="hljs-keyword">catch</span> (e) {
+    res.status(<span class="hljs-number">401</span>).send(e);
+  }
+};
+
+<span class="hljs-built_in">module</span>.exports = authenticate;
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

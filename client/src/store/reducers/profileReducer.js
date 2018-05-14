@@ -40,7 +40,7 @@ const applyProfileGetSuccess = (state, action) => {
     profilePictureUrl: action.profilePictureUrl,
     bio: action.bio,
     birthday: action.birthday,
-    gender: action.birthday,
+    gender: action.gender,
     loading: false
   };
 };
