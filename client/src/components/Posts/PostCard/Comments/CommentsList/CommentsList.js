@@ -10,17 +10,17 @@ import Avatar from "material-ui/Avatar";
 import IconButton from "material-ui/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-
-import { formatDate } from "../../../../../utilities/formatters/formatDate";
-
 import { withStyles } from "material-ui/styles";
 
-const CommentsList = ({ comments, classes }) => {
+import * as formatDate from "../../../../../utilities/formatters/formatDate";
+import defaultUserImage from "../../../../../assets/images/defaultUser.png";
+
+const commentsList = ({ comments, classes }) => {
   return (
     <div className={classes.root}>
       <List>
         {comments.map(comment => {
-          const formattedDate = formatDate(comment.createdAt);
+          const formattedDate = formatDate.formatDate(comment.createdAt);
           const secondaryText = `${comment.author.firstName} ${
             comment.author.lastName
           },  ${formattedDate}`;
@@ -29,9 +29,7 @@ const CommentsList = ({ comments, classes }) => {
               {comment.author.profilePictureUrl ? (
                 <Avatar src={comment.author.profilePictureUrl} />
               ) : (
-                <Avatar aria-label="Recipe" className={classes.avatar}>
-                  R
-                </Avatar>
+                <Avatar src={defaultUserImage} />
               )}
               <ListItemText
                 primary={comment.content}
@@ -53,9 +51,9 @@ const CommentsList = ({ comments, classes }) => {
   );
 };
 
-CommentsList.propTypes = {
+commentsList.propTypes = {
   comments: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CommentsList);
+export default withStyles(styles)(commentsList);

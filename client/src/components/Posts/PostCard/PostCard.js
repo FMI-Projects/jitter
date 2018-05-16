@@ -19,7 +19,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import Comments from "./Comments/Comments";
 
-import { formatDate } from "../../../utilities/formatters/formatDate";
+import * as formatDate from "../../../utilities/formatters/formatDate";
+import defaultUserImage from "../../../assets/images/defaultUser.png";
 
 class PostCard extends Component {
   static propTypes = {
@@ -37,16 +38,18 @@ class PostCard extends Component {
 
   render() {
     const { post, classes } = this.props;
-    const formattedDate = post.createdAt ? formatDate(post.createdAt) : "N/A";
+    const formattedDate = post.createdAt ? formatDate.formatDate(post.createdAt) : "N/A";
 
     return (
       <div>
         <Card className={classes.card}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                R
-              </Avatar>
+              post.author.profilePictureUrl ? (
+                <Avatar src={post.author.profilePictureUrl} />
+              ) : (
+                <Avatar src={defaultUserImage} />
+              )
             }
             action={
               <IconButton>

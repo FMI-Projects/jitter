@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+import * as formatImage from "../../utilities/formatters/formatImage";
 
 const initialState = {
   profileId: null,
@@ -32,12 +33,13 @@ const applyProfileGet = (state, action) => {
 };
 
 const applyProfileGetSuccess = (state, action) => {
+  const profilePictureUrl = formatImage.formatUrl(action.profilePictureUrl);
   return {
     ...state,
     profileId: action._id,
     firstName: action.firstName,
     lastName: action.lastName,
-    profilePictureUrl: action.profilePictureUrl,
+    profilePictureUrl,
     bio: action.bio,
     birthday: action.birthday,
     gender: action.gender,

@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+import * as formatImage from "../../utilities/formatters/formatImage";
 import _ from "lodash";
 
 const initialState = {
@@ -36,6 +37,7 @@ const applyPostsGet = (state, action) => {
 
 const applyPostsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
+  action.posts.forEach(p => (p.imageUrl = formatImage.formatUrl(p.imageUrl)));
   newState.posts = action.posts;
   newState.loading = false;
   return newState;
@@ -51,6 +53,12 @@ const applyPostCommentsGet = (state, action) => {
 const applyPostCommentsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.post);
+  action.comments.forEach(
+    c =>
+      (c.author.profilePictureUrl = formatImage.formatUrl(
+        c.author.profilePictureUrl
+      ))
+  );
   post.comments = action.comments;
   post.loading = false;
   return newState;
@@ -59,6 +67,7 @@ const applyPostCommentsGetSuccess = (state, action) => {
 const applyPostsCreateSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const posts = newState.posts;
+  action.post.imageUrl = formatImage.formatUrl(action.post.imageUrl);
   posts.unshift(action.post);
   return newState;
 };

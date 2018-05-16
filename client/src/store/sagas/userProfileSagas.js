@@ -7,17 +7,11 @@ export function* userProfileGetInfoSaga(action) {
   try {
     const { firstName, lastName, profilePictureUrl } = yield call(profileService.getCurrentProfileInfo);
 
-    let navProfilePictureUrl = null;
-    if (profilePictureUrl) {
-      navProfilePictureUrl = null;
-    }
-
     yield put(
       actions.userProfileSetInfo(
         firstName,
         lastName,
-        profilePictureUrl,
-        navProfilePictureUrl
+        profilePictureUrl
       )
     );
   } catch (e) {}
