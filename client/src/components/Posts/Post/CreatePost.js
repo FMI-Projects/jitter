@@ -1,27 +1,31 @@
-import React from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {reduxForm} from "redux-form";
 
 import * as actions from "../../../store/actions";
-import PostForm from "./PostForm/PostForm";
+import PostFormDialog from "./PostFormDialog/PostFormDialog";
 
-const createPost = props => {
-  const {handleSubmit} = props;
-  const submit = handleSubmit(actions.postCreate);
+class CreatePost extends Component {
+  render() {
+    const {handleSubmit, error, submitting} = this.props;
+    const submit = handleSubmit(actions.postCreate);
 
-  return (
-    <PostForm
-      onSubmit={submit}
-      error={props.error}
-      submitting={props.submitting}
-    />
-  );
-};
+    return (
+      <Fragment>
+        <PostFormDialog
+          submit={submit}
+          error={error}
+          submitting={submitting}
+        />
+      </Fragment>
+    );
+  }
+}
 
-createPost.propTypes = {
+CreatePost.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   submitting: PropTypes.bool.isRequired
 };
 
-export default reduxForm({form: "createPost"})(createPost);
+export default reduxForm({form: "createPost"})(CreatePost);
