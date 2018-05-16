@@ -1,7 +1,7 @@
-import {put, call} from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 
 import * as actions from "../actions";
-import {profileService} from "../../services";
+import { profileService } from "../../services";
 
 export function* profilePostsGetSaga(action) {
   try {
@@ -14,7 +14,6 @@ export function* profilePostsGetSaga(action) {
 export function* profileGetSaga(action) {
   try {
     const data = yield call(profileService.getProfileInfo, action.profileId);
-
     yield put(actions.profileGetSuccess(data));
   } catch (e) {}
 }

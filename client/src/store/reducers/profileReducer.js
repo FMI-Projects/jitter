@@ -9,7 +9,7 @@ const initialState = {
   bio: null,
   birthday: null,
   gender: null,
-  loading: false
+  loading: true
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -33,7 +33,7 @@ const applyProfileGet = (state, action) => {
 };
 
 const applyProfileGetSuccess = (state, action) => {
-  const profilePictureUrl = formatImage.formatUrl(action.profilePictureUrl);
+  const profilePictureUrl = formatImage.getFullUrl(action.profilePictureUrl);
   return {
     ...state,
     profileId: action._id,

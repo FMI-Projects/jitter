@@ -1,11 +1,13 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import Grid from "material-ui/Grid";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actions from "../../../../../../store/actions";
 import PostsList from "../../../../../../components/Posts/PostsList";
 import Spinner from "../../../../../../components/UI/Spinner/Spinner";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 class Profile extends Component {
   static propTypes = {
@@ -21,6 +23,7 @@ class Profile extends Component {
     birthday: PropTypes.string,
     gender: PropTypes.string,
     bio: PropTypes.string,
+    currentUserId: PropTypes.string,
     match: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired
   };
@@ -32,35 +35,62 @@ class Profile extends Component {
   }
 
   render() {
-    let postsList = <Spinner />;
-
-    if (!this.props.loading) {
-      const {
-        posts,
-        firstName,
-        lastName,
-        profilePictureUrl,
-        profileId
-      } = this.props;
-
-      const postsWithAuthor = posts.map(post => {
-        return {
-          ...post,
-          author: {firstName, lastName, profilePictureUrl, profileId}
-        };
-      });
-
-      postsList = <PostsList posts={postsWithAuthor} />;
+    if (this.props.loading) {
+      return <Spinner />;
     }
 
-    return <div>{postsList}</div>;
+    const {
+      posts,
+      firstName,
+      lastName,
+      profilePictureUrl,
+      birthday,
+      gender,
+      bio,
+      profileId,
+      currentUserId
+    } = this.props;
+
+    const profileInfo = (
+      <ProfileInfo
+        firstName={firstName}
+        lastName={lastName}
+        profilePictureUrl={profilePictureUrl}
+        birthday={birthday}
+        gender={gender}
+        bio={bio}
+        profileId={profileId}
+        currentUserId={currentUserId}
+      />
+    );
+
+    const postsWithAuthor = posts.map(post => {
+      return {
+        ...post,
+        author: { firstName, lastName, profilePictureUrl, profileId }
+      };
+    });
+
+    const postsList = <PostsList posts={postsWithAuthor} />;
+
+    return (
+      <Grid container>
+        <Grid item sm={3}>
+          {profileInfo}
+        </Grid>
+        <Grid item sm={9}>
+          {postsList}
+        </Grid>
+      </Grid>
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
     posts: state.posts.posts,
-    loading: state.posts.loading && state.profile.loading,
+    loading: state.posts.loading || state.profile.loading,
+    currentUserId: state.auth.userId,
     profileId: state.profile.profileId,
     firstName: state.profile.firstName,
     lastName: state.profile.lastName,

@@ -41,7 +41,7 @@ class PostCard extends Component {
   render() {
     const {post, classes} = this.props;
     const formattedDate = post.createdAt
-      ? formatDate.formatDate(post.createdAt)
+      ? formatDate.getFullDate(post.createdAt)
       : "N/A";
 
     return (

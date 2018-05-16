@@ -4,7 +4,7 @@ import _ from "lodash";
 
 const initialState = {
   posts: [],
-  loading: false
+  loading: true
 };
 
 const postReducer = (state = initialState, action) => {
@@ -37,7 +37,7 @@ const applyPostsGet = (state, action) => {
 
 const applyPostsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
-  action.posts.forEach(p => (p.imageUrl = formatImage.formatUrl(p.imageUrl)));
+  action.posts.forEach(p => (p.imageUrl = formatImage.getFullUrl(p.imageUrl)));
   newState.posts = action.posts;
   newState.loading = false;
   return newState;
@@ -55,7 +55,7 @@ const applyPostCommentsGetSuccess = (state, action) => {
   const post = newState.posts.find(p => p._id === action.post);
   action.comments.forEach(
     c =>
-      (c.author.profilePictureUrl = formatImage.formatUrl(
+      (c.author.profilePictureUrl = formatImage.getFullUrl(
         c.author.profilePictureUrl
       ))
   );
@@ -67,7 +67,7 @@ const applyPostCommentsGetSuccess = (state, action) => {
 const applyPostsCreateSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const posts = newState.posts;
-  action.post.imageUrl = formatImage.formatUrl(action.post.imageUrl);
+  action.post.imageUrl = formatImage.getFullUrl(action.post.imageUrl);
   posts.unshift(action.post);
   return newState;
 };

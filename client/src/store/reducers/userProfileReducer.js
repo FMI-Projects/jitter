@@ -18,7 +18,7 @@ const profileReducer = (state = initialState, action) => {
 };
 
 const applyUserProfileSetInfo = (state, action) => {
-  const profilePictureUrl = formatImage.formatUrl(action.profilePictureUrl);
+  const profilePictureUrl = formatImage.getFullUrl(action.profilePictureUrl);
 
   return {
     ...state,

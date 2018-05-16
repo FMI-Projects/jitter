@@ -12,7 +12,7 @@ export const profileGetSuccess = ({
   firstName,
   lastName,
   profilePictureUrl,
-  navProfilePictureUrl,
+  gender,
   bio,
   birthday
 }) => {
@@ -22,7 +22,7 @@ export const profileGetSuccess = ({
     firstName,
     lastName,
     profilePictureUrl,
-    navProfilePictureUrl,
+    gender,
     bio,
     birthday
   };

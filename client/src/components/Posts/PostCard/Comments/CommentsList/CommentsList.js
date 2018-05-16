@@ -20,7 +20,7 @@ const commentsList = ({ comments, classes }) => {
     <div className={classes.root}>
       <List>
         {comments.map(comment => {
-          const formattedDate = formatDate.formatDate(comment.createdAt);
+          const formattedDate = formatDate.getFullDate(comment.createdAt);
           const secondaryText = `${comment.author.firstName} ${
             comment.author.lastName
           },  ${formattedDate}`;
