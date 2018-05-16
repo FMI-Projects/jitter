@@ -21,15 +21,19 @@ class PostsList extends Component {
 
     return (
       <div className={classes.root}>
-        {canAddPost ? <CreatePost /> : null}
+        <div className={classes.formButton}>
+          {canAddPost ? <CreatePost /> : null}
+        </div>
 
-        {posts.map(post => {
-          return (
-            <Fragment key={post._id}>
-              <PostCard post={post} />
-            </Fragment>
-          );
-        })}
+        <div className={classes.list}>
+          {posts.map(post => {
+            return (
+              <Fragment key={post._id}>
+                <PostCard post={post} />
+              </Fragment>
+            );
+          })}
+        </div>
       </div>
     );
   }
