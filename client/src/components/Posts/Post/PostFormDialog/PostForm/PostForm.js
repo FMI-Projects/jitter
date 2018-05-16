@@ -35,8 +35,8 @@ const postForm = props => {
   return (
     <Fragment>
       {spinner}
-      <div className={props.classes.form}>
-        <form onSubmit={props.onSubmit}>
+      <div style={{display: props.submitting ? "none" : "block"}}>
+        <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
             <Field

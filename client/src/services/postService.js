@@ -11,7 +11,6 @@ export default class PostService {
 
   createPost = async (title, content, imageUrl) => {
     const url = `/api/posts`;
-    console.log("imageurl: ", imageUrl);
     const postData = {title, content, imageUrl};
     const response = await this.http.post(url, postData);
 
