@@ -1,7 +1,7 @@
-import { put, call } from "redux-saga/effects";
+import {put, call} from "redux-saga/effects";
 
 import * as actions from "../actions";
-import { profileService } from "../../services";
+import {profileService} from "../../services";
 
 export function* profilePostsGetSaga(action) {
   try {

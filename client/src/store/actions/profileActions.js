@@ -8,6 +8,7 @@ export const profileGet = profileId => {
 };
 
 export const profileGetSuccess = ({
+  _id,
   firstName,
   lastName,
   profilePictureUrl,
@@ -17,6 +18,7 @@ export const profileGetSuccess = ({
 }) => {
   return {
     type: actionTypes.PROFILE_GET_SUCCESS,
+    _id,
     firstName,
     lastName,
     profilePictureUrl,

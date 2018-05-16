@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import styles from "./PostCard.styles";
 import {withStyles} from "material-ui/styles";
 import classnames from "classnames";
+import {Link} from "react-router-dom";
 
 import Card, {
   CardHeader,
@@ -14,8 +15,9 @@ import Collapse from "material-ui/transitions/Collapse";
 import Avatar from "material-ui/Avatar";
 import IconButton from "material-ui/IconButton";
 import Typography from "material-ui/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CommentIcon from "@material-ui/icons/Comment";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 import Comments from "./Comments/Comments";
 
@@ -43,7 +45,7 @@ class PostCard extends Component {
       : "N/A";
 
     return (
-      <div>
+      <Fragment>
         <Card className={classes.card}>
           <CardHeader
             avatar={
@@ -58,12 +60,19 @@ class PostCard extends Component {
                 <MoreVertIcon />
               </IconButton>
             }
-            title={post.title}
-            subheader={`${post.author.firstName} ${
-              post.author.lastName
-            }, ${formattedDate}`}
+            title={
+              <Link
+                to={`/profile/${post.author.profileId}`}
+                className={classes.link}>
+                {post.author.firstName} {post.author.lastName}
+              </Link>
+            }
+            subheader={formattedDate}
           />
           <CardContent>
+            <Typography paragraph variant="title">
+              {post.title}
+            </Typography>
             <Typography paragraph variant="body1">
               {post.content}
             </Typography>
@@ -72,6 +81,9 @@ class PostCard extends Component {
             <CardMedia className={classes.media} image={post.imageUrl} />
           ) : null}
           <CardActions className={classes.actions} disableActionSpacing>
+            <IconButton>
+              <ThumbUpIcon />
+            </IconButton>
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded
@@ -79,7 +91,7 @@ class PostCard extends Component {
               onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
               aria-label="Show more">
-              <ExpandMoreIcon />
+              <CommentIcon />
             </IconButton>
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
@@ -88,7 +100,7 @@ class PostCard extends Component {
             </CardContent>
           </Collapse>
         </Card>
-      </div>
+      </Fragment>
     );
   }
 }

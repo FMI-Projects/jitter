@@ -25,6 +25,9 @@ const styles = theme => ({
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 

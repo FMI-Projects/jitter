@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import * as actions from "../../../../../../store/actions";
 import PostsList from "../../../../../../components/Posts/PostsList";
 import Spinner from "../../../../../../components/UI/Spinner/Spinner";
@@ -35,10 +35,19 @@ class Profile extends Component {
     let postsList = <Spinner />;
 
     if (!this.props.loading) {
-      const { posts, firstName, lastName, profilePictureUrl } = this.props;
+      const {
+        posts,
+        firstName,
+        lastName,
+        profilePictureUrl,
+        profileId
+      } = this.props;
 
       const postsWithAuthor = posts.map(post => {
-        return { ...post, author: { firstName, lastName, profilePictureUrl } };
+        return {
+          ...post,
+          author: {firstName, lastName, profilePictureUrl, profileId}
+        };
       });
 
       postsList = <PostsList posts={postsWithAuthor} />;
