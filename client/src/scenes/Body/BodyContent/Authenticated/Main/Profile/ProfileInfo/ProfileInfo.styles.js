@@ -21,6 +21,10 @@ const styles = {
   },
   content: {
     marginTop: "10px"
+  },
+  actions: {
+    marginTop: "20px",
+    textAlign: "center"
   }
 };
 

@@ -61,6 +61,7 @@ class Profile extends Component {
         bio={bio}
         profileId={profileId}
         currentUserId={currentUserId}
+        isCurrentUser={currentUserId === profileId}
       />
     );
 
@@ -71,7 +72,7 @@ class Profile extends Component {
       };
     });
 
-    const postsList = <PostsList posts={postsWithAuthor} />;
+    const postsList = <PostsList posts={postsWithAuthor} canAddPost={currentUserId === profileId} />;
 
     return (
       <Grid container>

@@ -6,6 +6,7 @@ import { withStyles } from "material-ui/styles";
 import * as formatDate from "../../../../../../../utilities/formatters/formatDate";
 import defaultProfilePicture from "../../../../../../../assets/images/defaultUser.png";
 import styles from "./ProfileInfo.styles";
+import ProfileActions from "./ProfileActions/ProfileActions";
 
 const profileInfo = props => (
   <Paper className={props.classes.paper}>
@@ -39,6 +40,11 @@ const profileInfo = props => (
         <span>{props.bio ? props.bio : "N/A"}</span>
       </Typography>
     </div>
+    {props.isCurrentUser ? (
+      <ProfileActions className={props.classes.actions} />
+    ) : (
+      <ProfileActions className={props.classes.actions} />
+    )}
   </Paper>
 );
 
@@ -50,7 +56,8 @@ profileInfo.propTypes = {
   gender: PropTypes.string,
   birthday: PropTypes.string,
   bio: PropTypes.string,
-  profileId: PropTypes.string
+  profileId: PropTypes.string,
+  isCurrentUser: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(profileInfo);

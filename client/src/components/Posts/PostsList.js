@@ -12,15 +12,16 @@ class PostsList extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     posts: PropTypes.array,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    canAddPost: PropTypes.bool.isRequired
   };
 
   render() {
-    const { posts, classes } = this.props;
+    const { posts, classes, canAddPost } = this.props;
 
     return (
       <div className={classes.root}>
-        <CreatePost />
+        {canAddPost ? <CreatePost /> : null}
 
         {posts.map(post => {
           return (
