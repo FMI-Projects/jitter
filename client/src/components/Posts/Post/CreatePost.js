@@ -6,7 +6,7 @@ import * as actions from "../../../store/actions";
 import PostFormDialog from "./PostFormDialog/PostFormDialog";
 
 const createPost = props => {
-  const {handleSubmit, error, submitting} = this.props;
+  const {handleSubmit, error, submitting} = props;
   const submit = handleSubmit(actions.postCreate);
 
   return (
