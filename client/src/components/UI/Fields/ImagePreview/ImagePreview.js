@@ -35,8 +35,13 @@ class ImagePreview extends Component {
   onBlur = delegate => e => delegate(e.target.files[0]);
 
   onChange = delegate => e => {
-    delegate(e.target.files[0]);
     this.setSelectedImage(e.target.files[0]);
+    delegate(e.target.files[0]);
+  };
+
+  clearPicture = () => {
+    this.setState({ selectedImage: null });
+    this.props.input.onChange(null);
   };
 
   setSelectedImage = file => {
@@ -66,6 +71,20 @@ class ImagePreview extends Component {
       selectedImage = this.state.selectedImage;
     }
 
+    let clearButton = null;
+    if (this.state.selectedImage || error) {
+      clearButton = (
+        <Button
+          className={this.props.classes.imageButton}
+          variant="raised"
+          color="secondary"
+          onClick={this.clearPicture}
+        >
+          CLEAR PICTURE
+        </Button>
+      );
+    }
+
     return (
       <div style={{ width: this.props.width }}>
         <div>
@@ -86,6 +105,7 @@ class ImagePreview extends Component {
           >
             ADD PICTURE
           </Button>
+          {clearButton}
           <input
             ref={this.inputRef}
             id={this.props.id}
