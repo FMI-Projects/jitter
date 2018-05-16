@@ -5,7 +5,7 @@ export default class ProfileService {
 
   getCurrentProfileInfo = async () => {
     const url = "/profile/";
-    const { data } = await this.http.get(url);
+    const {data} = await this.http.get(url);
     return data;
   };
 
@@ -16,19 +16,19 @@ export default class ProfileService {
       profileData.birthday = new Date(profileData.birthday);
     }
 
-    const { data } = await this.http.patch(url, profileData);
+    const {data} = await this.http.patch(url, profileData);
     return data;
   };
 
   getProfileInfo = async profileId => {
     const url = `/api/profiles/${profileId}`;
-    const { data } = await this.http.get(url);
+    const {data} = await this.http.get(url);
     return data;
   };
 
   getProfilePosts = async profileId => {
     const url = `/api/profiles/${profileId}/posts`;
-    const { data } = await this.http.get(url);
+    const {data} = await this.http.get(url);
     return data;
   };
 }

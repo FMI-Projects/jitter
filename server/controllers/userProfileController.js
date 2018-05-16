@@ -15,8 +15,8 @@ const updateCurrentUserProfile = async (req, res) => {
   try {
     const profile = await Profile.findByIdAndUpdate(
       userId,
-      { $set: req.body },
-      { new: true }
+      {$set: req.body},
+      {new: true}
     );
     res.status(200).send(profile);
   } catch (e) {

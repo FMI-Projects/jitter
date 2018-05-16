@@ -2,6 +2,7 @@ import {put, call} from "redux-saga/effects";
 
 import * as actions from "../actions";
 import {postService} from "../../services";
+import {imageService} from "../../services";
 import {SubmissionError} from "redux-form";
 
 export function* postCommentsGetSaga(action) {
@@ -14,11 +15,22 @@ export function* postCommentsGetSaga(action) {
 
 export function* postsCreateSaga(action) {
   try {
+    let imageKey;
+    if (action.payload.imageUrl) {
+      const imageData = yield call(imageService.getSignedUrl);
+      yield call(
+        imageService.uploadImage,
+        imageData.url,
+        action.payload.imageUrl
+      );
+      imageKey = imageData.key;
+    }
+
     const post = yield call(
       postService.createPost,
       action.payload.title,
       action.payload.content,
-      action.payload.imageUrl
+      imageKey
     );
 
     yield put(actions.postsCreateSuccess(post));

@@ -14,7 +14,9 @@ class PostFormDialog extends Component {
     classes: PropTypes.object.isRequired,
     error: PropTypes.string,
     submitting: PropTypes.bool.isRequired,
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
+    submitted: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired
   };
 
   state = {
@@ -28,6 +30,13 @@ class PostFormDialog extends Component {
   closeDialog = () => {
     this.setState({open: false});
   };
+
+  componentDidUpdate() {
+    if (this.props.submitted) {
+      this.props.reset();
+      this.setState({open: false});
+    }
+  }
 
   render() {
     return (
@@ -49,6 +58,8 @@ class PostFormDialog extends Component {
             onSubmit={this.props.submit}
             error={this.props.error}
             submitting={this.props.submitting}
+            reset={this.props.reset}
+            submitted={this.props.submitted}
           />
         </Dialog>
       </Fragment>

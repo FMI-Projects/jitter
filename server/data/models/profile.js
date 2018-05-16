@@ -38,11 +38,7 @@ const ProfileSchema = new mongoose.Schema({
   },
   profilePictureUrl: {
     type: String,
-    default: null,
-    validate: {
-      validator: value => !value || validator.isURL(value),
-      message: "{VALUE} is not a valid URL"
-    }
+    default: null
   }
 });
 

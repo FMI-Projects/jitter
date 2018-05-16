@@ -20,11 +20,7 @@ const PostSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
-      default: null,
-      validate: {
-        validator: value => !value || validator.isURL(value),
-        message: "{VALUES} is not a valid URL"
-      }
+      default: null
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
