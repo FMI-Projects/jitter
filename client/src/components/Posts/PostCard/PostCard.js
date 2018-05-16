@@ -63,14 +63,14 @@ class PostCard extends Component {
               post.author.lastName
             }, ${formattedDate}`}
           />
-          {post.imageUrl ? (
-            <CardMedia className={classes.media} image={post.imageUrl} />
-          ) : null}
           <CardContent>
             <Typography paragraph variant="body1">
               {post.content}
             </Typography>
           </CardContent>
+          {post.imageUrl ? (
+            <CardMedia className={classes.media} image={post.imageUrl} />
+          ) : null}
           <CardActions className={classes.actions} disableActionSpacing>
             <IconButton
               className={classnames(classes.expand, {
