@@ -4,8 +4,8 @@ const editComment = async (req, res) => {
   try {
     const comment = await Comment.findByIdAndUpdate(
       req.params.id,
-      {$set: req.body},
-      {new: true}
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
 
     res.status(200).send(comment);
