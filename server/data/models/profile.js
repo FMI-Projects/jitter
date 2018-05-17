@@ -51,7 +51,7 @@ const ProfileSchema = new mongoose.Schema({
         with: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
-          unique: true,
+          index: true,
           ref: "Profile"
         },
         seen: {
@@ -86,6 +86,68 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
   );
 
   return profile;
+};
+
+ProfileSchema.statics.sendFriendRequest = async function(from, to) {
+  const Profile = this;
+
+  const setFrom = Profile.update(
+    { _id: from, "friendships.with": { $ne: to } },
+    { $push: { friendships: { status: "Requested", seen: true, with: to } } }
+  );
+
+  const setTo = Profile.update(
+    { _id: to, "friendships.with": { $ne: from } },
+    { $push: { friendships: { status: "Pending", seen: false, with: from } } }
+  );
+
+  const sendIfPreviouslyDeclined = Profile.update(
+    { _id: to, "friendships.with": from, "friendships.status": "Declined" },
+    { $set: { "friendships.seen": false, "friendships.status": "Pending" } }
+  );
+
+  await Promise.all([setFrom, setTo, sendIfPreviouslyDeclined]);
+};
+
+ProfileSchema.statics.updateFriendRequest = async function(from, to, status) {
+  const Profile = this;
+
+  let setFrom = null;
+  let setTo = null;
+
+  switch (status) {
+    case "Accept":
+      setFrom = Profile.update(
+        { _id: from, "friendships.with": to, "friendships.status": "Pending" },
+        { $set: { "friendships.seen": true, "friendships.status": "Accepted" } }
+      );
+
+      setTo = Profile.update(
+        {
+          _id: to,
+          "friendships.with": from,
+          "friendships.status": "Requested"
+        },
+        { $set: { "friendships.seen": true, "friendships.status": "Accepted" } }
+      );
+
+      break;
+
+    case "Decline":
+      setFrom = Profile.update(
+        { _id: from },
+        { $pull: { "friendships.with": to } }
+      );
+
+      setTo = Profile.update(
+        { _id: to, "friendships.with": from },
+        { $set: { "friendships.seen": true, "friendships.status": "Declined" } }
+      );
+
+      break;
+  }
+
+  await Promise.all([setFrom, setTo]);
 };
 
 const Profile = mongoose.model("Profile", ProfileSchema);

@@ -24,7 +24,45 @@ const updateCurrentUserProfile = async (req, res) => {
   }
 };
 
+const sendFriendRequest = async (req, res) => {
+  const userId = req.user._id;
+  const requestedProfileId = req.body.profileId;
+
+  if (userId === requestedProfileId) {
+    res.status(400).send();
+  }
+
+  try {
+    await Profile.sendFriendRequest(userId, requestedProfileId);
+    res.status(200).send();
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
+const updateFriendRequest = async (req, res) => {
+  const userId = req.user._id;
+  const requestedProfileId = req.params.profileId;
+
+  if (userId === requestedProfileId) {
+    res.status(400).send();
+  }
+
+  try {
+    await Profile.updateFriendRequest(
+      userId,
+      requestedProfileId,
+      req.body.status
+    );
+    res.status(200).send();
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
 module.exports = {
   getCurrentUserProfile,
-  updateCurrentUserProfile
+  updateCurrentUserProfile,
+  sendFriendRequest,
+  updateFriendRequest
 };
