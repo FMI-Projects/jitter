@@ -15,11 +15,13 @@ import Collapse from "material-ui/transitions/Collapse";
 import Avatar from "material-ui/Avatar";
 import IconButton from "material-ui/IconButton";
 import Typography from "material-ui/Typography";
+import Menu, {MenuItem} from "material-ui/Menu";
 import CommentIcon from "@material-ui/icons/Comment";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 import Comments from "./Comments/Comments";
+import EditPost from "./EditPost/EditPost";
 
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
@@ -31,11 +33,29 @@ class PostCard extends Component {
   };
 
   state = {
-    expanded: false
+    expanded: false,
+    menuOpen: null,
+    dialogOpen: false
+  };
+
+  handleDialogOpen = () => {
+    this.setState({dialogOpen: true});
+  };
+
+  handleDialogClose = () => {
+    this.setState({dialogOpen: false, menuOpen: null});
   };
 
   handleExpandClick = () => {
     this.setState({expanded: !this.state.expanded});
+  };
+
+  handleMenuClick = e => {
+    this.setState({menuOpen: e.currentTarget});
+  };
+
+  handleMenuClose = () => {
+    this.setState({menuOpen: null});
   };
 
   render() {
@@ -57,7 +77,22 @@ class PostCard extends Component {
             }
             action={
               <IconButton>
-                <MoreVertIcon />
+                <MoreVertIcon onClick={this.handleMenuClick} />
+                <Menu
+                  anchorEl={this.state.menuOpen}
+                  open={Boolean(this.state.menuOpen)}
+                  onClose={this.handleMenuClose}>
+                  <MenuItem onClick={this.handleDialogOpen}>
+                    Edit Post
+                    <EditPost
+                      dialogOpen={this.state.dialogOpen}
+                      title={post.title}
+                      content={post.content}
+                      imageUrl={post.imageUrl}
+                      closeDialog={this.handleDialogClose}
+                    />
+                  </MenuItem>
+                </Menu>
               </IconButton>
             }
             title={

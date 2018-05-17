@@ -11,7 +11,12 @@ class PostForm extends Component {
     onSubmitted: PropTypes.func,
     handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    error: PropTypes.string
+    error: PropTypes.string,
+    title: PropTypes.string,
+    content: PropTypes.string,
+    imageUrl: PropTypes.string,
+    formTitle: PropTypes.string.isRequired,
+    initialize: PropTypes.func.isRequired
   };
 
   componentDidUpdate() {
@@ -21,12 +26,25 @@ class PostForm extends Component {
   }
 
   render() {
-    const {title, handleSubmit, submitting, error} = this.props;
+    const {
+      title,
+      content,
+      imageUrl,
+      formTitle,
+      handleSubmit,
+      submitting,
+      error,
+      initialize
+    } = this.props;
     const submit = handleSubmit(actions.postCreate);
 
     return (
       <PostFormContent
+        initialize={initialize}
         title={title}
+        content={content}
+        imageUrl={imageUrl}
+        formTitle={formTitle}
         onSubmit={submit}
         submitting={submitting}
         error={error}
