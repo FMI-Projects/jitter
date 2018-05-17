@@ -21,6 +21,7 @@ const getProfileInfo = async (req, res) => {
 
     res.status(200).send(profile);
   } catch (e) {
+    console.log(e);
     res.status(400).send(e);
   }
 };

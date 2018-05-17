@@ -39,22 +39,29 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  friendships: [
-    {
-      status: {
-        type: String,
-        enum: ["Accepted", "Declined", "Pending", "Requested"],
-        trim: true,
-        required: true
-      },
-      with: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        unique: true,
-        ref: "Profile"
+  friendships: {
+    type: [
+      {
+        status: {
+          type: String,
+          enum: ["Accepted", "Declined", "Pending", "Requested"],
+          trim: true,
+          required: true
+        },
+        with: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          unique: true,
+          ref: "Profile"
+        },
+        seen: {
+          type: Boolean,
+          default: false
+        }
       }
-    }
-  ]
+    ],
+    default: []
+  }
 });
 
 ProfileSchema.statics.getUserProfileInfo = async function(profileId) {
@@ -74,7 +81,7 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
     "_id firstName lastName profilePictureUrl"
   );
 
-  profile.friendShips = profile.friendShips.filter(
+  profile.friendships = profile.friendships.filter(
     f => f.status === "Accepted"
   );
 
