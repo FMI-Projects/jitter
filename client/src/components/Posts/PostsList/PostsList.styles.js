@@ -1,15 +1,15 @@
 const styles = theme => ({
   root: {
     width: "75%",
-    position: "fixed"
+    position: "absolute"
   },
   list: {
-    marginTop: 52,
-    position: "fixed",
+    marginTop: 54,
+    position: "absolute",
     width: "75%"
   },
   formButton: {
-    position: "fixed",
+    position: "absolute",
     width: "50%"
   }
 });
