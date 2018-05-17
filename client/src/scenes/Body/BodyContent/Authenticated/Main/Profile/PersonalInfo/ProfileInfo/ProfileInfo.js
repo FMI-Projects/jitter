@@ -40,7 +40,7 @@ const profileInfo = props => (
         <span>{props.bio ? props.bio : "N/A"}</span>
       </Typography>
     </div>
-    {props.isCurrentUser ? (
+    {props.profileId === props.currentUserId ? (
       <ProfileActions className={props.classes.actions} />
     ) : (
       <ProfileActions className={props.classes.actions} />
@@ -57,7 +57,7 @@ profileInfo.propTypes = {
   birthday: PropTypes.string,
   bio: PropTypes.string,
   profileId: PropTypes.string,
-  isCurrentUser: PropTypes.bool.isRequired
+  currentUserId: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(profileInfo);

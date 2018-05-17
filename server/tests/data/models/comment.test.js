@@ -57,7 +57,7 @@ describe("comment", () => {
         const comments = await Comment.findPostComments(post);
 
         expect(Comment.find).toHaveBeenCalledWith({ post });
-        expect(mockQuery.populate).toHaveBeenCalledWith("author");
+        expect(mockQuery.populate).toHaveBeenCalledWith("author", "_id firstName lastName profilePictureUrl");
         expect(comments).toEqual(commentsToReturn);
       });
 
@@ -81,7 +81,7 @@ describe("comment", () => {
         }
 
         expect(Comment.find).toHaveBeenCalledWith({ post });
-        expect(mockQuery.populate).toHaveBeenCalledWith("author");
+        expect(mockQuery.populate).toHaveBeenCalledWith("author", "_id firstName lastName profilePictureUrl");
         expect(error).toBeDefined();
       });
     });
