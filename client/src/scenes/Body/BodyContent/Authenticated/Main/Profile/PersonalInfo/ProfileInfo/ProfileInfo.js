@@ -40,11 +40,7 @@ const profileInfo = props => (
         <span>{props.bio ? props.bio : "N/A"}</span>
       </Typography>
     </div>
-    {props.profileId === props.currentUserId ? (
-      <ProfileActions className={props.classes.actions} />
-    ) : (
-      <ProfileActions className={props.classes.actions} />
-    )}
+    <ProfileActions />
   </Paper>
 );
 
@@ -55,9 +51,7 @@ profileInfo.propTypes = {
   lastName: PropTypes.string.isRequired,
   gender: PropTypes.string,
   birthday: PropTypes.string,
-  bio: PropTypes.string,
-  profileId: PropTypes.string,
-  currentUserId: PropTypes.string.isRequired
+  bio: PropTypes.string
 };
 
 export default withStyles(styles)(profileInfo);

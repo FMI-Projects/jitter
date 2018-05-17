@@ -11,9 +11,7 @@ const personalInfo = props => {
     profilePictureUrl,
     birthday,
     gender,
-    bio,
-    currentUserId,
-    profileId
+    bio
   } = props;
 
   return (
@@ -24,15 +22,11 @@ const personalInfo = props => {
       birthday={birthday}
       gender={gender}
       bio={bio}
-      profileId={profileId}
-      currentUserId={currentUserId}
     />
   );
 };
 
 personalInfo.propTypes = {
-  currentUserId: PropTypes.string.isRequired,
-  profileId: PropTypes.string.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   bio: PropTypes.string,
@@ -43,8 +37,6 @@ personalInfo.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    currentUserId: state.auth.userId,
-    profileId: state.profile.profileId,
     firstName: state.profile.firstName,
     lastName: state.profile.lastName,
     bio: state.profile.bio,
