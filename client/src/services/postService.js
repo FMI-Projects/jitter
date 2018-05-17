@@ -16,4 +16,15 @@ export default class PostService {
 
     return response.data;
   };
+
+  updatePost = async (id, title, content, imageUrl) => {
+    const url = `/api/posts/${id}`;
+    const postData = {title, content};
+    if (imageUrl) {
+      postData.imageUrl = imageUrl;
+    }
+    const response = await this.http.put(url, postData);
+
+    return response.data;
+  };
 }

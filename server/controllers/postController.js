@@ -26,8 +26,8 @@ const updatePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
-      { new: true, runValidators: true }
+      {$set: req.body},
+      {new: true, runValidators: true}
     );
 
     res.status(200).send(post);

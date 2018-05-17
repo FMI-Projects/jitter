@@ -17,7 +17,8 @@ class PostForm extends Component {
     content: PropTypes.string,
     imageUrl: PropTypes.string,
     formTitle: PropTypes.string.isRequired,
-    initialize: PropTypes.func.isRequired
+    initialize: PropTypes.func.isRequired,
+    formName: PropTypes.string
   };
 
   componentDidUpdate() {
@@ -27,8 +28,13 @@ class PostForm extends Component {
   }
 
   render() {
-    const {formTitle, handleSubmit, submitting, error} = this.props;
-    const submit = handleSubmit(actions.postCreate);
+    const {formName, formTitle, handleSubmit, submitting, error} = this.props;
+    let submit;
+    if (formName === "createPost") {
+      submit = handleSubmit(actions.postCreate);
+    } else if (formName === "updatePost") {
+      submit = handleSubmit(actions.postUpdate);
+    }
 
     return (
       <PostFormContent
@@ -43,11 +49,13 @@ class PostForm extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    form: ownProps.formName,
     initialValues: {
+      _id: ownProps._id,
       title: ownProps.title,
       content: ownProps.content
     }
   };
 }
 
-export default connect(mapStateToProps)(reduxForm({form: "post"})(PostForm));
+export default connect(mapStateToProps)(reduxForm({})(PostForm));

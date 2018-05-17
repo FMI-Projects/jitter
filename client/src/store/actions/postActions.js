@@ -35,3 +35,10 @@ export const postsCreateSuccess = post => {
     post
   };
 };
+
+export const postsUpdateSuccess = post => {
+  return {
+    type: actionTypes.POSTS_UPDATE_SUCCESS,
+    post
+  };
+};
