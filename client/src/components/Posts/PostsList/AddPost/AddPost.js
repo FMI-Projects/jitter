@@ -40,7 +40,11 @@ class AddPost extends Component {
           open={this.state.dialogOpen}
           onClose={this.closeDialog}
           aria-labelledby="post-form-dialog">
-          <PostForm formTitle="Add post" onSubmitted={this.closeDialog} />
+          <PostForm
+            formName="createPost"
+            formTitle="Add post"
+            onSubmitted={this.closeDialog}
+          />
         </Dialog>
       </Fragment>
     );

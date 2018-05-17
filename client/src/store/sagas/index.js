@@ -1,4 +1,4 @@
-import { takeLatest, takeEvery, all } from "redux-saga/effects";
+import {takeLatest, takeEvery, all} from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 
 import * as authSagas from "./authSagas";
@@ -42,7 +42,8 @@ export function* watchUserProfileModal() {
 export function* watchPosts() {
   yield all([
     takeEvery(actionTypes.POST_COMMENTS_GET, postSagas.postCommentsGetSaga),
-    takeLatest(actions.postCreate.REQUEST, postSagas.postsCreateSaga)
+    takeLatest(actions.postCreate.REQUEST, postSagas.postsCreateSaga),
+    takeLatest(actions.postUpdate.REQUEST, postSagas.postsUpdateSaga)
   ]);
 }
 

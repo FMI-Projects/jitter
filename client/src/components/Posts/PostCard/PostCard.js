@@ -75,6 +75,7 @@ class PostCard extends Component {
                   onClose={this.handleMenuClose}>
                   <MenuItem>
                     <EditPost
+                      _id={post._id}
                       closeMenu={this.handleMenuClose}
                       title={post.title}
                       content={post.content}

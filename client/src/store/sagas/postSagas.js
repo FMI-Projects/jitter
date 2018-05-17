@@ -43,3 +43,35 @@ export function* postsCreateSaga(action) {
     yield put(actions.postCreate.failure(formError));
   }
 }
+
+export function* postsUpdateSaga(action) {
+  try {
+    let imageKey;
+    if (action.payload.imageUrl) {
+      const imageData = yield call(imageService.getSignedUrl);
+      yield call(
+        imageService.uploadImage,
+        imageData.url,
+        action.payload.imageUrl
+      );
+      imageKey = imageData.key;
+    }
+
+    const post = yield call(
+      postService.updatePost,
+      action.payload._id,
+      action.payload.title,
+      action.payload.content,
+      imageKey
+    );
+
+    yield put(actions.postsUpdateSuccess(post));
+    yield put(actions.postUpdate.success());
+  } catch (e) {
+    const formError = new SubmissionError({
+      _error: e.message
+    });
+
+    yield put(actions.postUpdate.failure(formError));
+  }
+}

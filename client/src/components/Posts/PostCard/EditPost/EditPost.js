@@ -12,9 +12,7 @@ class EditPost extends Component {
     classes: PropTypes.object,
     title: PropTypes.string,
     content: PropTypes.string,
-    imageUrl: PropTypes.string,
-    dialogOpen: PropTypes.bool.isRequired,
-    closeDialog: PropTypes.func.isRequired,
+    _id: PropTypes.string,
     closeMenu: PropTypes.func
   };
 
@@ -31,7 +29,7 @@ class EditPost extends Component {
   };
 
   render() {
-    const {title, content, classes} = this.props;
+    const {_id, title, content, classes} = this.props;
 
     return (
       <Fragment>
@@ -52,6 +50,8 @@ class EditPost extends Component {
           }}
           aria-labelledby="post-form-dialog">
           <PostForm
+            _id={_id}
+            formName="updatePost"
             title={title}
             content={content}
             formTitle="Edit post"
