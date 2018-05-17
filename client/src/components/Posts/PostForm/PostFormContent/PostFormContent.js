@@ -14,21 +14,10 @@ import {
 } from "utilities/validation";
 import Spinner from "../../../UI/Spinner/Spinner";
 import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
-import {
-  validImageType,
-  validImageSize
-} from "utilities/validation";
+import {validImageType, validImageSize} from "utilities/validation";
 import styles from "./PostFormContent.styles";
 
 class PostForm extends Component {
-  componentDidMount() {
-    this.props.initialize({
-      title: this.props.title,
-      content: this.props.content,
-      imageUrl: this.props.imageUrl
-    });
-  }
-
   render() {
     let spinner = null;
     const props = this.props;
@@ -60,8 +49,8 @@ class PostForm extends Component {
               <Field
                 className={props.classes.textField}
                 name="title"
-                component={TextField}
                 value={props.title}
+                component={TextField}
                 label="Title"
                 validate={[required, postTitleMinLength]}
               />
@@ -70,9 +59,9 @@ class PostForm extends Component {
               <Field
                 className={props.classes.textField}
                 name="content"
+                defaultValue={props.content}
                 component={TextField}
                 validate={[postContentMaxLength]}
-                value={props.content}
                 margin="dense"
                 label="What's jittering?"
                 multiline
@@ -85,7 +74,6 @@ class PostForm extends Component {
                 name="imageUrl"
                 defaultPicture=""
                 height="200px"
-                value={props.imageUrl}
                 width="200px"
                 component={FileInput}
                 validate={[validImageSize, validImageType]}

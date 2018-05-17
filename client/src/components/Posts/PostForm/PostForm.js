@@ -29,7 +29,6 @@ class PostForm extends Component {
     const {
       title,
       content,
-      imageUrl,
       formTitle,
       handleSubmit,
       submitting,
@@ -40,10 +39,9 @@ class PostForm extends Component {
 
     return (
       <PostFormContent
-        initialize={initialize}
         title={title}
         content={content}
-        imageUrl={imageUrl}
+        initialize={initialize}
         formTitle={formTitle}
         onSubmit={submit}
         submitting={submitting}
@@ -53,4 +51,13 @@ class PostForm extends Component {
   }
 }
 
-export default reduxForm({form: "post"})(PostForm);
+function mapStateToProps(state, ownProps) {
+  return {
+    initialValues: {
+      title: ownProps.title,
+      content: ownProps.content
+    }
+  };
+}
+
+export default reduxForm({form: "post"}, mapStateToProps)(PostForm);
