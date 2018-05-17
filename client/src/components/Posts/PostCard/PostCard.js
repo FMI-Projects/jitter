@@ -34,16 +34,7 @@ class PostCard extends Component {
 
   state = {
     expanded: false,
-    menuOpen: null,
-    dialogOpen: false
-  };
-
-  handleDialogOpen = () => {
-    this.setState({dialogOpen: true});
-  };
-
-  handleDialogClose = () => {
-    this.setState({dialogOpen: false, menuOpen: null});
+    menuOpen: null
   };
 
   handleExpandClick = () => {
@@ -82,14 +73,11 @@ class PostCard extends Component {
                   anchorEl={this.state.menuOpen}
                   open={Boolean(this.state.menuOpen)}
                   onClose={this.handleMenuClose}>
-                  <MenuItem onClick={this.handleDialogOpen}>
-                    Edit Post
+                  <MenuItem>
                     <EditPost
-                      dialogOpen={this.state.dialogOpen}
+                      closeMenu={this.handleMenuClose}
                       title={post.title}
                       content={post.content}
-                      imageUrl={post.imageUrl}
-                      closeDialog={this.handleDialogClose}
                     />
                   </MenuItem>
                 </Menu>
