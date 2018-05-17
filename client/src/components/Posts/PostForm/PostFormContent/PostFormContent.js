@@ -1,24 +1,22 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import {Field} from "redux-form";
-import {withStyles} from "material-ui/styles";
+import { Field } from "redux-form";
+import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
-import {TextField} from "redux-form-material-ui";
+import { TextField } from "redux-form-material-ui";
 
 import {
   required,
   postTitleMinLength,
   postContentMaxLength
-} from "../../../../../utilities/validation";
-
-import Spinner from "../../../../../components/UI/Spinner/Spinner";
-import FileInput from "../../../../../components/UI/Fields/ImagePreview/ImagePreview";
+} from "../../../../utilities/validation";
+import Spinner from "../../../../components/UI/Spinner/Spinner";
+import FileInput from "../../../../components/UI/Fields/ImagePreview/ImagePreview";
 import {
   validImageType,
   validImageSize
-} from "../../../../../utilities/validation";
-
-import styles from "./PostForm.styles";
+} from "../../../../utilities/validation";
+import styles from "./PostFormContent.styles";
 
 const postForm = props => {
   let spinner = null;
@@ -35,7 +33,7 @@ const postForm = props => {
   return (
     <Fragment>
       {spinner}
-      <div style={{display: props.submitting ? "none" : "block"}}>
+      <div style={{ display: props.submitting ? "none" : "block" }}>
         <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
@@ -75,7 +73,8 @@ const postForm = props => {
             className={props.classes.button}
             variant="raised"
             color="primary"
-            type="submit">
+            type="submit"
+          >
             Post
           </Button>
         </form>
@@ -88,9 +87,7 @@ postForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  submitted: PropTypes.bool.isRequired,
-  reset: PropTypes.func.isRequired
+  submitting: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(postForm);

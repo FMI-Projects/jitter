@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import styles from "./PostsList.styles";
-
 import { withStyles } from "material-ui/styles";
 
-import PostCard from "./PostCard/PostCard";
-import CreatePost from "./Post/CreatePost";
+import PostCard from "../PostCard/PostCard";
+import AddPost from "./AddPost/AddPost";
+import styles from "./PostsList.styles";
 
 class PostsList extends Component {
   static propTypes = {
@@ -22,7 +21,7 @@ class PostsList extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.formButton}>
-          {canAddPost ? <CreatePost /> : null}
+          {canAddPost ? <AddPost /> : null}
         </div>
 
         <div className={classes.list}>

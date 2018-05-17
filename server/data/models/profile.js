@@ -50,6 +50,7 @@ const ProfileSchema = new mongoose.Schema({
       with: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
+        unique: true,
         ref: "Profile"
       }
     }

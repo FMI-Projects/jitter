@@ -1,4 +1,4 @@
-import baseStyles from "../../../../UI/Forms/BaseForm/BaseForm.styles";
+import baseStyles from "../../../UI/Forms/BaseForm/BaseForm.styles";
 
 const styles = {
   ...baseStyles,
