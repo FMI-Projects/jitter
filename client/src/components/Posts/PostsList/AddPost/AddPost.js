@@ -1,7 +1,7 @@
-import React, { Fragment, Component } from "react";
+import React, {Fragment, Component} from "react";
 import PropTypes from "prop-types";
 import Button from "material-ui/Button";
-import { withStyles } from "material-ui/styles";
+import {withStyles} from "material-ui/styles";
 import Dialog from "material-ui/Dialog";
 
 import PostForm from "../../PostForm/PostForm";
@@ -17,11 +17,11 @@ class AddPost extends Component {
   };
 
   openDialog = () => {
-    this.setState({ dialogOpen: true });
+    this.setState({dialogOpen: true});
   };
 
   closeDialog = () => {
-    this.setState({ dialogOpen: false });
+    this.setState({dialogOpen: false});
   };
 
   render() {
@@ -32,17 +32,15 @@ class AddPost extends Component {
           variant="raised"
           color="primary"
           type="button"
-          onClick={this.openDialog}
-        >
+          onClick={this.openDialog}>
           Add Post
         </Button>
         <Dialog
           fullWidth={true}
           open={this.state.dialogOpen}
           onClose={this.closeDialog}
-          aria-labelledby="post-form-dialog"
-        >
-          <PostForm onSubmitted={this.closeDialog} />
+          aria-labelledby="post-form-dialog">
+          <PostForm title="Add post" onSubmitted={this.closeDialog} />
         </Dialog>
       </Fragment>
     );

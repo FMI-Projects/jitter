@@ -4,8 +4,8 @@ const styles = {
   ...baseStyles,
   card: {
     ...baseStyles.card,
-    marginBottom: -70,
-    width: "20%"
+    marginBottom: -50,
+    width: "40%"
   },
   form: {
     ...baseStyles.form,

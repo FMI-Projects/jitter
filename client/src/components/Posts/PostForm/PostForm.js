@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { reduxForm } from "redux-form";
+import {reduxForm} from "redux-form";
 
 import * as actions from "store/actions";
 import PostFormContent from "./PostFormContent/PostFormContent";
@@ -21,11 +21,12 @@ class PostForm extends Component {
   }
 
   render() {
-    const { handleSubmit, submitting, error } = this.props;
+    const {title, handleSubmit, submitting, error} = this.props;
     const submit = handleSubmit(actions.postCreate);
 
     return (
       <PostFormContent
+        title={title}
         onSubmit={submit}
         submitting={submitting}
         error={error}
@@ -34,4 +35,4 @@ class PostForm extends Component {
   }
 }
 
-export default reduxForm({ form: "post" })(PostForm);
+export default reduxForm({form: "post"})(PostForm);
