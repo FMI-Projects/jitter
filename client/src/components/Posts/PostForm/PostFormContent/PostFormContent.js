@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from "react";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {Field} from "redux-form";
 import {withStyles} from "material-ui/styles";
@@ -17,84 +17,80 @@ import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
 import {validImageType, validImageSize} from "utilities/validation";
 import styles from "./PostFormContent.styles";
 
-class PostForm extends Component {
-  render() {
-    let spinner = null;
-    const props = this.props;
+const postForm = props => {
+  let spinner = null;
 
-    if (props.submitting) {
-      spinner = <Spinner size={50} />;
-    }
-
-    let errorMessage;
-    if (props.error) {
-      errorMessage = <div className={props.classes.error}>{props.error}</div>;
-    }
-
-    return (
-      <Fragment>
-        {spinner}
-        <div style={{display: props.submitting ? "none" : "block"}}>
-          <Grid container>
-            <Card className={props.classes.card}>
-              <CardHeader
-                classes={{title: props.classes.cardTitle}}
-                title={props.formTitle}
-              />
-            </Card>
-          </Grid>
-          <form className={props.classes.form} onSubmit={props.onSubmit}>
-            {errorMessage}
-            <div>
-              <Field
-                className={props.classes.textField}
-                name="title"
-                value={props.title}
-                component={TextField}
-                label="Title"
-                validate={[required, postTitleMinLength]}
-              />
-            </div>
-            <div>
-              <Field
-                className={props.classes.textField}
-                name="content"
-                defaultValue={props.content}
-                component={TextField}
-                validate={[postContentMaxLength]}
-                margin="dense"
-                label="What's jittering?"
-                multiline
-                rows={4}
-              />
-            </div>
-            <div className={props.classes.imageField}>
-              <Field
-                id="imageUrl"
-                name="imageUrl"
-                defaultPicture=""
-                height="200px"
-                width="200px"
-                component={FileInput}
-                validate={[validImageSize, validImageType]}
-                label="Add image"
-              />
-            </div>
-            <Button
-              className={props.classes.button}
-              variant="raised"
-              color="primary"
-              type="submit">
-              Post
-            </Button>
-          </form>
-        </div>
-      </Fragment>
-    );
+  if (props.submitting) {
+    spinner = <Spinner size={50} />;
   }
-}
 
-PostForm.propTypes = {
+  let errorMessage;
+  if (props.error) {
+    errorMessage = <div className={props.classes.error}>{props.error}</div>;
+  }
+
+  return (
+    <Fragment>
+      {spinner}
+      <div style={{display: props.submitting ? "none" : "block"}}>
+        <Grid container>
+          <Card className={props.classes.card}>
+            <CardHeader
+              classes={{title: props.classes.cardTitle}}
+              title={props.formTitle}
+            />
+          </Card>
+        </Grid>
+        <form className={props.classes.form} onSubmit={props.onSubmit}>
+          {errorMessage}
+          <div>
+            <Field
+              className={props.classes.textField}
+              name="title"
+              component={TextField}
+              label="Title"
+              validate={[required, postTitleMinLength]}
+            />
+          </div>
+          <div>
+            <Field
+              className={props.classes.textField}
+              name="content"
+              defaultValue={props.content}
+              component={TextField}
+              validate={[postContentMaxLength]}
+              margin="dense"
+              label="What's jittering?"
+              multiline
+              rows={4}
+            />
+          </div>
+          <div className={props.classes.imageField}>
+            <Field
+              id="imageUrl"
+              name="imageUrl"
+              defaultPicture=""
+              height="200px"
+              width="200px"
+              component={FileInput}
+              validate={[validImageSize, validImageType]}
+              label="Add image"
+            />
+          </div>
+          <Button
+            className={props.classes.button}
+            variant="raised"
+            color="primary"
+            type="submit">
+            Post
+          </Button>
+        </form>
+      </div>
+    </Fragment>
+  );
+};
+
+postForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
@@ -105,4 +101,4 @@ PostForm.propTypes = {
   imageUrl: PropTypes.string
 };
 
-export default withStyles(styles)(PostForm);
+export default withStyles(styles)(postForm);

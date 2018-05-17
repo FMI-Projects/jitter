@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { reduxForm } from "redux-form";
-import { connect } from "react-redux";
+import {reduxForm} from "redux-form";
+import {connect} from "react-redux";
 
 import * as actions from "store/actions";
 import PostFormContent from "./PostFormContent/PostFormContent";
@@ -33,16 +33,12 @@ class PostForm extends Component {
       formTitle,
       handleSubmit,
       submitting,
-      error,
-      initialize
+      error
     } = this.props;
     const submit = handleSubmit(actions.postCreate);
 
     return (
       <PostFormContent
-        title={title}
-        content={content}
-        initialize={initialize}
         formTitle={formTitle}
         onSubmit={submit}
         submitting={submitting}
@@ -61,4 +57,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(reduxForm({ form: "post" })(PostForm));
+export default connect(mapStateToProps)(reduxForm({form: "post"})(PostForm));
