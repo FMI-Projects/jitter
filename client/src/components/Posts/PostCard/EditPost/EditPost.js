@@ -28,6 +28,11 @@ class EditPost extends Component {
     this.setState({dialogOpen: false});
   };
 
+  closeDialogWithMenu = () => {
+    this.closeDialog();
+    this.props.closeMenu();
+  };
+
   render() {
     const {_id, title, content, classes} = this.props;
 
@@ -42,12 +47,7 @@ class EditPost extends Component {
         <Dialog
           fullWidth={true}
           open={this.state.dialogOpen}
-          onClose={e => {
-            this.closeDialog(e);
-            if (this.props.closeMenu) {
-              this.props.closeMenu(e);
-            }
-          }}
+          onClose={this.closeDialogWithMenu}
           aria-labelledby="post-form-dialog">
           <PostForm
             _id={_id}
@@ -55,7 +55,7 @@ class EditPost extends Component {
             title={title}
             content={content}
             formTitle="Edit post"
-            onSubmitted={this.closeDialog}
+            onSubmitted={this.closeDialogWithMenu}
           />
         </Dialog>
       </Fragment>
