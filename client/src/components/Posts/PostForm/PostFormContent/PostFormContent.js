@@ -9,13 +9,13 @@ import {
   required,
   postTitleMinLength,
   postContentMaxLength
-} from "../../../../utilities/validation";
-import Spinner from "../../../../components/UI/Spinner/Spinner";
-import FileInput from "../../../../components/UI/Fields/ImagePreview/ImagePreview";
+} from "utilities/validation";
+import Spinner from "../../../UI/Spinner/Spinner";
+import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
 import {
   validImageType,
   validImageSize
-} from "../../../../utilities/validation";
+} from "utilities/validation";
 import styles from "./PostFormContent.styles";
 
 const postForm = props => {

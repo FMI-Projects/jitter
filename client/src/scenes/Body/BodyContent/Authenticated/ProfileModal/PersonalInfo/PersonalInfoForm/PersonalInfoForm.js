@@ -10,10 +10,10 @@ import { withStyles } from "material-ui/styles";
 import { InputLabel } from "material-ui/Input";
 import { FormControl } from "material-ui/Form";
 
-import DatePicker from "../../../../../../../components/UI/Fields/DatePicker/DatePicker";
+import DatePicker from "components/UI/Fields/DatePicker/DatePicker";
 import styles from "../../ProfileModal.styles";
-import { bioMaxLength } from "../../../../../../../utilities/validation";
-import Spinner from "../../../../../../../components/UI/Spinner/Spinner";
+import { bioMaxLength } from "utilities/validation";
+import Spinner from "components/UI/Spinner/Spinner";
 
 const personalInfo = props => {
   let spinner = null;

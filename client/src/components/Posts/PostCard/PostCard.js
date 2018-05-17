@@ -21,8 +21,8 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 import Comments from "./Comments/Comments";
 
-import * as formatDate from "../../../utilities/formatters/formatDate";
-import defaultUserImage from "../../../assets/images/defaultUser.png";
+import * as formatDate from "utilities/formatters/formatDate";
+import defaultUserImage from "assets/images/defaultUser.png";
 
 class PostCard extends Component {
   static propTypes = {

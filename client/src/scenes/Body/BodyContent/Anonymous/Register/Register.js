@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
 
-import * as actions from "../../../../../store/actions";
+import * as actions from "store/actions";
 import RegisterForm from "./RegisterForm/RegisterForm";
 
 const register = props => {

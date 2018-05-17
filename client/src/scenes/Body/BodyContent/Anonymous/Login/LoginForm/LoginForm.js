@@ -5,10 +5,10 @@ import {withStyles} from "material-ui/styles";
 import Button from "material-ui/Button";
 import {TextField} from "redux-form-material-ui";
 
-import BaseForm from "../../../../../../components/UI/Forms/BaseForm/BaseForm";
-import styles from "../../../../../../components/UI/Forms/BaseForm/BaseForm.styles";
-import {required, email} from "../../../../../../utilities/validation";
-import Spinner from "../../../../../../components/UI/Spinner/Spinner";
+import BaseForm from "components/UI/Forms/BaseForm/BaseForm";
+import styles from "components/UI/Forms/BaseForm/BaseForm.styles";
+import {required, email} from "utilities/validation";
+import Spinner from "components/UI/Spinner/Spinner";
 
 const loginForm = props => {
   let spinner = null;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-import * as actions from "../../../../../../store/actions";
+import * as actions from "store/actions";
 
 class Logout extends Component {
   static propTypes = {

@@ -4,9 +4,9 @@ import { withRouter } from "react-router-dom";
 import Grid from "material-ui/Grid";
 
 import { connect } from "react-redux";
-import * as actions from "../../../../../../store/actions";
-import PostsList from "../../../../../../components/Posts/PostsList/PostsList";
-import Spinner from "../../../../../../components/UI/Spinner/Spinner";
+import * as actions from "store/actions";
+import PostsList from "components/Posts/PostsList/PostsList";
+import Spinner from "components/UI/Spinner/Spinner";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 class Profile extends Component {

@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "material-ui/Typography";
 
-import NavLink from "../NavigationItems/NavigationItem/NavLink/NavLink";
+import NavLink from "../NavLink/NavLink";
 
 const logo = props => (
     <Typography variant="title" color="inherit">

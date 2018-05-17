@@ -5,8 +5,8 @@ import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
 
-import Spinner from "../../../../../../components/UI/Spinner/Spinner";
-import BaseForm from "../../../../../../components/UI/Forms/BaseForm/BaseForm";
+import Spinner from "components/UI/Spinner/Spinner";
+import BaseForm from "components/UI/Forms/BaseForm/BaseForm";
 import {
   required,
   email,
@@ -17,8 +17,8 @@ import {
   passwordMaxLength,
   firstNameMaxLength,
   lastNameMaxLength
-} from "../../../../../../utilities/validation";
-import styles from "../../../../../../components/UI/Forms/BaseForm/BaseForm.styles";
+} from "utilities/validation";
+import styles from "components/UI/Forms/BaseForm/BaseForm.styles";
 
 const registerForm = props => {
   let spinner = null;

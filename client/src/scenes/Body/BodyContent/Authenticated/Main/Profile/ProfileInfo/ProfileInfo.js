@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Paper, Avatar, Icon, Typography } from "material-ui";
 import { withStyles } from "material-ui/styles";
 
-import * as formatDate from "../../../../../../../utilities/formatters/formatDate";
-import defaultProfilePicture from "../../../../../../../assets/images/defaultUser.png";
+import * as formatDate from "utilities/formatters/formatDate";
+import defaultProfilePicture from "assets/images/defaultUser.png";
 import styles from "./ProfileInfo.styles";
 import ProfileActions from "./ProfileActions/ProfileActions";
 

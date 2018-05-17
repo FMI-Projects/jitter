@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 import { connect } from "react-redux";
 
-import * as actions from "../../../../../store/actions";
+import * as actions from "store/actions";
 import Welcome from "./Welcome/Welcome";
 import PersonalInfo from "./PersonalInfo/PersonalInfo";
-import Spinner from "../../../../../components/UI/Spinner/Spinner";
+import Spinner from "components/UI/Spinner/Spinner";
 import ProfilePicture from "./ProfilePicture/ProfilePicture";
 import Finish from "./Finish/Finish";
 

@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
-import Body from "../../scenes/Body/Body";
-import Toolbar from "../../scenes/Toolbar/Toolbar";
+import Body from "scenes/Body/Body";
+import Toolbar from "scenes/Toolbar/Toolbar";
 
 const layout = props => (
   <Fragment>

@@ -10,15 +10,15 @@ import {
 import Button from "material-ui/Button";
 import { withStyles } from "material-ui/styles";
 
-import defaultProfilePicture from "../../../../../../../assets/images/defaultUser.png";
-import imageConstants from "../../../../../../../utilities/constants/imageConstants";
+import defaultProfilePicture from "assets/images/defaultUser.png";
+import imageConstants from "utilities/constants/imageConstants";
 import styles from "../../ProfileModal.styles";
-import Spinner from "../../../../../../../components/UI/Spinner/Spinner";
-import FileInput from "../../../../../../../components/UI/Fields/ImagePreview/ImagePreview";
+import Spinner from "components/UI/Spinner/Spinner";
+import FileInput from "components/UI/Fields/ImagePreview/ImagePreview";
 import {
   validImageType,
   validImageSize
-} from "../../../../../../../utilities/validation";
+} from "utilities/validation";
 
 const profilePictureForm = props => {
   let spinner = null;
