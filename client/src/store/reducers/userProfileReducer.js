@@ -5,7 +5,7 @@ const initialState = {
   firstName: null,
   lastName: null,
   profilePictureUrl: null,
-  friendShips: []
+  friendships: []
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -26,7 +26,7 @@ const applyUserProfileSetInfo = (state, action) => {
     firstName: action.firstName,
     lastName: action.lastName,
     profilePictureUrl,
-    friendShips: action.friendShips
+    friendships: action.friendships
   };
 };
 

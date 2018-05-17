@@ -5,7 +5,7 @@ import { profileService } from "../../services";
 
 export function* userProfileGetInfoSaga(action) {
   try {
-    const { firstName, lastName, profilePictureUrl, friendShips } = yield call(
+    const { firstName, lastName, profilePictureUrl, friendships } = yield call(
       profileService.getCurrentProfileInfo
     );
     yield put(
@@ -13,7 +13,7 @@ export function* userProfileGetInfoSaga(action) {
         firstName,
         lastName,
         profilePictureUrl,
-        friendShips
+        friendships
       )
     );
   } catch (e) {}

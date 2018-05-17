@@ -9,7 +9,7 @@ const initialState = {
   bio: null,
   birthday: null,
   gender: null,
-  friendShips: [],
+  friendships: [],
   loading: true
 };
 
@@ -44,7 +44,7 @@ const applyProfileGetSuccess = (state, action) => {
     bio: action.bio,
     birthday: action.birthday,
     gender: action.gender,
-    friendShips: action.friendShips,
+    friendships: action.friendships,
     loading: false
   };
 };

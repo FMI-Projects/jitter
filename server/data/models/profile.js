@@ -39,7 +39,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  friendShips: [
+  friendships: [
     {
       status: {
         type: String,
@@ -70,7 +70,7 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
   const Profile = this;
 
   const profile = await Profile.findById(profileId).populate(
-    "friendShips.with",
+    "friendships.with",
     "_id firstName lastName profilePictureUrl"
   );
 

@@ -15,7 +15,7 @@ export const profileGetSuccess = ({
   gender,
   bio,
   birthday,
-  friendShips
+  friendships
 }) => {
   return {
     type: actionTypes.PROFILE_GET_SUCCESS,
@@ -26,6 +26,6 @@ export const profileGetSuccess = ({
     gender,
     bio,
     birthday,
-    friendShips
+    friendships
   };
 };
