@@ -10,14 +10,14 @@ export const userProfileSetInfo = (
   firstName,
   lastName,
   profilePictureUrl,
-  navProfilePictureUrl
+  friendShips
 ) => {
   return {
     type: actionTypes.USER_PROFILE_SET_INFO,
     firstName,
     lastName,
     profilePictureUrl,
-    navProfilePictureUrl
+    friendShips
   };
 };
 

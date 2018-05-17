@@ -14,7 +14,8 @@ export const profileGetSuccess = ({
   profilePictureUrl,
   gender,
   bio,
-  birthday
+  birthday,
+  friendShips
 }) => {
   return {
     type: actionTypes.PROFILE_GET_SUCCESS,
@@ -24,6 +25,7 @@ export const profileGetSuccess = ({
     profilePictureUrl,
     gender,
     bio,
-    birthday
+    birthday,
+    friendShips
   };
 };

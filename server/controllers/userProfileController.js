@@ -3,7 +3,7 @@ const Profile = require("../data/models/profile");
 const getCurrentUserProfile = async (req, res) => {
   const userId = req.user._id;
   try {
-    const profile = await Profile.findById(userId);
+    const profile = await Profile.getUserProfileInfo(userId);
     res.status(200).send(profile);
   } catch (e) {
     res.status(400).send(e);

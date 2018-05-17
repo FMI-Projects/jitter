@@ -4,7 +4,8 @@ import * as formatImage from "../../utilities/formatters/formatImage";
 const initialState = {
   firstName: null,
   lastName: null,
-  profilePictureUrl: null
+  profilePictureUrl: null,
+  friendShips: []
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -24,7 +25,8 @@ const applyUserProfileSetInfo = (state, action) => {
     ...state,
     firstName: action.firstName,
     lastName: action.lastName,
-    profilePictureUrl
+    profilePictureUrl,
+    friendShips: action.friendShips
   };
 };
 

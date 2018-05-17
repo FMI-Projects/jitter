@@ -38,8 +38,47 @@ const ProfileSchema = new mongoose.Schema({
   profilePictureUrl: {
     type: String,
     default: null
-  }
+  },
+  friendShips: [
+    {
+      status: {
+        type: String,
+        enum: ["Accepted", "Declined", "Pending", "Requested"],
+        trim: true,
+        required: true
+      },
+      with: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Profile"
+      }
+    }
+  ]
 });
+
+ProfileSchema.statics.getUserProfileInfo = async function(profileId) {
+  const Profile = this;
+
+  return Profile.findById(profileId).populate(
+    "friendships.with",
+    "_id firstName lastName profilePictureUrl"
+  );
+};
+
+ProfileSchema.statics.getProfileInfo = async function(profileId) {
+  const Profile = this;
+
+  const profile = await Profile.findById(profileId).populate(
+    "friendShips.with",
+    "_id firstName lastName profilePictureUrl"
+  );
+
+  profile.friendShips = profile.friendShips.filter(
+    f => f.status === "Accepted"
+  );
+
+  return profile;
+};
 
 const Profile = mongoose.model("Profile", ProfileSchema);
 

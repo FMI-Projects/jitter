@@ -13,7 +13,7 @@ const getProfilePosts = async (req, res) => {
 
 const getProfileInfo = async (req, res) => {
   try {
-    const profile = await Profile.findById(req.params.id);
+    const profile = await Profile.getProfileInfo(req.params.id);
 
     if (!profile) {
       res.status(404).send();

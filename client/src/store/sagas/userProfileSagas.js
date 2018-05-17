@@ -5,13 +5,15 @@ import { profileService } from "../../services";
 
 export function* userProfileGetInfoSaga(action) {
   try {
-    const { firstName, lastName, profilePictureUrl } = yield call(profileService.getCurrentProfileInfo);
-
+    const { firstName, lastName, profilePictureUrl, friendShips } = yield call(
+      profileService.getCurrentProfileInfo
+    );
     yield put(
       actions.userProfileSetInfo(
         firstName,
         lastName,
-        profilePictureUrl
+        profilePictureUrl,
+        friendShips
       )
     );
   } catch (e) {}
