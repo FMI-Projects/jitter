@@ -48,42 +48,5 @@ class AddPost extends Component {
     );
   }
 }
-// const addPost = props => {
-//   const { handleSubmit, error, submitting, submitSucceeded, reset } = props;
-//   const submit = handleSubmit(actions.postCreate);
-
-//   return (
-//     <Fragment>
-//       <Button
-//         className={this.props.classes.button}
-//         variant="raised"
-//         color="primary"
-//         type="button"
-//         onClick={this.handleClickOpen}
-//       >
-//         Add Post
-//       </Button>
-//       <PostFormDialog
-//         submit={submit}
-//         error={error}
-//         submitting={submitting}
-//         submitted={submitSucceeded}
-//         reset={reset}
-//       />
-//     </Fragment>
-//   );
-// };
-
-// addPostButton.propTypes = {
-//   handleSubmit: PropTypes.func.isRequired,
-//   error: PropTypes.string,
-//   submitting: PropTypes.bool.isRequired,
-//   submitSucceeded: PropTypes.bool.isRequired,
-//   reset: PropTypes.func.isRequired
-// };
-
-// export default reduxForm({
-//   form: "createPost"
-// })(addPost);
 
 export default withStyles(styles)(AddPost);
