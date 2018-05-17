@@ -42,7 +42,7 @@ const sendFriendRequest = async (req, res) => {
 
 const updateFriendRequest = async (req, res) => {
   const userId = req.user._id;
-  const requestedProfileId = req.params.profileId;
+  const requestedProfileId = req.params.id;
 
   if (userId === requestedProfileId) {
     res.status(400).send();
