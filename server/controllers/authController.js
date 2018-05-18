@@ -6,6 +6,11 @@ const login = async (req, res) => {
 
   try {
     const user = await User.findByEmail(email);
+
+    if (!user) {
+      res.status(404).send("Invalid login credentials");
+    }
+
     await user.validatePassword(password);
     const token = await user.generateAuthToken();
 
@@ -16,11 +21,11 @@ const login = async (req, res) => {
         _id: user._id
       });
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
 
   try {
@@ -40,7 +45,7 @@ const register = async (req, res) => {
         _id: user._id
       });
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 

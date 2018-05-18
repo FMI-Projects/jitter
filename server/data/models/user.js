@@ -10,7 +10,7 @@ const validationMessages = require("../../utilities/validation/messages");
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, "Email is required"],
+    required: [true, validationMessages.required("Email")],
     minlength: [
       userConstants.email.minLength,
       validationMessages.minLength("Email", userConstants.email.minLength)
@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: [true, validationMessages.required("Password")],
     minlength: [
       userConstants.password.minLength,
       validationMessages.minLength("Password", userConstants.password.minLength)
@@ -54,10 +54,6 @@ UserSchema.pre("save", async function(next) {
 UserSchema.statics.findByEmail = async function(email) {
   const User = this;
   const user = await User.findOne({ email });
-
-  if (!user) {
-    return Promise.reject();
-  }
 
   return user;
 };

@@ -80,10 +80,12 @@ const ProfileSchema = new mongoose.Schema({
 ProfileSchema.statics.getUserProfileInfo = async function(profileId) {
   const Profile = this;
 
-  return Profile.findById(profileId).populate(
+  const profile = await Profile.findById(profileId).populate(
     "friendships.with",
     "_id firstName lastName profilePictureUrl"
   );
+
+  return profile;
 };
 
 ProfileSchema.statics.getProfileInfo = async function(profileId) {

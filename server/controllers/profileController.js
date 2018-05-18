@@ -5,9 +5,13 @@ const getProfilePosts = async (req, res) => {
   try {
     const posts = await Post.findProfilePosts(req.params.id);
 
+    if (!posts) {
+      res.status(404).send("Profile not found");
+    }
+
     res.status(200).send(posts);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
@@ -16,13 +20,12 @@ const getProfileInfo = async (req, res) => {
     const profile = await Profile.getProfileInfo(req.params.id);
 
     if (!profile) {
-      res.status(404).send();
+      res.status(404).send("Profile not found");
     }
 
     res.status(200).send(profile);
   } catch (e) {
-    console.log(e);
-    res.status(400).send(e);
+    next(e);
   }
 };
 

@@ -46,10 +46,6 @@ CommentSchema.statics.findPostComments = async function(postId) {
     "_id firstName lastName profilePictureUrl"
   );
 
-  if (!comments) {
-    return Promise.reject();
-  }
-
   return comments;
 };
 
