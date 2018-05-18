@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import Grid from "material-ui/Grid";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 import * as actions from "store/actions";
 import Posts from "./Posts/Posts";
@@ -28,6 +28,14 @@ class Profile extends Component {
     const profileId = this.props.match.params.id;
     this.props.profileGet(profileId);
     this.props.postsGet(profileId);
+  }
+
+  componentDidUpdate(prevProps) {
+    const profileId = this.props.match.params.id;
+    if (profileId !== prevProps.match.params.id) {
+      this.props.profileGet(profileId);
+      this.props.postsGet(profileId);
+    }
   }
 
   render() {
