@@ -18,9 +18,12 @@ const getCurrentUserProfile = async (req, res, next) => {
 const updateCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
   try {
+    // eslint-disable-next-line no-unused-vars
+    const { friendships, ...body } = req.body;
+
     const profile = await Profile.findByIdAndUpdate(
       userId,
-      { $set: req.body },
+      { $set: body },
       { new: true, runValidators: true }
     );
 

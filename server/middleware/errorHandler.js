@@ -5,6 +5,8 @@ const handleError = (error, req, res, next) => {
     errors.push(
       `Invalid value for ${error.path}, please provide a ${error.kind}`
     );
+  } else if (error.name === "MongoError") {
+    errors.push(error.message);
   } else if (error.name === "ValidationError") {
     for (const e in error.errors) {
       if (error.errors.hasOwnProperty(e)) {
