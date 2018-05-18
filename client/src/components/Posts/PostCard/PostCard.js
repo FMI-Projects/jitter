@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styles from "./PostCard.styles";
-import {withStyles} from "material-ui/styles";
+import { withStyles } from "material-ui/styles";
 import classnames from "classnames";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Card, {
   CardHeader,
@@ -15,7 +15,7 @@ import Collapse from "material-ui/transitions/Collapse";
 import Avatar from "material-ui/Avatar";
 import IconButton from "material-ui/IconButton";
 import Typography from "material-ui/Typography";
-import Menu, {MenuItem} from "material-ui/Menu";
+import Menu, { MenuItem } from "material-ui/Menu";
 import CommentIcon from "@material-ui/icons/Comment";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
@@ -31,7 +31,7 @@ class PostCard extends Component {
   static propTypes = {
     post: PropTypes.object,
     classes: PropTypes.object,
-    canAddPost: PropTypes.bool.isRequired
+    canModify: PropTypes.bool.isRequired
   };
 
   state = {
@@ -40,19 +40,19 @@ class PostCard extends Component {
   };
 
   handleExpandClick = () => {
-    this.setState({expanded: !this.state.expanded});
+    this.setState({ expanded: !this.state.expanded });
   };
 
   handleMenuClick = e => {
-    this.setState({menuOpen: e.currentTarget});
+    this.setState({ menuOpen: e.currentTarget });
   };
 
   handleMenuClose = () => {
-    this.setState({menuOpen: null});
+    this.setState({ menuOpen: null });
   };
 
   render() {
-    const {post, classes, canAddPost} = this.props;
+    const { post, classes, canModify } = this.props;
     const formattedDate = post.createdAt
       ? formatDate.getFullDate(post.createdAt)
       : "N/A";
@@ -69,13 +69,14 @@ class PostCard extends Component {
               )
             }
             action={
-              canAddPost ? (
+              canModify ? (
                 <IconButton>
                   <MoreVertIcon onClick={this.handleMenuClick} />
                   <Menu
                     anchorEl={this.state.menuOpen}
                     open={Boolean(this.state.menuOpen)}
-                    onClose={this.handleMenuClose}>
+                    onClose={this.handleMenuClose}
+                  >
                     <MenuItem>
                       <EditPost
                         _id={post._id}
@@ -92,9 +93,7 @@ class PostCard extends Component {
               ) : null
             }
             title={
-              <Link
-                to={`/profile/${post.author.profileId}`}
-                className={classes.link}>
+              <Link to={`/profile/${post.author._id}`} className={classes.link}>
                 {post.author.firstName} {post.author.lastName}
               </Link>
             }
@@ -121,7 +120,8 @@ class PostCard extends Component {
               })}
               onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
-              aria-label="Show more">
+              aria-label="Show more"
+            >
               <CommentIcon />
             </IconButton>
           </CardActions>

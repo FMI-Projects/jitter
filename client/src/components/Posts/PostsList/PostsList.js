@@ -1,6 +1,6 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import {withStyles} from "material-ui/styles";
+import { withStyles } from "material-ui/styles";
 
 import PostCard from "../PostCard/PostCard";
 import AddPost from "./AddPost/AddPost";
@@ -11,12 +11,13 @@ class PostsList extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     posts: PropTypes.array,
+    currentUserId: PropTypes.string,
     classes: PropTypes.object,
     canAddPost: PropTypes.bool.isRequired
   };
 
   render() {
-    const {posts, classes, canAddPost} = this.props;
+    const { posts, classes, canAddPost, currentUserId } = this.props;
 
     return (
       <div className={classes.root}>
@@ -28,7 +29,10 @@ class PostsList extends Component {
           {posts.map(post => {
             return (
               <Fragment key={post._id}>
-                <PostCard canAddPost={canAddPost} post={post} />
+                <PostCard
+                  canModify={currentUserId === post.author._id}
+                  post={post}
+                />
               </Fragment>
             );
           })}

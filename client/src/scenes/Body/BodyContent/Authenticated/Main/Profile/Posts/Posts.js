@@ -17,7 +17,7 @@ const posts = props => {
   const postsWithAuthor = posts.map(post => {
     return {
       ...post,
-      author: { firstName, lastName, profilePictureUrl, profileId }
+      author: { firstName, lastName, profilePictureUrl, _id: profileId }
     };
   });
 
@@ -25,6 +25,7 @@ const posts = props => {
     <PostsList
       posts={postsWithAuthor}
       canAddPost={currentUserId === profileId}
+      currentUserId={currentUserId}
     />
   );
 };
