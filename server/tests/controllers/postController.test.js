@@ -1,16 +1,16 @@
 const request = require("supertest");
-const {ObjectID} = require("mongodb");
+const { ObjectID } = require("mongodb");
 const faker = require("faker");
 
 require("../config/config");
-const {prepareDatabase, resetDatabase} = require("../config/mockgoose");
+const { prepareDatabase, resetDatabase } = require("../config/mockgoose");
 const app = require("../../app");
 const Post = require("../../data/models/post");
 
-const {populatePosts, posts} = require("../seed/posts");
-const {populateProfiles} = require("../seed/profiles");
-const {populateUsers, users} = require("../seed/users");
-const {populateComments} = require("../seed/comments");
+const { populatePosts, posts } = require("../seed/posts");
+const { populateProfiles } = require("../seed/profiles");
+const { populateUsers, users } = require("../seed/users");
+const { populateComments } = require("../seed/comments");
 
 describe("postController", () => {
   beforeAll(async () => {
@@ -124,7 +124,7 @@ describe("postController", () => {
     });
 
     it("should return 400 on invalid object id", async () => {
-      const id = new ObjectID();
+      const id = "123";
 
       await request(app)
         .put(`/api/posts/${id}`)
@@ -157,7 +157,7 @@ describe("postController", () => {
     });
 
     it("should return 400 on invalid object id", async () => {
-      const id = new ObjectID();
+      const id = "123";
 
       await request(app)
         .delete(`/api/posts/${id}`)

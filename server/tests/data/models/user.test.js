@@ -19,9 +19,7 @@ describe("user", () => {
     let error;
 
     try {
-      console.log("enters", user);
       await user.validate();
-      console.log("doesnt return");
     } catch (e) {
       error = e;
     }

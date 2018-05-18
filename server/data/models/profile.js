@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const idValidator = require("mongoose-id-validator");
 
 const profileConstants = require("../../utilities/constants/profileConstants");
 const validationMessages = require("../../utilities/validation/messages");
@@ -179,6 +180,10 @@ ProfileSchema.statics.updateFriendRequest = async function(from, to, status) {
 
   await Promise.all([setFrom, setTo]);
 };
+
+if (process.env.NODE_ENV !== "test") {
+  ProfileSchema.plugin(idValidator);
+}
 
 const Profile = mongoose.model("Profile", ProfileSchema);
 

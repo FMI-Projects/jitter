@@ -9,16 +9,16 @@ const authenticate = async (req, res, next) => {
   }
 
   try {
-    const {_id} = authToken.decodeJwt(token);
+    const { _id } = authToken.decodeJwt(token);
     const user = await User.findById(_id);
 
     if (!user) {
-      throw new Error();
+      return res.status(401).send();
     }
     req.user = user;
     next();
   } catch (e) {
-    res.status(401).send(e);
+    res.status(400).send(e);
   }
 };
 

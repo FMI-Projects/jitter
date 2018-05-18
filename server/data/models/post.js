@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const idValidator = require("mongoose-id-validator");
 
 const postConstants = require("../../utilities/constants/postConstants");
 const validationMessages = require("../../utilities/validation/messages");
@@ -53,6 +54,10 @@ PostSchema.statics.findProfilePosts = async function(profileId) {
 
   return posts;
 };
+
+if (process.env.NODE_ENV !== "test") {
+  PostSchema.plugin(idValidator);
+}
 
 const Post = mongoose.model("Post", PostSchema);
 

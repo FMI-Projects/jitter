@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const idValidator = require("mongoose-id-validator");
 
 const commentConstants = require("../../utilities/constants/commentConstants");
 const validationMessages = require("../../utilities/validation/messages");
@@ -48,6 +49,10 @@ CommentSchema.statics.findPostComments = async function(postId) {
 
   return comments;
 };
+
+if (process.env.NODE_ENV !== "test") {
+  CommentSchema.plugin(idValidator);
+}
 
 const Comment = mongoose.model("Comment", CommentSchema);
 
