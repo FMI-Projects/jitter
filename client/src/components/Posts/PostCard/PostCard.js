@@ -22,6 +22,7 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 import Comments from "./Comments/Comments";
 import EditPost from "./EditPost/EditPost";
+import DeletePost from "./DeletePost/DeletePost";
 
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
@@ -80,6 +81,9 @@ class PostCard extends Component {
                       title={post.title}
                       content={post.content}
                     />
+                  </MenuItem>
+                  <MenuItem>
+                    <DeletePost postId={post._id} />
                   </MenuItem>
                 </Menu>
               </IconButton>

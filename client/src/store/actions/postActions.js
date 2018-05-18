@@ -42,3 +42,17 @@ export const postsUpdateSuccess = post => {
     post
   };
 };
+
+export const postsDelete = postId => {
+  return {
+    type: actionTypes.POSTS_DELETE,
+    postId
+  };
+};
+
+export const postsDeleteSuccess = post => {
+  return {
+    type: actionTypes.POSTS_DELETE_SUCCESS,
+    post
+  };
+};

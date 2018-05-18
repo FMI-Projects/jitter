@@ -27,4 +27,11 @@ export default class PostService {
 
     return response.data;
   };
+
+  deletePost = async id => {
+    const url = `/api/posts/${id}`;
+    const response = await this.http.delete(url);
+
+    return response.data;
+  };
 }

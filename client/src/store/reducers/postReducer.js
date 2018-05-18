@@ -27,6 +27,9 @@ const postReducer = (state = initialState, action) => {
     case actionTypes.POSTS_UPDATE_SUCCESS: {
       return applyPostsUpdateSuccess(state, action);
     }
+    case actionTypes.POSTS_DELETE_SUCCESS: {
+      return applyPostsDeleteSuccess(state, action);
+    }
     default:
       return state;
   }
@@ -81,6 +84,12 @@ const applyPostsUpdateSuccess = (state, action) => {
   post.imageUrl = action.post.imageUrl;
   post.title = action.post.title;
   post.content = action.post.content;
+  return newState;
+};
+
+const applyPostsDeleteSuccess = (state, action) => {
+  const newState = _.cloneDeep(state);
+  newState.posts = newState.posts.filter(p => p._id !== action.post._id);
   return newState;
 };
 
