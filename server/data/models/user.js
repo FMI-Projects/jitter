@@ -1,16 +1,24 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userConstants = require("../../utilities/constants/userConstants");
 const encryption = require("../../utilities/encryption");
 const authToken = require("../../utilities/authToken");
+const validationMessages = require("../../utilities/validation/messages");
 
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
-    minlength: userConstants.email.minLength,
-    maxlength: userConstants.email.maxLength,
+    required: [true, "Email is required"],
+    minlength: [
+      userConstants.email.minLength,
+      validationMessages.minLength("Email", userConstants.email.minLength)
+    ],
+    maxlength: [
+      userConstants.email.maxLength,
+      validationMessages.maxLength("Email", userConstants.email.maxLength)
+    ],
     trim: true,
     unique: true,
     validate: {
@@ -21,8 +29,14 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: userConstants.password.minLength,
-    maxlength: userConstants.password.maxLength
+    minlength: [
+      userConstants.password.minLength,
+      validationMessages.minLength("Password", userConstants.password.minLength)
+    ],
+    maxlength: [
+      userConstants.password.maxLength,
+      validationMessages.maxLength("Password", userConstants.password.maxLength)
+    ]
   }
 });
 
@@ -62,6 +76,9 @@ UserSchema.methods.generateAuthToken = function() {
   return authToken.createJwt(userId);
 };
 
+UserSchema.plugin(uniqueValidator, {
+  message: validationMessages.unique("Email")
+});
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

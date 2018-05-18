@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const profileConstants = require("../../utilities/constants/profileConstants");
+const validationMessages = require("../../utilities/validation/messages");
 
 const ProfileSchema = new mongoose.Schema({
   _id: {
@@ -9,26 +10,38 @@ const ProfileSchema = new mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: true,
+    required: [true, validationMessages.required("First name")],
     trim: true,
-    maxlength: profileConstants.firstName.maxLength
+    maxlength: [
+      profileConstants.firstName.maxLength,
+      validationMessages.maxLength("First name")
+    ]
   },
   lastName: {
     type: String,
-    required: true,
+    required: [true, validationMessages.required("Last name")],
     trim: true,
-    maxlength: profileConstants.lastName.maxLength
+    maxlength: [
+      profileConstants.lastName.maxLength,
+      validationMessages.maxLength("Last name")
+    ]
   },
   bio: {
     type: String,
     trim: true,
-    maxlength: profileConstants.bio.maxLength,
+    maxlength: [
+      profileConstants.bio.maxLength,
+      validationMessages.maxLength("Bio")
+    ],
     default: null
   },
   gender: {
     type: String,
     trim: true,
-    enum: ["Male", "Female", null],
+    enum: {
+      values: ["Male", "Female", null],
+      message: validationMessages.invalidValue("Gender")
+    },
     default: null
   },
   birthday: {
