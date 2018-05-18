@@ -75,3 +75,11 @@ export function* postsUpdateSaga(action) {
     yield put(actions.postUpdate.failure(formError));
   }
 }
+
+export function* postsDeleteSaga(action) {
+  try {
+    const data = yield call(postService.deletePost, action.postId);
+
+    yield put(actions.postsDeleteSuccess(data));
+  } catch (e) {}
+}
