@@ -28,7 +28,7 @@ class PostsList extends Component {
           {posts.map(post => {
             return (
               <Fragment key={post._id}>
-                <PostCard post={post} />
+                <PostCard canAddPost={canAddPost} post={post} />
               </Fragment>
             );
           })}
