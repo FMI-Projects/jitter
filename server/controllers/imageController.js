@@ -5,9 +5,10 @@ const createImageSignedUrl = async (req, res) => {
 
   try {
     const imageUrl = await imageUpload.getSignedUrl(userId);
+
     res.status(200).send(imageUrl);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 

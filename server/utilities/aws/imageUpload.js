@@ -14,7 +14,7 @@ const getSignedUrl = userId => {
       },
       (err, url) => {
         if (err) {
-          reject(err);
+          reject("Error getting url for image");
         } else {
           resolve({ key, url });
         }

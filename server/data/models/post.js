@@ -51,10 +51,6 @@ PostSchema.statics.findProfilePosts = async function(profileId) {
 
   const posts = await Post.find({ author: profileId });
 
-  if (!posts) {
-    return Promise.reject();
-  }
-
   return posts;
 };
 

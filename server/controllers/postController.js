@@ -9,16 +9,21 @@ const createPost = async (req, res) => {
 
     res.status(201).send(post);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
 const getPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      res.status(404).send("Post not found");
+    }
+
     res.status(200).send(post);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
@@ -26,22 +31,31 @@ const updatePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.id,
-      {$set: req.body},
-      {new: true, runValidators: true}
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
+
+    if (!post) {
+      res.status(404).send("Post not found");
+    }
 
     res.status(200).send(post);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
 const deletePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndRemove(req.params.id);
+
+    if (!post) {
+      res.status(404).send("Post not found");
+    }
+
     res.status(200).send(post);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
@@ -52,9 +66,13 @@ const getPostComments = async (req, res) => {
       req.user._id
     );
 
+    if (!comments) {
+      res.status(404).send("Post not found");
+    }
+
     res.status(200).send(comments);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
@@ -67,7 +85,7 @@ const createComment = async (req, res) => {
 
     res.status(201).send(comment);
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
