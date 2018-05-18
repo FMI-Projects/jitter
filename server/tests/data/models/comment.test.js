@@ -60,30 +60,6 @@ describe("comment", () => {
         expect(mockQuery.populate).toHaveBeenCalledWith("author", "_id firstName lastName profilePictureUrl");
         expect(comments).toEqual(commentsToReturn);
       });
-
-      it("should throw error if post does not exist", async () => {
-        const mockQuery = {
-          populate: jest.fn().mockResolvedValue(undefined)
-        };
-
-        jest
-          .spyOn(Comment, "find")
-          .mockImplementation(params => mockQuery);
-
-        const post = new ObjectID();
-
-        let error;
-
-        try {
-          await Comment.findPostComments(post);
-        } catch (e) {
-          error = "Comments not found";
-        }
-
-        expect(Comment.find).toHaveBeenCalledWith({ post });
-        expect(mockQuery.populate).toHaveBeenCalledWith("author", "_id firstName lastName profilePictureUrl");
-        expect(error).toBeDefined();
-      });
     });
   });
 });

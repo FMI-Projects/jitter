@@ -19,7 +19,9 @@ describe("user", () => {
     let error;
 
     try {
+      console.log("enters", user);
       await user.validate();
+      console.log("doesnt return");
     } catch (e) {
       error = e;
     }
@@ -129,24 +131,6 @@ describe("user", () => {
 
         expect(User.findOne).toHaveBeenCalledWith({ email });
         expect(user).toEqual(userToReturn);
-      });
-
-      it("should throw an error if user does not exist", async () => {
-        jest
-          .spyOn(User, "findOne")
-          .mockImplementation(async params => undefined);
-        const email = "someEmail";
-
-        let error;
-
-        try {
-          await User.findByEmail(email);
-        } catch (e) {
-          error = "User not found";
-        }
-
-        expect(User.findOne).toHaveBeenCalledWith({ email });
-        expect(error).toBeDefined();
       });
     });
   });

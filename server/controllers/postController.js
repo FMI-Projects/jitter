@@ -1,7 +1,7 @@
 const Post = require("../data/models/post");
 const Comment = require("../data/models/comment");
 
-const createPost = async (req, res) => {
+const createPost = async (req, res, next) => {
   try {
     let post = new Post(req.body);
     post.author = req.user._id;
@@ -13,12 +13,12 @@ const createPost = async (req, res) => {
   }
 };
 
-const getPost = async (req, res) => {
+const getPost = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      res.status(404).send("Post not found");
+      return res.status(404).send("Post not found");
     }
 
     res.status(200).send(post);
@@ -27,7 +27,7 @@ const getPost = async (req, res) => {
   }
 };
 
-const updatePost = async (req, res) => {
+const updatePost = async (req, res, next) => {
   try {
     const post = await Post.findByIdAndUpdate(
       req.params.id,
@@ -36,7 +36,7 @@ const updatePost = async (req, res) => {
     );
 
     if (!post) {
-      res.status(404).send("Post not found");
+      return res.status(404).send("Post not found");
     }
 
     res.status(200).send(post);
@@ -45,12 +45,12 @@ const updatePost = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res) => {
+const deletePost = async (req, res, next) => {
   try {
     const post = await Post.findByIdAndRemove(req.params.id);
 
     if (!post) {
-      res.status(404).send("Post not found");
+      return res.status(404).send("Post not found");
     }
 
     res.status(200).send(post);
@@ -59,7 +59,7 @@ const deletePost = async (req, res) => {
   }
 };
 
-const getPostComments = async (req, res) => {
+const getPostComments = async (req, res, next) => {
   try {
     const comments = await Comment.findPostComments(
       req.params.id,
@@ -67,7 +67,7 @@ const getPostComments = async (req, res) => {
     );
 
     if (!comments) {
-      res.status(404).send("Post not found");
+      return res.status(404).send("Post not found");
     }
 
     res.status(200).send(comments);
@@ -76,7 +76,7 @@ const getPostComments = async (req, res) => {
   }
 };
 
-const createComment = async (req, res) => {
+const createComment = async (req, res, next) => {
   try {
     let comment = new Comment(req.body);
     comment.author = req.user._id;

@@ -1,12 +1,12 @@
 const Profile = require("../data/models/profile");
 const Post = require("../data/models/post");
 
-const getProfilePosts = async (req, res) => {
+const getProfilePosts = async (req, res, next) => {
   try {
     const posts = await Post.findProfilePosts(req.params.id);
 
     if (!posts) {
-      res.status(404).send("Profile not found");
+      return res.status(404).send("Profile not found");
     }
 
     res.status(200).send(posts);
@@ -15,12 +15,12 @@ const getProfilePosts = async (req, res) => {
   }
 };
 
-const getProfileInfo = async (req, res) => {
+const getProfileInfo = async (req, res, next) => {
   try {
     const profile = await Profile.getProfileInfo(req.params.id);
 
     if (!profile) {
-      res.status(404).send("Profile not found");
+      return res.status(404).send("Profile not found");
     }
 
     res.status(200).send(profile);

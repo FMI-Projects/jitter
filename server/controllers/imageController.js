@@ -1,6 +1,6 @@
 const imageUpload = require("../utilities/aws/imageUpload");
 
-const createImageSignedUrl = async (req, res) => {
+const createImageSignedUrl = async (req, res, next) => {
   const userId = req.user._id;
 
   try {

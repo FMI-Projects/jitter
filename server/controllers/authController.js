@@ -1,14 +1,14 @@
 const User = require("../data/models/user");
 const Profile = require("../data/models/profile");
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findByEmail(email);
 
     if (!user) {
-      res.status(404).send("Invalid login credentials");
+      return res.status(400).send("Invalid login credentials");
     }
 
     await user.validatePassword(password);

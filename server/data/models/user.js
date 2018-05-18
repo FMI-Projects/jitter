@@ -72,9 +72,12 @@ UserSchema.methods.generateAuthToken = function() {
   return authToken.createJwt(userId);
 };
 
-UserSchema.plugin(uniqueValidator, {
-  message: validationMessages.unique("Email")
-});
+if (process.env.NODE_ENV !== "test") {
+  UserSchema.plugin(uniqueValidator, {
+    message: validationMessages.unique("Email")
+  });
+}
+
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

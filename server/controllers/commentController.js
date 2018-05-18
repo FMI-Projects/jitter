@@ -1,6 +1,6 @@
 const Comment = require("../data/models/comment");
 
-const editComment = async (req, res) => {
+const editComment = async (req, res, next) => {
   try {
     const comment = await Comment.findByIdAndUpdate(
       req.params.id,
@@ -9,7 +9,7 @@ const editComment = async (req, res) => {
     );
 
     if (!comment) {
-      res.status(404).send("Comment not found");
+      return res.status(404).send("Comment not found");
     }
 
     res.status(200).send(comment);
@@ -18,12 +18,12 @@ const editComment = async (req, res) => {
   }
 };
 
-const deleteComment = async (req, res) => {
+const deleteComment = async (req, res, next) => {
   try {
     const comment = await Comment.findByIdAndRemove(req.params.id);
 
     if (!comment) {
-      res.status(404).send("Comment not found");
+      return res.status(404).send("Comment not found");
     }
 
     res.status(200).send(comment);
@@ -32,12 +32,12 @@ const deleteComment = async (req, res) => {
   }
 };
 
-const getComment = async (req, res) => {
+const getComment = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) {
-      res.status(404).send("Comment not found");
+      return res.status(404).send("Comment not found");
     }
 
     res.status(200).send(comment);

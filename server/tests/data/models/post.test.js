@@ -65,23 +65,6 @@ describe("post", () => {
         expect(Post.find).toHaveBeenCalledWith({author});
         expect(posts).toEqual(postsToReturn);
       });
-
-      it("should throw error if author does not exist", async () => {
-        jest.spyOn(Post, "find").mockImplementation(async params => undefined);
-
-        const author = new ObjectID();
-
-        let error;
-
-        try {
-          await Post.findProfilePosts(author);
-        } catch (e) {
-          error = "Posts not found";
-        }
-
-        expect(Post.find).toHaveBeenCalledWith({author});
-        expect(error).toBeDefined();
-      });
     });
   });
 });

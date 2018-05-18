@@ -1,12 +1,12 @@
 const Profile = require("../data/models/profile");
 
-const getCurrentUserProfile = async (req, res) => {
+const getCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
   try {
     const profile = await Profile.getUserProfileInfo(userId);
 
     if (!profile) {
-      res.status(404).send("Profile not found");
+      return res.status(404).send("Profile not found");
     }
 
     res.status(200).send(profile);
@@ -15,7 +15,7 @@ const getCurrentUserProfile = async (req, res) => {
   }
 };
 
-const updateCurrentUserProfile = async (req, res) => {
+const updateCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
   try {
     const profile = await Profile.findByIdAndUpdate(
@@ -25,7 +25,7 @@ const updateCurrentUserProfile = async (req, res) => {
     );
 
     if (!profile) {
-      res.status(404).send("Profile not found");
+      return res.status(404).send("Profile not found");
     }
 
     res.status(200).send(profile);
@@ -34,12 +34,12 @@ const updateCurrentUserProfile = async (req, res) => {
   }
 };
 
-const sendFriendRequest = async (req, res) => {
+const sendFriendRequest = async (req, res, next) => {
   const userId = req.user._id;
   const requestedProfileId = req.body.profileId;
 
   if (userId === requestedProfileId) {
-    res.status(400).send("Cannot send a friend request to self");
+    return res.status(400).send("Cannot send a friend request to self");
   }
 
   try {
@@ -50,12 +50,12 @@ const sendFriendRequest = async (req, res) => {
   }
 };
 
-const updateFriendRequest = async (req, res) => {
+const updateFriendRequest = async (req, res, next) => {
   const userId = req.user._id;
   const requestedProfileId = req.params.id;
 
   if (userId === requestedProfileId) {
-    res.status(400).send("Cannot send a friend request to self");
+    return res.status(400).send("Cannot send a friend request to self");
   }
 
   try {
