@@ -30,7 +30,8 @@ import defaultUserImage from "assets/images/defaultUser.png";
 class PostCard extends Component {
   static propTypes = {
     post: PropTypes.object,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    canAddPost: PropTypes.bool.isRequired
   };
 
   state = {
@@ -51,7 +52,7 @@ class PostCard extends Component {
   };
 
   render() {
-    const {post, classes} = this.props;
+    const {post, classes, canAddPost} = this.props;
     const formattedDate = post.createdAt
       ? formatDate.getFullDate(post.createdAt)
       : "N/A";
@@ -68,25 +69,27 @@ class PostCard extends Component {
               )
             }
             action={
-              <IconButton>
-                <MoreVertIcon onClick={this.handleMenuClick} />
-                <Menu
-                  anchorEl={this.state.menuOpen}
-                  open={Boolean(this.state.menuOpen)}
-                  onClose={this.handleMenuClose}>
-                  <MenuItem>
-                    <EditPost
-                      _id={post._id}
-                      closeMenu={this.handleMenuClose}
-                      title={post.title}
-                      content={post.content}
-                    />
-                  </MenuItem>
-                  <MenuItem>
-                    <DeletePost postId={post._id} />
-                  </MenuItem>
-                </Menu>
-              </IconButton>
+              canAddPost ? (
+                <IconButton>
+                  <MoreVertIcon onClick={this.handleMenuClick} />
+                  <Menu
+                    anchorEl={this.state.menuOpen}
+                    open={Boolean(this.state.menuOpen)}
+                    onClose={this.handleMenuClose}>
+                    <MenuItem>
+                      <EditPost
+                        _id={post._id}
+                        closeMenu={this.handleMenuClose}
+                        title={post.title}
+                        content={post.content}
+                      />
+                    </MenuItem>
+                    <MenuItem>
+                      <DeletePost postId={post._id} />
+                    </MenuItem>
+                  </Menu>
+                </IconButton>
+              ) : null
             }
             title={
               <Link
