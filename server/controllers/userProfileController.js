@@ -1,4 +1,5 @@
 const Profile = require("../data/models/profile");
+const _ = require("lodash");
 
 const getCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
@@ -18,8 +19,7 @@ const getCurrentUserProfile = async (req, res, next) => {
 const updateCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
   try {
-    // eslint-disable-next-line no-unused-vars
-    const { friendships, ...body } = req.body;
+    const body = _.emit(req.body, ["_id", "friendships"]);
 
     const profile = await Profile.findByIdAndUpdate(
       userId,

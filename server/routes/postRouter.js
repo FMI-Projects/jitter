@@ -14,7 +14,7 @@ postRouter.put(
   "/:id",
   authenticate,
   authorization.isPostAuthor,
-  postController.updatePost
+  postController.editPost
 );
 
 postRouter.delete(

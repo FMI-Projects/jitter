@@ -17,12 +17,12 @@ export function* postCommentsGetSaga(action) {
 export function* postsCreateSaga(action) {
   try {
     let imageKey;
-    if (action.payload.imageUrl) {
+    if (action.payload.imageFile) {
       const imageData = yield call(imageService.getSignedUrl);
       yield call(
         imageService.uploadImage,
         imageData.url,
-        action.payload.imageUrl
+        action.payload.imageFile
       );
       imageKey = imageData.key;
     }
@@ -49,14 +49,16 @@ export function* postsCreateSaga(action) {
 export function* postsUpdateSaga(action) {
   try {
     let imageKey;
-    if (action.payload.imageUrl) {
+    if (action.payload.imageFile) {
       const imageData = yield call(imageService.getSignedUrl);
       yield call(
         imageService.uploadImage,
         imageData.url,
-        action.payload.imageUrl
+        action.payload.imageFile
       );
       imageKey = imageData.key;
+    } else {
+      imageKey = action.payload.imageUrl;
     }
 
     const post = yield call(

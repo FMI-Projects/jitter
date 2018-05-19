@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {reduxForm} from "redux-form";
-import {connect} from "react-redux";
+import { reduxForm } from "redux-form";
+import { connect } from "react-redux";
 
 import * as actions from "store/actions";
 import PostFormContent from "./PostFormContent/PostFormContent";
@@ -17,7 +17,6 @@ class PostForm extends Component {
     content: PropTypes.string,
     imageUrl: PropTypes.string,
     formTitle: PropTypes.string.isRequired,
-    initialize: PropTypes.func.isRequired,
     formName: PropTypes.string
   };
 
@@ -28,7 +27,7 @@ class PostForm extends Component {
   }
 
   render() {
-    const {formName, formTitle, handleSubmit, submitting, error} = this.props;
+    const { formName, formTitle, handleSubmit, submitting, error } = this.props;
     let submit;
     if (formName === "createPost") {
       submit = handleSubmit(actions.postCreate);
@@ -53,7 +52,8 @@ function mapStateToProps(state, ownProps) {
     initialValues: {
       _id: ownProps._id,
       title: ownProps.title,
-      content: ownProps.content
+      content: ownProps.content,
+      imageUrl: ownProps.imageUrl
     }
   };
 }

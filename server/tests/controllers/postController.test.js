@@ -120,7 +120,7 @@ describe("postController", () => {
       await request(app)
         .put(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
-        .expect(401);
+        .expect(403);
     });
 
     it("should return 422 on invalid object id", async () => {
@@ -179,7 +179,7 @@ describe("postController", () => {
       await request(app)
         .delete(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
-        .expect(401);
+        .expect(403);
     });
   });
 

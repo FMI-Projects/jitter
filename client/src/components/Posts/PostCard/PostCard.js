@@ -83,6 +83,7 @@ class PostCard extends Component {
                         closeMenu={this.handleMenuClose}
                         title={post.title}
                         content={post.content}
+                        imageUrl={post.imageUrl}
                       />
                     </MenuItem>
                     <MenuItem>

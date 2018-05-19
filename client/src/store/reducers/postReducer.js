@@ -81,7 +81,7 @@ const applyPostsCreateSuccess = (state, action) => {
 const applyPostsUpdateSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.post._id);
-  post.imageUrl = action.post.imageUrl;
+  post.imageUrl = formatImage.getFullUrl(action.post.imageUrl);
   post.title = action.post.title;
   post.content = action.post.content;
   return newState;

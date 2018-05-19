@@ -27,11 +27,12 @@ const getPost = async (req, res, next) => {
   }
 };
 
-const updatePost = async (req, res, next) => {
+const editPost = async (req, res, next) => {
   try {
+    const { title, content, imageUrl } = req.body;
     const post = await Post.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: { title, content, imageUrl } },
       { new: true, runValidators: true }
     );
 
@@ -92,7 +93,7 @@ const createComment = async (req, res, next) => {
 module.exports = {
   createPost,
   getPost,
-  updatePost,
+  editPost,
   deletePost,
   getPostComments,
   createComment

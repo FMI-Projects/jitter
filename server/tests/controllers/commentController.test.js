@@ -53,7 +53,7 @@ describe("commentController", () => {
         .put(`/api/comments/${id}`)
         .set("x-auth", users[0].token)
         .send({})
-        .expect(401);
+        .expect(403);
     });
 
     it("should return 422 on invalid object id", async () => {
@@ -143,7 +143,7 @@ describe("commentController", () => {
       await request(app)
         .delete(`/api/comments/${id}`)
         .set("x-auth", users[0].token)
-        .expect(401);
+        .expect(403);
     });
   });
 });

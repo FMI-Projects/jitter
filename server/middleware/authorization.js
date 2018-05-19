@@ -10,7 +10,7 @@ const isPostAuthor = async (req, res, next) => {
     }
 
     if (post.author.toHexString() !== req.user._id.toHexString()) {
-      return res.boom.unauthorized("Unauthorized");
+      return res.boom.forbidden("Forbidden");
     }
 
     next();
@@ -28,7 +28,7 @@ const isCommentAuthor = async (req, res, next) => {
     }
 
     if (comment.author.toHexString() !== req.user._id.toHexString()) {
-      return res.boom.unauthorized("Unauthorized");
+      return res.boom.forbidden("Forbidden");
     }
 
     next();

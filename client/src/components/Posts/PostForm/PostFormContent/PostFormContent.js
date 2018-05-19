@@ -67,8 +67,8 @@ const postForm = props => {
           </div>
           <div className={props.classes.imageField}>
             <Field
-              id="imageUrl"
-              name="imageUrl"
+              id="imageFile"
+              name="imageFile"
               defaultPicture=""
               height="200px"
               width="200px"
@@ -97,8 +97,7 @@ postForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   formTitle: PropTypes.string.isRequired,
   title: PropTypes.string,
-  content: PropTypes.string,
-  imageUrl: PropTypes.string
+  content: PropTypes.string
 };
 
 export default withStyles(styles)(postForm);

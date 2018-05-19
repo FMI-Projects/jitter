@@ -2,9 +2,10 @@ const Comment = require("../data/models/comment");
 
 const editComment = async (req, res, next) => {
   try {
+    const { content } = req.body;
     const comment = await Comment.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: { content } },
       { new: true, runValidators: true }
     );
 

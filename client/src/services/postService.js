@@ -5,13 +5,13 @@ export default class PostService {
 
   getPostComments = async postId => {
     const url = `/api/posts/${postId}/comments`;
-    const {data} = await this.http.get(url);
+    const { data } = await this.http.get(url);
     return data;
   };
 
   createPost = async (title, content, imageUrl) => {
     const url = `/api/posts`;
-    const postData = {title, content, imageUrl};
+    const postData = { title, content, imageUrl };
     const response = await this.http.post(url, postData);
 
     return response.data;
@@ -19,10 +19,7 @@ export default class PostService {
 
   updatePost = async (id, title, content, imageUrl) => {
     const url = `/api/posts/${id}`;
-    const postData = {title, content};
-    if (imageUrl) {
-      postData.imageUrl = imageUrl;
-    }
+    const postData = { title, content, imageUrl };
     const response = await this.http.put(url, postData);
 
     return response.data;
