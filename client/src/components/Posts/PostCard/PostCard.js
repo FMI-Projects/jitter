@@ -36,7 +36,23 @@ class PostCard extends Component {
 
   state = {
     expanded: false,
-    menuOpen: null
+    menuOpen: null,
+    editDialogOpen: false,
+    deleteDialogOpen: false
+  };
+
+  handleEditDialogClick = () => {
+    this.setState({
+      editDialogOpen: !this.state.editDialogOpen,
+      menuOpen: null
+    });
+  };
+
+  handleDeleteDialogClick = () => {
+    this.setState({
+      deleteDialogOpen: !this.state.deleteDialogOpen,
+      menuOpen: null
+    });
   };
 
   handleExpandClick = () => {
@@ -76,17 +92,30 @@ class PostCard extends Component {
                     anchorEl={this.state.menuOpen}
                     open={Boolean(this.state.menuOpen)}
                     onClose={this.handleMenuClose}
-                    PaperProps={classes.menu}
+                    PaperProps={{ style: classes.menu }}
                   >
-                    <EditPost
-                      _id={post._id}
-                      closeMenu={this.handleMenuClose}
-                      title={post.title}
-                      content={post.content}
-                      imageUrl={post.imageUrl}
-                    />
-                    <DeletePost postId={post._id} />
+                    <MenuItem onClick={this.handleEditDialogClick}>
+                      Edit post
+                    </MenuItem>
+                    <MenuItem onClick={this.handleDeleteDialogClick}>
+                      Delete post
+                    </MenuItem>
                   </Menu>
+                  <EditPost
+                    onClose={this.handleEditDialogClick}
+                    open={this.state.editDialogOpen}
+                    _id={post._id}
+                    closeMenu={this.handleMenuClose}
+                    title={post.title}
+                    content={post.content}
+                    imageUrl={post.imageUrl}
+                  />
+                  {this.state.handleDeleteDialogClick ? (
+                    <DeletePost
+                      open={this.state.deleteDialogOpen}
+                      postId={post._id}
+                    />
+                  ) : null}
                 </IconButton>
               ) : null
             }

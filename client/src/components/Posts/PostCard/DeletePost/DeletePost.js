@@ -21,7 +21,7 @@ class DeletePost extends Component {
   };
 
   render() {
-    return <MenuItem onClick={this.handleDeleteClick}>Delete Post</MenuItem>;
+    return <div>Delete Post</div>;
   }
 }
 
