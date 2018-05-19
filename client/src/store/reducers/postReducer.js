@@ -99,7 +99,7 @@ const applyPostsDeleteSuccess = (state, action) => {
 const applyPostsCommentCreateSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.postId);
-  post.comments.unshift(action.comment);
+  post.comments.push(action.comment);
   return newState;
 };
 

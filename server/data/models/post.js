@@ -61,7 +61,7 @@ PostSchema.statics.findProfilePosts = async function(profileId) {
   const Post = this;
 
   const posts = await Post.find({ author: profileId }).sort({
-    createdAt: "descending"
+    _id: "descending"
   });
 
   return posts;
