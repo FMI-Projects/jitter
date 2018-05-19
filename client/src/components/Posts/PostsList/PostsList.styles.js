@@ -1,4 +1,4 @@
-const styles = theme => ({
+const styles = {
   root: {
     width: "75%",
     position: "absolute"
@@ -11,7 +11,11 @@ const styles = theme => ({
   formButton: {
     position: "absolute",
     width: "50%"
+  },
+  dialog: {
+    maxWidth: "100vh",
+    maxHeight: "100vh"
   }
-});
+};
 
 export default styles;

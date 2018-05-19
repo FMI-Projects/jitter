@@ -70,8 +70,8 @@ const postForm = props => {
               id="imageFile"
               name="imageFile"
               defaultPicture={props.imageUrl ? props.imageUrl : ""}
-              height="200px"
-              width="200px"
+              height="150px"
+              width="150px"
               component={FileInput}
               validate={[validImageSize, validImageType]}
               label="Add image"

@@ -6,6 +6,7 @@ import Dialog from "material-ui/Dialog";
 
 import PostForm from "../../PostForm/PostForm";
 import styles from "./AddPost.styles";
+import listStyles from "../PostsList.styles";
 
 class AddPost extends Component {
   static propTypes = {
@@ -37,6 +38,7 @@ class AddPost extends Component {
           Add Post
         </Button>
         <Dialog
+          classes={{ paper: this.props.classes.dialog }}
           fullWidth={true}
           open={this.state.dialogOpen}
           onClose={this.closeDialog}
@@ -53,4 +55,4 @@ class AddPost extends Component {
   }
 }
 
-export default withStyles(styles)(AddPost);
+export default withStyles({ ...styles, ...listStyles })(AddPost);
