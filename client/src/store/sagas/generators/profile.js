@@ -6,24 +6,23 @@ import { profileService, timeService } from "../../../services";
 export function* userProfileUpdate(profileData) {
   if (profileData.birthday) {
     profileData.birthday = yield call(
-      timeService.getUtcDate,
-      profileData.birthday
+      timeService.convertToUtcDate,
+      profileData.birthday,
+      "MM/DD/YYYY"
     );
   }
 
-  const {
-    firstName,
-    lastName,
-    profilePictureUrl,
-    navProfilePictureUrl
-  } = yield call(profileService.updateCurrentUserProfile, profileData);
+  const { firstName, lastName, profilePictureUrl, friendships } = yield call(
+    profileService.updateCurrentUserProfile,
+    profileData
+  );
 
   yield put(
     actions.userProfileSetInfo(
       firstName,
       lastName,
       profilePictureUrl,
-      navProfilePictureUrl
+      friendships
     )
   );
 }

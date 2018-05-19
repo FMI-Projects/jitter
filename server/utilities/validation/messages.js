@@ -3,7 +3,7 @@ const minLength = (field, length) =>
   `${field} must be at least ${length} symbols long`;
 const maxLength = (field, length) =>
   `${field} must be at least ${length} symbols long`;
-const unique = field => `${field} already exists.`;
+const unique = field => `${field} already exists`;
 const invalidValue = field => `{VALUE} is not a valid value for ${field}`;
 
 module.exports = {

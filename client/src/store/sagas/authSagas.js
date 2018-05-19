@@ -3,6 +3,7 @@ import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
 import { userService, storageService } from "../../services";
+import * as formatError from "../../utilities/formatters/formatError";
 import * as socket from "./sockets/io";
 
 export function* authLoginSaga(action) {
@@ -19,8 +20,9 @@ export function* authLoginSaga(action) {
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.login.success());
   } catch (e) {
+    const error = yield call(formatError.formatHttpError, e);
     const formError = new SubmissionError({
-      _error: e.message
+      _error: error
     });
     yield put(actions.login.failure(formError));
   }
@@ -43,8 +45,9 @@ export function* authRegisterSaga(action) {
     yield put(actions.authFirstLogin());
     yield put(actions.register.success());
   } catch (e) {
+    const error = yield call(formatError.formatHttpError, e);
     const formError = new SubmissionError({
-      _error: e.message
+      _error: error
     });
     yield put(actions.register.failure(formError));
   }

@@ -1,9 +1,10 @@
-import {put, call} from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
+import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
-import {postService} from "../../services";
-import {imageService} from "../../services";
-import {SubmissionError} from "redux-form";
+import { postService } from "../../services";
+import { imageService } from "../../services";
+import * as formatError from "../../utilities/formatters/formatError";
 
 export function* postCommentsGetSaga(action) {
   try {
@@ -36,8 +37,9 @@ export function* postsCreateSaga(action) {
     yield put(actions.postsCreateSuccess(post));
     yield put(actions.postCreate.success());
   } catch (e) {
+    const error = yield call(formatError.formatHttpError, e);
     const formError = new SubmissionError({
-      _error: e.message
+      _error: error
     });
 
     yield put(actions.postCreate.failure(formError));
@@ -68,8 +70,9 @@ export function* postsUpdateSaga(action) {
     yield put(actions.postsUpdateSuccess(post));
     yield put(actions.postUpdate.success());
   } catch (e) {
+    const error = yield call(formatError.formatHttpError, e);
     const formError = new SubmissionError({
-      _error: e.message
+      _error: error
     });
 
     yield put(actions.postUpdate.failure(formError));
