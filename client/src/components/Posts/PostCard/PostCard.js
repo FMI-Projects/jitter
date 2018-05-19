@@ -110,12 +110,11 @@ class PostCard extends Component {
                     content={post.content}
                     imageUrl={post.imageUrl}
                   />
-                  {this.state.handleDeleteDialogClick ? (
-                    <DeletePost
-                      open={this.state.deleteDialogOpen}
-                      postId={post._id}
-                    />
-                  ) : null}
+                  <DeletePost
+                    onClose={this.handleDeleteDialogClick}
+                    open={this.state.deleteDialogOpen}
+                    postId={post._id}
+                  />
                 </IconButton>
               ) : null
             }
