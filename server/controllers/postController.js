@@ -54,6 +54,8 @@ const deletePost = async (req, res, next) => {
       return res.boom.notFound("Post not found");
     }
 
+    post.remove();
+
     res.status(200).send(post);
   } catch (e) {
     next(e);
