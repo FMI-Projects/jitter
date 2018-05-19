@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withStyles } from "material-ui/styles";
 import Dialog, { DialogTitle, DialogActions } from "material-ui/Dialog";
 import Button from "material-ui/Button";
 
-import styles from "./DeletePost.styles";
 import * as actions from "store/actions";
 
 class DeletePost extends Component {
@@ -56,6 +54,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(
-  withStyles(styles)(DeletePost)
-);
+export default connect(null, mapDispatchToProps)(DeletePost);

@@ -86,21 +86,23 @@ class PostCard extends Component {
             }
             action={
               canModify ? (
-                <IconButton>
-                  <MoreVertIcon onClick={this.handleMenuClick} />
-                  <Menu
-                    anchorEl={this.state.menuOpen}
-                    open={Boolean(this.state.menuOpen)}
-                    onClose={this.handleMenuClose}
-                    PaperProps={{ style: classes.menu }}
-                  >
-                    <MenuItem onClick={this.handleEditDialogClick}>
-                      Edit post
-                    </MenuItem>
-                    <MenuItem onClick={this.handleDeleteDialogClick}>
-                      Delete post
-                    </MenuItem>
-                  </Menu>
+                <Fragment>
+                  <IconButton>
+                    <MoreVertIcon onClick={this.handleMenuClick} />
+                    <Menu
+                      anchorEl={this.state.menuOpen}
+                      open={Boolean(this.state.menuOpen)}
+                      onClose={this.handleMenuClose}
+                      PaperProps={{ style: classes.menu }}
+                    >
+                      <MenuItem onClick={this.handleEditDialogClick}>
+                        Edit post
+                      </MenuItem>
+                      <MenuItem onClick={this.handleDeleteDialogClick}>
+                        Delete post
+                      </MenuItem>
+                    </Menu>
+                  </IconButton>
                   <EditPost
                     onClose={this.handleEditDialogClick}
                     open={this.state.editDialogOpen}
@@ -115,7 +117,7 @@ class PostCard extends Component {
                     open={this.state.deleteDialogOpen}
                     postId={post._id}
                   />
-                </IconButton>
+                </Fragment>
               ) : null
             }
             title={
