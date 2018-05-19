@@ -30,11 +30,10 @@ class DeletePost extends Component {
     return (
       <Dialog
         open={this.props.open}
-        disableBackdropClick
-        disableEscapeKeyDown
+        onClose={this.props.onClose}
         aria-labelledby="confirmation-dialog-title"
       >
-        <DialogTitle>Are you sure you want to delete post?</DialogTitle>
+        <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
         <DialogActions>
           <Button onClick={this.handleCancel} color="primary">
             Cancel

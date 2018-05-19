@@ -35,7 +35,7 @@ const commentForm = props => {
               component={TextField}
               validate={[required, commentContentMaxLength]}
               margin="dense"
-              label="What's jittering?"
+              label="Write a comment"
             />
           </div>
           <Button
