@@ -14,8 +14,16 @@ class CommentForm extends Component {
     error: PropTypes.string,
     handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    postId: PropTypes.string.isRequired
+    postId: PropTypes.string.isRequired,
+    submitSucceeded: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired
   };
+
+  componentDidUpdate() {
+    if (this.props.submitSucceeded) {
+      this.props.reset();
+    }
+  }
 
   render() {
     // TODO add extra logic here for comment editing

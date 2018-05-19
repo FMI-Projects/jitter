@@ -20,7 +20,7 @@ const commentsList = ({ comments, classes, postId }) => {
   return (
     <div className={classes.root}>
       <List>
-        <CommentForm postId={postId} formName="createComment" />
+        <CommentForm postId={postId} formName={`createComment-${postId}`} />
         {comments.map(comment => {
           const formattedDate = formatDate.getFullDate(comment.createdAt);
           const secondaryText = `${comment.author.firstName} ${
