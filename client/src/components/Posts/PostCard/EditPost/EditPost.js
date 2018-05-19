@@ -1,7 +1,7 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
-import Button from "material-ui/Button";
+import { MenuItem } from "material-ui/Menu";
 import { withStyles } from "material-ui/styles";
 
 import styles from "./EditPost.styles";
@@ -35,17 +35,11 @@ class EditPost extends Component {
   };
 
   render() {
-    const { _id, title, content, classes, imageUrl } = this.props;
+    const { _id, title, content, imageUrl } = this.props;
 
     return (
-      <Fragment>
-        <Button
-          variant="flat"
-          className={classes.button}
-          onClick={this.openDialog}
-        >
-          Edit post
-        </Button>
+      <MenuItem onClick={this.openDialog}>
+        Edit post
         <Dialog
           fullWidth={true}
           open={this.state.dialogOpen}
@@ -62,7 +56,7 @@ class EditPost extends Component {
             onSubmitted={this.closeDialogWithMenu}
           />
         </Dialog>
-      </Fragment>
+      </MenuItem>
     );
   }
 }

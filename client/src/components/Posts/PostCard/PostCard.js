@@ -76,19 +76,16 @@ class PostCard extends Component {
                     anchorEl={this.state.menuOpen}
                     open={Boolean(this.state.menuOpen)}
                     onClose={this.handleMenuClose}
+                    PaperProps={classes.menu}
                   >
-                    <MenuItem>
-                      <EditPost
-                        _id={post._id}
-                        closeMenu={this.handleMenuClose}
-                        title={post.title}
-                        content={post.content}
-                        imageUrl={post.imageUrl}
-                      />
-                    </MenuItem>
-                    <MenuItem>
-                      <DeletePost postId={post._id} />
-                    </MenuItem>
+                    <EditPost
+                      _id={post._id}
+                      closeMenu={this.handleMenuClose}
+                      title={post.title}
+                      content={post.content}
+                      imageUrl={post.imageUrl}
+                    />
+                    <DeletePost postId={post._id} />
                   </Menu>
                 </IconButton>
               ) : null

@@ -29,6 +29,9 @@ const styles = theme => ({
   },
   link: {
     textDecoration: "none"
+  },
+  menu: {
+    width: "10%"
   }
 });
 
