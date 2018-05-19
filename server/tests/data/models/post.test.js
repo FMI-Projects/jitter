@@ -54,9 +54,11 @@ describe("post", () => {
       it("should return user posts with correct input", async () => {
         const postsToReturn = "somePosts";
 
-        jest
-          .spyOn(Post, "find")
-          .mockImplementation(async params => postsToReturn);
+        const mockQuery = {
+          sort: jest.fn().mockResolvedValue(postsToReturn)
+        };
+
+        jest.spyOn(Post, "find").mockImplementation(params => mockQuery);
 
         const author = new ObjectID();
 

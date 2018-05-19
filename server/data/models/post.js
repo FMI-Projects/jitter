@@ -60,7 +60,9 @@ PostSchema.pre("remove", async function(next) {
 PostSchema.statics.findProfilePosts = async function(profileId) {
   const Post = this;
 
-  const posts = await Post.find({ author: profileId });
+  const posts = await Post.find({ author: profileId }).sort({
+    createdAt: "descending"
+  });
 
   return posts;
 };
