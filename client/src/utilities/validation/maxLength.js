@@ -15,3 +15,6 @@ export const firstNameMaxLength = maxLength(
 export const lastNameMaxLength = maxLength(profileConstants.lastName.maxLength);
 export const bioMaxLength = maxLength(profileConstants.bio.maxLength);
 export const postContentMaxLength = maxLength(postConstants.content.maxLength);
+export const commentContentMaxLength = maxLength(
+  postConstants.comments.content.maxLength
+);

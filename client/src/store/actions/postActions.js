@@ -56,3 +56,11 @@ export const postsDeleteSuccess = post => {
     post
   };
 };
+
+export const postsCommentCreateSuccess = (comment, postId) => {
+  return {
+    type: actionTypes.POSTS_COMMENT_CREATE_SUCCESS,
+    postId,
+    comment
+  };
+};

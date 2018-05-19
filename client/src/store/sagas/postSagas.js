@@ -88,3 +88,23 @@ export function* postsDeleteSaga(action) {
     yield put(actions.postsDeleteSuccess(data));
   } catch (e) {}
 }
+
+export function* postsCommentCreateSaga(action) {
+  try {
+    const data = yield call(
+      postService.createPostComment,
+      action.payload.postId,
+      action.payload.content
+    );
+
+    yield put(actions.postsCommentCreateSuccess(data, action.payload.postId));
+    yield put(actions.postCommentCreate.success());
+  } catch (e) {
+    const error = yield call(formatError.formatHttpError, e);
+    const formError = new SubmissionError({
+      _error: error
+    });
+
+    yield put(actions.postCommentCreate.failure(formError));
+  }
+}

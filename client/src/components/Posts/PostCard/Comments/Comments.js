@@ -26,7 +26,9 @@ class Comments extends Component {
     let commentsList = <Spinner size={50} />;
 
     if (loading === false) {
-      commentsList = <CommentsList comments={comments} />;
+      commentsList = (
+        <CommentsList postId={this.props.postId} comments={comments} />
+      );
     }
 
     return <div>{commentsList}</div>;

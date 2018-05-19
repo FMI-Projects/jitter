@@ -14,11 +14,13 @@ import { withStyles } from "material-ui/styles";
 
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
+import CommentForm from "../CommentForm/CommentForm";
 
-const commentsList = ({ comments, classes }) => {
+const commentsList = ({ comments, classes, postId }) => {
   return (
     <div className={classes.root}>
       <List>
+        <CommentForm postId={postId} formName="createComment" />
         {comments.map(comment => {
           const formattedDate = formatDate.getFullDate(comment.createdAt);
           const secondaryText = `${comment.author.firstName} ${
@@ -53,7 +55,8 @@ const commentsList = ({ comments, classes }) => {
 
 commentsList.propTypes = {
   comments: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(commentsList);
