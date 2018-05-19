@@ -1,4 +1,4 @@
-const {ObjectID} = require("mongodb");
+const { ObjectID } = require("mongodb");
 
 const Post = require("../../../data/models/post");
 
@@ -8,7 +8,7 @@ describe("post", () => {
   });
 
   it("should be invalid if title is empty", async () => {
-    const post = new Post({title: "", author: new ObjectID()});
+    const post = new Post({ title: "", author: new ObjectID() });
 
     let error;
 
@@ -22,7 +22,7 @@ describe("post", () => {
   });
 
   it("should be invalid if author is empty", async () => {
-    const post = new Post({title: "aTitle"});
+    const post = new Post({ title: "aTitle" });
 
     let error;
 
@@ -36,7 +36,7 @@ describe("post", () => {
   });
 
   it("should be valid with valid input", async () => {
-    const post = new Post({title: "aTitle", author: new ObjectID()});
+    const post = new Post({ title: "aTitle", author: new ObjectID() });
 
     let error;
 
@@ -62,7 +62,7 @@ describe("post", () => {
 
         const posts = await Post.findProfilePosts(author);
 
-        expect(Post.find).toHaveBeenCalledWith({author});
+        expect(Post.find).toHaveBeenCalledWith({ author });
         expect(posts).toEqual(postsToReturn);
       });
     });

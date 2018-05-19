@@ -1,8 +1,8 @@
-const {ObjectId} = require("mongodb");
+const { ObjectId } = require("mongodb");
 const Comment = require("../../data/models/comment");
 
-const {profiles} = require("./profiles");
-const {posts} = require("./posts");
+const { profiles } = require("./profiles");
+const { posts } = require("./posts");
 
 const faker = require("faker");
 

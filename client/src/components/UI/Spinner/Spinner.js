@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {withStyles} from "material-ui/styles";
-import {CircularProgress} from "material-ui/Progress";
+import { withStyles } from "material-ui/styles";
+import { CircularProgress } from "material-ui/Progress";
 
 import styles from "./Spinner.styles";
 
 const spinner = props => {
-  const {classes, size} = props;
+  const { classes, size } = props;
 
   return (
     <div className={classes.container}>

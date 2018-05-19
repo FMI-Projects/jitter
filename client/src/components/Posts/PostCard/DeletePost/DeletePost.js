@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import Button from "material-ui/Button";
-import {withStyles} from "material-ui/styles";
+import { withStyles } from "material-ui/styles";
 
 import styles from "./DeletePost.styles";
 import * as actions from "store/actions";
@@ -21,13 +21,14 @@ class DeletePost extends Component {
   };
 
   render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
     return (
       <Fragment>
         <Button
           onClick={this.handleDeleteClick}
           variant="flat"
-          className={classes.button}>
+          className={classes.button}
+        >
           Delete Post
         </Button>
       </Fragment>

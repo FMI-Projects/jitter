@@ -1,13 +1,13 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import {Field} from "redux-form";
-import {withStyles} from "material-ui/styles";
+import { Field } from "redux-form";
+import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
-import {TextField} from "redux-form-material-ui";
+import { TextField } from "redux-form-material-ui";
 
 import BaseForm from "components/UI/Forms/BaseForm/BaseForm";
 import styles from "components/UI/Forms/BaseForm/BaseForm.styles";
-import {required, email} from "utilities/validation";
+import { required, email } from "utilities/validation";
 import Spinner from "components/UI/Spinner/Spinner";
 
 const loginForm = props => {
@@ -25,8 +25,9 @@ const loginForm = props => {
     <Fragment>
       {spinner}
       <BaseForm
-        style={{display: props.submitting ? "none" : "block"}}
-        title="Login">
+        style={{ display: props.submitting ? "none" : "block" }}
+        title="Login"
+      >
         <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
@@ -54,7 +55,8 @@ const loginForm = props => {
             className={props.classes.button}
             variant="raised"
             color="primary"
-            type="submit">
+            type="submit"
+          >
             Sign in
           </Button>
         </form>

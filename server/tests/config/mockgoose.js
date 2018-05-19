@@ -14,10 +14,10 @@ const prepareDatabase = async () => {
 };
 
 const resetDatabase = async () => {
-    await mockgoose.helper.reset();
+  await mockgoose.helper.reset();
 };
 
 module.exports = {
-    prepareDatabase,
-    resetDatabase
+  prepareDatabase,
+  resetDatabase
 };

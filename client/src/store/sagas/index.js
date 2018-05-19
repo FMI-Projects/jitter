@@ -1,4 +1,4 @@
-import {takeLatest, takeEvery, all} from "redux-saga/effects";
+import { takeLatest, takeEvery, all } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 
 import * as authSagas from "./authSagas";

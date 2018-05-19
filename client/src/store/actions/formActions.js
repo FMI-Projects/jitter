@@ -1,4 +1,4 @@
-import {createFormAction} from "redux-form-saga";
+import { createFormAction } from "redux-form-saga";
 
 export const login = createFormAction("LOGIN");
 export const register = createFormAction("REGISTER");

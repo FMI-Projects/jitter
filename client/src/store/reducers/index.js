@@ -1,5 +1,5 @@
-import {combineReducers} from "redux";
-import {reducer as formReducer} from "redux-form";
+import { combineReducers } from "redux";
+import { reducer as formReducer } from "redux-form";
 import authReducer from "../reducers/authReducer";
 import postReducer from "../reducers/postReducer";
 import userProfileReducer from "./userProfileReducer";
