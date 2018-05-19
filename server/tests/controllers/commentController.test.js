@@ -57,14 +57,14 @@ describe("commentController", () => {
         .expect(401);
     });
 
-    it("should return 404 on invalid object id", async () => {
-      const id = new ObjectID();
+    it("should return 422 on invalid object id", async () => {
+      const id = "123";
 
       await request(app)
         .put(`/api/comments/${id}`)
         .set("x-auth", users[0].token)
         .send({})
-        .expect(404);
+        .expect(422);
     });
 
     it("should return 401 on unauthorized request", async () => {
@@ -97,13 +97,13 @@ describe("commentController", () => {
         .expect(401);
     });
 
-    it("should return 404 on invalid id", async () => {
+    it("should return 422 on invalid id", async () => {
       const id = "123";
 
       await request(app)
         .get(`/api/comments/${id}`)
         .set("x-auth", users[0].token)
-        .expect(400);
+        .expect(422);
     });
   });
 
@@ -121,13 +121,13 @@ describe("commentController", () => {
       expect(comment).toBeFalsy();
     });
 
-    it("should return 404 on invalid object id", async () => {
+    it("should return 422 on invalid object id", async () => {
       const id = "123";
 
       await request(app)
         .delete(`/api/comments/${id}`)
         .set("x-auth", users[0].token)
-        .expect(400);
+        .expect(422);
     });
 
     it("should return 401 on unauthorized request", async () => {

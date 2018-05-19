@@ -18,7 +18,7 @@ const getPost = async (req, res, next) => {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      return res.status(404).send("Post not found");
+      return res.boom.notFound("Post not found");
     }
 
     res.status(200).send(post);
@@ -36,7 +36,7 @@ const updatePost = async (req, res, next) => {
     );
 
     if (!post) {
-      return res.status(404).send("Post not found");
+      return res.boom.notFound("Post not found");
     }
 
     res.status(200).send(post);
@@ -50,7 +50,7 @@ const deletePost = async (req, res, next) => {
     const post = await Post.findByIdAndRemove(req.params.id);
 
     if (!post) {
-      return res.status(404).send("Post not found");
+      return res.boom.notFound("Post not found");
     }
 
     res.status(200).send(post);
@@ -67,7 +67,7 @@ const getPostComments = async (req, res, next) => {
     );
 
     if (!comments) {
-      return res.status(404).send("Post not found");
+      return res.boom.notFound("Post not found");
     }
 
     res.status(200).send(comments);

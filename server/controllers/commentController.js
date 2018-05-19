@@ -9,7 +9,7 @@ const editComment = async (req, res, next) => {
     );
 
     if (!comment) {
-      return res.status(404).send("Comment not found");
+      return res.boom.notFound("Comment not found");
     }
 
     res.status(200).send(comment);
@@ -23,7 +23,7 @@ const deleteComment = async (req, res, next) => {
     const comment = await Comment.findByIdAndRemove(req.params.id);
 
     if (!comment) {
-      return res.status(404).send("Comment not found");
+      return res.boom.notFound("Comment not found");
     }
 
     res.status(200).send(comment);
@@ -37,7 +37,7 @@ const getComment = async (req, res, next) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) {
-      return res.status(404).send("Comment not found");
+      return res.boom.notFound("Comment not found");
     }
 
     res.status(200).send(comment);

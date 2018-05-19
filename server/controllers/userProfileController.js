@@ -6,7 +6,7 @@ const getCurrentUserProfile = async (req, res, next) => {
     const profile = await Profile.getUserProfileInfo(userId);
 
     if (!profile) {
-      return res.status(404).send("Profile not found");
+      return res.boom.notFound("Profile not found");
     }
 
     res.status(200).send(profile);
@@ -28,7 +28,7 @@ const updateCurrentUserProfile = async (req, res, next) => {
     );
 
     if (!profile) {
-      return res.status(404).send("Profile not found");
+      return res.boom.notFound("Profile not found");
     }
 
     res.status(200).send(profile);
@@ -42,7 +42,7 @@ const sendFriendRequest = async (req, res, next) => {
   const requestedProfileId = req.body.profileId;
 
   if (userId === requestedProfileId) {
-    return res.status(400).send("Cannot send a friend request to self");
+    return res.boom.badRequest("Cannot send a friend request to self");
   }
 
   try {
@@ -58,7 +58,7 @@ const updateFriendRequest = async (req, res, next) => {
   const requestedProfileId = req.params.id;
 
   if (userId === requestedProfileId) {
-    return res.status(400).send("Cannot send a friend request to self");
+    return res.boom.badRequest("Cannot send a friend request to self");
   }
 
   try {

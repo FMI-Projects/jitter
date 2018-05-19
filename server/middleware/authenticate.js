@@ -5,7 +5,7 @@ const authenticate = async (req, res, next) => {
   const token = req.header("x-auth");
 
   if (!token) {
-    return res.status(401).send();
+    return res.boom.unauthorized("Unauthorized");
   }
 
   try {
@@ -13,12 +13,12 @@ const authenticate = async (req, res, next) => {
     const user = await User.findById(_id);
 
     if (!user) {
-      return res.status(401).send();
+      return res.boom.unauthorized("Unauthorized");
     }
     req.user = user;
     next();
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 

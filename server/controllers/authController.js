@@ -8,7 +8,7 @@ const login = async (req, res, next) => {
     const user = await User.findByEmail(email);
 
     if (!user) {
-      return res.status(400).send("Invalid login credentials");
+      return res.boom.badRequest("Invalid login credentials");
     }
 
     await user.validatePassword(password);

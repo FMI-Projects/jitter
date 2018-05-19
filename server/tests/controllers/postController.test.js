@@ -49,13 +49,13 @@ describe("postController", () => {
         .expect(401);
     });
 
-    it("should return 400 on invalid id", async () => {
+    it("should return 422 on invalid id", async () => {
       const id = "123";
 
       await request(app)
         .get(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
-        .expect(400);
+        .expect(422);
     });
   });
 
@@ -87,12 +87,12 @@ describe("postController", () => {
         .expect(401);
     });
 
-    it("should return 400 on invalid data", async () => {
+    it("should return 422 on invalid data", async () => {
       await request(app)
         .post("/api/posts/")
         .set("x-auth", users[0].token)
         .send({})
-        .expect(400);
+        .expect(422);
     });
   });
 
@@ -123,14 +123,14 @@ describe("postController", () => {
         .expect(401);
     });
 
-    it("should return 400 on invalid object id", async () => {
+    it("should return 422 on invalid object id", async () => {
       const id = "123";
 
       await request(app)
         .put(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
         .send({})
-        .expect(400);
+        .expect(422);
     });
 
     it("should return 401 on unauthorized request", async () => {
@@ -156,13 +156,13 @@ describe("postController", () => {
       expect(post).toBeFalsy();
     });
 
-    it("should return 400 on invalid object id", async () => {
+    it("should return 422 on invalid object id", async () => {
       const id = "123";
 
       await request(app)
         .delete(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
-        .expect(400);
+        .expect(422);
     });
 
     it("should return 401 on unauthorized request", async () => {
@@ -229,12 +229,12 @@ describe("postController", () => {
         .expect(401);
     });
 
-    it("should return 400 on invalid data", async () => {
+    it("should return 422 on invalid data", async () => {
       await request(app)
         .post(`/api/posts/${posts[0]._id}/comments`)
         .set("x-auth", users[0].token)
         .send({})
-        .expect(400);
+        .expect(422);
     });
   });
 });

@@ -3,6 +3,7 @@ const http = require("http");
 const socketIO = require("socket.io");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const boom = require("express-boom");
 
 const authRouter = require("../routes/authRouter");
 const userProfileRouter = require("../routes/userProfileRouter");
@@ -24,7 +25,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+app.use(boom());
 app.use(bodyParser.json());
 
 app.use("/auth", authRouter);

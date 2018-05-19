@@ -51,7 +51,7 @@ describe("authController", () => {
       });
     });
 
-    it("should return 400 with invalid email", async () => {
+    it("should return 422 with invalid email", async () => {
       const email = "incorrectEmail";
       const password = "testPassword";
       const firstName = "testFirstName";
@@ -65,7 +65,7 @@ describe("authController", () => {
           firstName,
           lastName
         })
-        .expect(400);
+        .expect(422);
 
       const userCount = await User.count();
       expect(userCount).toEqual(0);
@@ -74,7 +74,7 @@ describe("authController", () => {
       expect(profileCount).toEqual(0);
     });
 
-    it("should return 400 with invalid password", async () => {
+    it("should return 422 with invalid password", async () => {
       const email = "testEmail@gmail.com";
       const password = "";
       const firstName = "testFirstName";
@@ -88,7 +88,7 @@ describe("authController", () => {
           firstName,
           lastName
         })
-        .expect(400);
+        .expect(422);
 
       const userCount = await User.count();
       expect(userCount).toEqual(0);
@@ -97,7 +97,7 @@ describe("authController", () => {
       expect(profileCount).toEqual(0);
     });
 
-    it("should return 400 with invalid firstName", async () => {
+    it("should return 422 with invalid firstName", async () => {
       const email = "testEmail@gmail.com";
       const password = "testPassword";
       const firstName = "";
@@ -111,7 +111,7 @@ describe("authController", () => {
           firstName,
           lastName
         })
-        .expect(400);
+        .expect(422);
 
       const userCount = await User.count();
       expect(userCount).toEqual(0);
@@ -120,7 +120,7 @@ describe("authController", () => {
       expect(profileCount).toEqual(0);
     });
 
-    it("should return 400 with invalid lastname", async () => {
+    it("should return 422 with invalid lastname", async () => {
       const email = "testEmail@gmail.com";
       const password = "testPassword";
       const firstName = "testFirstName";
@@ -134,7 +134,7 @@ describe("authController", () => {
           firstName,
           lastName
         })
-        .expect(400);
+        .expect(422);
 
       const userCount = await User.count();
       expect(userCount).toEqual(0);

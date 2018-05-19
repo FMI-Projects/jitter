@@ -6,16 +6,16 @@ const isPostAuthor = async (req, res, next) => {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      return res.status(404).send("Post not found");
+      return res.boom.notFound("Post not found");
     }
 
     if (post.author.toHexString() !== req.user._id.toHexString()) {
-      return res.status(401).send();
+      return res.boom.unauthorized("Unauthorized");
     }
 
     next();
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
@@ -24,16 +24,16 @@ const isCommentAuthor = async (req, res, next) => {
     const comment = await Comment.findById(req.params.id);
 
     if (!comment) {
-      return res.status(404).send("Comment not found");
+      return res.boom.notFound("Comment not found");
     }
 
     if (comment.author.toHexString() !== req.user._id.toHexString()) {
-      return res.status(401).send();
+      return res.boom.unauthorized("Unauthorized");
     }
 
     next();
   } catch (e) {
-    res.status(400).send(e);
+    next(e);
   }
 };
 
