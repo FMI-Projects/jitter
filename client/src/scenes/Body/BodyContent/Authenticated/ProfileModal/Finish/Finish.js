@@ -13,7 +13,9 @@ import styles from "../ProfileModal.styles";
 
 const finish = props => (
   <Fragment>
-    <DialogTitle className={props.classes.title} id="profile-dialog-title">That&#39;s all for now!</DialogTitle>
+    <DialogTitle className={props.classes.title} id="profile-dialog-title">
+      That&#39;s all for now!
+    </DialogTitle>
     <DialogContent className={props.classes.content}>
       <DialogContentText variant="body1">
         We hope you have a great time connecting with people all around the

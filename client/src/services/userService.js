@@ -7,7 +7,7 @@ export default class UserService {
     const url = "/auth/login";
     const authData = {
       email,
-      password,
+      password
     };
 
     const response = await this.http.post(url, authData);
@@ -17,9 +17,9 @@ export default class UserService {
 
     return {
       token,
-      userId,
+      userId
     };
-  }
+  };
 
   registerUser = async (email, password, firstName, lastName) => {
     const url = "/auth/register";
@@ -37,7 +37,7 @@ export default class UserService {
 
     return {
       token,
-      userId,
+      userId
     };
-  }
+  };
 }

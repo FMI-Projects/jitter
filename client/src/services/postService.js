@@ -31,4 +31,12 @@ export default class PostService {
 
     return response.data;
   };
+
+  createPostComment = async (id, content) => {
+    const url = `/api/posts/${id}/comments`;
+    const commentData = { content };
+    const response = await this.http.post(url, commentData);
+
+    return response.data;
+  };
 }

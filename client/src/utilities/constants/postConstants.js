@@ -4,5 +4,10 @@ export default {
   },
   content: {
     maxLength: 3000
+  },
+  comments: {
+    content: {
+      maxLength: 3000
+    }
   }
 };

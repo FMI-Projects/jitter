@@ -5,15 +5,15 @@ import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import { TextField } from "redux-form-material-ui";
 
-import BaseForm from "components/UI/Forms/BaseForm/BaseForm";
-import styles from "components/UI/Forms/BaseForm/BaseForm.styles";
-import { required, email } from "utilities/validation";
+import { required, commentContentMaxLength } from "utilities/validation";
 import Spinner from "components/UI/Spinner/Spinner";
+import styles from "./CommentFormContent.styles";
 
-const loginForm = props => {
+const commentForm = props => {
   let spinner = null;
+
   if (props.submitting) {
-    spinner = <Spinner />;
+    spinner = <Spinner size={20} />;
   }
 
   let errorMessage;
@@ -24,31 +24,18 @@ const loginForm = props => {
   return (
     <Fragment>
       {spinner}
-      <BaseForm
-        style={{ display: props.submitting ? "none" : "block" }}
-        title="Login"
-      >
+      <div style={{ display: props.submitting ? "none" : "block" }}>
         <form className={props.classes.form} onSubmit={props.onSubmit}>
           {errorMessage}
           <div>
             <Field
               className={props.classes.textField}
-              name="email"
+              name="content"
+              defaultValue={props.content}
               component={TextField}
-              label="Email"
-              validate={[required, email]}
-              autoFocus={true}
-            />
-          </div>
-          <div>
-            <Field
-              className={props.classes.textField}
-              name="password"
-              component={TextField}
+              validate={[required, commentContentMaxLength]}
               margin="dense"
-              label="Password"
-              type="password"
-              validate={[required]}
+              label="What's jittering?"
             />
           </div>
           <Button
@@ -57,19 +44,20 @@ const loginForm = props => {
             color="primary"
             type="submit"
           >
-            Sign in
+            Submit
           </Button>
         </form>
-      </BaseForm>
+      </div>
     </Fragment>
   );
 };
 
-loginForm.propTypes = {
+commentForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  submitting: PropTypes.bool.isRequired
+  submitting: PropTypes.bool.isRequired,
+  content: PropTypes.string
 };
 
-export default withStyles(styles)(loginForm);
+export default withStyles(styles)(commentForm);

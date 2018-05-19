@@ -4,6 +4,8 @@ const idValidator = require("mongoose-id-validator");
 const postConstants = require("../../utilities/constants/postConstants");
 const validationMessages = require("../../utilities/validation/messages");
 
+const Comment = require("./comment");
+
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -47,10 +49,20 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
+PostSchema.pre("remove", async function(next) {
+  const post = this;
+
+  await Comment.remove({ post: post._id });
+
+  next();
+});
+
 PostSchema.statics.findProfilePosts = async function(profileId) {
   const Post = this;
 
-  const posts = await Post.find({ author: profileId });
+  const posts = await Post.find({ author: profileId }).sort({
+    _id: "descending"
+  });
 
   return posts;
 };

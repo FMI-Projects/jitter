@@ -4,11 +4,9 @@ import Typography from "material-ui/Typography";
 import NavLink from "../NavLink/NavLink";
 
 const logo = props => (
-    <Typography variant="title" color="inherit">
-      <NavLink to="/">
-      Jitter
-      </NavLink>
-    </Typography>
+  <Typography variant="title" color="inherit">
+    <NavLink to="/">Jitter</NavLink>
+  </Typography>
 );
 
 export default logo;

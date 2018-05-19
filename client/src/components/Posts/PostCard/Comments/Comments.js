@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actions from "store/actions";
 
 import CommentsList from "./CommentsList/CommentsList";
@@ -22,11 +22,13 @@ class Comments extends Component {
   }
 
   render() {
-    const {comments, loading} = this.props;
+    const { comments, loading } = this.props;
     let commentsList = <Spinner size={50} />;
 
     if (loading === false) {
-      commentsList = <CommentsList comments={comments} />;
+      commentsList = (
+        <CommentsList postId={this.props.postId} comments={comments} />
+      );
     }
 
     return <div>{commentsList}</div>;

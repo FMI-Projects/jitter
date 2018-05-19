@@ -1,4 +1,4 @@
-import {takeLatest, takeEvery, all} from "redux-saga/effects";
+import { takeLatest, takeEvery, all } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 
 import * as authSagas from "./authSagas";
@@ -44,7 +44,11 @@ export function* watchPosts() {
     takeEvery(actionTypes.POST_COMMENTS_GET, postSagas.postCommentsGetSaga),
     takeLatest(actionTypes.POSTS_DELETE, postSagas.postsDeleteSaga),
     takeLatest(actions.postCreate.REQUEST, postSagas.postsCreateSaga),
-    takeLatest(actions.postUpdate.REQUEST, postSagas.postsUpdateSaga)
+    takeLatest(actions.postUpdate.REQUEST, postSagas.postsUpdateSaga),
+    takeLatest(
+      actions.postCommentCreate.REQUEST,
+      postSagas.postsCommentCreateSaga
+    )
   ]);
 }
 

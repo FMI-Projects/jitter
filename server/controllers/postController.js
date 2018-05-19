@@ -54,6 +54,8 @@ const deletePost = async (req, res, next) => {
       return res.boom.notFound("Post not found");
     }
 
+    post.remove();
+
     res.status(200).send(post);
   } catch (e) {
     next(e);
@@ -83,6 +85,7 @@ const createComment = async (req, res, next) => {
     comment.author = req.user._id;
     comment.post = req.params.id;
     comment = await comment.save();
+    comment = await Comment.populate(comment, "author");
 
     res.status(201).send(comment);
   } catch (e) {

@@ -1,8 +1,8 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 import Button from "material-ui/Button";
-import {withStyles} from "material-ui/styles";
+import { withStyles } from "material-ui/styles";
 
 import styles from "./EditPost.styles";
 import PostForm from "../../PostForm/PostForm";
@@ -21,11 +21,11 @@ class EditPost extends Component {
   };
 
   openDialog = () => {
-    this.setState({dialogOpen: true});
+    this.setState({ dialogOpen: true });
   };
 
   closeDialog = () => {
-    this.setState({dialogOpen: false});
+    this.setState({ dialogOpen: false });
   };
 
   closeDialogWithMenu = () => {
@@ -34,21 +34,23 @@ class EditPost extends Component {
   };
 
   render() {
-    const {_id, title, content, classes} = this.props;
+    const { _id, title, content, classes } = this.props;
 
     return (
       <Fragment>
         <Button
           variant="flat"
           className={classes.button}
-          onClick={this.openDialog}>
+          onClick={this.openDialog}
+        >
           Edit post
         </Button>
         <Dialog
           fullWidth={true}
           open={this.state.dialogOpen}
           onClose={this.closeDialogWithMenu}
-          aria-labelledby="post-form-dialog">
+          aria-labelledby="post-form-dialog"
+        >
           <PostForm
             _id={_id}
             formName="updatePost"

@@ -218,7 +218,7 @@ describe("postController", () => {
         .send(data)
         .expect(201)
         .expect(res => {
-          expect(res.body.author).toEqual(users[0]._id.toHexString());
+          expect(res.body.author._id).toEqual(users[0]._id.toHexString());
           expect(res.body.post).toEqual(posts[0]._id.toHexString());
         });
     });

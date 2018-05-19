@@ -6,8 +6,8 @@ const styles = {
     marginRight: "auto",
     marginTop: 200,
     textAlign: "center",
-    width: "50%",
-  },
+    width: "50%"
+  }
 };
 
 export default styles;

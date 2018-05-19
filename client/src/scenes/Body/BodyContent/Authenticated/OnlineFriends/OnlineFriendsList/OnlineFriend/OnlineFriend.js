@@ -7,8 +7,8 @@ import styles from "./OnlineFriend.styles";
 
 const onlineFriend = props => (
   <div className={props.classes.friend}>
-      <Avatar component="span">MB</Avatar>
-      <span className={props.classes.name}> FirstName LastName</span>
+    <Avatar component="span">MB</Avatar>
+    <span className={props.classes.name}> FirstName LastName</span>
   </div>
 );
 

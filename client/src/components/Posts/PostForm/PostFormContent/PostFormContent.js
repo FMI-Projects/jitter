@@ -1,11 +1,11 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import {Field} from "redux-form";
-import {withStyles} from "material-ui/styles";
+import { Field } from "redux-form";
+import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import Grid from "material-ui/Grid";
-import Card, {CardHeader} from "material-ui/Card";
-import {TextField} from "redux-form-material-ui";
+import Card, { CardHeader } from "material-ui/Card";
+import { TextField } from "redux-form-material-ui";
 
 import {
   required,
@@ -14,7 +14,7 @@ import {
 } from "utilities/validation";
 import Spinner from "../../../UI/Spinner/Spinner";
 import FileInput from "../../../UI/Fields/ImagePreview/ImagePreview";
-import {validImageType, validImageSize} from "utilities/validation";
+import { validImageType, validImageSize } from "utilities/validation";
 import styles from "./PostFormContent.styles";
 
 const postForm = props => {
@@ -32,11 +32,11 @@ const postForm = props => {
   return (
     <Fragment>
       {spinner}
-      <div style={{display: props.submitting ? "none" : "block"}}>
+      <div style={{ display: props.submitting ? "none" : "block" }}>
         <Grid container>
           <Card className={props.classes.card}>
             <CardHeader
-              classes={{title: props.classes.cardTitle}}
+              classes={{ title: props.classes.cardTitle }}
               title={props.formTitle}
             />
           </Card>
@@ -81,7 +81,8 @@ const postForm = props => {
             className={props.classes.button}
             variant="raised"
             color="primary"
-            type="submit">
+            type="submit"
+          >
             Post
           </Button>
         </form>

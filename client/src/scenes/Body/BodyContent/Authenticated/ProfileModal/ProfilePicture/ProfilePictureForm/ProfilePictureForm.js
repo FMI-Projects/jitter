@@ -15,10 +15,7 @@ import imageConstants from "utilities/constants/imageConstants";
 import styles from "../../ProfileModal.styles";
 import Spinner from "components/UI/Spinner/Spinner";
 import FileInput from "components/UI/Fields/ImagePreview/ImagePreview";
-import {
-  validImageType,
-  validImageSize
-} from "utilities/validation";
+import { validImageType, validImageSize } from "utilities/validation";
 
 const profilePictureForm = props => {
   let spinner = null;

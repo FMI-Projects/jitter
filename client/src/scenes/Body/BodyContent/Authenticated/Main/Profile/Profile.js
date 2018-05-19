@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Grid from "material-ui/Grid";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import * as actions from "store/actions";
 import Posts from "./Posts/Posts";
