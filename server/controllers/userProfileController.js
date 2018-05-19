@@ -19,7 +19,7 @@ const getCurrentUserProfile = async (req, res, next) => {
 const updateCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
   try {
-    const body = _.emit(req.body, ["_id", "friendships"]);
+    const body = _.omit(req.body, ["_id", "friendships"]);
 
     const profile = await Profile.findByIdAndUpdate(
       userId,
