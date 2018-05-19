@@ -46,7 +46,13 @@ const sendFriendRequest = async (req, res, next) => {
   }
 
   try {
-    await Profile.sendFriendRequest(userId, requestedProfileId);
+    const [fromProfile, toProfile] = await Profile.getByIds([userId, requestedProfileId]);
+
+    if (!fromProfile || !toProfile) {
+      return res.boom.notFound("Profile does not exist");
+    }
+
+    await fromProfile.sendFriendRequest(toProfile);
     res.status(200).send();
   } catch (e) {
     next(e);
@@ -62,10 +68,15 @@ const updateFriendRequest = async (req, res, next) => {
   }
 
   try {
-    await Profile.updateFriendRequest(
-      userId,
-      requestedProfileId,
-      req.body.status
+    const [fromProfile, toProfile] = await Profile.getByIds([userId, requestedProfileId]);
+
+    if (!fromProfile || !toProfile) {
+      return res.boom.notFound("Profile does not exist");
+    }
+
+    await fromProfile.updateFriendRequest(
+      toProfile,
+      req.body.action
     );
     res.status(200).send();
   } catch (e) {

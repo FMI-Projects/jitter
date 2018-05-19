@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const idValidator = require("mongoose-id-validator");
 
 const profileConstants = require("../../utilities/constants/profileConstants");
 const validationMessages = require("../../utilities/validation/messages");
@@ -7,6 +6,7 @@ const validationMessages = require("../../utilities/validation/messages");
 const ProfileSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
+    required: [true, validationMessages.required("Id")],
     ref: "User"
   },
   firstName: {
@@ -97,93 +97,116 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
     "_id firstName lastName profilePictureUrl"
   );
 
-  profile.friendships = profile.friendships.filter(
-    f => f.status === "Accepted"
-  );
+  if (profile) {
+    profile.friendships = profile.friendships.filter(
+      f => f.status === "Accepted"
+    );
+  }
 
   return profile;
 };
 
-ProfileSchema.statics.sendFriendRequest = async function(from, to) {
+ProfileSchema.statics.getByIds = async function(ids) {
   const Profile = this;
 
-  const setFrom = Profile.update(
-    { _id: from, "friendships.with": { $ne: to } },
-    { $push: { friendships: { status: "Requested", seen: true, with: to } } }
-  );
+  const getByIdQueries = [];
 
-  const setTo = Profile.update(
-    { _id: to, "friendships.with": { $ne: from } },
-    { $push: { friendships: { status: "Pending", seen: false, with: from } } }
-  );
+  for (const id of ids) {
+    getByIdQueries.push(Profile.findById(id));
+  }
 
-  const sendIfPreviouslyDeclined = Profile.update(
-    { _id: to, "friendships.with": from, "friendships.status": "Declined" },
-    { $set: { "friendships.$.seen": false, "friendships.$.status": "Pending" } }
-  );
-
-  await Promise.all([setFrom, setTo, sendIfPreviouslyDeclined]);
+  return Promise.all(getByIdQueries);
 };
 
-ProfileSchema.statics.updateFriendRequest = async function(from, to, status) {
-  const Profile = this;
+ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
+  const profile = this;
 
-  let setFrom = null;
-  let setTo = null;
+  const fromProfileFriendRequest = profile.friendships.find(
+    f => f.with.toHexString() === toProfile._id.toHexString()
+  );
+  const toProfileFriendRequest = toProfile.friendships.find(
+    f => f.with.toHexString() === profile._id.toHexString()
+  );
 
-  switch (status) {
+  if (
+    fromProfileFriendRequest ||
+    (toProfileFriendRequest && toProfileFriendRequest.status !== "Declined")
+  ) {
+    return Promise.reject({ message: "Friend request has already been sent" });
+  }
+
+  profile.friendships.push({
+    status: "Requested",
+    seen: true,
+    with: toProfile._id
+  });
+
+  if (toProfileFriendRequest) {
+    toProfileFriendRequest.status = "Pending";
+    toProfileFriendRequest.seen = false;
+  } else {
+    toProfile.friendships.push({
+      status: "Pending",
+      seen: false,
+      with: profile._id
+    });
+  }
+
+  const sendRequestFrom = profile.save();
+  const sendRequestTo = toProfile.save();
+
+  await Promise.all([sendRequestFrom, sendRequestTo]);
+};
+
+ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
+  const profile = this;
+
+  const fromProfileFriendRequest = profile.friendships.find(
+    f => f.with.toHexString() === toProfile._id.toHexString()
+  );
+  const toProfileFriendRequest = toProfile.friendships.find(
+    f => f.with.toHexString() === profile._id.toHexString()
+  );
+
+  if (
+    !fromProfileFriendRequest ||
+    fromProfileFriendRequest.status !== "Pending" ||
+    !toProfileFriendRequest ||
+    toProfileFriendRequest.status !== "Requested"
+  ) {
+    return Promise.reject({ message: "Friend request has not been sent" });
+  }
+
+  switch (action) {
     case "Accept":
-      setFrom = Profile.update(
-        { _id: from, "friendships.with": to, "friendships.status": "Pending" },
-        {
-          $set: {
-            "friendships.$.seen": true,
-            "friendships.$.status": "Accepted"
-          }
-        }
-      );
+      fromProfileFriendRequest.status = "Accepted";
+      fromProfileFriendRequest.seen = true;
 
-      setTo = Profile.update(
-        {
-          _id: to,
-          "friendships.with": from,
-          "friendships.status": "Requested"
-        },
-        {
-          $set: {
-            "friendships.$.seen": true,
-            "friendships.$.status": "Accepted"
-          }
-        }
-      );
+      toProfileFriendRequest.status = "Accepted";
+      toProfileFriendRequest.seen = true;
 
       break;
 
     case "Decline":
-      setFrom = Profile.update(
-        { _id: from },
-        { $pull: { friendships: { with: to } } }
+      const fromRequestIndex = profile.friendships.indexOf(
+        fromProfileFriendRequest
       );
+      profile.friendships.splice(fromRequestIndex, 1);
 
-      setTo = Profile.update(
-        { _id: to, "friendships.with": from },
-        {
-          $set: {
-            "friendships.$.seen": true,
-            "friendships.$.status": "Declined"
-          }
-        }
-      );
+      toProfileFriendRequest.status = "Declined";
+      toProfileFriendRequest.seen = true;
 
       break;
+
+    default:
+      return Promise.reject("Invalid action");
   }
 
-  await Promise.all([setFrom, setTo]);
-};
+  const updateRequestFrom = profile.save();
+  const updateRequestTo = toProfile.save();
 
-if (process.env.NODE_ENV !== "test") {
-  ProfileSchema.plugin(idValidator);
-}
+  await Promise.all([updateRequestFrom, updateRequestTo]);
+};
 
 const Profile = mongoose.model("Profile", ProfileSchema);
 
