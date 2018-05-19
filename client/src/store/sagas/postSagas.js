@@ -5,6 +5,7 @@ import * as actions from "../actions";
 import { postService } from "../../services";
 import { imageService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
+import * as formatImage from "../../utilities/formatters/formatImage";
 
 export function* postCommentsGetSaga(action) {
   try {
@@ -58,7 +59,7 @@ export function* postsUpdateSaga(action) {
       );
       imageKey = imageData.key;
     } else {
-      imageKey = action.payload.imageUrl;
+      imageKey = formatImage.getRelativeUrl(action.payload.imageUrl);
     }
 
     const post = yield call(

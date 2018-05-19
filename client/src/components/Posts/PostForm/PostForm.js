@@ -27,7 +27,14 @@ class PostForm extends Component {
   }
 
   render() {
-    const { formName, formTitle, handleSubmit, submitting, error } = this.props;
+    const {
+      formName,
+      formTitle,
+      handleSubmit,
+      submitting,
+      error,
+      imageUrl
+    } = this.props;
     let submit;
     if (formName === "createPost") {
       submit = handleSubmit(actions.postCreate);
@@ -39,6 +46,7 @@ class PostForm extends Component {
       <PostFormContent
         formTitle={formTitle}
         onSubmit={submit}
+        imageUrl={imageUrl}
         submitting={submitting}
         error={error}
       />

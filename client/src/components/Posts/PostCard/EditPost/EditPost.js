@@ -13,7 +13,8 @@ class EditPost extends Component {
     title: PropTypes.string,
     content: PropTypes.string,
     _id: PropTypes.string,
-    closeMenu: PropTypes.func
+    closeMenu: PropTypes.func,
+    imageUrl: PropTypes.string
   };
 
   state = {
@@ -34,7 +35,7 @@ class EditPost extends Component {
   };
 
   render() {
-    const { _id, title, content, classes } = this.props;
+    const { _id, title, content, classes, imageUrl } = this.props;
 
     return (
       <Fragment>
@@ -56,6 +57,7 @@ class EditPost extends Component {
             formName="updatePost"
             title={title}
             content={content}
+            imageUrl={imageUrl}
             formTitle="Edit post"
             onSubmitted={this.closeDialogWithMenu}
           />

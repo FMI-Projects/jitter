@@ -69,7 +69,7 @@ const postForm = props => {
             <Field
               id="imageFile"
               name="imageFile"
-              defaultPicture=""
+              defaultPicture={props.imageUrl ? props.imageUrl : ""}
               height="200px"
               width="200px"
               component={FileInput}
@@ -98,7 +98,8 @@ postForm.propTypes = {
   submitting: PropTypes.bool.isRequired,
   formTitle: PropTypes.string.isRequired,
   title: PropTypes.string,
-  content: PropTypes.string
+  content: PropTypes.string,
+  imageUrl: PropTypes.string
 };
 
 export default withStyles(styles)(postForm);
