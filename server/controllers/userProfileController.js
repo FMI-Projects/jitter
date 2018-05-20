@@ -38,7 +38,7 @@ const updateCurrentUserProfile = async (req, res, next) => {
 };
 
 const sendFriendRequest = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.user._id.toHexString();
   const requestedProfileId = req.body.profileId;
 
   if (userId === requestedProfileId) {
@@ -55,15 +55,15 @@ const sendFriendRequest = async (req, res, next) => {
       return res.boom.notFound("Profile does not exist");
     }
 
-    await fromProfile.sendFriendRequest(toProfile);
-    res.status(200).send();
+    const [friendRequestFrom] = await fromProfile.sendFriendRequest(toProfile);
+    res.status(200).send(friendRequestFrom);
   } catch (e) {
     next(e);
   }
 };
 
 const updateFriendRequest = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.user._id.toHexString();
   const requestedProfileId = req.params.id;
 
   if (userId === requestedProfileId) {
@@ -80,15 +80,18 @@ const updateFriendRequest = async (req, res, next) => {
       return res.boom.notFound("Profile does not exist");
     }
 
-    await fromProfile.updateFriendRequest(toProfile, req.body.action);
-    res.status(200).send();
+    const [friendRequestFrom] = await fromProfile.updateFriendRequest(
+      toProfile,
+      req.body.action
+    );
+    res.status(200).send(friendRequestFrom);
   } catch (e) {
     next(e);
   }
 };
 
 const deleteFriendRequest = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.user._id.toHexString();
   const requestedProfileId = req.params.id;
 
   if (userId === requestedProfileId) {
@@ -105,8 +108,11 @@ const deleteFriendRequest = async (req, res, next) => {
       return res.boom.notFound("Profile does not exist");
     }
 
-    await fromProfile.deleteFriendRequest(toProfile, req.body.action);
-    res.status(200).send();
+    const [friendRequestFromId] = await fromProfile.deleteFriendRequest(
+      toProfile,
+      req.body.action
+    );
+    res.status(200).send({ _id: friendRequestFromId });
   } catch (e) {
     next(e);
   }

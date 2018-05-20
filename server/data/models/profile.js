@@ -118,15 +118,31 @@ ProfileSchema.statics.getByIds = async function(ids) {
   return Promise.all(getByIdQueries);
 };
 
+ProfileSchema.methods.findFriendRequest = function(withProfile) {
+  const profile = this;
+
+  return profile.friendships.find(
+    f => f.with.toHexString() === withProfile._id.toHexString()
+  );
+};
+
+ProfileSchema.methods.populateFriendRequest = async function(withProfile) {
+  const profile = this;
+
+  await profile
+    .populate({
+      path: "friendships.with",
+      match: { _id: withProfile._id },
+      select: "_id firstName lastName profilePictureUrl"
+    })
+    .execPopulate();
+};
+
 ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
   const profile = this;
 
-  const fromProfileFriendRequest = profile.friendships.find(
-    f => f.with.toHexString() === toProfile._id.toHexString()
-  );
-  const toProfileFriendRequest = toProfile.friendships.find(
-    f => f.with.toHexString() === profile._id.toHexString()
-  );
+  let fromProfileFriendRequest = profile.findFriendRequest(toProfile);
+  let toProfileFriendRequest = toProfile.findFriendRequest(profile);
 
   if (
     fromProfileFriendRequest ||
@@ -154,19 +170,25 @@ ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
 
   const sendRequestFrom = profile.save();
   const sendRequestTo = toProfile.save();
-
   await Promise.all([sendRequestFrom, sendRequestTo]);
+
+  const populateFriendRequestFrom = profile.populateFriendRequest(toProfile);
+  const populateFriendRequestTo = toProfile.populateFriendRequest(profile);
+  await Promise.all([populateFriendRequestFrom, populateFriendRequestTo]);
+
+  fromProfileFriendRequest = profile.findFriendRequest(toProfile);
+  toProfileFriendRequest = toProfile.findFriendRequest(profile);
+
+  return [fromProfileFriendRequest, toProfileFriendRequest];
 };
 
 ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
   const profile = this;
 
-  const fromProfileFriendRequest = profile.friendships.find(
-    f => f.with.toHexString() === toProfile._id.toHexString()
-  );
-  const toProfileFriendRequest = toProfile.friendships.find(
-    f => f.with.toHexString() === profile._id.toHexString()
-  );
+  let fromProfileFriendRequest = profile.findFriendRequest(toProfile);
+  let toProfileFriendRequest = toProfile.findFriendRequest(profile);
+
+  console.log(fromProfileFriendRequest, toProfileFriendRequest);
 
   if (
     !fromProfileFriendRequest ||
@@ -206,17 +228,26 @@ ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
   const updateRequestTo = toProfile.save();
 
   await Promise.all([updateRequestFrom, updateRequestTo]);
+
+  const populateFriendRequestFrom = profile.populateFriendRequest(toProfile);
+  const populateFriendRequestTo = toProfile.populateFriendRequest(profile);
+  await Promise.all([populateFriendRequestFrom, populateFriendRequestTo]);
+
+  if (action === "Accept") {
+    fromProfileFriendRequest = profile.findFriendRequest(toProfile);
+  } else {
+    fromProfileFriendRequest = { _id: fromProfileFriendRequest._id };
+  }
+  toProfileFriendRequest = toProfile.findFriendRequest(profile);
+
+  return [fromProfileFriendRequest, toProfileFriendRequest];
 };
 
 ProfileSchema.methods.deleteFriendRequest = async function(toProfile, action) {
   const profile = this;
 
-  const fromProfileFriendRequest = profile.friendships.find(
-    f => f.with.toHexString() === toProfile._id.toHexString()
-  );
-  const toProfileFriendRequest = toProfile.friendships.find(
-    f => f.with.toHexString() === profile._id.toHexString()
-  );
+  const fromProfileFriendRequest = profile.findFriendRequest(toProfile);
+  const toProfileFriendRequest = toProfile.findFriendRequest(profile);
 
   if (!fromProfileFriendRequest || !toProfileFriendRequest) {
     return Promise.reject({ message: "Friend request has not been sent" });
@@ -234,6 +265,8 @@ ProfileSchema.methods.deleteFriendRequest = async function(toProfile, action) {
   const deleteRequestTo = toProfile.save();
 
   await Promise.all([deleteRequestFrom, deleteRequestTo]);
+
+  return [fromProfileFriendRequest._id, toProfileFriendRequest._id];
 };
 
 const Profile = mongoose.model("Profile", ProfileSchema);

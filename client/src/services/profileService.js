@@ -31,4 +31,22 @@ export default class ProfileService {
     const { data } = await this.http.get(url);
     return data;
   };
+
+  sendFriendRequest = async profileId => {
+    const url = `/profile/friendships/${profileId}`;
+    const { data } = await this.http.post(url);
+    return data;
+  };
+
+  updateFriendRequest = async (profileId, action) => {
+    const url = `/profile/friendships/${profileId}`;
+    const { data } = await this.http.put(url, { action });
+    return data;
+  };
+
+  deleteFriendRequest = async profileId => {
+    const url = `/profile/friendships/${profileId}`;
+    const { data } = await this.http.delete(url);
+    return data;
+  };
 }
