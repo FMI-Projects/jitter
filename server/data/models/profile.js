@@ -188,8 +188,6 @@ ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
   let fromProfileFriendRequest = profile.findFriendRequest(toProfile);
   let toProfileFriendRequest = toProfile.findFriendRequest(profile);
 
-  console.log(fromProfileFriendRequest, toProfileFriendRequest);
-
   if (
     !fromProfileFriendRequest ||
     fromProfileFriendRequest.status !== "Pending" ||
