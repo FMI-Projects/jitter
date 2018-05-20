@@ -85,7 +85,10 @@ const createComment = async (req, res, next) => {
     comment.author = req.user._id;
     comment.post = req.params.id;
     comment = await comment.save();
-    comment = await Comment.populate(comment, "author");
+    comment = await Comment.populate(comment, {
+      path: "author",
+      select: "_id firstName lastName profilePictureUrl"
+    });
 
     res.status(201).send(comment);
   } catch (e) {
