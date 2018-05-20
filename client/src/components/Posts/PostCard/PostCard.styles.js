@@ -1,8 +1,9 @@
 const styles = theme => ({
   card: {
+    minWidth: "75%",
     marginLeft: "10%",
     marginTop: "0.7%",
-    width: "70%"
+    width: "25%"
   },
   media: {
     height: 0,
