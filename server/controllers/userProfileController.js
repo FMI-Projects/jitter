@@ -46,7 +46,10 @@ const sendFriendRequest = async (req, res, next) => {
   }
 
   try {
-    const [fromProfile, toProfile] = await Profile.getByIds([userId, requestedProfileId]);
+    const [fromProfile, toProfile] = await Profile.getByIds([
+      userId,
+      requestedProfileId
+    ]);
 
     if (!fromProfile || !toProfile) {
       return res.boom.notFound("Profile does not exist");
@@ -68,16 +71,41 @@ const updateFriendRequest = async (req, res, next) => {
   }
 
   try {
-    const [fromProfile, toProfile] = await Profile.getByIds([userId, requestedProfileId]);
+    const [fromProfile, toProfile] = await Profile.getByIds([
+      userId,
+      requestedProfileId
+    ]);
 
     if (!fromProfile || !toProfile) {
       return res.boom.notFound("Profile does not exist");
     }
 
-    await fromProfile.updateFriendRequest(
-      toProfile,
-      req.body.action
-    );
+    await fromProfile.updateFriendRequest(toProfile, req.body.action);
+    res.status(200).send();
+  } catch (e) {
+    next(e);
+  }
+};
+
+const deleteFriendRequest = async (req, res, next) => {
+  const userId = req.user._id;
+  const requestedProfileId = req.params.id;
+
+  if (userId === requestedProfileId) {
+    return res.boom.badRequest("Cannot delete a friend request with self");
+  }
+
+  try {
+    const [fromProfile, toProfile] = await Profile.getByIds([
+      userId,
+      requestedProfileId
+    ]);
+
+    if (!fromProfile || !toProfile) {
+      return res.boom.notFound("Profile does not exist");
+    }
+
+    await fromProfile.deleteFriendRequest(toProfile, req.body.action);
     res.status(200).send();
   } catch (e) {
     next(e);
@@ -88,5 +116,6 @@ module.exports = {
   getCurrentUserProfile,
   updateCurrentUserProfile,
   sendFriendRequest,
-  updateFriendRequest
+  updateFriendRequest,
+  deleteFriendRequest
 };

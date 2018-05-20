@@ -208,6 +208,34 @@ ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
   await Promise.all([updateRequestFrom, updateRequestTo]);
 };
 
+ProfileSchema.methods.deleteFriendRequest = async function(toProfile, action) {
+  const profile = this;
+
+  const fromProfileFriendRequest = profile.friendships.find(
+    f => f.with.toHexString() === toProfile._id.toHexString()
+  );
+  const toProfileFriendRequest = toProfile.friendships.find(
+    f => f.with.toHexString() === profile._id.toHexString()
+  );
+
+  if (!fromProfileFriendRequest || !toProfileFriendRequest) {
+    return Promise.reject({ message: "Friend request has not been sent" });
+  }
+
+  const fromRequestIndex = profile.friendships.indexOf(
+    fromProfileFriendRequest
+  );
+  profile.friendships.splice(fromRequestIndex, 1);
+
+  const toRequestIndex = toProfile.friendships.indexOf(toProfileFriendRequest);
+  toProfile.friendships.splice(toRequestIndex, 1);
+
+  const deleteRequestFrom = profile.save();
+  const deleteRequestTo = toProfile.save();
+
+  await Promise.all([deleteRequestFrom, deleteRequestTo]);
+};
+
 const Profile = mongoose.model("Profile", ProfileSchema);
 
 module.exports = Profile;

@@ -23,10 +23,10 @@ userProfileRouter.put(
   authenticate,
   userProfileController.updateFriendRequest
 );
-// userProfileRouter.delete(
-//   "/friendships/:id",
-//   authenticate,
-//   userProfileController.deleteFriendRequest
-// );
+userProfileRouter.delete(
+  "/friendships/:id",
+  authenticate,
+  userProfileController.deleteFriendRequest
+);
 
 module.exports = userProfileRouter;
