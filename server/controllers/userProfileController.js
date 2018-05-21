@@ -67,7 +67,7 @@ const updateFriendRequest = async (req, res, next) => {
   const requestedProfileId = req.params.id;
 
   if (userId === requestedProfileId) {
-    return res.boom.badRequest("Cannot send a friend request to self");
+    return res.boom.badRequest("Cannot update a friend request with self");
   }
 
   try {
@@ -80,11 +80,22 @@ const updateFriendRequest = async (req, res, next) => {
       return res.boom.notFound("Profile does not exist");
     }
 
-    const [friendRequestFrom] = await fromProfile.updateFriendRequest(
-      toProfile,
-      req.body.action
-    );
-    res.status(200).send(friendRequestFrom);
+    const action = req.body.action;
+
+    switch (action) {
+      case "Accept":
+        const [friendRequestFrom] = await fromProfile.acceptFriendRequest(
+          toProfile
+        );
+        return res.status(200).send(friendRequestFrom);
+
+      case "Decline":
+        await fromProfile.declineFriendRequest(toProfile);
+        return res.status(204).send();
+
+      default:
+        return res.boom.badRequest("Invalid action");
+    }
   } catch (e) {
     next(e);
   }
@@ -108,11 +119,8 @@ const deleteFriendRequest = async (req, res, next) => {
       return res.boom.notFound("Profile does not exist");
     }
 
-    const [friendRequestFromId] = await fromProfile.deleteFriendRequest(
-      toProfile,
-      req.body.action
-    );
-    res.status(200).send({ _id: friendRequestFromId });
+    await fromProfile.deleteFriendRequest(toProfile, req.body.action);
+    res.status(204).send();
   } catch (e) {
     next(e);
   }

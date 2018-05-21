@@ -56,6 +56,7 @@ const ProfileSchema = new mongoose.Schema({
   friendships: {
     type: [
       {
+        _id: false,
         status: {
           type: String,
           enum: ["Accepted", "Declined", "Pending", "Requested"],
@@ -160,6 +161,7 @@ ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
   if (toProfileFriendRequest) {
     toProfileFriendRequest.status = "Pending";
     toProfileFriendRequest.seen = false;
+    toProfileFriendRequest.with = profile._id;
   } else {
     toProfile.friendships.push({
       status: "Pending",
@@ -182,7 +184,7 @@ ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
   return [fromProfileFriendRequest, toProfileFriendRequest];
 };
 
-ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
+ProfileSchema.methods.acceptFriendRequest = async function(toProfile, action) {
   const profile = this;
 
   let fromProfileFriendRequest = profile.findFriendRequest(toProfile);
@@ -197,48 +199,55 @@ ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
     return Promise.reject({ message: "Friend request has not been sent" });
   }
 
-  switch (action) {
-    case "Accept":
-      fromProfileFriendRequest.status = "Accepted";
-      fromProfileFriendRequest.seen = true;
+  fromProfileFriendRequest.status = "Accepted";
+  fromProfileFriendRequest.seen = true;
 
-      toProfileFriendRequest.status = "Accepted";
-      toProfileFriendRequest.seen = true;
-
-      break;
-
-    case "Decline":
-      const fromRequestIndex = profile.friendships.indexOf(
-        fromProfileFriendRequest
-      );
-      profile.friendships.splice(fromRequestIndex, 1);
-
-      toProfileFriendRequest.status = "Declined";
-      toProfileFriendRequest.seen = true;
-
-      break;
-
-    default:
-      return Promise.reject({ message: "Invalid action" });
-  }
+  toProfileFriendRequest.status = "Accepted";
+  toProfileFriendRequest.seen = true;
 
   const updateRequestFrom = profile.save();
   const updateRequestTo = toProfile.save();
-
   await Promise.all([updateRequestFrom, updateRequestTo]);
 
   const populateFriendRequestFrom = profile.populateFriendRequest(toProfile);
   const populateFriendRequestTo = toProfile.populateFriendRequest(profile);
   await Promise.all([populateFriendRequestFrom, populateFriendRequestTo]);
 
-  if (action === "Accept") {
-    fromProfileFriendRequest = profile.findFriendRequest(toProfile);
-  } else {
-    fromProfileFriendRequest = { _id: fromProfileFriendRequest._id };
-  }
+  fromProfileFriendRequest = profile.findFriendRequest(toProfile);
   toProfileFriendRequest = toProfile.findFriendRequest(profile);
 
   return [fromProfileFriendRequest, toProfileFriendRequest];
+};
+
+ProfileSchema.methods.declineFriendRequest = async function(toProfile, action) {
+  const profile = this;
+
+  const fromProfileFriendRequest = profile.findFriendRequest(toProfile);
+  const toProfileFriendRequest = toProfile.findFriendRequest(profile);
+
+  if (
+    !fromProfileFriendRequest ||
+    fromProfileFriendRequest.status !== "Pending" ||
+    !toProfileFriendRequest ||
+    toProfileFriendRequest.status !== "Requested"
+  ) {
+    return Promise.reject({ message: "Friend request has not been sent" });
+  }
+
+  const fromRequestIndex = profile.friendships.indexOf(
+    fromProfileFriendRequest
+  );
+  profile.friendships.splice(fromRequestIndex, 1);
+
+  toProfileFriendRequest.status = "Declined";
+  toProfileFriendRequest.seen = true;
+
+  const updateRequestFrom = profile.save();
+  const updateRequestTo = toProfile.save();
+  await Promise.all([updateRequestFrom, updateRequestTo]);
+
+  await toProfile.populateFriendRequest(profile);
+  return toProfile.findFriendRequest(profile);
 };
 
 ProfileSchema.methods.deleteFriendRequest = async function(toProfile, action) {
@@ -263,8 +272,6 @@ ProfileSchema.methods.deleteFriendRequest = async function(toProfile, action) {
   const deleteRequestTo = toProfile.save();
 
   await Promise.all([deleteRequestFrom, deleteRequestTo]);
-
-  return [fromProfileFriendRequest._id, toProfileFriendRequest._id];
 };
 
 const Profile = mongoose.model("Profile", ProfileSchema);

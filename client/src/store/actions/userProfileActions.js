@@ -50,11 +50,10 @@ export const userProfileDeleteFriendRequest = profileId => {
   };
 };
 
-export const userProfileAddFriendship = (friendship, action) => {
+export const userProfileAddFriendship = friendship => {
   return {
     type: actionTypes.USER_PROFILE_ADD_FRIENDSHIP,
-    friendship,
-    action
+    friendship
   };
 };
 
@@ -65,9 +64,9 @@ export const userProfileUpdateFriendship = friendship => {
   };
 };
 
-export const userProfileDeleteFriendship = friendship => {
+export const userProfileDeleteFriendship = profileId => {
   return {
     type: actionTypes.USER_PROFILE_DELETE_FRIENDSHIP,
-    friendship
+    profileId
   };
 };
