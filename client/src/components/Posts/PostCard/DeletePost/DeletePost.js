@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Dialog, { DialogTitle, DialogActions } from "material-ui/Dialog";
-import Button from "material-ui/Button";
 
 import * as actions from "store/actions";
+import ConfirmationDialog from "components/UI/Dialogs/ConfirmationDialog/ConfirmationDialog";
 
 class DeletePost extends Component {
   static propTypes = {
@@ -27,22 +26,16 @@ class DeletePost extends Component {
   };
 
   render() {
+    const { open, onClose } = this.props;
     return (
-      <Dialog
-        open={this.props.open}
-        onClose={this.props.onClose}
-        aria-labelledby="confirmation-dialog-title"
-      >
-        <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
-        <DialogActions>
-          <Button onClick={this.handleCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={this.handleOk} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Fragment>
+        <ConfirmationDialog
+          open={open}
+          onClose={onClose}
+          handleCancel={this.handleCancel}
+          handleOk={this.handleOk}
+        />
+      </Fragment>
     );
   }
 }
