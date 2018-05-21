@@ -4,7 +4,7 @@ import Dialog, { DialogTitle, DialogActions } from "material-ui/Dialog";
 import Button from "material-ui/Button";
 
 const confirmationDialog = props => {
-  const { open, onClose, handleCancel, handleOk } = props;
+  const { open, onClose, handleCancel, handleOk, text } = props;
   return (
     <Fragment>
       <Dialog
@@ -12,7 +12,7 @@ const confirmationDialog = props => {
         onClose={onClose}
         aria-labelledby="confirmation-dialog-title"
       >
-        <DialogTitle>Are you sure you want to delete this comment?</DialogTitle>
+        <DialogTitle>{text}</DialogTitle>
         <DialogActions>
           <Button onClick={handleCancel} color="primary">
             Cancel
@@ -30,7 +30,8 @@ confirmationDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
-  handleOk: PropTypes.func.isRequired
+  handleOk: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired
 };
 
 export default confirmationDialog;

@@ -34,6 +34,7 @@ class DeleteComment extends Component {
           onClose={onClose}
           handleCancel={this.handleCancel}
           handleOk={this.handleOk}
+          text="Are you sure you want to delete this comment?"
         />
       </Fragment>
     );
