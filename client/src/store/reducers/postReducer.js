@@ -33,6 +33,9 @@ const postReducer = (state = initialState, action) => {
     case actionTypes.POSTS_COMMENT_CREATE_SUCCESS: {
       return applyPostsCommentCreateSuccess(state, action);
     }
+    case actionTypes.COMMENTS_DELETE_SUCCESS: {
+      return applyCommentsDeleteSuccess(state, action);
+    }
     default:
       return state;
   }
@@ -100,6 +103,13 @@ const applyPostsCommentCreateSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.postId);
   post.comments.push(action.comment);
+  return newState;
+};
+
+const applyCommentsDeleteSuccess = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const post = newState.posts.find(p => p._id === action.postId);
+  post.comments = post.comments.filter(c => c._id !== action.commentId);
   return newState;
 };
 

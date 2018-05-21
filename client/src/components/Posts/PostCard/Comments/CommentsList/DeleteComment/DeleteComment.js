@@ -5,15 +5,15 @@ import { connect } from "react-redux";
 import * as actions from "store/actions";
 import ConfirmationDialog from "components/UI/Dialogs/ConfirmationDialog/ConfirmationDialog";
 
-class DeletePost extends Component {
+class DeleteComment extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    classes: PropTypes.object,
-    postsDelete: PropTypes.func.isRequired,
+    commentsDelete: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     postId: PropTypes.string,
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired
+    commentId: PropTypes.string,
+    open: PropTypes.bool
   };
 
   handleCancel = () => {
@@ -21,7 +21,7 @@ class DeletePost extends Component {
   };
 
   handleOk = () => {
-    this.props.postsDelete(this.props.postId);
+    this.props.commentsDelete(this.props.postId, this.props.commentId);
     this.props.onClose();
   };
 
@@ -34,7 +34,7 @@ class DeletePost extends Component {
           onClose={onClose}
           handleCancel={this.handleCancel}
           handleOk={this.handleOk}
-          text="Are you sure you want to delete this post?"
+          text="Are you sure you want to delete this comment?"
         />
       </Fragment>
     );
@@ -43,8 +43,9 @@ class DeletePost extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postsDelete: postId => dispatch(actions.postsDelete(postId))
+    commentsDelete: (postId, commentId) =>
+      dispatch(actions.commentsDelete(postId, commentId))
   };
 };
 
-export default connect(null, mapDispatchToProps)(DeletePost);
+export default connect(null, mapDispatchToProps)(DeleteComment);

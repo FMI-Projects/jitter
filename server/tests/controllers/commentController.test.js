@@ -113,7 +113,7 @@ describe("commentController", () => {
       await request(app)
         .delete(`/api/comments/${id}`)
         .set("x-auth", users[0].token)
-        .expect(200);
+        .expect(204);
 
       const comment = await Comment.findById(id);
 
