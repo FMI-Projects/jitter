@@ -48,15 +48,15 @@ const editPost = async (req, res, next) => {
 
 const deletePost = async (req, res, next) => {
   try {
-    const post = await Post.findByIdAndRemove(req.params.id);
+    const post = await Post.findById(req.params.id);
 
     if (!post) {
       return res.boom.notFound("Post not found");
     }
 
-    post.remove();
+    await post.remove();
 
-    res.status(200).send(post);
+    res.status(204).send();
   } catch (e) {
     next(e);
   }

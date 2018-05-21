@@ -95,7 +95,7 @@ const applyPostsUpdateSuccess = (state, action) => {
 
 const applyPostsDeleteSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
-  newState.posts = newState.posts.filter(p => p._id !== action.post._id);
+  newState.posts = newState.posts.filter(p => p._id !== action.postId);
   return newState;
 };
 

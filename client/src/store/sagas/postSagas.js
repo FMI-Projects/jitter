@@ -84,9 +84,9 @@ export function* postsUpdateSaga(action) {
 
 export function* postsDeleteSaga(action) {
   try {
-    const data = yield call(postService.deletePost, action.postId);
+    yield call(postService.deletePost, action.postId);
 
-    yield put(actions.postsDeleteSuccess(data));
+    yield put(actions.postsDeleteSuccess(action.postId));
   } catch (e) {}
 }
 

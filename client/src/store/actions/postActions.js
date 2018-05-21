@@ -50,10 +50,10 @@ export const postsDelete = postId => {
   };
 };
 
-export const postsDeleteSuccess = post => {
+export const postsDeleteSuccess = postId => {
   return {
     type: actionTypes.POSTS_DELETE_SUCCESS,
-    post
+    postId
   };
 };
 
