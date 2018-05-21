@@ -9,7 +9,8 @@ import {
   watchUserProfile,
   watchUserProfileModal,
   watchPosts,
-  watchProfile
+  watchProfile,
+  watchComments
 } from "../store/sagas/";
 import setAuthMiddleware from "../services/utility/axios/setAuthMiddleware";
 import * as actions from "./actions";
@@ -30,6 +31,7 @@ saga.run(watchUserProfile);
 saga.run(watchUserProfileModal);
 saga.run(watchPosts);
 saga.run(watchProfile);
+saga.run(watchComments);
 saga.run(formActionSaga);
 
 setAuthMiddleware(store);

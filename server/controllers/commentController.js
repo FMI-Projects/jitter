@@ -27,7 +27,7 @@ const deleteComment = async (req, res, next) => {
       return res.boom.notFound("Comment not found");
     }
 
-    res.status(200).send(comment);
+    res.status(204).send();
   } catch (e) {
     next(e);
   }

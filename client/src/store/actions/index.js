@@ -5,3 +5,4 @@ export * from "./userProfileModalActions";
 export * from "./formActions";
 export * from "./profileActions";
 export * from "./postActions";
+export * from "./commentActions";

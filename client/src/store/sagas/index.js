@@ -6,6 +6,7 @@ import * as userProfileSagas from "./userProfileSagas";
 import * as userProfileModalSagas from "./userProfileModalSagas";
 import * as postSagas from "./postSagas";
 import * as profileSagas from "./profileSagas";
+import * as commentSagas from "./commentSagas";
 import * as actions from "../actions";
 
 export function* watchAuth() {
@@ -56,5 +57,11 @@ export function* watchProfile() {
   yield all([
     takeLatest(actionTypes.PROFILE_POSTS_GET, profileSagas.profilePostsGetSaga),
     takeLatest(actionTypes.PROFILE_GET, profileSagas.profileGetSaga)
+  ]);
+}
+
+export function* watchComments() {
+  yield all([
+    takeLatest(actionTypes.COMMENTS_DELETE, commentSagas.commentsDeleteSaga)
   ]);
 }
