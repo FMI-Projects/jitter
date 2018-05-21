@@ -149,7 +149,7 @@ describe("postController", () => {
       await request(app)
         .delete(`/api/posts/${id}`)
         .set("x-auth", users[0].token)
-        .expect(200);
+        .expect(204);
 
       const post = await Post.findById(id);
 
