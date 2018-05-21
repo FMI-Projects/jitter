@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
+import _ from "lodash";
 
 const initialState = {
   profileId: null,
@@ -27,26 +28,25 @@ const profileReducer = (state = initialState, action) => {
 };
 
 const applyProfileGet = (state, action) => {
-  return {
-    ...state,
-    loading: true
-  };
+  const newState = _.cloneDeep(state);
+  newState.loading = true;
+  return newState;
 };
 
 const applyProfileGetSuccess = (state, action) => {
+  const newState = _.cloneDeep(state);
   const profilePictureUrl = formatImage.getFullUrl(action.profilePictureUrl);
-  return {
-    ...state,
-    profileId: action._id,
-    firstName: action.firstName,
-    lastName: action.lastName,
-    profilePictureUrl,
-    bio: action.bio,
-    birthday: action.birthday,
-    gender: action.gender,
-    friendships: action.friendships,
-    loading: false
-  };
+  newState.profileId = action._id;
+  newState.firstName = action.firstName;
+  newState.lastName = action.lastName;
+  newState.profilePictureUrl = profilePictureUrl;
+  newState.bio = action.bio;
+  newState.birthday = action.birthday;
+  newState.gender = action.gender;
+  newState.friendships = action.friendships;
+  newState.loading = false;
+
+  return newState;
 };
 
 export default profileReducer;

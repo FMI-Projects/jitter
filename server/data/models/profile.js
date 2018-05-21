@@ -219,7 +219,7 @@ ProfileSchema.methods.updateFriendRequest = async function(toProfile, action) {
       break;
 
     default:
-      return Promise.reject("Invalid action");
+      return Promise.reject({ message: "Invalid action" });
   }
 
   const updateRequestFrom = profile.save();
