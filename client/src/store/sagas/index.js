@@ -23,6 +23,18 @@ export function* watchUserProfile() {
     takeLatest(
       actionTypes.USER_PROFILE_GET_INFO,
       userProfileSagas.userProfileGetInfoSaga
+    ),
+    takeLatest(
+      actionTypes.USER_PROFILE_SEND_FRIEND_REQUEST,
+      userProfileSagas.userProfileSendFriendRequestSaga
+    ),
+    takeLatest(
+      actionTypes.USER_PROFILE_UPDATE_FRIEND_REQUEST,
+      userProfileSagas.userProfileUpdateFriendRequestSaga
+    ),
+    takeLatest(
+      actionTypes.USER_PROFILE_DELETE_FRIEND_REQUEST,
+      userProfileSagas.userProfileDeleteFriendRequestSaga
     )
   ]);
 }
