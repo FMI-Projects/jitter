@@ -74,6 +74,7 @@ export function* watchProfile() {
 
 export function* watchComments() {
   yield all([
-    takeLatest(actionTypes.COMMENTS_DELETE, commentSagas.commentsDeleteSaga)
+    takeLatest(actionTypes.COMMENTS_DELETE, commentSagas.commentsDeleteSaga),
+    takeLatest(actions.commentUpdate.REQUEST, commentSagas.commentsUpdateSaga)
   ]);
 }

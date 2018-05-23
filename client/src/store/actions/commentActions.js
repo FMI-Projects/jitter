@@ -15,3 +15,10 @@ export const commentsDeleteSuccess = (postId, commentId) => {
     commentId
   };
 };
+
+export const commentsUpdateSuccess = comment => {
+  return {
+    type: actionTypes.COMMENTS_UPDATE_SUCCESS,
+    comment
+  };
+};

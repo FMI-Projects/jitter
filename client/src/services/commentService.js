@@ -9,4 +9,12 @@ export default class CommentService {
 
     return response.data;
   };
+
+  updateComment = async (commentId, content) => {
+    const url = `/api/comments/${commentId}`;
+    const commentData = { content };
+    const response = await this.http.put(url, commentData);
+
+    return response.data;
+  };
 }
