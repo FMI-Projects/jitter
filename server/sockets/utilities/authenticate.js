@@ -16,13 +16,13 @@ const authenticate = async (socket, data, callback) => {
   }
 };
 
-const postAuthenticate = (socket, data, users) => {
+const postAuthenticate = (socket, data, io) => {
   const userId = data.userId;
-  users.addUser(userId, socket.id);
+  io.users.addUser(userId, socket.id);
 };
 
-const disconnect = (socket, users) => {
-  users.removeUser(socket.id);
+const disconnect = (socket, io) => {
+  io.users.removeUser(socket.id);
 };
 
 module.exports = {

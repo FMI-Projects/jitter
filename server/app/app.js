@@ -1,6 +1,5 @@
 const express = require("express");
 const http = require("http");
-const socketIO = require("socket.io");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const boom = require("express-boom");
@@ -16,9 +15,8 @@ const errorHandler = require("../middleware/errorHandler");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
 
-require("../sockets/io")(io);
+app.locals.io = require("../sockets/io")(server);
 
 const corsOptions = {
   exposedHeaders: ["x-auth"]

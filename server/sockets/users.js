@@ -10,19 +10,27 @@ class Users {
   }
 
   removeUser(socketId) {
-    const user = this.getUserBySocketId(socketId);
-    if (user) {
+    const userId = this.getUserUserId(socketId);
+    if (userId) {
       this.users = this.users.filter(u => u.socketId !== socketId);
     }
-    return user;
+    return userId;
   }
 
-  getUserBySocketId(socketId) {
-    return this.users.find(u => u.socketId === socketId);
+  getUserSocketId(userId) {
+    const user = this.users.find(u => u.userId === userId);
+    if (user) {
+      return user.socketId;
+    }
+    return null;
   }
 
-  getUserByUserId(userId) {
-    return this.users.find(u => u.userId === userId);
+  getUserUserId(socketId) {
+    const user = this.users.find(u => u.socketId === socketId);
+    if (user) {
+      return user.userId;
+    }
+    return null;
   }
 }
 

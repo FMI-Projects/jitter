@@ -1,9 +1,12 @@
 const auth = require("socketio-auth");
+const socketIO = require("socket.io");
 
 const authenticate = require("./utilities/authenticate");
 const Users = require("./users");
 
-module.exports = io => {
+module.exports = server => {
+  const io = socketIO(server);
+
   const users = new Users();
   io.users = users;
 
@@ -12,10 +15,10 @@ module.exports = io => {
       await authenticate.authenticate(socket, data, callback);
     },
     postAuthenticate: async (socket, data) => {
-      await authenticate.postAuthenticate(socket, data, users);
+      await authenticate.postAuthenticate(socket, data, io);
     },
     disconnect: async socket => {
-      await authenticate.disconnect(socket, users);
+      await authenticate.disconnect(socket, io);
     }
   });
 
@@ -25,4 +28,6 @@ module.exports = io => {
       console.log("User disconnected");
     });
   });
+
+  return io;
 };
