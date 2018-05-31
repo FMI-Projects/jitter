@@ -17,6 +17,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
 import DeleteComment from "../DeleteComment/DeleteComment";
+import EditComment from "../EditComment/EditComment";
 
 class CommentListItem extends Component {
   static propTypes = {
@@ -26,12 +27,20 @@ class CommentListItem extends Component {
 
   state = {
     menuOpen: null,
-    deleteDialogOpen: false
+    deleteDialogOpen: false,
+    editDialogOpen: false
   };
 
   handleDeleteDialogClick = () => {
     this.setState({
       deleteDialogOpen: !this.state.deleteDialogOpen,
+      menuOpen: null
+    });
+  };
+
+  handleEditDialogClick = () => {
+    this.setState({
+      editDialogOpen: !this.state.editDialogOpen,
       menuOpen: null
     });
   };
@@ -68,7 +77,7 @@ class CommentListItem extends Component {
             open={Boolean(this.state.menuOpen)}
             onClose={this.handleMenuClose}
           >
-            <MenuItem>
+            <MenuItem onClick={this.handleEditDialogClick}>
               <ListItemIcon>
                 <EditIcon />
               </ListItemIcon>
@@ -86,6 +95,12 @@ class CommentListItem extends Component {
             open={this.state.deleteDialogOpen}
             commentId={comment._id}
             postId={postId}
+          />
+          <EditComment
+            _id={comment._id}
+            content={comment.content}
+            open={this.state.editDialogOpen}
+            onClose={this.handleEditDialogClick}
           />
         </ListItemSecondaryAction>
       </ListItem>

@@ -17,23 +17,23 @@ export default class PostService {
     return response.data;
   };
 
-  updatePost = async (id, title, content, imageUrl) => {
-    const url = `/api/posts/${id}`;
+  updatePost = async (postId, title, content, imageUrl) => {
+    const url = `/api/posts/${postId}`;
     const postData = { title, content, imageUrl };
     const response = await this.http.put(url, postData);
 
     return response.data;
   };
 
-  deletePost = async id => {
-    const url = `/api/posts/${id}`;
+  deletePost = async postId => {
+    const url = `/api/posts/${postId}`;
     const response = await this.http.delete(url);
 
     return response.data;
   };
 
-  createPostComment = async (id, content) => {
-    const url = `/api/posts/${id}/comments`;
+  createPostComment = async (postId, content) => {
+    const url = `/api/posts/${postId}/comments`;
     const commentData = { content };
     const response = await this.http.post(url, commentData);
 

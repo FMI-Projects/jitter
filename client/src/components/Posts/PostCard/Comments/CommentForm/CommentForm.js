@@ -14,21 +14,30 @@ class CommentForm extends Component {
     error: PropTypes.string,
     handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    postId: PropTypes.string.isRequired,
+    postId: PropTypes.string,
     submitSucceeded: PropTypes.bool.isRequired,
-    reset: PropTypes.func.isRequired
+    reset: PropTypes.func.isRequired,
+    onSubmitted: PropTypes.func
   };
 
   componentDidUpdate() {
     if (this.props.submitSucceeded) {
       this.props.reset();
+      if (this.props.onSubmitted) {
+        this.props.onSubmitted();
+      }
     }
   }
 
   render() {
     // TODO add extra logic here for comment editing
     const { formName, handleSubmit, submitting, error } = this.props;
-    const submit = handleSubmit(actions.postCommentCreate);
+    let submit;
+    if (formName.startsWith("createComment")) {
+      submit = handleSubmit(actions.postCommentCreate);
+    } else if (formName.startsWith("editComment")) {
+      submit = handleSubmit(actions.commentUpdate);
+    }
 
     return (
       <CommentFormContent
@@ -45,6 +54,7 @@ function mapStateToProps(state, ownProps) {
   return {
     form: ownProps.formName,
     initialValues: {
+      _id: ownProps._id,
       postId: ownProps.postId,
       content: ownProps.content
     }
