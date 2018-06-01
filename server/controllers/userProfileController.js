@@ -90,20 +90,22 @@ const updateFriendRequest = async (req, res, next) => {
     const action = req.body.action;
 
     switch (action) {
-      case "Accept":
+      case "Accept": {
         const [
           friendRequestFrom,
           friendRequestTo
         ] = await fromProfile.acceptFriendRequest(toProfile);
         io.updateFriendRequest(requestedProfileId, friendRequestTo);
         return res.status(200).send(friendRequestFrom);
+      }
 
-      case "Decline":
+      case "Decline": {
         const friendRequestTo = await fromProfile.declineFriendRequest(
           toProfile
         );
         io.updateFriendRequest(requestedProfileId, friendRequestTo);
         return res.status(204).send();
+      }
 
       default:
         return res.boom.badRequest("Invalid action");

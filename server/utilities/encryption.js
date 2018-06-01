@@ -5,7 +5,6 @@ const ServerError = require("../exceptions/serverError");
 const hashPassword = async password => {
   return new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (err, salt) => {
-      err = 42;
       if (err) {
         return reject(new ServerError("Error generating salt"));
       }
