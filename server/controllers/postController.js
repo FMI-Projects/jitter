@@ -134,6 +134,5 @@ module.exports = {
   getPostComments,
   createComment,
   likePost,
-  getPostLikes,
-  deleteLike
+  getPostLikes
 };
