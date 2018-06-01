@@ -13,8 +13,6 @@ const editComment = props => {
         open={open}
         onClose={onClose}
         aria-labelledby="comment-form-dialog"
-        disableBackdropClick
-        disableEscapeKeyDown
       >
         <CommentForm
           _id={_id}

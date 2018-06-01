@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -22,7 +22,8 @@ import EditComment from "../EditComment/EditComment";
 class CommentListItem extends Component {
   static propTypes = {
     comment: PropTypes.object.isRequired,
-    postId: PropTypes.string
+    postId: PropTypes.string,
+    canModify: PropTypes.bool
   };
 
   state = {
@@ -54,7 +55,7 @@ class CommentListItem extends Component {
   };
 
   render() {
-    const { comment, postId } = this.props;
+    const { comment, postId, canModify } = this.props;
     const formattedDate = formatDate.getFullDate(comment.createdAt);
     const secondaryText = `${comment.author.firstName} ${
       comment.author.lastName
@@ -68,41 +69,45 @@ class CommentListItem extends Component {
           <Avatar src={defaultUserImage} />
         )}
         <ListItemText primary={comment.content} secondary={secondaryText} />
-        <ListItemSecondaryAction>
-          <IconButton onClick={this.handleMenuClick}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={this.state.menuOpen}
-            open={Boolean(this.state.menuOpen)}
-            onClose={this.handleMenuClose}
-          >
-            <MenuItem onClick={this.handleEditDialogClick}>
-              <ListItemIcon>
-                <EditIcon />
-              </ListItemIcon>
-              <ListItemText inset primary="Edit" />
-            </MenuItem>
-            <MenuItem onClick={this.handleDeleteDialogClick}>
-              <ListItemIcon>
-                <DeleteIcon />
-              </ListItemIcon>
-              <ListItemText inset primary="Delete" />
-            </MenuItem>
-          </Menu>
-          <DeleteComment
-            onClose={this.handleDeleteDialogClick}
-            open={this.state.deleteDialogOpen}
-            commentId={comment._id}
-            postId={postId}
-          />
-          <EditComment
-            _id={comment._id}
-            content={comment.content}
-            open={this.state.editDialogOpen}
-            onClose={this.handleEditDialogClick}
-          />
-        </ListItemSecondaryAction>
+        {canModify ? (
+          <Fragment>
+            <ListItemSecondaryAction>
+              <IconButton onClick={this.handleMenuClick}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={this.state.menuOpen}
+                open={Boolean(this.state.menuOpen)}
+                onClose={this.handleMenuClose}
+              >
+                <MenuItem onClick={this.handleEditDialogClick}>
+                  <ListItemIcon>
+                    <EditIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Edit" />
+                </MenuItem>
+                <MenuItem onClick={this.handleDeleteDialogClick}>
+                  <ListItemIcon>
+                    <DeleteIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Delete" />
+                </MenuItem>
+              </Menu>
+              <DeleteComment
+                onClose={this.handleDeleteDialogClick}
+                open={this.state.deleteDialogOpen}
+                commentId={comment._id}
+                postId={postId}
+              />
+              <EditComment
+                _id={comment._id}
+                content={comment.content}
+                open={this.state.editDialogOpen}
+                onClose={this.handleEditDialogClick}
+              />
+            </ListItemSecondaryAction>
+          </Fragment>
+        ) : null}
       </ListItem>
     );
   }

@@ -8,14 +8,18 @@ import CommentForm from "../CommentForm/CommentForm";
 import CommentListItem from "./CommentListItem/CommentListItem";
 
 const commentsList = props => {
-  const { comments, classes, postId } = props;
+  const { comments, classes, postId, currentUserId } = props;
   return (
     <div className={classes.root}>
       <List>
         {comments.map(comment => {
           return (
             <Fragment key={comment._id}>
-              <CommentListItem comment={comment} postId={postId} />
+              <CommentListItem
+                comment={comment}
+                postId={postId}
+                canModify={currentUserId === comment.author._id}
+              />
             </Fragment>
           );
         })}
@@ -32,7 +36,8 @@ const commentsList = props => {
 commentsList.propTypes = {
   comments: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
-  postId: PropTypes.string.isRequired
+  postId: PropTypes.string.isRequired,
+  currentUserId: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(commentsList);
