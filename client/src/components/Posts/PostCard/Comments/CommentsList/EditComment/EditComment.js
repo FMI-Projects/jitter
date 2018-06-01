@@ -13,6 +13,8 @@ const editComment = props => {
         open={open}
         onClose={onClose}
         aria-labelledby="comment-form-dialog"
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <CommentForm
           _id={_id}
@@ -20,6 +22,7 @@ const editComment = props => {
           content={content}
           formTitle="Edit comment"
           onSubmitted={onClose}
+          annotation="Edit comment"
         />
       </Dialog>
     </Fragment>

@@ -19,7 +19,11 @@ const commentsList = props => {
             </Fragment>
           );
         })}
-        <CommentForm postId={postId} formName={`createComment-${postId}`} />
+        <CommentForm
+          postId={postId}
+          formName={`createComment-${postId}`}
+          annotation="Write a comment"
+        />
       </List>
     </div>
   );

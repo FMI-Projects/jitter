@@ -9,6 +9,9 @@ const styles = {
   textField: {
     ...baseStyles.textField,
     width: "80%"
+  },
+  button: {
+    marginBottom: 10
   }
 };
 
