@@ -26,4 +26,8 @@ postRouter.delete(
 
 postRouter.get("/:id/comments", authenticate, postController.getPostComments);
 
+postRouter.post("/:id/likes", authenticate, postController.likePost);
+
+postRouter.get("/:id/likes", authenticate, postController.getPostLikes);
+
 module.exports = postRouter;

@@ -5,6 +5,7 @@ const postConstants = require("../../utilities/constants/postConstants");
 const validationMessages = require("../../utilities/validation/messages");
 
 const Comment = require("./comment");
+const Like = require("./like");
 
 const PostSchema = new mongoose.Schema(
   {
@@ -65,6 +66,17 @@ PostSchema.statics.findProfilePosts = async function(profileId) {
   });
 
   return posts;
+};
+
+PostSchema.methods.findPostLikes = async function() {
+  const post = this;
+
+  const likes = await Like.find({ post: post._id }).populate({
+    path: "author",
+    select: "_id firstName lastName"
+  });
+
+  return likes;
 };
 
 if (process.env.NODE_ENV !== "test") {

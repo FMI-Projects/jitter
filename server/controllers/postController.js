@@ -1,5 +1,6 @@
 const Post = require("../data/models/post");
 const Comment = require("../data/models/comment");
+const Like = require("../data/models/like");
 
 const createPost = async (req, res, next) => {
   try {
@@ -96,11 +97,37 @@ const createComment = async (req, res, next) => {
   }
 };
 
+const likePost = async (req, res, next) => {
+  try {
+    let like = new Like(req.body);
+    like.author = req.user._id;
+    like.post = req.params.id;
+    like = await like.save();
+
+    res.status(201).send(like);
+  } catch (e) {
+    next(e);
+  }
+};
+
+const getPostLikes = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    const likes = await post.findPostLikes();
+
+    res.status(200).send(likes);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   createPost,
   getPost,
   editPost,
   deletePost,
   getPostComments,
-  createComment
+  createComment,
+  likePost,
+  getPostLikes
 };
