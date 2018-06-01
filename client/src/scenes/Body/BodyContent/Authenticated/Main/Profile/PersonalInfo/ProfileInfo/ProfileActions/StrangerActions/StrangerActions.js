@@ -8,7 +8,7 @@ import styles from "../ProfileActions.styles";
 const strangerActions = props => {
   return (
     <div className={props.classes.actions}>
-      <Button variant="raised" color="primary">
+      <Button onClick={props.addFriend} variant="raised" color="primary">
         ADD FRIEND
       </Button>
     </div>
@@ -16,7 +16,8 @@ const strangerActions = props => {
 };
 
 strangerActions.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  addFriend: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(strangerActions);

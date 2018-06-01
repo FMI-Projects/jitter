@@ -9,7 +9,7 @@ const requestRequestedActions = props => {
   return (
     <Fragment>
       <div className={props.classes.actions}>
-        <Button variant="raised" color="primary">
+        <Button onClick={props.cancelRequest} variant="raised" color="primary">
           CANCEL FRIEND REQUEST
         </Button>
       </div>
@@ -18,7 +18,8 @@ const requestRequestedActions = props => {
 };
 
 requestRequestedActions.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  cancelRequest: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(requestRequestedActions);

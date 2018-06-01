@@ -95,6 +95,7 @@ const updateFriendRequest = async (req, res, next) => {
           friendRequestFrom,
           friendRequestTo
         ] = await fromProfile.acceptFriendRequest(toProfile);
+
         io.updateFriendRequest(requestedProfileId, friendRequestTo);
         return res.status(200).send(friendRequestFrom);
       }
@@ -103,6 +104,7 @@ const updateFriendRequest = async (req, res, next) => {
         const friendRequestTo = await fromProfile.declineFriendRequest(
           toProfile
         );
+
         io.updateFriendRequest(requestedProfileId, friendRequestTo);
         return res.status(204).send();
       }
@@ -134,6 +136,7 @@ const deleteFriendRequest = async (req, res, next) => {
     }
 
     await fromProfile.deleteFriendRequest(toProfile, req.body.action);
+
     io.deleteFriendRequest(requestedProfileId, userId);
     res.status(204).send();
   } catch (e) {

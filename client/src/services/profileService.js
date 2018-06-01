@@ -33,8 +33,8 @@ export default class ProfileService {
   };
 
   sendFriendRequest = async profileId => {
-    const url = `/profile/friendships/${profileId}`;
-    const { data } = await this.http.post(url);
+    const url = `/profile/friendships`;
+    const { data } = await this.http.post(url, { profileId });
     return data;
   };
 

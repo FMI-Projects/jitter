@@ -14,7 +14,7 @@ const requestAcceptedActions = props => {
         </Button>
       </div>
       <div className={props.classes.actions}>
-        <Button variant="raised" color="primary">
+        <Button onClick={props.removeFriend} variant="raised" color="primary">
           REMOVE FRIEND
         </Button>
       </div>
@@ -23,7 +23,8 @@ const requestAcceptedActions = props => {
 };
 
 requestAcceptedActions.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  removeFriend: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(requestAcceptedActions);

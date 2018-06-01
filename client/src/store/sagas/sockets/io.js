@@ -31,8 +31,8 @@ function initializeSocket(token) {
     socket.on("connect", function() {
       socket.emit("authentication", { token });
       socket.on("authenticated", () => {
+        console.log(socket.id);
         socket.on("*", params => {
-          console.log({ type: params.data[0], ...params.data[1] });
           return emitter({ type: params.data[0], ...params.data[1] });
         });
       });

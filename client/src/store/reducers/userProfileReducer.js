@@ -43,7 +43,17 @@ const applyUserProfileSetInfo = (state, action) => {
 const applyUserProfileAddFriendship = (state, action) => {
   const newState = _.cloneDeep(state);
 
-  newState.friendships.push(action.friendship);
+  const friendship = newState.friendships.find(
+    f => f.with._id === action.friendship.with._id
+  );
+
+  if (friendship) {
+    const friendshipIndex = newState.friendships.indexOf(friendship);
+
+    newState.friendships[friendshipIndex] = action.friendship;
+  } else {
+    newState.friendships.push(action.friendship);
+  }
 
   return newState;
 };
@@ -69,7 +79,7 @@ const applyUserProfileDeleteFriendship = (state, action) => {
   );
   const friendshipIndex = newState.friendships.indexOf(friendship);
 
-  newState.firendships.splice(friendshipIndex, 1);
+  newState.friendships.splice(friendshipIndex, 1);
 
   return newState;
 };

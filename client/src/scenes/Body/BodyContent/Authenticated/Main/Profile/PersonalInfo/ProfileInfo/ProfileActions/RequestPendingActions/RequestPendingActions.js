@@ -9,12 +9,12 @@ const requestPendingActions = props => {
   return (
     <Fragment>
       <div className={props.classes.actions}>
-        <Button variant="raised" color="primary">
+        <Button onClick={props.acceptFriend} variant="raised" color="primary">
           ACCEPT FRIEND REQUEST
         </Button>
       </div>
       <div className={props.classes.actions}>
-        <Button variant="raised" color="primary">
+        <Button onClick={props.declineFriend} variant="raised" color="primary">
           DECLINE FRIEND REQUEST
         </Button>
       </div>
@@ -23,7 +23,9 @@ const requestPendingActions = props => {
 };
 
 requestPendingActions.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  acceptFriend: PropTypes.func.isRequired,
+  declineFriend: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(requestPendingActions);
