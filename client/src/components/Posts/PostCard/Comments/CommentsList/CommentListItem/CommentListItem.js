@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
+import { Link } from "react-router-dom";
+
 import {
   ListItem,
   ListItemText,
@@ -13,7 +15,9 @@ import Menu, { MenuItem } from "material-ui/Menu";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { withStyles } from "material-ui/styles";
 
+import styles from "./CommentListItem.styles";
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
 import DeleteComment from "../DeleteComment/DeleteComment";
@@ -23,7 +27,8 @@ class CommentListItem extends Component {
   static propTypes = {
     comment: PropTypes.object.isRequired,
     postId: PropTypes.string,
-    canModify: PropTypes.bool
+    canModify: PropTypes.bool,
+    classes: PropTypes.object
   };
 
   state = {
@@ -55,20 +60,27 @@ class CommentListItem extends Component {
   };
 
   render() {
-    const { comment, postId, canModify } = this.props;
+    const { comment, postId, canModify, classes } = this.props;
     const formattedDate = formatDate.getFullDate(comment.createdAt);
-    const secondaryText = `${comment.author.firstName} ${
-      comment.author.lastName
-    },  ${formattedDate}`;
+    const link = (
+      <Fragment>
+        <Link to={`/profile/${comment.author._id}`} className={classes.link}>
+          {comment.author.firstName} {comment.author.lastName}
+        </Link>{" "}
+        {formattedDate}
+      </Fragment>
+    );
 
     return (
       <ListItem key={comment._id}>
-        {comment.author.profilePictureUrl ? (
-          <Avatar src={comment.author.profilePictureUrl} />
-        ) : (
-          <Avatar src={defaultUserImage} />
-        )}
-        <ListItemText primary={comment.content} secondary={secondaryText} />
+        <Link to={`/profile/${comment.author._id}`}>
+          {comment.author.profilePictureUrl ? (
+            <Avatar src={comment.author.profilePictureUrl} />
+          ) : (
+            <Avatar src={defaultUserImage} />
+          )}
+        </Link>
+        <ListItemText primary={comment.content} secondary={link} />
         {canModify ? (
           <Fragment>
             <ListItemSecondaryAction>
@@ -113,4 +125,4 @@ class CommentListItem extends Component {
   }
 }
 
-export default CommentListItem;
+export default withStyles(styles)(CommentListItem);
