@@ -1,5 +1,7 @@
-const Profile = require("../data/models/profile");
 const _ = require("lodash");
+
+const Profile = require("../data/models/profile");
+const io = require("../sockets/io").getInstance();
 
 const getCurrentUserProfile = async (req, res, next) => {
   const userId = req.user._id;
@@ -55,7 +57,12 @@ const sendFriendRequest = async (req, res, next) => {
       return res.boom.notFound("Profile does not exist");
     }
 
-    const [friendRequestFrom] = await fromProfile.sendFriendRequest(toProfile);
+    const [
+      friendRequestFrom,
+      friendRequestTo
+    ] = await fromProfile.sendFriendRequest(toProfile);
+
+    io.sendFriendRequest(requestedProfileId, friendRequestTo);
     res.status(200).send(friendRequestFrom);
   } catch (e) {
     next(e);
@@ -84,13 +91,18 @@ const updateFriendRequest = async (req, res, next) => {
 
     switch (action) {
       case "Accept":
-        const [friendRequestFrom] = await fromProfile.acceptFriendRequest(
-          toProfile
-        );
+        const [
+          friendRequestFrom,
+          friendRequestTo
+        ] = await fromProfile.acceptFriendRequest(toProfile);
+        io.updateFriendRequest(requestedProfileId, friendRequestTo);
         return res.status(200).send(friendRequestFrom);
 
       case "Decline":
-        await fromProfile.declineFriendRequest(toProfile);
+        const friendRequestTo = await fromProfile.declineFriendRequest(
+          toProfile
+        );
+        io.updateFriendRequest(requestedProfileId, friendRequestTo);
         return res.status(204).send();
 
       default:
@@ -120,6 +132,7 @@ const deleteFriendRequest = async (req, res, next) => {
     }
 
     await fromProfile.deleteFriendRequest(toProfile, req.body.action);
+    io.deleteFriendRequest(requestedProfileId, userId);
     res.status(204).send();
   } catch (e) {
     next(e);

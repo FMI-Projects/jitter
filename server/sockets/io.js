@@ -1,14 +1,28 @@
 const auth = require("socketio-auth");
 const socketIO = require("socket.io");
 
+const SocketError = require("../exceptions/socketError");
 const authenticate = require("./utilities/authenticate");
 const Users = require("./users");
 
-module.exports = server => {
+let ioInstance;
+
+const getInstance = () => {
+  if (!ioInstance) {
+    throw new SocketError("Socket has not been initialized");
+  }
+
+  return ioInstance;
+};
+
+const initialize = server => {
+  if (ioInstance) {
+    throw new SocketError("Socket has already been initialized");
+  }
+
   const io = socketIO(server);
 
-  const users = new Users();
-  io.users = users;
+  io.users = new Users();
 
   auth(io, {
     authenticate: async (socket, data, callback) => {
@@ -29,5 +43,16 @@ module.exports = server => {
     });
   });
 
-  return io;
+  const emitters = require("./emitters")(io);
+
+  ioInstance = new Proxy(io, {
+    get: function(target, property) {
+      return target[property] || emitters[property];
+    }
+  });
+};
+
+module.exports = {
+  initialize,
+  getInstance
 };

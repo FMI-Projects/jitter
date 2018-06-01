@@ -1,5 +1,9 @@
+const ServerError = require("../exceptions/serverError");
+
 const handleError = (error, req, res, next) => {
-  if (error.name === "CastError") {
+  if (error instanceof ServerError || ServerError.isPrototypeOf(error)) {
+    return res.boom.badImplementation(error.message);
+  } else if (error.name === "CastError") {
     return res.boom.badData("Invalid data", {
       errors: [
         `Invalid value for ${error.path}, please provide a ${error.kind}`

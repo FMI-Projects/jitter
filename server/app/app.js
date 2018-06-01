@@ -4,6 +4,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const boom = require("express-boom");
 
+const app = express();
+const server = http.createServer(app);
+
+require("../sockets/io").initialize(server);
+
 const authRouter = require("../routes/authRouter");
 const userProfileRouter = require("../routes/userProfileRouter");
 const profileRouter = require("../routes/profileRouter");
@@ -12,11 +17,6 @@ const commentRouter = require("../routes/commentRouter");
 const imageRouter = require("../routes/imageRouter");
 
 const errorHandler = require("../middleware/errorHandler");
-
-const app = express();
-const server = http.createServer(app);
-
-app.locals.io = require("../sockets/io")(server);
 
 const corsOptions = {
   exposedHeaders: ["x-auth"]

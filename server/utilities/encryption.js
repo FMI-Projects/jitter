@@ -1,15 +1,18 @@
 const bcrypt = require("bcryptjs");
 
+const ServerError = require("../exceptions/serverError");
+
 const hashPassword = async password => {
   return new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (err, salt) => {
+      err = 42;
       if (err) {
-        return reject({ message: "Error generating salt" });
+        return reject(new ServerError("Error generating salt"));
       }
 
       bcrypt.hash(password, salt, (err, hash) => {
         if (err) {
-          return reject({ message: "Error hashing password" });
+          return reject(new ServerError("Error hashing password"));
         }
         resolve(hash);
       });
