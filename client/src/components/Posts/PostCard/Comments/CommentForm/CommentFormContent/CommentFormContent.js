@@ -35,7 +35,7 @@ const commentForm = props => {
               component={TextField}
               validate={[required, commentContentMaxLength]}
               margin="dense"
-              label="Write a comment"
+              label={props.annotation}
             />
           </div>
           <Button
@@ -57,7 +57,8 @@ commentForm.propTypes = {
   error: PropTypes.string,
   classes: PropTypes.object.isRequired,
   submitting: PropTypes.bool.isRequired,
-  content: PropTypes.string
+  content: PropTypes.string,
+  annotation: PropTypes.string
 };
 
 export default withStyles(styles)(commentForm);

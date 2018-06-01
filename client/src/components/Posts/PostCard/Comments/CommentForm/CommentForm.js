@@ -17,7 +17,8 @@ class CommentForm extends Component {
     postId: PropTypes.string,
     submitSucceeded: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
-    onSubmitted: PropTypes.func
+    onSubmitted: PropTypes.func,
+    annotation: PropTypes.string
   };
 
   componentDidUpdate() {
@@ -30,8 +31,13 @@ class CommentForm extends Component {
   }
 
   render() {
-    // TODO add extra logic here for comment editing
-    const { formName, handleSubmit, submitting, error } = this.props;
+    const {
+      formName,
+      handleSubmit,
+      submitting,
+      error,
+      annotation
+    } = this.props;
     let submit;
     if (formName.startsWith("createComment")) {
       submit = handleSubmit(actions.postCommentCreate);
@@ -45,6 +51,7 @@ class CommentForm extends Component {
         onSubmit={submit}
         submitting={submitting}
         error={error}
+        annotation={annotation}
       />
     );
   }
