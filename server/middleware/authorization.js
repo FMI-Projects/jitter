@@ -1,5 +1,6 @@
 const Post = require("../data/models/post");
 const Comment = require("../data/models/comment");
+const Like = require("../data/models/like");
 
 const isPostAuthor = async (req, res, next) => {
   try {
@@ -37,7 +38,26 @@ const isCommentAuthor = async (req, res, next) => {
   }
 };
 
+const isLikeAuthor = async (req, res, next) => {
+  try {
+    const like = await Like.findById(req.params.id);
+
+    if (!like) {
+      return res.boom.notFound("Like not found");
+    }
+
+    if (like.author.toHexString() !== req.user._id.toHexString()) {
+      return res.boom.forbidden("Forbidden");
+    }
+
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   isPostAuthor,
-  isCommentAuthor
+  isCommentAuthor,
+  isLikeAuthor
 };
