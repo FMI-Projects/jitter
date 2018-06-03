@@ -3,30 +3,36 @@ const eventTypes = require("../events/eventTypes");
 module.exports = io => {
   return {
     sendFriendRequest: (userId, friendship) => {
-      const socketId = io.users.getUserSocketId(userId);
+      const socketIds = io.users.getUserSocketIds(userId);
 
-      if (socketId) {
-        io
-          .to(socketId)
-          .emit(eventTypes.USER_PROFILE_ADD_FRIENDSHIP, { friendship });
+      if (socketIds) {
+        for (const socketId of socketIds) {
+          io
+            .to(socketId)
+            .emit(eventTypes.USER_PROFILE_ADD_FRIENDSHIP, { friendship });
+        }
       }
     },
     updateFriendRequest: (userId, friendship) => {
-      const socketId = io.users.getUserSocketId(userId);
+      const socketIds = io.users.getUserSocketIds(userId);
 
-      if (socketId) {
-        io
-          .to(socketId)
-          .emit(eventTypes.USER_PROFILE_UPDATE_FRIENDSHIP, { friendship });
+      if (socketIds) {
+        for (const socketId of socketIds) {
+          io
+            .to(socketId)
+            .emit(eventTypes.USER_PROFILE_UPDATE_FRIENDSHIP, { friendship });
+        }
       }
     },
     deleteFriendRequest: (userId, withId) => {
-      const socketId = io.users.getUserSocketId(userId);
+      const socketIds = io.users.getUserSocketIds(userId);
 
-      if (socketId) {
-        io.to(socketId).emit(eventTypes.USER_PROFILE_DELETE_FRIENDSHIP, {
-          profileId: withId
-        });
+      if (socketIds) {
+        for (const socketId of socketIds) {
+          io.to(socketId).emit(eventTypes.USER_PROFILE_DELETE_FRIENDSHIP, {
+            profileId: withId
+          });
+        }
       }
     }
   };

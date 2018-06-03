@@ -23,6 +23,9 @@ const profileReducer = (state = initialState, action) => {
     case actionTypes.USER_PROFILE_DELETE_FRIENDSHIP: {
       return applyUserProfileDeleteFriendship(state, action);
     }
+    case actionTypes.USER_PROFILE_MARK_FRIENDSHIPS_SEEN: {
+      return applyUserProfileMarkFriendshipsSeen(state, action);
+    }
     default:
       return state;
   }
@@ -80,6 +83,17 @@ const applyUserProfileDeleteFriendship = (state, action) => {
   const friendshipIndex = newState.friendships.indexOf(friendship);
 
   newState.friendships.splice(friendshipIndex, 1);
+
+  return newState;
+};
+
+const applyUserProfileMarkFriendshipsSeen = (state, action) => {
+  const newState = _.cloneDeep(state);
+
+  newState.friendships.map(f => {
+    f.seen = true;
+    return f;
+  });
 
   return newState;
 };

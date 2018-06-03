@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
+import FriendRequests from "./Badges/FriendRequests";
 
 const navigationItems = props => {
   let navigationItems = null;
@@ -16,6 +17,7 @@ const navigationItems = props => {
   } else {
     navigationItems = (
       <Fragment>
+        <FriendRequests />
         <NavigationItem link={`/profile/${props.userId}`}>
           My Profile
         </NavigationItem>
