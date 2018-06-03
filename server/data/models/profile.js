@@ -123,11 +123,14 @@ ProfileSchema.statics.getByIds = async function(ids) {
 ProfileSchema.statics.markFriendRequestsAsSeen = async function(profileId) {
   const Profile = this;
 
-  await Profile.findByIdAndUpdate(profileId, {
-    $set: {
-      "$friendships.$.seen": true
+  await Profile.findByIdAndUpdate(
+    profileId,
+    {
+      $set: {
+        "friendships.$[].seen": true
+      }
     }
-  });
+  );
 };
 
 ProfileSchema.methods.findFriendRequest = function(withProfile) {
