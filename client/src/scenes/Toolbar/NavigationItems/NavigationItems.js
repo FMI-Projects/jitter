@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
-import FriendRequests from "./Badges/FriendRequests";
+import FriendRequests from "./Badges/FriendRequests/FriendRequests";
 
 const navigationItems = props => {
   let navigationItems = null;
