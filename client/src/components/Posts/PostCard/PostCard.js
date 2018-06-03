@@ -15,14 +15,10 @@ import Collapse from "material-ui/transitions/Collapse";
 import Avatar from "material-ui/Avatar";
 import IconButton from "material-ui/IconButton";
 import Typography from "material-ui/Typography";
-import Menu, { MenuItem } from "material-ui/Menu";
 import CommentIcon from "@material-ui/icons/Comment";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 import Comments from "./Comments/Comments";
-import EditPost from "./EditPost/EditPost";
-import DeletePost from "./DeletePost/DeletePost";
 import PostActions from "./PostActions/PostActions";
 
 import * as formatDate from "utilities/formatters/formatDate";
