@@ -70,3 +70,9 @@ export const userProfileDeleteFriendship = profileId => {
     profileId
   };
 };
+
+export const userProfileMarkFriendshipsSeen = profileId => {
+  return {
+    type: actionTypes.USER_PROFILE_MARK_FRIENDSHIPS_SEEN
+  };
+};

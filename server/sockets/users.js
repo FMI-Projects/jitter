@@ -6,7 +6,6 @@ class Users {
   addUser(userId, socketId) {
     const user = { userId, socketId };
     this.users.push(user);
-    return user;
   }
 
   removeUser(socketId) {
@@ -17,10 +16,10 @@ class Users {
     return userId;
   }
 
-  getUserSocketId(userId) {
-    const user = this.users.find(u => u.userId === userId);
-    if (user) {
-      return user.socketId;
+  getUserSocketIds(userId) {
+    const users = this.users.filter(u => u.userId === userId);
+    if (users.length) {
+      return users.map(u => u.socketId);
     }
     return null;
   }

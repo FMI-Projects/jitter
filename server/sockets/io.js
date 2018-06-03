@@ -5,6 +5,9 @@ const SocketError = require("../exceptions/serverErrors/socketError");
 const authenticate = require("./utilities/authenticate");
 const Users = require("./users");
 
+const attachEmitters = require("./emitters");
+const attachHandlers = require("./handlers");
+
 let ioInstance;
 
 const getInstance = () => {
@@ -33,17 +36,20 @@ const initialize = server => {
     },
     disconnect: async socket => {
       await authenticate.disconnect(socket, io);
-    }
+    },
+    timeout: 10000
   });
 
   io.on("connection", socket => {
+    attachHandlers(io, socket);
+
     console.log("User connected");
     socket.on("disconnect", function() {
       console.log("User disconnected");
     });
   });
 
-  const emitters = require("./emitters")(io);
+  const emitters = attachEmitters(io);
 
   ioInstance = new Proxy(io, {
     get: function(target, property) {
