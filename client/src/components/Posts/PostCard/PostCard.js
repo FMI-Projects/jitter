@@ -23,6 +23,7 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import Comments from "./Comments/Comments";
 import EditPost from "./EditPost/EditPost";
 import DeletePost from "./DeletePost/DeletePost";
+import PostActions from "./PostActions/PostActions";
 
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
@@ -86,38 +87,16 @@ class PostCard extends Component {
             }
             action={
               canModify ? (
-                <Fragment>
-                  <IconButton onClick={this.handleMenuClick}>
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    anchorEl={this.state.menuOpen}
-                    open={Boolean(this.state.menuOpen)}
-                    onClose={this.handleMenuClose}
-                    PaperProps={{ style: classes.menu }}
-                  >
-                    <MenuItem onClick={this.handleEditDialogClick}>
-                      Edit post
-                    </MenuItem>
-                    <MenuItem onClick={this.handleDeleteDialogClick}>
-                      Delete post
-                    </MenuItem>
-                  </Menu>
-                  <EditPost
-                    onClose={this.handleEditDialogClick}
-                    open={this.state.editDialogOpen}
-                    _id={post._id}
-                    closeMenu={this.handleMenuClose}
-                    title={post.title}
-                    content={post.content}
-                    imageUrl={post.imageUrl}
-                  />
-                  <DeletePost
-                    onClose={this.handleDeleteDialogClick}
-                    open={this.state.deleteDialogOpen}
-                    postId={post._id}
-                  />
-                </Fragment>
+                <PostActions
+                  handleMenuClick={this.handleMenuClick}
+                  handleMenuClose={this.handleMenuClose}
+                  menuOpen={this.state.menuOpen}
+                  handleEditDialogClick={this.handleEditDialogClick}
+                  handleDeleteDialogClick={this.handleDeleteDialogClick}
+                  editDialogOpen={this.state.editDialogOpen}
+                  deleteDialogOpen={this.state.deleteDialogOpen}
+                  post={post}
+                />
               ) : null
             }
             title={
