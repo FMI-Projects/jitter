@@ -3,15 +3,24 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import * as actions from "store/actions";
+import FriendRequestBadge from "./FriendRequestBadge/FriendRequestBadge";
 
 class FriendRequests extends Component {
   static propTypes = {
-    markFriendRequestsAsSeen: PropTypes.func.isRequired
+    markFriendRequestsAsSeen: PropTypes.func.isRequired,
+    unseenFriendshipsCount: PropTypes.number.isRequired
+  };
+
+  openFriendRequestsList = () => {
+    this.props.markFriendRequestsAsSeen();
   };
 
   render() {
     return (
-      <button onClick={this.props.markFriendRequestsAsSeen}>CLICK ME</button>
+      <FriendRequestBadge
+        unseenFriendshipsCount={this.props.unseenFriendshipsCount}
+        onClick={this.openFriendRequestsList}
+      />
     );
   }
 }
