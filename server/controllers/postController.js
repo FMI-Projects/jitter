@@ -113,6 +113,11 @@ const likePost = async (req, res, next) => {
 const getPostLikes = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.boom.notFound("Post not found!");
+    }
+
     const likes = await post.findPostLikes();
 
     res.status(200).send(likes);
