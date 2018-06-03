@@ -3,25 +3,14 @@ import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
 
-import {
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  ListItemSecondaryAction
-} from "material-ui/List";
+import { ListItem, ListItemText } from "material-ui/List";
 import Avatar from "material-ui/Avatar";
-import IconButton from "material-ui/IconButton";
-import Menu, { MenuItem } from "material-ui/Menu";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { withStyles } from "material-ui/styles";
 
 import styles from "./CommentListItem.styles";
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
-import DeleteComment from "../DeleteComment/DeleteComment";
-import EditComment from "../EditComment/EditComment";
+import CommentActions from "./CommentActions/CommentActions";
 
 class CommentListItem extends Component {
   static propTypes = {
@@ -82,43 +71,17 @@ class CommentListItem extends Component {
         </Link>
         <ListItemText primary={comment.content} secondary={link} />
         {canModify ? (
-          <Fragment>
-            <ListItemSecondaryAction>
-              <IconButton onClick={this.handleMenuClick}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                anchorEl={this.state.menuOpen}
-                open={Boolean(this.state.menuOpen)}
-                onClose={this.handleMenuClose}
-              >
-                <MenuItem onClick={this.handleEditDialogClick}>
-                  <ListItemIcon>
-                    <EditIcon />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Edit" />
-                </MenuItem>
-                <MenuItem onClick={this.handleDeleteDialogClick}>
-                  <ListItemIcon>
-                    <DeleteIcon />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Delete" />
-                </MenuItem>
-              </Menu>
-              <DeleteComment
-                onClose={this.handleDeleteDialogClick}
-                open={this.state.deleteDialogOpen}
-                commentId={comment._id}
-                postId={postId}
-              />
-              <EditComment
-                _id={comment._id}
-                content={comment.content}
-                open={this.state.editDialogOpen}
-                onClose={this.handleEditDialogClick}
-              />
-            </ListItemSecondaryAction>
-          </Fragment>
+          <CommentActions
+            handleMenuClose={this.handleMenuClose}
+            handleMenuClick={this.handleMenuClick}
+            menuOpen={this.state.menuOpen}
+            handleEditDialogClick={this.handleEditDialogClick}
+            handleDeleteDialogClick={this.handleDeleteDialogClick}
+            deleteDialogOpen={this.state.deleteDialogOpen}
+            editDialogOpen={this.state.editDialogOpen}
+            comment={comment}
+            postId={postId}
+          />
         ) : null}
       </ListItem>
     );
