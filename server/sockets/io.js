@@ -1,7 +1,7 @@
 const auth = require("socketio-auth");
 const socketIO = require("socket.io");
 
-const SocketError = require("../exceptions/socketError");
+const SocketError = require("../exceptions/serverErrors/socketError");
 const authenticate = require("./utilities/authenticate");
 const Users = require("./users");
 

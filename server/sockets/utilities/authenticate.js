@@ -1,5 +1,6 @@
 const jwt = require("../../utilities/authToken");
 const User = require("../../data/models/user");
+const DataNotFoundError = require("../../exceptions/logicErrors/dataNotFoundError");
 
 const authenticate = async (socket, data, callback) => {
   const token = data.token;
@@ -12,7 +13,7 @@ const authenticate = async (socket, data, callback) => {
     data.userId = userId;
     return callback(null, true);
   } else {
-    return callback(new Error("User not found"));
+    return callback(new DataNotFoundError("User not found"));
   }
 };
 

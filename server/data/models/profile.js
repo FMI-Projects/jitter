@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const profileConstants = require("../../utilities/constants/profileConstants");
 const validationMessages = require("../../utilities/validation/messages");
+const InvalidOperationError = require("../../exceptions/logicErrors/invalidOperationError");
 
 const ProfileSchema = new mongoose.Schema({
   _id: {
@@ -149,7 +150,9 @@ ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
     fromProfileFriendRequest ||
     (toProfileFriendRequest && toProfileFriendRequest.status !== "Declined")
   ) {
-    return Promise.reject({ message: "Friend request has already been sent" });
+    return Promise.reject(
+      new InvalidOperationError("Friend request has already been sent")
+    );
   }
 
   profile.friendships.push({
@@ -196,7 +199,9 @@ ProfileSchema.methods.acceptFriendRequest = async function(toProfile, action) {
     !toProfileFriendRequest ||
     toProfileFriendRequest.status !== "Requested"
   ) {
-    return Promise.reject({ message: "Friend request has not been sent" });
+    return Promise.reject(
+      new InvalidOperationError("Friend request has not been sent")
+    );
   }
 
   fromProfileFriendRequest.status = "Accepted";
@@ -231,7 +236,9 @@ ProfileSchema.methods.declineFriendRequest = async function(toProfile, action) {
     !toProfileFriendRequest ||
     toProfileFriendRequest.status !== "Requested"
   ) {
-    return Promise.reject({ message: "Friend request has not been sent" });
+    return Promise.reject(
+      new InvalidOperationError("Friend request has not been sent")
+    );
   }
 
   const fromRequestIndex = profile.friendships.indexOf(
@@ -257,7 +264,9 @@ ProfileSchema.methods.deleteFriendRequest = async function(toProfile, action) {
   const toProfileFriendRequest = toProfile.findFriendRequest(profile);
 
   if (!fromProfileFriendRequest || !toProfileFriendRequest) {
-    return Promise.reject({ message: "Friend request has not been sent" });
+    return Promise.reject(
+      new InvalidOperationError("Friend request has not been sent")
+    );
   }
 
   const fromRequestIndex = profile.friendships.indexOf(

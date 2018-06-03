@@ -1,4 +1,4 @@
-const ServerError = require("./serverError");
+const ServerError = require("../serverError");
 
 class SocketError extends ServerError {
   constructor(message) {

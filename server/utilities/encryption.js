@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 
 const ServerError = require("../exceptions/serverError");
+const ValidationError = require("../exceptions/logicErrors/validationError");
 
 const hashPassword = async password => {
   return new Promise((resolve, reject) => {
@@ -23,7 +24,7 @@ const validatePassword = async (password, hash) => {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, (err, res) => {
       if (!res) {
-        return reject({ message: "Invalid login credentials" });
+        return reject(new ValidationError("Invalid login credentials"));
       }
 
       resolve();

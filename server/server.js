@@ -1,3 +1,4 @@
 require("./config");
-require("./data/mongoose");
-require("./app");
+require("./data/mongoose").then(() => {
+  require("./app");
+});

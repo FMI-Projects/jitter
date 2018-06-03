@@ -1,8 +1,8 @@
-const ServerError = require("../exceptions/serverError");
+const LogicError = require("../exceptions/logicError");
 
 const handleError = (error, req, res, next) => {
-  if (error instanceof ServerError || ServerError.isPrototypeOf(error)) {
-    return res.boom.badImplementation(error.message);
+  if (error instanceof LogicError || LogicError.isPrototypeOf(error)) {
+    return res.boom.badRequest(error.message);
   } else if (error.name === "CastError") {
     return res.boom.badData("Invalid data", {
       errors: [
@@ -25,7 +25,7 @@ const handleError = (error, req, res, next) => {
     return res.boom.badData("Invalid data", { errors });
   }
 
-  res.boom.badRequest(error.message);
+  res.boom.badImplementation(error.message);
 };
 
 module.exports = handleError;
