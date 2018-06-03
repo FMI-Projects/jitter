@@ -7,11 +7,11 @@ import { imageService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
 import * as formatImage from "../../utilities/formatters/formatImage";
 
-export function* postCommentsGetSaga(action) {
+export function* postsCommentsGetSaga(action) {
   try {
     const data = yield call(postService.getPostComments, action.postId);
 
-    yield put(actions.postCommentsGetSuccess(data, action.postId));
+    yield put(actions.postsCommentsGetSuccess(data, action.postId));
   } catch (e) {}
 }
 
@@ -108,4 +108,24 @@ export function* postsCommentCreateSaga(action) {
 
     yield put(actions.postCommentCreate.failure(formError));
   }
+}
+
+export function* postsLikeSaga(action) {
+  try {
+    const data = yield call(
+      postService.likePost,
+      action.postId,
+      action.reaction
+    );
+
+    yield put(actions.postsLikeSuccess(data));
+  } catch (e) {}
+}
+
+export function* postsLikesGetSaga(action) {
+  try {
+    const data = yield call(postService.getPostLikes, action.postId);
+
+    yield put(actions.postsLikesGetSuccess(action.postId, data));
+  } catch (e) {}
 }

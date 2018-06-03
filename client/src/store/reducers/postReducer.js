@@ -4,16 +4,17 @@ import _ from "lodash";
 
 const initialState = {
   posts: [],
-  loading: true
+  commentsLoading: true,
+  likesLoading: true
 };
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.POST_COMMENTS_GET: {
-      return applyPostCommentsGet(state, action);
+    case actionTypes.POSTS_COMMENTS_GET: {
+      return applyPostsCommentsGet(state, action);
     }
-    case actionTypes.POST_COMMENTS_GET_SUCCESS: {
-      return applyPostCommentsGetSuccess(state, action);
+    case actionTypes.POSTS_COMMENTS_GET_SUCCESS: {
+      return applyPostsCommentsGetSuccess(state, action);
     }
     case actionTypes.PROFILE_POSTS_GET: {
       return applyPostsGet(state, action);
@@ -39,6 +40,15 @@ const postReducer = (state = initialState, action) => {
     case actionTypes.COMMENTS_UPDATE_SUCCESS: {
       return applyCommentsUpdateSuccess(state, action);
     }
+    case actionTypes.POSTS_LIKE_SUCCESS: {
+      return applyPostsLikeSuccess(state, action);
+    }
+    case actionTypes.POSTS_LIKES_GET: {
+      return applyPostsLikesGet(state, action);
+    }
+    case actionTypes.POSTS_LIKES_GET_SUCCESS: {
+      return applyPostsLikesGetSuccess(state, action);
+    }
     default:
       return state;
   }
@@ -58,14 +68,14 @@ const applyPostsGetSuccess = (state, action) => {
   return newState;
 };
 
-const applyPostCommentsGet = (state, action) => {
+const applyPostsCommentsGet = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.postId);
-  post.loading = true;
+  post.commentsLoading = true;
   return newState;
 };
 
-const applyPostCommentsGetSuccess = (state, action) => {
+const applyPostsCommentsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.post);
   action.comments.forEach(
@@ -75,7 +85,7 @@ const applyPostCommentsGetSuccess = (state, action) => {
       ))
   );
   post.comments = action.comments;
-  post.loading = false;
+  post.commentsLoading = false;
   return newState;
 };
 
@@ -121,6 +131,30 @@ const applyCommentsUpdateSuccess = (state, action) => {
   const post = newState.posts.find(p => p._id === action.comment.post);
   const comment = post.comments.find(c => c._id === action.comment._id);
   comment.content = action.comment.content;
+  return newState;
+};
+
+const applyPostsLikeSuccess = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const post = newState.posts.find(p => p._id === action.like.post);
+  post.likes.push(action.like);
+
+  return newState;
+};
+
+const applyPostsLikesGet = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const post = newState.posts.find(p => p._id === action.postId);
+  post.likesLoading = true;
+  return newState;
+};
+
+const applyPostsLikesGetSuccess = (state, action) => {
+  const newState = _.cloneDeep(state);
+  const post = newState.posts.find(p => p._id === action.postId);
+  post.likes = action.likes;
+  post.likesLoading = false;
+
   return newState;
 };
 

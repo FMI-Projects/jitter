@@ -13,23 +13,23 @@ class Comments extends Component {
     className: PropTypes.string,
     postId: PropTypes.string,
     comments: PropTypes.array,
-    postCommentsGet: PropTypes.func.isRequired,
+    postsCommentsGet: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     currentUserId: PropTypes.string.isRequired
   };
 
   componentDidMount() {
-    this.props.postCommentsGet(this.props.postId);
+    this.props.postsCommentsGet(this.props.postId);
   }
 
   render() {
-    const { comments, loading, currentUserId } = this.props;
+    const { comments, loading, currentUserId, postId } = this.props;
     let commentsList = <Spinner size={50} />;
 
     if (loading === false) {
       commentsList = (
         <CommentsList
-          postId={this.props.postId}
+          postId={postId}
           comments={comments}
           currentUserId={currentUserId}
         />
@@ -45,14 +45,14 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     comments: post.comments,
-    loading: post.loading,
+    loading: post.commentsLoading,
     currentUserId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    postCommentsGet: postId => dispatch(actions.postCommentsGet(postId))
+    postsCommentsGet: postId => dispatch(actions.postsCommentsGet(postId))
   };
 };
 
