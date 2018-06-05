@@ -20,10 +20,16 @@ const authenticate = async (socket, data, callback) => {
 const postAuthenticate = (socket, data, io) => {
   const userId = data.userId;
   io.users.addUser(userId, socket.id);
+
+  io.userOnOnline(userId, socket.id);
 };
 
 const disconnect = (socket, io) => {
-  io.users.removeUser(socket.id);
+  const userId = io.users.removeUser(socket.id);
+
+  if (!io.users.isUserOnline(userId)) {
+    io.userOnOffline(userId);
+  }
 };
 
 module.exports = {

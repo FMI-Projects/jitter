@@ -16,12 +16,12 @@ class Users {
     return userId;
   }
 
+  isUserOnline(userId) {
+    return this.users.some(u => u.userId === userId);
+  }
+
   getUserSocketIds(userId) {
-    const users = this.users.filter(u => u.userId === userId);
-    if (users.length) {
-      return users.map(u => u.socketId);
-    }
-    return null;
+    return this.users.filter(u => u.userId === userId).map(u => u.socketId);
   }
 
   getUserUserId(socketId) {

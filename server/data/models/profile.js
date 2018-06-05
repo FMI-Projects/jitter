@@ -108,6 +108,14 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
   return profile;
 };
 
+ProfileSchema.statics.getFriendIds = async function(profileId) {
+  const Profile = this;
+
+  const ids = await Profile.findById(profileId).select("friendships.with");
+
+  return ids;
+};
+
 ProfileSchema.statics.getByIds = async function(ids) {
   const Profile = this;
 
