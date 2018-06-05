@@ -1,13 +1,14 @@
-import { put, call } from "redux-saga/effects";
+import { put, call, takeEvery, takeLatest } from "redux-saga/effects";
 import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
+import * as actionTypes from "../actions/actionTypes";
 import { postService } from "../../services";
 import { imageService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
 import * as formatImage from "../../utilities/formatters/formatImage";
 
-export function* postsCommentsGetSaga(action) {
+function* postsCommentsGetSaga(action) {
   try {
     const data = yield call(postService.getPostComments, action.postId);
 
@@ -15,7 +16,7 @@ export function* postsCommentsGetSaga(action) {
   } catch (e) {}
 }
 
-export function* postsCreateSaga(action) {
+function* postsCreateSaga(action) {
   try {
     let imageKey;
     if (action.payload.imageFile) {
@@ -47,7 +48,7 @@ export function* postsCreateSaga(action) {
   }
 }
 
-export function* postsUpdateSaga(action) {
+function* postsUpdateSaga(action) {
   try {
     let imageKey;
     if (action.payload.imageFile) {
@@ -82,7 +83,7 @@ export function* postsUpdateSaga(action) {
   }
 }
 
-export function* postsDeleteSaga(action) {
+function* postsDeleteSaga(action) {
   try {
     yield call(postService.deletePost, action.postId);
 
@@ -90,7 +91,7 @@ export function* postsDeleteSaga(action) {
   } catch (e) {}
 }
 
-export function* postsCommentCreateSaga(action) {
+function* postsCommentCreateSaga(action) {
   try {
     const data = yield call(
       postService.createPostComment,
@@ -110,7 +111,7 @@ export function* postsCommentCreateSaga(action) {
   }
 }
 
-export function* postsLikeSaga(action) {
+function* postsLikeSaga(action) {
   try {
     const data = yield call(
       postService.likePost,
@@ -122,10 +123,22 @@ export function* postsLikeSaga(action) {
   } catch (e) {}
 }
 
-export function* postsLikesGetSaga(action) {
+function* postsLikesGetSaga(action) {
   try {
     const data = yield call(postService.getPostLikes, action.postId);
 
     yield put(actions.postsLikesGetSuccess(action.postId, data));
   } catch (e) {}
 }
+
+const postSagas = [
+  takeEvery(actionTypes.POSTS_COMMENTS_GET, postsCommentsGetSaga),
+  takeEvery(actionTypes.POSTS_LIKES_GET, postsLikesGetSaga),
+  takeLatest(actionTypes.POSTS_DELETE, postsDeleteSaga),
+  takeLatest(actionTypes.POSTS_LIKE, postsLikeSaga),
+  takeLatest(actions.postCreate.REQUEST, postsCreateSaga),
+  takeLatest(actions.postUpdate.REQUEST, postsUpdateSaga),
+  takeLatest(actions.postCommentCreate.REQUEST, postsCommentCreateSaga)
+];
+
+export default postSagas;

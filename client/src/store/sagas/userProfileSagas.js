@@ -1,9 +1,10 @@
-import { put, call } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 
 import * as actions from "../actions";
+import * as actionTypes from "../actions/actionTypes";
 import { profileService } from "../../services";
 
-export function* userProfileGetInfoSaga(action) {
+function* userProfileGetInfoSaga(action) {
   try {
     const { firstName, lastName, profilePictureUrl, friendships } = yield call(
       profileService.getCurrentProfileInfo
@@ -19,7 +20,7 @@ export function* userProfileGetInfoSaga(action) {
   } catch (e) {}
 }
 
-export function* userProfileSendFriendRequestSaga(action) {
+function* userProfileSendFriendRequestSaga(action) {
   try {
     const friendship = yield call(
       profileService.sendFriendRequest,
@@ -29,7 +30,7 @@ export function* userProfileSendFriendRequestSaga(action) {
   } catch (e) {}
 }
 
-export function* userProfileUpdateFriendRequestSaga(action) {
+function* userProfileUpdateFriendRequestSaga(action) {
   try {
     const friendship = yield call(
       profileService.updateFriendRequest,
@@ -45,9 +46,27 @@ export function* userProfileUpdateFriendRequestSaga(action) {
   } catch (e) {}
 }
 
-export function* userProfileDeleteFriendRequestSaga(action) {
+function* userProfileDeleteFriendRequestSaga(action) {
   try {
     yield call(profileService.deleteFriendRequest, action.profileId);
     yield put(actions.userProfileDeleteFriendship(action.profileId));
   } catch (e) {}
 }
+
+const userProfileSagas = [
+  takeLatest(actionTypes.USER_PROFILE_GET_INFO, userProfileGetInfoSaga),
+  takeLatest(
+    actionTypes.USER_PROFILE_SEND_FRIEND_REQUEST,
+    userProfileSendFriendRequestSaga
+  ),
+  takeLatest(
+    actionTypes.USER_PROFILE_UPDATE_FRIEND_REQUEST,
+    userProfileUpdateFriendRequestSaga
+  ),
+  takeLatest(
+    actionTypes.USER_PROFILE_DELETE_FRIEND_REQUEST,
+    userProfileDeleteFriendRequestSaga
+  )
+];
+
+export default userProfileSagas;

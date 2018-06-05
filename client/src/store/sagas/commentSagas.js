@@ -1,11 +1,12 @@
-import { put, call } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
+import * as actionTypes from "../actions/actionTypes";
 import { commentService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
 
-export function* commentsDeleteSaga(action) {
+function* commentsDeleteSaga(action) {
   try {
     yield call(commentService.deleteComment, action.commentId);
 
@@ -13,7 +14,7 @@ export function* commentsDeleteSaga(action) {
   } catch (e) {}
 }
 
-export function* commentsUpdateSaga(action) {
+function* commentsUpdateSaga(action) {
   try {
     const comment = yield call(
       commentService.updateComment,
@@ -32,3 +33,10 @@ export function* commentsUpdateSaga(action) {
     yield put(actions.commentUpdate.failure(formError));
   }
 }
+
+const commentSagas = [
+  takeLatest(actionTypes.COMMENTS_DELETE, commentsDeleteSaga),
+  takeLatest(actions.commentUpdate.REQUEST, commentsUpdateSaga)
+];
+
+export default commentSagas;

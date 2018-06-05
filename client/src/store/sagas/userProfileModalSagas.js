@@ -1,4 +1,4 @@
-import { put, call } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
@@ -6,7 +6,7 @@ import { imageService } from "../../services";
 import { userProfileUpdate } from "./generators/profile";
 import * as formatError from "../../utilities/formatters/formatError";
 
-export function* userProfileModalUpdateSaga(action) {
+function* userProfileModalUpdateSaga(action) {
   try {
     yield call(userProfileUpdate, action.payload);
     yield put(actions.userProfileModalContinue());
@@ -20,7 +20,7 @@ export function* userProfileModalUpdateSaga(action) {
   }
 }
 
-export function* userProfileModalPictureSaga(action) {
+function* userProfileModalPictureSaga(action) {
   try {
     yield put(actions.userProfilePatch.success());
     if (action.payload.profilePicture) {
@@ -38,3 +38,10 @@ export function* userProfileModalPictureSaga(action) {
     yield put(actions.userProfilePicture.failure(formError));
   }
 }
+
+const userProfileModalSagas = [
+  takeLatest(actions.userProfilePatch.REQUEST, userProfileModalUpdateSaga),
+  takeLatest(actions.userProfilePicture.REQUEST, userProfileModalPictureSaga)
+];
+
+export default userProfileModalSagas;
