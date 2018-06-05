@@ -179,7 +179,7 @@ ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
     );
   }
 
-  profile.friendships.push({
+  profile.friendships.unshift({
     status: "Requested",
     seen: true,
     with: toProfile._id
@@ -190,7 +190,7 @@ ProfileSchema.methods.sendFriendRequest = async function(toProfile) {
     toProfileFriendRequest.seen = false;
     toProfileFriendRequest.with = profile._id;
   } else {
-    toProfile.friendships.push({
+    toProfile.friendships.unshift({
       status: "Pending",
       seen: false,
       with: profile._id

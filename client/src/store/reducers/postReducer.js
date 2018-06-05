@@ -62,8 +62,14 @@ const applyPostsGet = (state, action) => {
 
 const applyPostsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
-  action.posts.forEach(p => (p.imageUrl = formatImage.getFullUrl(p.imageUrl)));
-  newState.posts = action.posts;
+
+  let posts = _.cloneDeep(action.posts);
+  posts = posts.map(p => {
+    p.imageUrl = formatImage.getFullUrl(p.imageUrl);
+    return p;
+  });
+
+  newState.posts = posts;
   newState.loading = false;
   return newState;
 };
@@ -78,13 +84,16 @@ const applyPostsCommentsGet = (state, action) => {
 const applyPostsCommentsGetSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const post = newState.posts.find(p => p._id === action.post);
-  action.comments.forEach(
-    c =>
-      (c.author.profilePictureUrl = formatImage.getFullUrl(
-        c.author.profilePictureUrl
-      ))
-  );
-  post.comments = action.comments;
+
+  let comments = _.cloneDeep(action.comments);
+  comments = comments.map(c => {
+    c.author.profilePictureUrl = formatImage.getFullUrl(
+      c.author.profilePictureUrl
+    );
+    return c;
+  });
+
+  post.comments = comments;
   post.commentsLoading = false;
   return newState;
 };
@@ -92,8 +101,9 @@ const applyPostsCommentsGetSuccess = (state, action) => {
 const applyPostsCreateSuccess = (state, action) => {
   const newState = _.cloneDeep(state);
   const posts = newState.posts;
-  action.post.imageUrl = formatImage.getFullUrl(action.post.imageUrl);
-  posts.unshift(action.post);
+  const post = action.post;
+  post.imageUrl = formatImage.getFullUrl(post.imageUrl);
+  posts.unshift(post);
   return newState;
 };
 

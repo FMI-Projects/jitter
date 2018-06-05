@@ -2,6 +2,37 @@ const eventTypes = require("../events/eventTypes");
 const Profile = require("../../data/models/profile");
 
 module.exports = io => {
+  const addOnlineFriend = (profileId, profileInfo) => {
+    const socketIds = io.users.getUserSocketIds(friendId);
+
+    if (socketIds.length > 0) {
+      return false;
+    }
+
+    for (const friendSocketId of socketIds) {
+      io.to(friendSocketId).emit(eventTypes.ONLINE_FRIENDS_ADD, {
+        friend: {
+          _id: profileInfo._id,
+          firstName: profileInfo.firstName,
+          lastName: profileInfo.lastName,
+          profilePictureUrl: profileInfo.profilePictureUrl
+        }
+      });
+    }
+
+    return true;
+  };
+
+  const removeOnlineFriend = (profileId, friendId) => {
+    const socketIds = io.users.getUserSocketIds(profileId);
+
+    for (const friendSocketId of socketIds) {
+      io.to(friendSocketId).emit(eventTypes.ONLINE_FRIENDS_REMOVE, {
+        profileId: friendId
+      });
+    }
+  };
+
   return {
     sendFriendRequest: (userId, friendship) => {
       const socketIds = io.users.getUserSocketIds(userId);
@@ -40,21 +71,9 @@ module.exports = io => {
       const onlineFriends = [];
 
       for (const friendId of profileFriends) {
-        const socketIds = io.users.getUserSocketIds(friendId);
-
-        if (socketIds.length > 0) {
+        const isFriendOnline = addOnlineFriend(friendId, profileInfo);
+        if (isFriendOnline) {
           onlineFriends.push(friendId);
-        }
-
-        for (const friendSocketId of socketIds) {
-          io.to(friendSocketId).emit(eventTypes.ONLINE_FRIENDS_ADD, {
-            friend: {
-              _id: profileInfo._id,
-              firstName: profileInfo.firstName,
-              lastName: profileInfo.lastName,
-              profilePictureUrl: profileInfo.profilePictureUrl
-            }
-          });
         }
       }
 
@@ -76,13 +95,7 @@ module.exports = io => {
       );
 
       for (const friendId of profileFriendIds) {
-        const socketIds = io.users.getUserSocketIds(friendId);
-
-        for (const friendSocketId of socketIds) {
-          io.to(friendSocketId).emit(eventTypes.ONLINE_FRIENDS_REMOVE, {
-            profileId
-          });
-        }
+        removeOnlineFriend(friendId, profileId);
       }
     }
   };

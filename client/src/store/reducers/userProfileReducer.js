@@ -39,12 +39,10 @@ const applyUserProfileSetInfo = (state, action) => {
   newState.lastName = action.lastName;
   newState.profilePictureUrl = profilePictureUrl;
 
-  action.friendships.map(f => {
+  newState.friendships = action.friendships.map(f => {
     f.with.profilePictureUrl = formatImage.getFullUrl(f.with.profilePictureUrl);
     return f;
   });
-
-  newState.friendships = action.friendships;
 
   return newState;
 };
@@ -52,20 +50,21 @@ const applyUserProfileSetInfo = (state, action) => {
 const applyUserProfileAddFriendship = (state, action) => {
   const newState = _.cloneDeep(state);
 
-  const friendship = newState.friendships.find(
+  const existingFriendship = newState.friendships.find(
     f => f.with._id === action.friendship.with._id
   );
 
-  action.friendship.with.profilePictureUrl = formatImage.getFullUrl(
-    action.friendship.with.profilePictureUrl
+  const friendship = _.cloneDeep(action.friendship);
+  friendship.with.profilePictureUrl = formatImage.getFullUrl(
+    friendship.with.profilePictureUrl
   );
 
-  if (friendship) {
-    const friendshipIndex = newState.friendships.indexOf(friendship);
+  if (existingFriendship) {
+    const friendshipIndex = newState.friendships.indexOf(existingFriendship);
 
-    newState.friendships[friendshipIndex] = action.friendship;
+    newState.friendships[friendshipIndex] = friendship;
   } else {
-    newState.friendships.push(action.friendship);
+    newState.friendships.push(friendship);
   }
 
   return newState;
@@ -74,16 +73,17 @@ const applyUserProfileAddFriendship = (state, action) => {
 const applyUserProfileUpdateFriendship = (state, action) => {
   const newState = _.cloneDeep(state);
 
-  const friendship = newState.friendships.find(
+  const existingFriendship = newState.friendships.find(
     f => f.with._id === action.friendship.with._id
   );
-  const friendshipIndex = newState.friendships.indexOf(friendship);
+  const friendshipIndex = newState.friendships.indexOf(existingFriendship);
 
-  action.friendship.with.profilePictureUrl = formatImage.getFullUrl(
-    action.friendship.with.profilePictureUrl
+  const friendship = _.cloneDeep(action.friendship);
+  friendship.with.profilePictureUrl = formatImage.getFullUrl(
+    friendship.with.profilePictureUrl
   );
 
-  newState.friendships[friendshipIndex] = action.friendship;
+  newState.friendships[friendshipIndex] = friendship;
 
   return newState;
 };

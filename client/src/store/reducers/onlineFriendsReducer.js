@@ -17,26 +17,42 @@ const onlineFriendsReducer = (state = initialState, action) => {
     case actionTypes.ONLINE_FRIENDS_REMOVE: {
       return applyOnlineFriendsRemove(state, action);
     }
+    case actionTypes.USER_PROFILE_DELETE_FRIENDSHIP: {
+      return applyOnlineFriendsRemove(state, action);
+    }
+    case actionTypes.USER_PROFILE_UPDATE_FRIENDSHIP: {
+      return applyOnlineFriendsNewFriend(state, action);
+    }
     default:
       return state;
   }
 };
 
+const applyOnlineFriendsNewFriend = (state, action) => {
+  if (action.friendship.status === "Accepted") {
+    action.friend = { ...action.friendship.with };
+    return applyOnlineFriendsAdd(state, action);
+  }
+
+  return _.cloneDeep(state);
+};
+
 const applyOnlineFriendsAdd = (state, action) => {
   const newState = _.cloneDeep(state);
 
-  const friend = newState.onlineFriends.some(f => (f._id = action.friend._id));
-
-  action.friend.profilePictureUrl = formatImage.getFullUrl(
-    action.friend.profilePictureUrl
+  const existingFriend = newState.onlineFriends.some(
+    f => f._id === action.friend._id
   );
 
-  if (friend) {
-    const friendIndex = state.onlineFriends.indexOf(friend);
+  const friend = { ...action.friend };
+  friend.profilePictureUrl = formatImage.getFullUrl(friend.profilePictureUrl);
 
-    newState.onlineFriends[friendIndex] = action.friend;
+  if (existingFriend) {
+    const friendIndex = state.onlineFriends.indexOf(existingFriend);
+
+    newState.onlineFriends[friendIndex] = friend;
   } else {
-    newState.onlineFriends.push(action.friend);
+    newState.onlineFriends.unshift(friend);
   }
 
   return newState;
@@ -55,11 +71,14 @@ const applyOnlineFriendsRemove = (state, action) => {
 
 const applyOnlineFriendsSet = (state, action) => {
   const newState = _.cloneDeep(state);
-  action.onlineFriends = action.onlineFriends.map(f => {
+
+  let onlineFriends = _.cloneDeep(action.onlineFriends);
+  onlineFriends = onlineFriends.map(f => {
     f.profilePictureUrl = formatImage.getFullUrl(f.profilePictureUrl);
     return f;
   });
-  newState.onlineFriends = action.onlineFriends;
+
+  newState.onlineFriends = onlineFriends;
   return newState;
 };
 
