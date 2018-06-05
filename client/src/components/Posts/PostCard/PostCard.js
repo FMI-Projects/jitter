@@ -28,7 +28,8 @@ class PostCard extends Component {
   static propTypes = {
     post: PropTypes.object,
     classes: PropTypes.object,
-    canModify: PropTypes.bool.isRequired
+    canModify: PropTypes.bool.isRequired,
+    currentUserId: PropTypes.string.isRequired
   };
 
   state = {
@@ -65,7 +66,7 @@ class PostCard extends Component {
   };
 
   render() {
-    const { post, classes, canModify } = this.props;
+    const { post, classes, canModify, currentUserId } = this.props;
     const formattedDate = post.createdAt
       ? formatDate.getFullDate(post.createdAt)
       : "N/A";
@@ -114,7 +115,7 @@ class PostCard extends Component {
             <CardMedia className={classes.media} image={post.imageUrl} />
           ) : null}
           <CardActions className={classes.actions} disableActionSpacing>
-            <PostLikes postId={post._id} />
+            <PostLikes currentUserId={currentUserId} postId={post._id} />
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded

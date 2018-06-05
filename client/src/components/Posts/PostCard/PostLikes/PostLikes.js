@@ -20,7 +20,9 @@ class PostLikes extends Component {
     likePost: PropTypes.func.isRequired,
     getPostLikes: PropTypes.func.isRequired,
     likes: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    currentUserId: PropTypes.string.isRequired,
+    likeId: PropTypes.string
   };
 
   componentDidMount() {
@@ -57,10 +59,20 @@ class PostLikes extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const post = state.posts.posts.find(p => p._id === ownProps.postId);
+  let likeId;
+  if (post.likes) {
+    const like = post.likes.find(
+      l => l.post === ownProps.postId && l.author._id === ownProps.currentUserId
+    );
+    if (like) {
+      likeId = like._id;
+    }
+  }
 
   return {
     likes: post.likes,
-    loading: post.likesLoading
+    loading: post.likesLoading,
+    likeId: likeId
   };
 };
 

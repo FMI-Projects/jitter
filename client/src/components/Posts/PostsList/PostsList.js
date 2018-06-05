@@ -30,6 +30,7 @@ class PostsList extends Component {
             return (
               <Fragment key={post._id}>
                 <PostCard
+                  currentUserId={currentUserId}
                   canModify={currentUserId === post.author._id}
                   post={post}
                 />
