@@ -17,8 +17,8 @@ const friendRequestsList = props => {
         <div className={props.classes.friendRequest}>
           <Avatar
             src={
-              request.with.profilePicture
-                ? request.with.profilePicture
+              request.with.profilePictureUrl
+                ? request.with.profilePictureUrl
                 : defaultUserImage
             }
           />

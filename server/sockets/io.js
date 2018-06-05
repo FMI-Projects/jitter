@@ -25,6 +25,12 @@ const initialize = server => {
 
   const io = socketIO(server);
 
+  ioInstance = new Proxy(io, {
+    get: function(target, property) {
+      return target[property] || emitters[property];
+    }
+  });
+
   io.users = new Users();
 
   auth(io, {
@@ -32,10 +38,10 @@ const initialize = server => {
       await authenticate.authenticate(socket, data, callback);
     },
     postAuthenticate: async (socket, data) => {
-      await authenticate.postAuthenticate(socket, data, io);
+      await authenticate.postAuthenticate(socket, data, ioInstance);
     },
     disconnect: async socket => {
-      await authenticate.disconnect(socket, io);
+      await authenticate.disconnect(socket, ioInstance);
     },
     timeout: 10000
   });
@@ -50,12 +56,6 @@ const initialize = server => {
   });
 
   const emitters = attachEmitters(io);
-
-  ioInstance = new Proxy(io, {
-    get: function(target, property) {
-      return target[property] || emitters[property];
-    }
-  });
 };
 
 module.exports = {
