@@ -48,10 +48,12 @@ module.exports = io => {
 
         for (const friendSocketId of socketIds) {
           io.to(friendSocketId).emit(eventTypes.ONLINE_FRIENDS_ADD, {
-            _id: profileInfo._id,
-            firstName: profileInfo.firstName,
-            lastName: profileInfo.lastName,
-            profilePictureUrl: profileInfo.profilePictureUrl
+            friend: {
+              _id: profileInfo._id,
+              firstName: profileInfo.firstName,
+              lastName: profileInfo.lastName,
+              profilePictureUrl: profileInfo.profilePictureUrl
+            }
           });
         }
       }
@@ -62,12 +64,16 @@ module.exports = io => {
         )
         .map(f => f.with);
 
-      io.to(socketId).emit(eventTypes.ONLINE_FRIENDS_SET, onlineFriendsInfo);
+      io.to(socketId).emit(eventTypes.ONLINE_FRIENDS_SET, {
+        onlineFriends: onlineFriendsInfo
+      });
     },
     userOnOffline: async profileId => {
       const profileInfo = await Profile.getFriendIds(profileId);
 
-      const profileFriendIds = profileInfo.friendships.map(f => f.with.toHexString());
+      const profileFriendIds = profileInfo.friendships.map(f =>
+        f.with.toHexString()
+      );
 
       for (const friendId of profileFriendIds) {
         const socketIds = io.users.getUserSocketIds(friendId);

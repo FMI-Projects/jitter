@@ -5,6 +5,7 @@ import postReducer from "../reducers/postReducer";
 import userProfileReducer from "./userProfileReducer";
 import userProfileModalReducer from "./userProfileModalReducer";
 import profileReducer from "./profileReducer";
+import onlineFriendsReducer from "./onlineFriendsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   userProfile: userProfileReducer,
   userProfileModal: userProfileModalReducer,
   profile: profileReducer,
-  posts: postReducer
+  posts: postReducer,
+  onlineFriends: onlineFriendsReducer
 });
 
 export default rootReducer;
