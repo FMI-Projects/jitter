@@ -4,14 +4,7 @@ import reduxReset from "redux-reset";
 import formActionSaga from "redux-form-saga";
 
 import rootReducer from "../store/reducers";
-import {
-  watchAuth,
-  watchUserProfile,
-  watchUserProfileModal,
-  watchPosts,
-  watchProfile,
-  watchComments
-} from "../store/sagas/";
+import rootSaga from "../store/sagas";
 import setAuthMiddleware from "../services/utility/axios/setAuthMiddleware";
 import * as actions from "./actions";
 
@@ -24,17 +17,8 @@ const store = createStore(
   composeEnhancers(applyMiddleware(saga), reduxReset())
 );
 
-const sagas = [
-  watchAuth,
-  watchUserProfile,
-  watchUserProfileModal,
-  watchPosts,
-  watchProfile,
-  watchComments,
-  formActionSaga
-];
-
-sagas.forEach(s => saga.run(s));
+saga.run(rootSaga);
+saga.run(formActionSaga);
 
 setAuthMiddleware(store);
 

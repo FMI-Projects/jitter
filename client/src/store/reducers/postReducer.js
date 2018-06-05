@@ -3,9 +3,7 @@ import * as formatImage from "../../utilities/formatters/formatImage";
 import _ from "lodash";
 
 const initialState = {
-  posts: [],
-  commentsLoading: true,
-  likesLoading: true
+  posts: []
 };
 
 const postReducer = (state = initialState, action) => {

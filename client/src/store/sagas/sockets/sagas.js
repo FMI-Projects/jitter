@@ -3,7 +3,7 @@ import * as actionTypes from "../../actions/actionTypes";
 
 import * as friendhsipEmitter from "./emitters/friendshipEmitter";
 
-export default function* watchSockets(socket) {
+export default function* socketSagas(socket) {
   yield all([
     takeLatest(
       actionTypes.USER_PROFILE_MARK_FRIENDSHIPS_SEEN,

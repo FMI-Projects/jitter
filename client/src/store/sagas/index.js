@@ -1,82 +1,19 @@
-import { takeLatest, takeEvery, all } from "redux-saga/effects";
-import * as actionTypes from "../actions/actionTypes";
+import { all } from "redux-saga/effects";
 
-import * as authSagas from "./authSagas";
-import * as userProfileSagas from "./userProfileSagas";
-import * as userProfileModalSagas from "./userProfileModalSagas";
-import * as postSagas from "./postSagas";
-import * as profileSagas from "./profileSagas";
-import * as commentSagas from "./commentSagas";
-import * as actions from "../actions";
+import authSagas from "./authSagas";
+import userProfileSagas from "./userProfileSagas";
+import userProfileModalSagas from "./userProfileModalSagas";
+import postSagas from "./postSagas";
+import profileSagas from "./profileSagas";
+import commentSagas from "./commentSagas";
 
-export function* watchAuth() {
+export default function* rootSaga() {
   yield all([
-    takeLatest(actions.login.REQUEST, authSagas.authLoginSaga),
-    takeLatest(actions.register.REQUEST, authSagas.authRegisterSaga),
-    takeLatest(actionTypes.AUTH_INIT, authSagas.authInitSaga),
-    takeLatest(actionTypes.AUTH_LOGOUT, authSagas.authLogoutSaga)
-  ]);
-}
-
-export function* watchUserProfile() {
-  yield all([
-    takeLatest(
-      actionTypes.USER_PROFILE_GET_INFO,
-      userProfileSagas.userProfileGetInfoSaga
-    ),
-    takeLatest(
-      actionTypes.USER_PROFILE_SEND_FRIEND_REQUEST,
-      userProfileSagas.userProfileSendFriendRequestSaga
-    ),
-    takeLatest(
-      actionTypes.USER_PROFILE_UPDATE_FRIEND_REQUEST,
-      userProfileSagas.userProfileUpdateFriendRequestSaga
-    ),
-    takeLatest(
-      actionTypes.USER_PROFILE_DELETE_FRIEND_REQUEST,
-      userProfileSagas.userProfileDeleteFriendRequestSaga
-    )
-  ]);
-}
-
-export function* watchUserProfileModal() {
-  yield all([
-    takeLatest(
-      actions.userProfilePatch.REQUEST,
-      userProfileModalSagas.userProfileModalUpdateSaga
-    ),
-    takeLatest(
-      actions.userProfilePicture.REQUEST,
-      userProfileModalSagas.userProfileModalPictureSaga
-    )
-  ]);
-}
-
-export function* watchPosts() {
-  yield all([
-    takeEvery(actionTypes.POSTS_COMMENTS_GET, postSagas.postsCommentsGetSaga),
-    takeEvery(actionTypes.POSTS_LIKES_GET, postSagas.postsLikesGetSaga),
-    takeLatest(actionTypes.POSTS_DELETE, postSagas.postsDeleteSaga),
-    takeLatest(actionTypes.POSTS_LIKE, postSagas.postsLikeSaga),
-    takeLatest(actions.postCreate.REQUEST, postSagas.postsCreateSaga),
-    takeLatest(actions.postUpdate.REQUEST, postSagas.postsUpdateSaga),
-    takeLatest(
-      actions.postCommentCreate.REQUEST,
-      postSagas.postsCommentCreateSaga
-    )
-  ]);
-}
-
-export function* watchProfile() {
-  yield all([
-    takeLatest(actionTypes.PROFILE_POSTS_GET, profileSagas.profilePostsGetSaga),
-    takeLatest(actionTypes.PROFILE_GET, profileSagas.profileGetSaga)
-  ]);
-}
-
-export function* watchComments() {
-  yield all([
-    takeLatest(actionTypes.COMMENTS_DELETE, commentSagas.commentsDeleteSaga),
-    takeLatest(actions.commentUpdate.REQUEST, commentSagas.commentsUpdateSaga)
+    ...authSagas,
+    ...userProfileSagas,
+    ...userProfileModalSagas,
+    ...postSagas,
+    ...profileSagas,
+    ...commentSagas
   ]);
 }

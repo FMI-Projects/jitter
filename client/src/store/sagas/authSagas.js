@@ -1,12 +1,13 @@
-import { put, call, fork } from "redux-saga/effects";
+import { put, call, fork, takeLatest } from "redux-saga/effects";
 import { SubmissionError } from "redux-form";
 
 import * as actions from "../actions";
+import * as actionTypes from "../actions/actionTypes";
 import { userService, storageService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
 import * as socket from "./sockets/io";
 
-export function* authLoginSaga(action) {
+function* authLoginSaga(action) {
   try {
     const userData = yield call(
       userService.loginUser,
@@ -28,7 +29,7 @@ export function* authLoginSaga(action) {
   }
 }
 
-export function* authRegisterSaga(action) {
+function* authRegisterSaga(action) {
   try {
     const userData = yield call(
       userService.registerUser,
@@ -53,13 +54,13 @@ export function* authRegisterSaga(action) {
   }
 }
 
-export function* authLogoutSaga() {
+function* authLogoutSaga() {
   yield call(storageService.removeUser);
   yield call(socket.closeSocket);
   yield put(actions.reset());
 }
 
-export function* authInitSaga(action) {
+function* authInitSaga(action) {
   const { userId, token } = yield call(storageService.getUser);
   if (userId && token) {
     yield fork(socket.openSocket, token);
@@ -68,3 +69,12 @@ export function* authInitSaga(action) {
     yield put(actions.reset());
   }
 }
+
+const authSagas = [
+  takeLatest(actions.login.REQUEST, authLoginSaga),
+  takeLatest(actions.register.REQUEST, authRegisterSaga),
+  takeLatest(actionTypes.AUTH_INIT, authInitSaga),
+  takeLatest(actionTypes.AUTH_LOGOUT, authLogoutSaga)
+];
+
+export default authSagas;
