@@ -123,22 +123,25 @@ ProfileSchema.statics.getByIds = async function(ids) {
 ProfileSchema.statics.markFriendRequestsAsSeen = async function(profileId) {
   const Profile = this;
 
-  await Profile.findByIdAndUpdate(
-    profileId,
-    {
-      $set: {
-        "friendships.$[].seen": true
-      }
+  await Profile.findByIdAndUpdate(profileId, {
+    $set: {
+      "friendships.$[].seen": true
     }
-  );
+  });
 };
 
 ProfileSchema.methods.findFriendRequest = function(withProfile) {
   const profile = this;
 
-  return profile.friendships.find(
-    f => f.with.toHexString() === withProfile._id.toHexString()
-  );
+  return profile.friendships.find(f => {
+    if (!f.with) {
+      return false;
+    }
+
+    const friendshipId = f.with._id || f.with;
+
+    return friendshipId.toHexString() === withProfile._id.toHexString();
+  });
 };
 
 ProfileSchema.methods.populateFriendRequest = async function(withProfile) {

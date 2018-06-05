@@ -25,6 +25,8 @@ const handleError = (error, req, res, next) => {
     return res.boom.badData("Invalid data", { errors });
   }
 
+  console.log(error);
+
   res.boom.badImplementation(error.message);
 };
 

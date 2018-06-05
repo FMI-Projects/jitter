@@ -1,26 +1,48 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import * as actions from "store/actions";
 import FriendRequestBadge from "./FriendRequestBadge/FriendRequestBadge";
+import FriendRequestsList from "./FriendRequestsList/FriendRequestsList";
 
 class FriendRequests extends Component {
   static propTypes = {
     markFriendRequestsAsSeen: PropTypes.func.isRequired,
-    unseenFriendshipsCount: PropTypes.number.isRequired
+    unseenFriendshipsCount: PropTypes.number.isRequired,
+    pendingFriendships: PropTypes.array.isRequired,
+    acceptFriendRequest: PropTypes.func.isRequired,
+    declineFriendRequest: PropTypes.func.isRequired
   };
 
-  openFriendRequestsList = () => {
+  state = {
+    menuAnchor: null
+  };
+
+  openFriendRequestsList = event => {
     this.props.markFriendRequestsAsSeen();
+    this.setState({ menuAnchor: event.currentTarget });
+  };
+
+  closeFriendRequestsList = () => {
+    this.setState({ menuAnchor: null });
   };
 
   render() {
     return (
-      <FriendRequestBadge
-        unseenFriendshipsCount={this.props.unseenFriendshipsCount}
-        onClick={this.openFriendRequestsList}
-      />
+      <Fragment>
+        <FriendRequestBadge
+          unseenFriendshipsCount={this.props.unseenFriendshipsCount}
+          onClick={this.openFriendRequestsList}
+        />
+        <FriendRequestsList
+          anchorElement={this.state.menuAnchor}
+          onClose={this.closeFriendRequestsList}
+          friendRequests={this.props.pendingFriendships}
+          onAccept={this.props.acceptFriendRequest}
+          onDecline={this.props.declineFriendRequest}
+        />
+      </Fragment>
     );
   }
 }
@@ -28,7 +50,11 @@ class FriendRequests extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     markFriendRequestsAsSeen: () =>
-      dispatch(actions.userProfileMarkFriendshipsSeen())
+      dispatch(actions.userProfileMarkFriendshipsSeen()),
+    acceptFriendRequest: profileId =>
+      dispatch(actions.userProfileUpdateFriendRequest(profileId, "Accept")),
+    declineFriendRequest: profileId =>
+      dispatch(actions.userProfileUpdateFriendRequest(profileId, "Decline"))
   };
 };
 
@@ -46,4 +72,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FriendRequests);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FriendRequests);
