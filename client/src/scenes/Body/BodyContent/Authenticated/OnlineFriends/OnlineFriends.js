@@ -1,22 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import OnlineFriendsList from "./OnlineFriendsList/OnlineFriendsList";
 
 class OnlineFriends extends Component {
-  render() {
-    const testOnlineFriends = [
-      {
-        firstName: "Test",
-        lastName: "LastName"
-      },
-      {
-        firstName: "Test2",
-        lastName: "LastName2"
-      }
-    ];
+  static propTypes = {
+    onlineFriends: PropTypes.array.isRequired
+  };
 
-    return <OnlineFriendsList friends={testOnlineFriends} />;
+  render() {
+    return <OnlineFriendsList friends={this.props.onlineFriends} />;
   }
 }
 
-export default OnlineFriends;
+const mapStateToProps = state => {
+  return {
+    onlineFriends: state.onlineFriends.onlineFriends
+  };
+};
+
+export default connect(mapStateToProps)(OnlineFriends);
