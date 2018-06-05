@@ -39,4 +39,19 @@ export default class PostService {
 
     return response.data;
   };
+
+  likePost = async (postId, reaction) => {
+    const url = `/api/posts/${postId}/likes`;
+    const likeData = { reaction };
+    const response = await this.http.post(url, likeData);
+
+    return response.data;
+  };
+
+  getPostLikes = async postId => {
+    const url = `/api/posts/${postId}/likes`;
+    const { data } = await this.http.get(url);
+
+    return data;
+  };
 }

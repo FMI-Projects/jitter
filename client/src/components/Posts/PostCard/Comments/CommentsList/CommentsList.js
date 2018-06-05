@@ -34,7 +34,7 @@ const commentsList = props => {
 };
 
 commentsList.propTypes = {
-  comments: PropTypes.array.isRequired,
+  comments: PropTypes.array,
   classes: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
   currentUserId: PropTypes.string.isRequired

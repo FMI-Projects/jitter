@@ -21,19 +21,20 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(
-    applyMiddleware(saga),
-    reduxReset()
-  )
+  composeEnhancers(applyMiddleware(saga), reduxReset())
 );
 
-saga.run(watchAuth);
-saga.run(watchUserProfile);
-saga.run(watchUserProfileModal);
-saga.run(watchPosts);
-saga.run(watchProfile);
-saga.run(watchComments);
-saga.run(formActionSaga);
+const sagas = [
+  watchAuth,
+  watchUserProfile,
+  watchUserProfileModal,
+  watchPosts,
+  watchProfile,
+  watchComments,
+  formActionSaga
+];
+
+sagas.forEach(s => saga.run(s));
 
 setAuthMiddleware(store);
 

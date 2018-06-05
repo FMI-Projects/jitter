@@ -54,8 +54,10 @@ export function* watchUserProfileModal() {
 
 export function* watchPosts() {
   yield all([
-    takeEvery(actionTypes.POST_COMMENTS_GET, postSagas.postCommentsGetSaga),
+    takeEvery(actionTypes.POSTS_COMMENTS_GET, postSagas.postsCommentsGetSaga),
+    takeEvery(actionTypes.POSTS_LIKES_GET, postSagas.postsLikesGetSaga),
     takeLatest(actionTypes.POSTS_DELETE, postSagas.postsDeleteSaga),
+    takeLatest(actionTypes.POSTS_LIKE, postSagas.postsLikeSaga),
     takeLatest(actions.postCreate.REQUEST, postSagas.postsCreateSaga),
     takeLatest(actions.postUpdate.REQUEST, postSagas.postsUpdateSaga),
     takeLatest(

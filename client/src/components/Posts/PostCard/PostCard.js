@@ -16,10 +16,10 @@ import Avatar from "material-ui/Avatar";
 import IconButton from "material-ui/IconButton";
 import Typography from "material-ui/Typography";
 import CommentIcon from "@material-ui/icons/Comment";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 import Comments from "./Comments/Comments";
 import PostActions from "./PostActions/PostActions";
+import PostLikes from "./PostLikes/PostLikes";
 
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
@@ -114,9 +114,7 @@ class PostCard extends Component {
             <CardMedia className={classes.media} image={post.imageUrl} />
           ) : null}
           <CardActions className={classes.actions} disableActionSpacing>
-            <IconButton>
-              <ThumbUpIcon />
-            </IconButton>
+            <PostLikes postId={post._id} />
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded

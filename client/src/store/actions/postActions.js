@@ -1,15 +1,15 @@
 import * as actionTypes from "./actionTypes";
 
-export const postCommentsGet = postId => {
+export const postsCommentsGet = postId => {
   return {
-    type: actionTypes.POST_COMMENTS_GET,
+    type: actionTypes.POSTS_COMMENTS_GET,
     postId
   };
 };
 
-export const postCommentsGetSuccess = (comments, post) => {
+export const postsCommentsGetSuccess = (comments, post) => {
   return {
-    type: actionTypes.POST_COMMENTS_GET_SUCCESS,
+    type: actionTypes.POSTS_COMMENTS_GET_SUCCESS,
     comments,
     post
   };
@@ -62,5 +62,35 @@ export const postsCommentCreateSuccess = (comment, postId) => {
     type: actionTypes.POSTS_COMMENT_CREATE_SUCCESS,
     postId,
     comment
+  };
+};
+
+export const postsLike = (postId, reaction) => {
+  return {
+    type: actionTypes.POSTS_LIKE,
+    postId,
+    reaction
+  };
+};
+
+export const postsLikeSuccess = like => {
+  return {
+    type: actionTypes.POSTS_LIKE_SUCCESS,
+    like
+  };
+};
+
+export const postsLikesGet = postId => {
+  return {
+    type: actionTypes.POSTS_LIKES_GET,
+    postId
+  };
+};
+
+export const postsLikesGetSuccess = (postId, likes) => {
+  return {
+    type: actionTypes.POSTS_LIKES_GET_SUCCESS,
+    postId,
+    likes
   };
 };

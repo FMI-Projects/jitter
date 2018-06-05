@@ -54,6 +54,7 @@ PostSchema.pre("remove", async function(next) {
   const post = this;
 
   await Comment.remove({ post: post._id });
+  await Like.remove({ post: post._id });
 
   next();
 });

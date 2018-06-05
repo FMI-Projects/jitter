@@ -16,7 +16,8 @@ const styles = theme => ({
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest
     }),
-    marginLeft: "auto"
+    marginLeft: "auto",
+    marginTop: "5%"
   },
   expandOpen: {
     transform: "rotate(180deg)"
