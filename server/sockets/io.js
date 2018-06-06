@@ -25,6 +25,8 @@ const initialize = server => {
 
   const io = socketIO(server);
 
+  const emitters = attachEmitters(io);
+
   ioInstance = new Proxy(io, {
     get: function(target, property) {
       return target[property] || emitters[property];
@@ -47,15 +49,13 @@ const initialize = server => {
   });
 
   io.on("connection", socket => {
-    attachHandlers(io, socket);
+    attachHandlers(ioInstance, socket);
 
     console.log("User connected");
     socket.on("disconnect", function() {
       console.log("User disconnected");
     });
   });
-
-  const emitters = attachEmitters(io);
 };
 
 module.exports = {

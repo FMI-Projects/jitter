@@ -3,7 +3,7 @@ const Profile = require("../../data/models/profile");
 
 module.exports = io => {
   const addOnlineFriend = (profileId, profileInfo) => {
-    const socketIds = io.users.getUserSocketIds(friendId);
+    const socketIds = io.users.getUserSocketIds(profileId);
 
     if (socketIds.length > 0) {
       return false;
@@ -88,11 +88,7 @@ module.exports = io => {
       });
     },
     userOnOffline: async profileId => {
-      const profileInfo = await Profile.getFriendIds(profileId);
-
-      const profileFriendIds = profileInfo.friendships.map(f =>
-        f.with.toHexString()
-      );
+      const profileFriendIds = await Profile.getFriendIds(profileId);
 
       for (const friendId of profileFriendIds) {
         removeOnlineFriend(friendId, profileId);

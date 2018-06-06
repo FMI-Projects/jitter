@@ -111,7 +111,11 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
 ProfileSchema.statics.getFriendIds = async function(profileId) {
   const Profile = this;
 
-  const ids = await Profile.findById(profileId).select("friendships.with");
+  const profileInfo = await Profile.findById(profileId).select("friendships.with");
+
+  const ids = profileInfo.friendships.map(f =>
+    f.with.toHexString()
+  );
 
   return ids;
 };

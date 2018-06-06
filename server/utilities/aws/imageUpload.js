@@ -1,6 +1,8 @@
 const s3 = require("./s3");
 const uuid = require("uuid/v1");
 
+const ServerError = require("../../exceptions/serverError");
+
 const getSignedUrl = userId => {
   const key = `${userId}/${uuid()}.jpeg`;
 
@@ -14,7 +16,7 @@ const getSignedUrl = userId => {
       },
       (err, url) => {
         if (err) {
-          reject("Error getting url for image");
+          reject(new ServerError("Error getting url for image"));
         } else {
           resolve({ key, url });
         }

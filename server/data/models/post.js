@@ -74,7 +74,7 @@ PostSchema.methods.findPostLikes = async function() {
 
   const likes = await Like.find({ post: post._id }).populate({
     path: "author",
-    select: "_id firstName lastName"
+    select: "_id firstName lastName profilePictureUrl"
   });
 
   return likes;
