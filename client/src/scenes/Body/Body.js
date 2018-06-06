@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import BodyContent from "./BodyContent/BodyContent";
+import BodyContent from "./BodyContent";
 
 const body = props => (
   <BodyContent

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const idValidator = require("mongoose-id-validator");
 
 const validationMessages = require("../../utilities/validation/messages");
 
@@ -32,6 +33,10 @@ const LikeSchema = new mongoose.Schema(
     }
   }
 );
+
+if (process.env.NODE_ENV !== "test") {
+  LikeSchema.plugin(idValidator);
+}
 
 const Like = mongoose.model("Like", LikeSchema);
 

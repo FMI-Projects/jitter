@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 
 import * as actions from "./store/actions";
 import Layout from "./hoc/Layout/Layout";
-import Register from "./scenes/Body/BodyContent/Anonymous/Register/Register";
-import Login from "./scenes/Body/BodyContent/Anonymous/Login/Login";
-import Logout from "./scenes/Body/BodyContent/Authenticated/Main/Logout/Logout";
-import Welcome from "./scenes/Body/BodyContent/Anonymous/Welcome/Welcome";
-import Home from "./scenes/Body/BodyContent/Authenticated/Main/Home/Home";
-import Profile from "./scenes/Body/BodyContent/Authenticated/Main/Profile/Profile";
+import Register from "./scenes/Body/Anonymous/Register/Register";
+import Login from "./scenes/Body/Anonymous/Login/Login";
+import Logout from "./scenes/Body/Authenticated/Main/Logout/Logout";
+import Welcome from "./scenes/Body/Anonymous/Welcome/Welcome";
+import Home from "./scenes/Body/Authenticated/Main/Home/Home";
+import Profile from "./scenes/Body/Authenticated/Main/Profile/Profile";
 
 class App extends Component {
   static propTypes = {

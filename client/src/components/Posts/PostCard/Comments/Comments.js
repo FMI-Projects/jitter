@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import * as actions from "store/actions";
 
-import CommentsList from "./CommentsList/CommentsList";
+import CommentsList from "../../../Comments/CommentsList/CommentsList";
+import CommentForm from "../../../Comments/CommentForm/CommentForm";
 import Spinner from "../../../UI/Spinner/Spinner";
 
 class Comments extends Component {
@@ -28,11 +29,18 @@ class Comments extends Component {
 
     if (loading === false) {
       commentsList = (
-        <CommentsList
-          postId={postId}
-          comments={comments}
-          currentUserId={currentUserId}
-        />
+        <Fragment>
+          <CommentsList
+            postId={postId}
+            comments={comments}
+            currentUserId={currentUserId}
+          />
+          <CommentForm
+            postId={postId}
+            formName={`createComment-${postId}`}
+            annotation="Write a comment"
+          />
+        </Fragment>
       );
     }
 
@@ -56,4 +64,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Comments);

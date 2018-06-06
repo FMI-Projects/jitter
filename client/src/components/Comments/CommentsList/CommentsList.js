@@ -4,7 +4,6 @@ import styles from "./CommentsList.styles";
 import List from "material-ui/List";
 import { withStyles } from "material-ui/styles";
 
-import CommentForm from "../CommentForm/CommentForm";
 import CommentListItem from "./CommentListItem/CommentListItem";
 
 const commentsList = props => {
@@ -23,11 +22,6 @@ const commentsList = props => {
             </Fragment>
           );
         })}
-        <CommentForm
-          postId={postId}
-          formName={`createComment-${postId}`}
-          annotation="Write a comment"
-        />
       </List>
     </div>
   );

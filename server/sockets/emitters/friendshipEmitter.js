@@ -5,7 +5,7 @@ module.exports = io => {
   const addOnlineFriend = (profileId, profileInfo) => {
     const socketIds = io.users.getUserSocketIds(profileId);
 
-    if (socketIds.length > 0) {
+    if (socketIds.length === 0) {
       return false;
     }
 

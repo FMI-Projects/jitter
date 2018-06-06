@@ -62,13 +62,11 @@ class CommentListItem extends Component {
 
     return (
       <ListItem key={comment._id}>
-        <Link to={`/profile/${comment.author._id}`}>
-          {comment.author.profilePictureUrl ? (
-            <Avatar src={comment.author.profilePictureUrl} />
-          ) : (
-            <Avatar src={defaultUserImage} />
-          )}
-        </Link>
+        {comment.author.profilePictureUrl ? (
+          <Avatar src={comment.author.profilePictureUrl} />
+        ) : (
+          <Avatar src={defaultUserImage} />
+        )}
         <ListItemText primary={comment.content} secondary={link} />
         {canModify ? (
           <CommentActions

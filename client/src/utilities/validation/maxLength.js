@@ -1,6 +1,7 @@
 import userConstants from "../../utilities/constants/userConstants";
 import profileConstants from "../../utilities/constants/profileConstants";
 import postConstants from "../../utilities/constants/postConstants";
+import commentConstans from "../../utilities/constants/commentConstants";
 
 export const maxLength = length => value =>
   value && value.length > length
@@ -16,5 +17,5 @@ export const lastNameMaxLength = maxLength(profileConstants.lastName.maxLength);
 export const bioMaxLength = maxLength(profileConstants.bio.maxLength);
 export const postContentMaxLength = maxLength(postConstants.content.maxLength);
 export const commentContentMaxLength = maxLength(
-  postConstants.comments.content.maxLength
+  commentConstans.content.maxLength
 );
