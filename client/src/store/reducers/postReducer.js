@@ -286,7 +286,7 @@ const addLikes = (state, likes) => {
 
 const addCommentsToPost = (state, commentIds, postId) => {
   state = state.updateIn(["posts", "byId", postId, "comments"], comments =>
-    comments.concat(new List(commentIds))
+    comments.concat(new List(commentIds)).toSet().toList()
   );
 
   return state;
@@ -294,7 +294,7 @@ const addCommentsToPost = (state, commentIds, postId) => {
 
 const addLikesToPost = (state, likeIds, postId) => {
   state = state.updateIn(["posts", "byId", postId, "likes"], likes =>
-    likes.concat(new List(likeIds))
+    likes.concat(new List(likeIds)).toSet().toList()
   );
 
   return state;

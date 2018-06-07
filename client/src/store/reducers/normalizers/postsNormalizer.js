@@ -5,6 +5,7 @@ export const postNormalizer = post => {
   normalizedPost.title = post.title;
   normalizedPost.content = post.content;
   normalizedPost.imageUrl = post.imageUrl;
+  normalizedPost.createdAt = post.createdAt;
   normalizedPost.author = post.author._id;
 
   return { normalizedPost, author: {...post.author} };
