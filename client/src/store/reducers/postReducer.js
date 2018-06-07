@@ -1,8 +1,9 @@
-import { Map, List } from "immutable";
+import { Map, List, Set } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
 import normalizers from "./normalizers";
+import comparators from "./comparators";
 
 const initialState = new Map({
   posts: new Map({ byId: new Map(), allIds: new List() }),
@@ -154,6 +155,11 @@ const applyCommentsDeleteSuccess = (state, action) => {
     comments => comments.filter(c => c !== action.commentId)
   );
 
+  state = state.updateIn(
+    ["posts", "byId", action.postId, "commentsSet"],
+    comments => comments.delete(action.commentId)
+  );
+
   state = state.update("comments", comments =>
     comments.delete(action.commentId)
   );
@@ -221,7 +227,9 @@ const addPosts = (state, posts) => {
             ...p,
             imageUrl: formatImage.getFullUrl(p.imageUrl),
             comments: new List(),
-            likes: new List()
+            commentsSet: new Set(),
+            likes: new List(),
+            likesSet: new Set()
           })
         });
       })
@@ -237,7 +245,8 @@ const addPosts = (state, posts) => {
 
 const addComments = (state, comments) => {
   state = state.update("comments", existingComments =>
-    existingComments.merge(
+    existingComments.mergeWith(
+      comparators.compareComments,
       ...comments.map(c => {
         return new Map({
           [c._id]: new Map({
@@ -253,7 +262,8 @@ const addComments = (state, comments) => {
 
 const addAuthors = (state, authors) => {
   state = state.update("authors", existingAuthors =>
-    existingAuthors.merge(
+    existingAuthors.mergeWith(
+      comparators.compareAuthors,
       ...authors.map(a => {
         return new Map({
           [a._id]: new Map({
@@ -285,16 +295,30 @@ const addLikes = (state, likes) => {
 };
 
 const addCommentsToPost = (state, commentIds, postId) => {
+  const postCommentIds = state.getIn(["posts", "byId", postId, "commentsSet"]);
+  const idsToAdd = commentIds.filter(ci => !postCommentIds.has(ci));
+
   state = state.updateIn(["posts", "byId", postId, "comments"], comments =>
-    comments.concat(new List(commentIds)).toSet().toList()
+    comments.concat(new List(idsToAdd))
+  );
+
+  state = state.updateIn(["posts", "byId", postId, "commentsSet"], commentIds =>
+    commentIds.union(new List(idsToAdd))
   );
 
   return state;
 };
 
 const addLikesToPost = (state, likeIds, postId) => {
+  const postLikeIds = state.getIn(["posts", "byId", postId, "likesSet"]);
+  const idsToAdd = likeIds.filter(li => !postLikeIds.has(li));
+
   state = state.updateIn(["posts", "byId", postId, "likes"], likes =>
-    likes.concat(new List(likeIds)).toSet().toList()
+    likes.concat(new List(idsToAdd))
+  );
+
+  state = state.updateIn(["posts", "byId", postId, "likesSet"], likeIds =>
+    likeIds.union(new List(idsToAdd))
   );
 
   return state;
