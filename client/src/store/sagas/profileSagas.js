@@ -20,7 +20,7 @@ function* profileGetSaga(action) {
 }
 
 const profileSagas = [
-  takeLatest(actionTypes.POSTS_GET, profilePostsGetSaga),
+  takeLatest(actionTypes.PROFILE_POSTS_GET, profilePostsGetSaga),
   takeLatest(actionTypes.PROFILE_GET, profileGetSaga)
 ];
 

@@ -14,7 +14,7 @@ const initialState = new Map({
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.POSTS_GET: {
+    case actionTypes.PROFILE_POSTS_GET: {
       return applyPostsGet(state, action);
     }
     case actionTypes.PROFILE_POSTS_GET_SUCCESS: {
@@ -52,6 +52,9 @@ const postReducer = (state = initialState, action) => {
     }
     case actionTypes.POSTS_LIKES_GET_SUCCESS: {
       return applyPostsLikesGetSuccess(state, action);
+    }
+    case actionTypes.PROFILE_GET_SUCCESS: {
+      return applyAddProfileToAuthors(state, action);
     }
     default:
       return state;
@@ -136,7 +139,11 @@ const applyPostsCommentCreateSuccess = (state, action) => {
 
   state = addComments(state, [normalizedComment]);
   state = addAuthors(state, [author]);
-  state = addCommentsToPost(state, [normalizedComment._id], action.comment.post);
+  state = addCommentsToPost(
+    state,
+    [normalizedComment._id],
+    action.comment.post
+  );
 
   return state;
 };
@@ -192,6 +199,17 @@ const applyPostsLikesGetSuccess = (state, action) => {
   );
 
   return state;
+};
+
+const applyAddProfileToAuthors = (state, action) => {
+  const author = {
+    _id: action._id,
+    firstName: action.firstName,
+    lastName: action.lastName,
+    profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl)
+  };
+
+  return addAuthors(state, [author]);
 };
 
 const addPosts = (state, posts) => {
