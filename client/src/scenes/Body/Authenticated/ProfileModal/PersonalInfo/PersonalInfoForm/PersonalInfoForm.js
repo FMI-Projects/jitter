@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { DialogTitle } from "material-ui/Dialog";
-import { Field } from "redux-form";
+import { Field } from "redux-form/immutable";
 import { DialogContent, DialogActions } from "material-ui/Dialog";
 import Button from "material-ui/Button";
 import { MenuItem } from "material-ui/Menu";

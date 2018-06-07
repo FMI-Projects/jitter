@@ -1,5 +1,5 @@
 import { put, call, takeEvery, takeLatest } from "redux-saga/effects";
-import { SubmissionError } from "redux-form";
+import { SubmissionError } from "redux-form/immutable";
 
 import * as actions from "../actions";
 import * as actionTypes from "../actions/actionTypes";
@@ -19,20 +19,20 @@ function* postsCommentsGetSaga(action) {
 function* postsCreateSaga(action) {
   try {
     let imageKey;
-    if (action.payload.imageFile) {
+    if (action.payload.get("imageFile")) {
       const imageData = yield call(imageService.getSignedUrl);
       yield call(
         imageService.uploadImage,
         imageData.url,
-        action.payload.imageFile
+        action.payload.get("imageFile")
       );
       imageKey = imageData.key;
     }
 
     const post = yield call(
       postService.createPost,
-      action.payload.title,
-      action.payload.content,
+      action.payload.get("title"),
+      action.payload.get("content"),
       imageKey
     );
 
@@ -51,23 +51,23 @@ function* postsCreateSaga(action) {
 function* postsUpdateSaga(action) {
   try {
     let imageKey;
-    if (action.payload.imageFile) {
+    if (action.payload.get("imageFile")) {
       const imageData = yield call(imageService.getSignedUrl);
       yield call(
         imageService.uploadImage,
         imageData.url,
-        action.payload.imageFile
+        action.payload.get("imageFile")
       );
       imageKey = imageData.key;
     } else {
-      imageKey = formatImage.getRelativeUrl(action.payload.imageUrl);
+      imageKey = formatImage.getRelativeUrl(action.payload.get("imageUrl"));
     }
 
     const post = yield call(
       postService.updatePost,
-      action.payload._id,
-      action.payload.title,
-      action.payload.content,
+      action.payload.get("_id"),
+      action.payload.get("title"),
+      action.payload.get("content"),
       imageKey
     );
 
@@ -95,11 +95,11 @@ function* postsCommentCreateSaga(action) {
   try {
     const data = yield call(
       postService.createPostComment,
-      action.payload.postId,
-      action.payload.content
+      action.payload.get("postId"),
+      action.payload.get("content")
     );
 
-    yield put(actions.postsCommentCreateSuccess(data, action.payload.postId));
+    yield put(actions.postsCommentCreateSuccess(data));
     yield put(actions.postCommentCreate.success());
   } catch (e) {
     const error = yield call(formatError.formatHttpError, e);

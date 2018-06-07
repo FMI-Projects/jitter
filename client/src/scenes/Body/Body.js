@@ -21,8 +21,8 @@ body.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.authenticated,
-    firstLogin: state.auth.firstLogin
+    isAuthenticated: state.getIn(["auth", "authenticated"]),
+    firstLogin: state.getIn(["auth", "firstLogin"])
   };
 };
 

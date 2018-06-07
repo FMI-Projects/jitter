@@ -5,6 +5,7 @@ import { withStyles } from "material-ui/styles";
 import PostCard from "../PostCard/PostCard";
 import AddPost from "./AddPost/AddPost";
 import styles from "./PostsList.styles";
+import ToJs from "hoc/ToJs/ToJs";
 
 class PostsList extends Component {
   static propTypes = {
@@ -43,4 +44,4 @@ class PostsList extends Component {
   }
 }
 
-export default withStyles(styles)(PostsList);
+export default withStyles(styles)(ToJs(PostsList));

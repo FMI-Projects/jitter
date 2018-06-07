@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { SubmissionError } from "redux-form";
+import { SubmissionError } from "redux-form/immutable";
 
 import * as actions from "../actions";
 import * as actionTypes from "../actions/actionTypes";
@@ -18,8 +18,8 @@ function* commentsUpdateSaga(action) {
   try {
     const comment = yield call(
       commentService.updateComment,
-      action.payload._id,
-      action.payload.content
+      action.payload.get("_id"),
+      action.payload.get("content")
     );
 
     yield put(actions.commentsUpdateSuccess(comment));

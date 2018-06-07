@@ -31,8 +31,8 @@ const navigationItems = props => {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.authenticated,
-    userId: state.auth.userId
+    isAuthenticated: state.getIn(["auth", "authenticated"]),
+    userId: state.getIn(["auth", "userId"])
   };
 };
 

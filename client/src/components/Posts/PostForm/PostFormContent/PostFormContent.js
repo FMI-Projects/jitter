@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Field } from "redux-form";
+import { Field } from "redux-form/immutable";
 import { withStyles } from "material-ui/styles";
 import Button from "material-ui/Button";
 import Grid from "material-ui/Grid";

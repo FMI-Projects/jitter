@@ -5,6 +5,7 @@ import List from "material-ui/List";
 import { withStyles } from "material-ui/styles";
 
 import CommentListItem from "./CommentListItem/CommentListItem";
+import ToJs from "hoc/ToJs/ToJs";
 
 const commentsList = props => {
   const { comments, classes, postId, currentUserId } = props;
@@ -34,4 +35,4 @@ commentsList.propTypes = {
   currentUserId: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(commentsList);
+export default withStyles(styles)(ToJs(commentsList));

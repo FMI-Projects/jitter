@@ -1,24 +1,24 @@
+import { Map, List } from "immutable";
+
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
-import _ from "lodash";
+import normalizers from "./normalizers";
 
-const initialState = {
-  posts: []
-};
+const initialState = new Map({
+  posts: new Map({ byId: new Map(), allIds: new List() }),
+  comments: new Map(),
+  likes: new Map(),
+  authors: new Map(),
+  loading: true
+});
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.POSTS_COMMENTS_GET: {
-      return applyPostsCommentsGet(state, action);
-    }
-    case actionTypes.POSTS_COMMENTS_GET_SUCCESS: {
-      return applyPostsCommentsGetSuccess(state, action);
-    }
-    case actionTypes.PROFILE_POSTS_GET: {
+    case actionTypes.POSTS_GET: {
       return applyPostsGet(state, action);
     }
-    case actionTypes.POSTS_GET_SUCCESS: {
-      return applyPostsGetSuccess(state, action);
+    case actionTypes.PROFILE_POSTS_GET_SUCCESS: {
+      return applyProfilePostsGetSuccess(state, action);
     }
     case actionTypes.POSTS_CREATE_SUCCESS: {
       return applyPostsCreateSuccess(state, action);
@@ -28,6 +28,12 @@ const postReducer = (state = initialState, action) => {
     }
     case actionTypes.POSTS_DELETE_SUCCESS: {
       return applyPostsDeleteSuccess(state, action);
+    }
+    case actionTypes.POSTS_COMMENTS_GET: {
+      return applyPostsCommentsGet(state, action);
+    }
+    case actionTypes.POSTS_COMMENTS_GET_SUCCESS: {
+      return applyPostsCommentsGetSuccess(state, action);
     }
     case actionTypes.POSTS_COMMENT_CREATE_SUCCESS: {
       return applyPostsCommentCreateSuccess(state, action);
@@ -53,117 +59,227 @@ const postReducer = (state = initialState, action) => {
 };
 
 const applyPostsGet = (state, action) => {
-  const newState = _.cloneDeep(state);
-  newState.loading = true;
-  return newState;
+  state = initialState;
+
+  return state.set("loading", true);
 };
 
-const applyPostsGetSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
+const applyProfilePostsGetSuccess = (state, action) => {
+  state = state.set("loading", false);
 
-  let posts = _.cloneDeep(action.posts);
-  posts = posts.map(p => {
-    p.imageUrl = formatImage.getFullUrl(p.imageUrl);
-    return p;
-  });
+  state = addPosts(state, action.posts);
 
-  newState.posts = posts;
-  newState.loading = false;
-  return newState;
-};
-
-const applyPostsCommentsGet = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.postId);
-  post.commentsLoading = true;
-  return newState;
-};
-
-const applyPostsCommentsGetSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.post);
-
-  let comments = _.cloneDeep(action.comments);
-  comments = comments.map(c => {
-    c.author.profilePictureUrl = formatImage.getFullUrl(
-      c.author.profilePictureUrl
-    );
-    return c;
-  });
-
-  post.comments = comments;
-  post.commentsLoading = false;
-  return newState;
+  return state;
 };
 
 const applyPostsCreateSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const posts = newState.posts;
-  const post = action.post;
-  post.imageUrl = formatImage.getFullUrl(post.imageUrl);
-  posts.unshift(post);
-  return newState;
+  return addPosts(state, [action.post]);
 };
 
 const applyPostsUpdateSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.post._id);
-  post.imageUrl = formatImage.getFullUrl(action.post.imageUrl);
-  post.title = action.post.title;
-  post.content = action.post.content;
-  return newState;
+  return state.updateIn(["posts", "byId", action.post._id], post =>
+    post.merge(
+      new Map({
+        title: action.post.title,
+        content: action.post.content,
+        imageUrl: formatImage.getFullUrl(action.post.imageUrl)
+      })
+    )
+  );
 };
 
 const applyPostsDeleteSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  newState.posts = newState.posts.filter(p => p._id !== action.postId);
-  return newState;
+  const commentIds = state.getIn(["posts", "byId", action.postId, "comments"]);
+  state = state.update("comments", comments => comments.deleteAll(commentIds));
+
+  const likeIds = state.getIn(["posts", "byId", action.postId, "likes"]);
+  state = state.update("likes", likes => likes.deleteAll(likeIds));
+
+  state = state.updateIn(["posts", "byId"], byId => byId.delete(action.postId));
+  state = state.updateIn(["posts", "allIds"], allIds =>
+    allIds.filter(id => id !== action.postId)
+  );
+
+  return state;
+};
+
+const applyPostsCommentsGet = (state, action) => {
+  return state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("commentsLoading", true)
+  );
+};
+
+const applyPostsCommentsGetSuccess = (state, action) => {
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("commentsLoading", false)
+  );
+
+  const normalizedComments = action.comments.map(c =>
+    normalizers.commentNormalizer(c)
+  );
+
+  state = addComments(state, normalizedComments.map(c => c.normalizedComment));
+  state = addAuthors(state, normalizedComments.map(c => c.author));
+  state = addCommentsToPost(
+    state,
+    normalizedComments.map(c => c.normalizedComment._id),
+    action.postId
+  );
+
+  return state;
 };
 
 const applyPostsCommentCreateSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.postId);
-  post.comments.push(action.comment);
-  return newState;
+  const { normalizedComment, author } = normalizers.commentNormalizer(
+    action.comment
+  );
+
+  state = addComments(state, [normalizedComment]);
+  state = addAuthors(state, [author]);
+  state = addCommentsToPost(state, [normalizedComment._id], action.comment.post);
+
+  return state;
 };
 
 const applyCommentsDeleteSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.postId);
-  post.comments = post.comments.filter(c => c._id !== action.commentId);
-  return newState;
+  state = state.updateIn(
+    ["posts", "byId", action.postId, "comments"],
+    comments => comments.filter(c => c !== action.commentId)
+  );
+
+  state = state.update("comments", comments =>
+    comments.delete(action.commentId)
+  );
+
+  return state;
 };
 
 const applyCommentsUpdateSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.comment.post);
-  const comment = post.comments.find(c => c._id === action.comment._id);
-  comment.content = action.comment.content;
-  return newState;
+  return state.updateIn(["comments", action.comment._id], comment =>
+    comment.merge(new Map({ content: action.comment.content }))
+  );
 };
 
 const applyPostsLikeSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.like.post);
-  post.likes.push(action.like);
+  const { normalizedLike, author } = normalizers.likeNormalizer(action.like);
 
-  return newState;
+  state = addLikes(state, [normalizedLike]);
+  state = addAuthors(state, [author]);
+  state = addLikesToPost(state, [normalizedLike._id], action.like.post);
+
+  return state;
 };
 
 const applyPostsLikesGet = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.postId);
-  post.likesLoading = true;
-  return newState;
+  return state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("likesLoading", true)
+  );
 };
 
 const applyPostsLikesGetSuccess = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const post = newState.posts.find(p => p._id === action.postId);
-  post.likes = action.likes;
-  post.likesLoading = false;
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("likesLoading", false)
+  );
 
-  return newState;
+  const normalizedLikes = action.likes.map(l => normalizers.likeNormalizer(l));
+
+  state = addLikes(state, normalizedLikes.map(l => l.normalizedLike));
+  state = addAuthors(state, normalizedLikes.map(l => l.author));
+  state = addLikesToPost(
+    state,
+    normalizedLikes.map(l => l.normalizedLike._id),
+    action.postId
+  );
+
+  return state;
+};
+
+const addPosts = (state, posts) => {
+  state = state.updateIn(["posts", "byId"], existingPosts =>
+    existingPosts.merge(
+      ...posts.map(p => {
+        return new Map({
+          [p._id]: new Map({
+            ...p,
+            imageUrl: formatImage.getFullUrl(p.imageUrl),
+            comments: new List(),
+            likes: new List()
+          })
+        });
+      })
+    )
+  );
+
+  state = state.updateIn(["posts", "allIds"], allIds =>
+    new List(posts.map(p => p._id)).concat(allIds)
+  );
+
+  return state;
+};
+
+const addComments = (state, comments) => {
+  state = state.update("comments", existingComments =>
+    existingComments.merge(
+      ...comments.map(c => {
+        return new Map({
+          [c._id]: new Map({
+            ...c
+          })
+        });
+      })
+    )
+  );
+
+  return state;
+};
+
+const addAuthors = (state, authors) => {
+  state = state.update("authors", existingAuthors =>
+    existingAuthors.merge(
+      ...authors.map(a => {
+        return new Map({
+          [a._id]: new Map({
+            ...a,
+            profilePictureUrl: formatImage.getFullUrl(a.profilePictureUrl)
+          })
+        });
+      })
+    )
+  );
+
+  return state;
+};
+
+const addLikes = (state, likes) => {
+  state = state.update("likes", existingLikes =>
+    existingLikes.merge(
+      ...likes.map(l => {
+        return new Map({
+          [l._id]: new Map({
+            ...l
+          })
+        });
+      })
+    )
+  );
+
+  return state;
+};
+
+const addCommentsToPost = (state, commentIds, postId) => {
+  state = state.updateIn(["posts", "byId", postId, "comments"], comments =>
+    comments.concat(new List(commentIds))
+  );
+
+  return state;
+};
+
+const addLikesToPost = (state, likeIds, postId) => {
+  state = state.updateIn(["posts", "byId", postId, "likes"], likes =>
+    likes.concat(new List(likeIds))
+  );
+
+  return state;
 };
 
 export default postReducer;

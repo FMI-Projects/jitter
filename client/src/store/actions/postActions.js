@@ -7,24 +7,24 @@ export const postsCommentsGet = postId => {
   };
 };
 
-export const postsCommentsGetSuccess = (comments, post) => {
+export const postsCommentsGetSuccess = (comments, postId) => {
   return {
     type: actionTypes.POSTS_COMMENTS_GET_SUCCESS,
     comments,
-    post
+    postId
   };
 };
 
 export const postsGet = profileId => {
   return {
-    type: actionTypes.PROFILE_POSTS_GET,
+    type: actionTypes.POSTS_GET,
     profileId
   };
 };
 
 export const postsGetSuccess = posts => {
   return {
-    type: actionTypes.POSTS_GET_SUCCESS,
+    type: actionTypes.PROFILE_POSTS_GET_SUCCESS,
     posts
   };
 };
@@ -57,10 +57,9 @@ export const postsDeleteSuccess = postId => {
   };
 };
 
-export const postsCommentCreateSuccess = (comment, postId) => {
+export const postsCommentCreateSuccess = comment => {
   return {
     type: actionTypes.POSTS_COMMENT_CREATE_SUCCESS,
-    postId,
     comment
   };
 };

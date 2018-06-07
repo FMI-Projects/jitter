@@ -115,7 +115,7 @@ class PostCard extends Component {
             <CardMedia className={classes.media} image={post.imageUrl} />
           ) : null}
           <CardActions className={classes.actions} disableActionSpacing>
-            <PostLikes currentUserId={currentUserId} postId={post._id} />
+            {/* <PostLikes currentUserId={currentUserId} postId={post._id} /> */}
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded

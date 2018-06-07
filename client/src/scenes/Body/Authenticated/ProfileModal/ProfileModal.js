@@ -68,8 +68,8 @@ class ProfileModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    step: state.userProfileModal.step,
-    open: state.userProfileModal.open
+    step: state.getIn(["userProfileModal", "step"]),
+    open: state.getIn(["userProfileModal", "open"])
   };
 };
 
@@ -81,4 +81,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileModal);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileModal);

@@ -6,36 +6,37 @@ import Button from "material-ui/Button";
 import { withStyles } from "material-ui/styles";
 import defaultUserImage from "assets/images/defaultUser.png";
 
+import ToJs from "hoc/ToJs/ToJs";
 import styles from "./FriendRequestsList.styles";
 
 const friendRequestsList = props => {
   let friendRequests = null;
 
   if (props.friendRequests.length > 0) {
-    friendRequests = props.friendRequests.map(request => (
-      <Fragment key={request.with._id}>
+    friendRequests = props.friendRequests.map(friend => (
+      <Fragment key={friend._id}>
         <div className={props.classes.friendRequest}>
           <Avatar
             src={
-              request.with.profilePictureUrl
-                ? request.with.profilePictureUrl
+              friend.profilePictureUrl
+                ? friend.profilePictureUrl
                 : defaultUserImage
             }
           />
           <div className={props.classes.friendNames}>
-            {request.with.firstName} {request.with.lastName}
+            {friend.firstName} {friend.lastName}
           </div>
         </div>
         <div className={props.classes.friendRequestAction}>
           <Button
             color="primary"
-            onClick={() => props.onAccept(request.with._id)}
+            onClick={() => props.onAccept(friend._id)}
           >
             ACCEPT
           </Button>
           <Button
             color="secondary"
-            onClick={() => props.onDecline(request.with._id)}
+            onClick={() => props.onDecline(friend._id)}
           >
             DECLINE
           </Button>
@@ -75,4 +76,4 @@ friendRequestsList.propTypes = {
   onDecline: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(friendRequestsList);
+export default withStyles(styles)(ToJs(friendRequestsList));

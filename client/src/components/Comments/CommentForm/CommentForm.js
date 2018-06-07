@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { reduxForm } from "redux-form";
+import { reduxForm } from "redux-form/immutable";
 import { connect } from "react-redux";
 
 import * as actions from "store/actions";

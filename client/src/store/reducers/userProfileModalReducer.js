@@ -1,9 +1,11 @@
+import { Map } from "immutable";
+
 import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
+const initialState = new Map({
   step: null,
   open: false
-};
+});
 
 const userProfileModalReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -22,16 +24,15 @@ const userProfileModalReducer = (state = initialState, action) => {
 };
 
 const applyUserProfileModalInit = (state, action) => {
-  return {
-    ...state,
+  return state.merge({
     step: "start",
     open: true
-  };
+  });
 };
 
 const applyUserProfileModalContinue = (state, action) => {
   let nextStep = null;
-  switch (state.step) {
+  switch (state.get("step")) {
     case "start":
       nextStep = "personalInfo";
       break;
@@ -45,16 +46,13 @@ const applyUserProfileModalContinue = (state, action) => {
       nextStep = null;
   }
 
-  return {
-    ...state,
+  return state.merge({
     step: nextStep
-  };
+  });
 };
 
 const applyUserProfileModalClose = (state, action) => {
-  return {
-    ...initialState
-  };
+  return initialState;
 };
 
 export default userProfileModalReducer;

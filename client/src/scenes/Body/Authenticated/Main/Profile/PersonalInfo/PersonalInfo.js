@@ -37,12 +37,12 @@ personalInfo.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    firstName: state.profile.firstName,
-    lastName: state.profile.lastName,
-    bio: state.profile.bio,
-    birthday: state.profile.birthday,
-    gender: state.profile.gender,
-    profilePictureUrl: state.profile.profilePictureUrl
+    firstName: state.getIn(["profile", "firstName"]),
+    lastName: state.getIn(["profile", "lastName"]),
+    bio: state.getIn(["profile", "bio"]),
+    birthday: state.getIn(["profile", "birthday"]),
+    gender: state.getIn(["profile", "gender"]),
+    profilePictureUrl: state.getIn(["profile", "profilePictureUrl"])
   };
 };
 

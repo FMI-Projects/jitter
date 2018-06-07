@@ -13,7 +13,7 @@ class Comments extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     postId: PropTypes.string,
-    comments: PropTypes.array,
+    comments: PropTypes.object,
     postsCommentsGet: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     currentUserId: PropTypes.string.isRequired
@@ -49,12 +49,19 @@ class Comments extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const post = state.posts.posts.find(p => p._id === ownProps.postId);
+  const post = state.getIn(["posts", "posts", "byId", ownProps.postId]);
+
+  const comments = post
+    .get("comments")
+    .map(c => state.getIn(["posts", "comments", c]))
+    .map(c =>
+      c.set("author", state.getIn(["posts", "authors", c.get("author")]))
+    );
 
   return {
-    comments: post.comments,
-    loading: post.commentsLoading,
-    currentUserId: state.auth.userId
+    comments,
+    loading: post.get("commentsLoading"),
+    currentUserId: state.getIn(["auth", "userId"])
   };
 };
 

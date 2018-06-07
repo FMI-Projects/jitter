@@ -1,5 +1,5 @@
 import { put, call, fork, takeLatest } from "redux-saga/effects";
-import { SubmissionError } from "redux-form";
+import { SubmissionError } from "redux-form/immutable";
 
 import * as actions from "../actions";
 import * as actionTypes from "../actions/actionTypes";
@@ -11,8 +11,8 @@ function* authLoginSaga(action) {
   try {
     const userData = yield call(
       userService.loginUser,
-      action.payload.email,
-      action.payload.password
+      action.payload.get("email"),
+      action.payload.get("password")
     );
 
     yield call(storageService.storeUser, userData.token, userData.userId);
@@ -21,6 +21,7 @@ function* authLoginSaga(action) {
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.login.success());
   } catch (e) {
+    console.dir(e);
     const error = yield call(formatError.formatHttpError, e);
     const formError = new SubmissionError({
       _error: error
@@ -33,10 +34,10 @@ function* authRegisterSaga(action) {
   try {
     const userData = yield call(
       userService.registerUser,
-      action.payload.email,
-      action.payload.password,
-      action.payload.firstName,
-      action.payload.lastName
+      action.payload.get("email"),
+      action.payload.get("password"),
+      action.payload.get("firstName"),
+      action.payload.get("lastName")
     );
 
     yield call(storageService.storeUser, userData.token, userData.userId);

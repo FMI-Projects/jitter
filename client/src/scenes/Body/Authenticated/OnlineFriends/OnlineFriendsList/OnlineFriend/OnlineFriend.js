@@ -12,7 +12,6 @@ const onlineFriend = props => (
       src={props.profilePictureUrl ? props.profilePictureUrl : defaultUserImage}
     />
     <span className={props.classes.name}>
-      {" "}
       {props.firstName} {props.lastName}
     </span>
   </div>

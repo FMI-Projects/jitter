@@ -6,7 +6,7 @@ import OnlineFriendsList from "./OnlineFriendsList/OnlineFriendsList";
 
 class OnlineFriends extends Component {
   static propTypes = {
-    onlineFriends: PropTypes.array.isRequired
+    onlineFriends: PropTypes.object.isRequired
   };
 
   render() {
@@ -16,7 +16,7 @@ class OnlineFriends extends Component {
 
 const mapStateToProps = state => {
   return {
-    onlineFriends: state.onlineFriends.onlineFriends
+    onlineFriends: state.getIn(["onlineFriends", "onlineFriends"])
   };
 };
 

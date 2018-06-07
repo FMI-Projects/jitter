@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { SubmissionError } from "redux-form";
+import { SubmissionError } from "redux-form/immutable";
 
 import * as actions from "../actions";
 import { imageService } from "../../services";
@@ -8,7 +8,7 @@ import * as formatError from "../../utilities/formatters/formatError";
 
 function* userProfileModalUpdateSaga(action) {
   try {
-    yield call(userProfileUpdate, action.payload);
+    yield call(userProfileUpdate, action.payload.toJS());
     yield put(actions.userProfileModalContinue());
     yield put(actions.userProfilePatch.success());
   } catch (e) {
@@ -23,9 +23,13 @@ function* userProfileModalUpdateSaga(action) {
 function* userProfileModalPictureSaga(action) {
   try {
     yield put(actions.userProfilePatch.success());
-    if (action.payload.profilePicture) {
+    if (action.payload.get("profilePicture")) {
       const { url, key } = yield call(imageService.getSignedUrl);
-      yield call(imageService.uploadImage, url, action.payload.profilePicture);
+      yield call(
+        imageService.uploadImage,
+        url,
+        action.payload.get("profilePicture")
+      );
       yield call(userProfileUpdate, { profilePictureUrl: key });
     }
     yield put(actions.userProfileModalContinue());

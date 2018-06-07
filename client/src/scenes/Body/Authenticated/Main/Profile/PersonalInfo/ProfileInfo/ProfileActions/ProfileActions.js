@@ -46,7 +46,7 @@ class PorfileActions extends Component {
       if (!this.props.friendship) {
         profileActions = <StrangerActions addFriend={this.sendFriendRequest} />;
       } else {
-        switch (this.props.friendship.status) {
+        switch (this.props.friendship.get("status")) {
           case "Accepted":
             profileActions = (
               <RequestAcceptedActions removeFriend={this.deleteFriend} />
@@ -83,11 +83,14 @@ class PorfileActions extends Component {
 }
 
 const mapStateToProps = state => {
-  const profileId = state.profile.profileId;
-  const currentUserId = state.auth.userId;
-  const friendship = state.userProfile.friendships.find(
-    f => f.with._id === profileId
-  );
+  const profileId = state.getIn(["profile", "profileId"]);
+  const currentUserId = state.getIn(["auth", "userId"]);
+  const friendship = state.getIn([
+    "userProfile",
+    "friendships",
+    "byId",
+    profileId
+  ]);
 
   return {
     friendship,
@@ -109,4 +112,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PorfileActions);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PorfileActions);

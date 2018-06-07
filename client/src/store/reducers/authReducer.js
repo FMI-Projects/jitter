@@ -1,11 +1,13 @@
+import { Map } from "immutable";
+
 import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
+const initialState = new Map({
   authenticated: false,
   userId: null,
   token: null,
   firstLogin: false
-};
+});
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,19 +23,21 @@ const authReducer = (state = initialState, action) => {
 };
 
 const applyAuthFirstLogin = (state, action) => {
-  return {
-    ...state,
-    firstLogin: true
-  };
+  return state.merge(
+    new Map({
+      firstLogin: true
+    })
+  );
 };
 
 const applyAuthSuccess = (state, action) => {
-  return {
-    ...state,
-    authenticated: true,
-    userId: action.userId,
-    token: action.token
-  };
+  return state.merge(
+    new Map({
+      authenticated: true,
+      userId: action.userId,
+      token: action.token
+    })
+  );
 };
 
 export default authReducer;

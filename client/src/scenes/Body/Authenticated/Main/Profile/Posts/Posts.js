@@ -1,29 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Map } from "immutable";
 
 import PostsList from "components/Posts/PostsList/PostsList";
 
 const posts = props => {
-  const {
-    posts,
-    firstName,
-    lastName,
-    profilePictureUrl,
-    currentUserId,
-    profileId
-  } = props;
-
-  const postsWithAuthor = posts.map(post => {
-    return {
-      ...post,
-      author: { firstName, lastName, profilePictureUrl, _id: profileId }
-    };
-  });
+  const { posts, currentUserId, profileId } = props;
 
   return (
     <PostsList
-      posts={postsWithAuthor}
+      posts={posts}
       canAddPost={currentUserId === profileId}
       currentUserId={currentUserId}
     />
@@ -32,21 +19,30 @@ const posts = props => {
 
 posts.propTypes = {
   profileId: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  profilePictureUrl: PropTypes.string,
   currentUserId: PropTypes.string.isRequired,
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
+  const posts = state
+    .getIn(["posts", "posts", "allIds"])
+    .map(p => state.getIn(["posts", "posts", "byId", p]))
+    .map(p =>
+      p.set(
+        "author",
+        new Map({
+          _id: state.getIn(["profile", "profileId"]),
+          firstName: state.getIn(["profile", "firstName"]),
+          lastName: state.getIn(["profile", "lastName"]),
+          profilePictureUrl: state.getIn(["profile", "profilePictureUrl"])
+        })
+      )
+    );
+
   return {
-    posts: state.posts.posts,
-    firstName: state.profile.firstName,
-    lastName: state.profile.lastName,
-    profilePictureUrl: state.profile.profilePictureUrl,
-    currentUserId: state.auth.userId,
-    profileId: state.profile.profileId
+    posts,
+    currentUserId: state.getIn(["auth", "userId"]),
+    profileId: state.getIn(["profile", "profileId"])
   };
 };
 

@@ -7,6 +7,7 @@ import * as formatDate from "utilities/formatters/formatDate";
 import defaultProfilePicture from "assets/images/defaultUser.png";
 import styles from "./ProfileInfo.styles";
 import ProfileActions from "./ProfileActions/ProfileActions";
+import ToJs from "hoc/ToJs/ToJs";
 
 const profileInfo = props => (
   <Paper className={props.classes.paper}>
@@ -54,4 +55,4 @@ profileInfo.propTypes = {
   bio: PropTypes.string
 };
 
-export default withStyles(styles)(profileInfo);
+export default withStyles(styles)(ToJs(profileInfo));

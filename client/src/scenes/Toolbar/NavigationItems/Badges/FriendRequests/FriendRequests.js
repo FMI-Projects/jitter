@@ -10,7 +10,7 @@ class FriendRequests extends Component {
   static propTypes = {
     markFriendRequestsAsSeen: PropTypes.func.isRequired,
     unseenFriendshipsCount: PropTypes.number.isRequired,
-    pendingFriendships: PropTypes.array.isRequired,
+    pendingFriendshipsWith: PropTypes.object.isRequired,
     acceptFriendRequest: PropTypes.func.isRequired,
     declineFriendRequest: PropTypes.func.isRequired
   };
@@ -38,7 +38,7 @@ class FriendRequests extends Component {
         <FriendRequestsList
           anchorElement={this.state.menuAnchor}
           onClose={this.closeFriendRequestsList}
-          friendRequests={this.props.pendingFriendships}
+          friendRequests={this.props.pendingFriendshipsWith}
           onAccept={this.props.acceptFriendRequest}
           onDecline={this.props.declineFriendRequest}
         />
@@ -59,15 +59,21 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  const pendingFriendships = state.userProfile.friendships.filter(
-    f => f.status === "Pending"
-  );
+  const pendingFriendships = state
+    .getIn(["userProfile", "friendships", "byId"])
+    .filter(f => f.get("status") === "Pending");
+
+  const pendingFriendshipsWith = state
+    .getIn(["userProfile", "friendships", "allIds"])
+    .filter((v, k) => pendingFriendships.keySeq().some(f => v === f))
+    .map(f => state.getIn(["userProfile", "friendshipsWith", f]));
+
   const unseenFriendshipsCount = pendingFriendships.filter(
-    f => f.seen === false
-  ).length;
+    f => f.get("seen") === false
+  ).size;
 
   return {
-    pendingFriendships,
+    pendingFriendshipsWith,
     unseenFriendshipsCount
   };
 };

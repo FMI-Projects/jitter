@@ -58,7 +58,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    loading: state.posts.loading || state.profile.loading
+    loading:
+      state.getIn(["posts", "loading"]) || state.getIn(["profile", "loading"])
   };
 };
 
@@ -70,5 +71,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Profile)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Profile)
 );

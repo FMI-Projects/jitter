@@ -1,13 +1,16 @@
+import { Map, List } from "immutable";
+
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
-import _ from "lodash";
+import normalizers from "./normalizers";
 
-const initialState = {
+const initialState = new Map({
   firstName: null,
   lastName: null,
   profilePictureUrl: null,
-  friendships: []
-};
+  friendships: new Map({ byId: new Map(), allIds: new List() }),
+  friendshipsWith: new Map()
+});
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -32,84 +35,125 @@ const profileReducer = (state = initialState, action) => {
 };
 
 const applyUserProfileSetInfo = (state, action) => {
-  const newState = _.cloneDeep(state);
-  const profilePictureUrl = formatImage.getFullUrl(action.profilePictureUrl);
-
-  newState.firstName = action.firstName;
-  newState.lastName = action.lastName;
-  newState.profilePictureUrl = profilePictureUrl;
-
-  newState.friendships = action.friendships.map(f => {
-    f.with.profilePictureUrl = formatImage.getFullUrl(f.with.profilePictureUrl);
-    return f;
+  state = state.merge({
+    firstName: action.firstName,
+    lastName: action.lastName,
+    profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl)
   });
 
-  return newState;
+  const normalizedFriendships = action.friendships.map(f =>
+    normalizers.friendshipNormalizer(f)
+  );
+
+  state = addFriendships(
+    state,
+    normalizedFriendships.map(f => f.normalizedFriendship)
+  );
+  state = addFriendshipsWith(state, normalizedFriendships.map(f => f.with));
+
+  return state;
 };
 
 const applyUserProfileAddFriendship = (state, action) => {
-  const newState = _.cloneDeep(state);
-
-  const existingFriendship = newState.friendships.find(
-    f => f.with._id === action.friendship.with._id
+  const normalizedFriendship = normalizers.friendshipNormalizer(
+    action.friendship
   );
 
-  const friendship = _.cloneDeep(action.friendship);
-  friendship.with.profilePictureUrl = formatImage.getFullUrl(
-    friendship.with.profilePictureUrl
-  );
+  const existingFriendship = state.getIn([
+    "friendships",
+    "byId",
+    normalizedFriendship.normalizedFriendship._id
+  ]);
 
   if (existingFriendship) {
-    const friendshipIndex = newState.friendships.indexOf(existingFriendship);
-
-    newState.friendships[friendshipIndex] = friendship;
+    state = state.updateIn(
+      ["friendships", "byId", normalizedFriendship.normalizedFriendship._id],
+      friendship => friendship.merge(normalizedFriendship.normalizedFriendship)
+    );
   } else {
-    newState.friendships.push(friendship);
+    state = addFriendships(state, [normalizedFriendship.normalizedFriendship]);
+    state = addFriendshipsWith(state, [normalizedFriendship.with]);
   }
 
-  return newState;
+  return state;
 };
 
 const applyUserProfileUpdateFriendship = (state, action) => {
-  const newState = _.cloneDeep(state);
-
-  const existingFriendship = newState.friendships.find(
-    f => f.with._id === action.friendship.with._id
-  );
-  const friendshipIndex = newState.friendships.indexOf(existingFriendship);
-
-  const friendship = _.cloneDeep(action.friendship);
-  friendship.with.profilePictureUrl = formatImage.getFullUrl(
-    friendship.with.profilePictureUrl
+  const normalizedFriendship = normalizers.friendshipNormalizer(
+    action.friendship
   );
 
-  newState.friendships[friendshipIndex] = friendship;
+  state = state.updateIn(
+    [
+      "friendships",
+      "byId",
+      normalizedFriendship.normalizedFriendship._id
+    ],
+    friendship => friendship.merge(normalizedFriendship.normalizedFriendship)
+  );
 
-  return newState;
+  return state;
 };
 
 const applyUserProfileDeleteFriendship = (state, action) => {
-  const newState = _.cloneDeep(state);
-
-  const friendship = newState.friendships.find(
-    f => f.with._id === action.profileId
+  state = state.updateIn(["friendships", "byId"], friendships =>
+    friendships.delete(action.profileId)
   );
-  const friendshipIndex = newState.friendships.indexOf(friendship);
 
-  newState.friendships.splice(friendshipIndex, 1);
+  state = state.updateIn(["friendships", "allIds"], friendships =>
+    friendships.filter(f => f !== action.profileId)
+  );
 
-  return newState;
+  state = state.update("friendshipsWith", friendships =>
+    friendships.delete(action.profileId)
+  );
+
+  return state;
 };
 
 const applyUserProfileMarkFriendshipsSeen = (state, action) => {
-  const newState = _.cloneDeep(state);
+  state = state.updateIn(["friendships", "byId"], friendships =>
+    friendships.map(f => f.merge({ seen: true }))
+  );
 
-  newState.friendships.map(f => {
-    f.seen = true;
-    return f;
-  });
+  return state;
+};
 
-  return newState;
+const addFriendships = (state, friendships) => {
+  state = state.updateIn(["friendships", "byId"], existingFriendships =>
+    existingFriendships.merge(
+      ...friendships.map(f => {
+        return new Map({
+          [f._id]: new Map({
+            ...f
+          })
+        });
+      })
+    )
+  );
+
+  state = state.updateIn(["friendships", "allIds"], allIds =>
+    new List(friendships.map(f => f._id)).concat(allIds)
+  );
+
+  return state;
+};
+
+const addFriendshipsWith = (state, friendships) => {
+  state = state.update("friendshipsWith", existingFriendships =>
+    existingFriendships.merge(
+      ...friendships.map(f => {
+        return new Map({
+          [f._id]: new Map({
+            ...f,
+            profilePictureUrl: formatImage.getFullUrl(f.profilePictureUrl)
+          })
+        });
+      })
+    )
+  );
+
+  return state;
 };
 
 export default profileReducer;
