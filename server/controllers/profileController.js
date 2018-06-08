@@ -3,7 +3,7 @@ const Post = require("../data/models/post");
 
 const getProfilePosts = async (req, res, next) => {
   try {
-    const posts = await Post.findProfilePosts(req.params.id);
+    const posts = await Post.findProfilePosts(req.params.id, req.user._id);
 
     if (!posts) {
       return res.boom.notFound("Profile not found");

@@ -1,4 +1,4 @@
-import { Map, List, Set } from "immutable";
+import { Map, List, Set, fromJS } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
@@ -246,7 +246,7 @@ const addPosts = (state, posts) => {
 const addComments = (state, comments) => {
   state = state.update("comments", existingComments =>
     existingComments.mergeWith(
-      comparators.compareComments,
+      comparators.compareShallow,
       ...comments.map(c => {
         return new Map({
           [c._id]: new Map({
@@ -263,7 +263,7 @@ const addComments = (state, comments) => {
 const addAuthors = (state, authors) => {
   state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(
-      comparators.compareAuthors,
+      comparators.compareShallow,
       ...authors.map(a => {
         return new Map({
           [a._id]: new Map({

@@ -27,7 +27,7 @@ const postAuthenticate = (socket, data, io) => {
 const disconnect = (socket, io) => {
   const userId = io.users.removeUser(socket.id);
 
-  if (!io.users.isUserOnline(userId)) {
+  if (userId && !io.users.isUserOnline(userId)) {
     io.userOnOffline(userId);
   }
 };

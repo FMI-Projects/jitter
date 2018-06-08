@@ -93,13 +93,13 @@ function* postsDeleteSaga(action) {
 
 function* postsCommentCreateSaga(action) {
   try {
-    const data = yield call(
+    const comment = yield call(
       postService.createPostComment,
       action.payload.get("postId"),
       action.payload.get("content")
     );
 
-    yield put(actions.postsCommentCreateSuccess(data));
+    yield put(actions.postsCommentCreateSuccess(comment));
     yield put(actions.postCommentCreate.success());
   } catch (e) {
     const error = yield call(formatError.formatHttpError, e);
@@ -113,21 +113,21 @@ function* postsCommentCreateSaga(action) {
 
 function* postsLikeSaga(action) {
   try {
-    const data = yield call(
+    const like = yield call(
       postService.likePost,
       action.postId,
       action.reaction
     );
 
-    yield put(actions.postsLikeSuccess(data));
+    yield put(actions.postsLikeSuccess(like));
   } catch (e) {}
 }
 
 function* postsLikesGetSaga(action) {
   try {
-    const data = yield call(postService.getPostLikes, action.postId);
+    const likes = yield call(postService.getPostLikes, action.postId);
 
-    yield put(actions.postsLikesGetSuccess(action.postId, data));
+    yield put(actions.postsLikesGetSuccess(action.postId, likes));
   } catch (e) {}
 }
 

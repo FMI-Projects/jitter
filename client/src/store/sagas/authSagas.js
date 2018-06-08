@@ -21,7 +21,6 @@ function* authLoginSaga(action) {
     yield put(actions.authSuccess(userData.userId, userData.token));
     yield put(actions.login.success());
   } catch (e) {
-    console.dir(e);
     const error = yield call(formatError.formatHttpError, e);
     const formError = new SubmissionError({
       _error: error

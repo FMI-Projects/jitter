@@ -9,9 +9,8 @@ const LikeSchema = new mongoose.Schema(
       type: String,
       trim: true,
       enum: {
-        values: ["Like", "Dislike", null]
-      },
-      default: null
+        values: ["Like", "Dislike"]
+      }
     },
     post: {
       type: mongoose.Schema.Types.ObjectId,
@@ -33,6 +32,17 @@ const LikeSchema = new mongoose.Schema(
     }
   }
 );
+
+LikeSchema.statics.findPostLikes = async function(postId) {
+  const Like = this;
+
+  const likes = await Like.find({ post: postId }).populate({
+    path: "author",
+    select: "_id firstName lastName profilePictureUrl"
+  });
+
+  return likes;
+};
 
 if (process.env.NODE_ENV !== "test") {
   LikeSchema.plugin(idValidator);

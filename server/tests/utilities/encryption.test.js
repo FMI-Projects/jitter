@@ -21,15 +21,9 @@ describe("encryption", () => {
       const password = "password";
       const hash = "hash";
 
-      let error;
+      const result = await validatePassword(password, hash);
 
-      try {
-        await validatePassword(password, hash);
-      } catch (e) {
-        error = e;
-      }
-
-      expect(error).not.toBeDefined();
+      expect(result).toEqual(true);
       expect(bcrypt.compare).toHaveBeenCalledWith(
         password,
         hash,
@@ -47,15 +41,9 @@ describe("encryption", () => {
       const password = "password";
       const hash = "hash";
 
-      let error;
+      const result = await validatePassword(password, hash);
 
-      try {
-        await validatePassword(password, hash);
-      } catch (e) {
-        error = e;
-      }
-
-      expect(error).toBeDefined();
+      expect(result).toEqual(false);
       expect(bcrypt.compare).toHaveBeenCalledWith(
         password,
         hash,

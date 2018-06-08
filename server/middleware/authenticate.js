@@ -10,11 +10,17 @@ const authenticate = async (req, res, next) => {
 
   try {
     const { _id } = authToken.decodeJwt(token);
+
+    if (!_id) {
+      return res.boom.unauthorized("Unauthorized");
+    }
+
     const user = await User.findById(_id);
 
     if (!user) {
       return res.boom.unauthorized("Unauthorized");
     }
+
     req.user = user;
     next();
   } catch (e) {

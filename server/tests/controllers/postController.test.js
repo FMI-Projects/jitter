@@ -207,9 +207,11 @@ describe("postController", () => {
 
   describe("POST /api/comments/:id", () => {
     it("should create a new comment with valid data", async () => {
+      const content = faker.lorem.text();
+
       const data = {
         _id: new ObjectID(),
-        content: faker.lorem.text()
+        content: content
       };
 
       await request(app)
@@ -218,7 +220,8 @@ describe("postController", () => {
         .send(data)
         .expect(201)
         .expect(res => {
-          expect(res.body.author._id).toEqual(users[0]._id.toHexString());
+          expect(res.body.content).toEqual(content);
+          expect(res.body.author).toEqual(users[0]._id.toHexString());
           expect(res.body.post).toEqual(posts[0]._id.toHexString());
         });
     });

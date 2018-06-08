@@ -1,7 +1,5 @@
-import compareAuthors from "./compareAuthors";
-import compareComments from "./compareComments";
+import compareShallow from "./compareShallow";
 
 export default {
-  compareAuthors,
-  compareComments
+  compareShallow
 };

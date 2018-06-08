@@ -4,9 +4,6 @@ const idValidator = require("mongoose-id-validator");
 const postConstants = require("../../utilities/constants/postConstants");
 const validationMessages = require("../../utilities/validation/messages");
 
-const Comment = require("./comment");
-const Like = require("./like");
-
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -46,6 +43,12 @@ const PostSchema = new mongoose.Schema(
     timestamps: {
       createdAt: "createdAt",
       updatedAt: "updatedAt"
+    },
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
     }
   }
 );
@@ -53,32 +56,160 @@ const PostSchema = new mongoose.Schema(
 PostSchema.pre("remove", async function(next) {
   const post = this;
 
-  await Comment.remove({ post: post._id });
-  await Like.remove({ post: post._id });
+  const removeComments = post.model("Comment").remove({ post: post._id });
+  const removeLikes = post.model("Like").remove({ post: post._id });
+
+  await Promise.all([removeComments, removeLikes]);
 
   next();
 });
 
-PostSchema.statics.findProfilePosts = async function(profileId) {
+PostSchema.statics.findProfilePosts = async function(profileId, currentUserId) {
   const Post = this;
 
-  const posts = await Post.find({ author: profileId }).sort({
+  let posts = await Post.find({ author: profileId }).sort({
     _id: "descending"
+  });
+
+  if (posts.length > 0) {
+    posts = await Post.setPostVirtuals(posts, currentUserId);
+  }
+
+  return posts;
+};
+
+PostSchema.statics.setPostVirtuals = async function(posts, currentUserId) {
+  const Post = this;
+
+  const postIds = posts.map(p => p._id);
+
+  const reactionsCount = await Post.getReactionsCount(postIds);
+  posts.forEach(p => {
+    p.reactionsCount = reactionsCount[p._id.toHexString()];
+  });
+
+  const commentsCount = await Post.getCommentsCount(postIds);
+  posts.forEach(p => {
+    p.commentsCount = commentsCount[p._id.toHexString()];
+  });
+
+  const userReactions = await Post.getUserReactions(postIds, currentUserId);
+  posts.forEach(p => {
+    p.userReaction = userReactions[p._id.toHexString()];
   });
 
   return posts;
 };
 
-PostSchema.methods.findPostLikes = async function() {
-  const post = this;
+PostSchema.statics.getUserReactions = async function(postIds, userId) {
+  const Post = this;
 
-  const likes = await Like.find({ post: post._id }).populate({
-    path: "author",
-    select: "_id firstName lastName profilePictureUrl"
+  const userReactions = await Post.model("Like")
+    .find({
+      post: { $in: postIds },
+      author: userId
+    })
+    .select("reaction post");
+
+  const reactionsMap = {};
+
+  userReactions.forEach(r => {
+    reactionsMap[r.post.toHexString()] = r.reaction;
   });
 
-  return likes;
+  return reactionsMap;
 };
+
+PostSchema.statics.getCommentsCount = async function(postIds) {
+  const Post = this;
+
+  const commentsCount = await Post.model("Comment").aggregate([
+    {
+      $match: {
+        post: {
+          $in: postIds
+        }
+      }
+    },
+    {
+      $group: {
+        _id: {
+          post: "$post"
+        },
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  const commentsMap = {};
+  commentsCount.forEach(r => {
+    const postId = r._id.post.toHexString();
+
+    commentsMap[postId] = r.count;
+  });
+
+  return commentsMap;
+};
+
+PostSchema.statics.getReactionsCount = async function(postIds) {
+  const Post = this;
+
+  const reactionsCount = await Post.model("Like").aggregate([
+    {
+      $match: {
+        post: {
+          $in: postIds
+        }
+      }
+    },
+    {
+      $group: {
+        _id: {
+          post: "$post",
+          reaction: "$reaction"
+        },
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  const reactionsMap = {};
+  reactionsCount.forEach(r => {
+    const postId = r._id.post.toHexString();
+
+    if (!reactionsMap[postId]) {
+      reactionsMap[postId] = {};
+    }
+
+    reactionsMap[postId][r._id.reaction] = r.count;
+  });
+
+  return reactionsMap;
+};
+
+PostSchema.virtual("reactionsCount")
+  .get(function() {
+    return this._reactionsCount || null;
+  })
+  .set(function(value) {
+    this._reactionsCount = value;
+  });
+
+PostSchema.virtual("commentsCount")
+  .get(function() {
+    return this._commentsCount || null;
+  })
+  .set(function(value) {
+    this._commentsCount = value;
+  });
+
+PostSchema.virtual("userReaction")
+  .get(function() {
+    return this._userReaction || null;
+  })
+  .set(function(value) {
+    this._userReaction = value;
+  });
 
 if (process.env.NODE_ENV !== "test") {
   PostSchema.plugin(idValidator);

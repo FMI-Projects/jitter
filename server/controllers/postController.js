@@ -65,10 +65,7 @@ const deletePost = async (req, res, next) => {
 
 const getPostComments = async (req, res, next) => {
   try {
-    const comments = await Comment.findPostComments(
-      req.params.id,
-      req.user._id
-    );
+    const comments = await Comment.findPostComments(req.params.id);
 
     if (!comments) {
       return res.boom.notFound("Post not found");
@@ -82,14 +79,12 @@ const getPostComments = async (req, res, next) => {
 
 const createComment = async (req, res, next) => {
   try {
-    let comment = new Comment(req.body);
-    comment.author = req.user._id;
-    comment.post = req.params.id;
-    comment = await comment.save();
-    comment = await Comment.populate(comment, {
-      path: "author",
-      select: "_id firstName lastName profilePictureUrl"
+    let comment = new Comment({
+      content: req.body.content,
+      author: req.user._id,
+      post: req.params.id
     });
+    comment = await comment.save();
 
     res.status(201).send(comment);
   } catch (e) {
@@ -99,9 +94,11 @@ const createComment = async (req, res, next) => {
 
 const likePost = async (req, res, next) => {
   try {
-    let like = new Like(req.body);
-    like.author = req.user._id;
-    like.post = req.params.id;
+    let like = new Like({
+      reaction: req.body.reaction,
+      author: req.user._id,
+      post: req.params.id
+    });
     like = await like.save();
 
     res.status(201).send(like);
@@ -118,7 +115,7 @@ const getPostLikes = async (req, res, next) => {
       return res.boom.notFound("Post not found!");
     }
 
-    const likes = await post.findPostLikes();
+    const likes = await Like.findPostLikes(req.params.id);
 
     res.status(200).send(likes);
   } catch (e) {

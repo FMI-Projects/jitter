@@ -6,16 +6,16 @@ import { profileService } from "../../services";
 
 function* profilePostsGetSaga(action) {
   try {
-    const data = yield call(profileService.getProfilePosts, action.profileId);
-
-    yield put(actions.postsGetSuccess(data));
+    const posts = yield call(profileService.getProfilePosts, action.profileId);
+    console.log(posts);
+    yield put(actions.postsGetSuccess(posts));
   } catch (e) {}
 }
 
 function* profileGetSaga(action) {
   try {
-    const data = yield call(profileService.getProfileInfo, action.profileId);
-    yield put(actions.profileGetSuccess(data));
+    const profile = yield call(profileService.getProfileInfo, action.profileId);
+    yield put(actions.profileGetSuccess(profile));
   } catch (e) {}
 }
 

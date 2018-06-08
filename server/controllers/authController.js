@@ -11,7 +11,12 @@ const login = async (req, res, next) => {
       return res.boom.badRequest("Invalid login credentials");
     }
 
-    await user.validatePassword(password);
+    const isPasswordValid = await user.validatePassword(password);
+
+    if (!isPasswordValid) {
+      return res.boom.badRequest("Invalid login credentials");
+    }
+
     const token = await user.generateAuthToken();
 
     res
