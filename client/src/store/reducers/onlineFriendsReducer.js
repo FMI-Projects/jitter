@@ -25,16 +25,16 @@ const onlineFriendsReducer = (state = initialState, action) => {
 };
 
 const applyOnlineFriendsAdd = (state, action) => {
-  if (!state.hasIn(["onlineFriends", action.onlineFriends.get("result")])) {
+  if (!state.hasIn(["onlineFriends", action.friend.get("result")])) {
     state = state.update("onlineFriendsList", onlineFriendsList =>
-      onlineFriendsList.push(action.get("result"))
+      onlineFriendsList.push(action.friend.get("result"))
     );
   }
 
   state = state.update("onlineFriends", onlineFriends =>
     onlineFriends.mergeWith(
       comparators.compareShallow,
-      action.onlineFriends.getIn(["entities", "profile"])
+      action.friend.getIn(["entities", "profile"])
     )
   );
 
