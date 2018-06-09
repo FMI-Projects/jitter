@@ -16,7 +16,7 @@ class OnlineFriends extends Component {
 
 const mapStateToProps = state => {
   return {
-    onlineFriends: state.getIn(["onlineFriends", "onlineFriends"])
+    onlineFriends: state.getIn(["onlineFriends", "onlineFriendsList"])
   };
 };
 

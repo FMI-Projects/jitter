@@ -1,27 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Avatar from "material-ui/Avatar";
-import { withStyles } from "material-ui/styles";
-import defaultUserImage from "assets/images/defaultUser.png";
+import { connect } from "react-redux";
 
-import styles from "./OnlineFriend.styles";
+import OnlineFriendContent from "./OnlineFriendContent/OnlineFriendContent";
 
 const onlineFriend = props => (
-  <div className={props.classes.friend}>
-    <Avatar
-      src={props.profilePictureUrl ? props.profilePictureUrl : defaultUserImage}
-    />
-    <span className={props.classes.name}>
-      {props.firstName} {props.lastName}
-    </span>
-  </div>
+  <OnlineFriendContent
+    firstName={props.firstName}
+    lastName={props.lastName}
+    profilePictureUrl={props.profilePictureUrl}
+  />
 );
 
 onlineFriend.propTypes = {
-  classes: PropTypes.object.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   profilePictureUrl: PropTypes.string
 };
 
-export default withStyles(styles)(onlineFriend);
+const mapStateToProps = (state, ownProps) => {
+  const onlineFriend = state.getIn([
+    "onlineFriends",
+    "onlineFriends",
+    ownProps.id
+  ]);
+
+  return {
+    firstName: onlineFriend.get("firstName"),
+    lastName: onlineFriend.get("lastName"),
+    profilePictureUrl: onlineFriend.get("profilePictureUrl")
+  };
+};
+
+export default connect(mapStateToProps)(onlineFriend);

@@ -2,7 +2,7 @@ import { Map, List } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
-import normalizers from "./normalizers";
+import comparators from "./comparators";
 
 const initialState = new Map({
   firstName: null,
@@ -41,55 +41,57 @@ const applyUserProfileSetInfo = (state, action) => {
     profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl)
   });
 
-  const normalizedFriendships = action.friendships.map(f =>
-    normalizers.friendshipNormalizer(f)
+  state = state.updateIn(["friendships", "byId"], friendships =>
+    friendships.mergeWith(
+      comparators.compareShallow,
+      action.friendships.getIn(["entities", "friendship"])
+    )
   );
 
-  state = addFriendships(
-    state,
-    normalizedFriendships.map(f => f.normalizedFriendship)
+  state = state.updateIn(["friendships", "allIds"], friendships =>
+    friendships.concat(action.friendships.get("result"))
   );
-  state = addFriendshipsWith(state, normalizedFriendships.map(f => f.with));
+
+  state = state.update("friendshipsWith", friendshipsWith =>
+    friendshipsWith.mergeWith(
+      comparators.compareShallow,
+      action.friendships.getIn(["entities", "with"])
+    )
+  );
 
   return state;
 };
 
 const applyUserProfileAddFriendship = (state, action) => {
-  const normalizedFriendship = normalizers.friendshipNormalizer(
-    action.friendship
+  if (!state.hasIn(["friendships", "byId"], action.friendship.get("result"))) {
+    state = state.updateIn(["friendships", "allIds"], friendships =>
+      friendships.push(action.friendships.get("result"))
+    );
+  }
+
+  state = state.updateIn(["friendships", "byId"], friendships =>
+    friendships.mergeWith(
+      comparators.compareShallow,
+      action.friendship.getIn(["entities", "friendship"])
+    )
   );
 
-  const existingFriendship = state.getIn([
-    "friendships",
-    "byId",
-    normalizedFriendship.normalizedFriendship._id
-  ]);
-
-  if (existingFriendship) {
-    state = state.updateIn(
-      ["friendships", "byId", normalizedFriendship.normalizedFriendship._id],
-      friendship => friendship.merge(normalizedFriendship.normalizedFriendship)
-    );
-  } else {
-    state = addFriendships(state, [normalizedFriendship.normalizedFriendship]);
-    state = addFriendshipsWith(state, [normalizedFriendship.with]);
-  }
+  state = state.update("friendshipsWith", friendshipsWith =>
+    friendshipsWith.mergeWith(
+      comparators.compareShallow,
+      action.friendships.getIn(["entities", "with"])
+    )
+  );
 
   return state;
 };
 
 const applyUserProfileUpdateFriendship = (state, action) => {
-  const normalizedFriendship = normalizers.friendshipNormalizer(
-    action.friendship
-  );
-
-  state = state.updateIn(
-    [
-      "friendships",
-      "byId",
-      normalizedFriendship.normalizedFriendship._id
-    ],
-    friendship => friendship.merge(normalizedFriendship.normalizedFriendship)
+  state = state = state.updateIn(["friendships", "byId"], friendships =>
+    friendships.mergeWith(
+      comparators.compareShallow,
+      action.friendship.getIn(["entities", "friendship"])
+    )
   );
 
   return state;
@@ -114,43 +116,6 @@ const applyUserProfileDeleteFriendship = (state, action) => {
 const applyUserProfileMarkFriendshipsSeen = (state, action) => {
   state = state.updateIn(["friendships", "byId"], friendships =>
     friendships.map(f => f.merge({ seen: true }))
-  );
-
-  return state;
-};
-
-const addFriendships = (state, friendships) => {
-  state = state.updateIn(["friendships", "byId"], existingFriendships =>
-    existingFriendships.merge(
-      ...friendships.map(f => {
-        return new Map({
-          [f._id]: new Map({
-            ...f
-          })
-        });
-      })
-    )
-  );
-
-  state = state.updateIn(["friendships", "allIds"], allIds =>
-    new List(friendships.map(f => f._id)).concat(allIds)
-  );
-
-  return state;
-};
-
-const addFriendshipsWith = (state, friendships) => {
-  state = state.update("friendshipsWith", existingFriendships =>
-    existingFriendships.merge(
-      ...friendships.map(f => {
-        return new Map({
-          [f._id]: new Map({
-            ...f,
-            profilePictureUrl: formatImage.getFullUrl(f.profilePictureUrl)
-          })
-        });
-      })
-    )
   );
 
   return state;

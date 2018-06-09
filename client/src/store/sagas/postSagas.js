@@ -7,12 +7,20 @@ import { postService } from "../../services";
 import { imageService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
 import * as formatImage from "../../utilities/formatters/formatImage";
+import normalisers from "./normalizr/normalisers";
+import toNormalisedImmutable from "./utilities/toNormalisedImmutable";
 
 function* postsCommentsGetSaga(action) {
   try {
-    const data = yield call(postService.getPostComments, action.postId);
+    let comments = yield call(postService.getPostComments, action.postId);
 
-    yield put(actions.postsCommentsGetSuccess(data, action.postId));
+    comments = yield call(
+      toNormalisedImmutable,
+      comments,
+      normalisers.commentsListNormaliser
+    );
+
+    yield put(actions.postsCommentsGetSuccess(comments, action.postId));
   } catch (e) {}
 }
 
@@ -29,12 +37,14 @@ function* postsCreateSaga(action) {
       imageKey = imageData.key;
     }
 
-    const post = yield call(
+    let post = yield call(
       postService.createPost,
       action.payload.get("title"),
       action.payload.get("content"),
       imageKey
     );
+
+    post = yield call(toNormalisedImmutable, post, normalisers.postNormaliser);
 
     yield put(actions.postsCreateSuccess(post));
     yield put(actions.postCreate.success());
@@ -63,13 +73,15 @@ function* postsUpdateSaga(action) {
       imageKey = formatImage.getRelativeUrl(action.payload.get("imageUrl"));
     }
 
-    const post = yield call(
+    let post = yield call(
       postService.updatePost,
       action.payload.get("_id"),
       action.payload.get("title"),
       action.payload.get("content"),
       imageKey
     );
+
+    post = yield call(toNormalisedImmutable, post, normalisers.postNormaliser);
 
     yield put(actions.postsUpdateSuccess(post));
     yield put(actions.postUpdate.success());
@@ -93,10 +105,16 @@ function* postsDeleteSaga(action) {
 
 function* postsCommentCreateSaga(action) {
   try {
-    const comment = yield call(
+    let comment = yield call(
       postService.createPostComment,
       action.payload.get("postId"),
       action.payload.get("content")
+    );
+
+    comment = yield call(
+      toNormalisedImmutable,
+      comment,
+      normalisers.commentNormaliser
     );
 
     yield put(actions.postsCommentCreateSuccess(comment));
@@ -113,11 +131,9 @@ function* postsCommentCreateSaga(action) {
 
 function* postsLikeSaga(action) {
   try {
-    const like = yield call(
-      postService.likePost,
-      action.postId,
-      action.reaction
-    );
+    let like = yield call(postService.likePost, action.postId, action.reaction);
+
+    like = yield call(toNormalisedImmutable, like, normalisers.likeNormaliser);
 
     yield put(actions.postsLikeSuccess(like));
   } catch (e) {}
@@ -125,7 +141,13 @@ function* postsLikeSaga(action) {
 
 function* postsLikesGetSaga(action) {
   try {
-    const likes = yield call(postService.getPostLikes, action.postId);
+    let likes = yield call(postService.getPostLikes, action.postId);
+
+    likes = yield call(
+      toNormalisedImmutable,
+      likes,
+      normalisers.likeListNormaliser
+    );
 
     yield put(actions.postsLikesGetSuccess(action.postId, likes));
   } catch (e) {}

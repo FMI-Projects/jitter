@@ -2,6 +2,8 @@ import { put, call } from "redux-saga/effects";
 
 import * as actions from "../../actions";
 import { profileService, timeService } from "../../../services";
+import normalisers from "../normalizr/normalisers";
+import toNormalisedImmutable from "../utilities/toNormalisedImmutable";
 
 export function* userProfileUpdate(profileData) {
   if (profileData.birthday) {
@@ -17,12 +19,18 @@ export function* userProfileUpdate(profileData) {
     profileData
   );
 
+  const friendshipsData = yield call(
+    toNormalisedImmutable,
+    friendships,
+    normalisers.friendshipListNormaliser
+  );
+
   yield put(
     actions.userProfileSetInfo(
       firstName,
       lastName,
       profilePictureUrl,
-      friendships
+      friendshipsData
     )
   );
 }

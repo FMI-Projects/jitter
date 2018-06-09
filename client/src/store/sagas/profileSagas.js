@@ -1,14 +1,20 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { fromJS } from "immutable";
 
 import * as actions from "../actions";
 import * as actionTypes from "../actions/actionTypes";
 import { profileService } from "../../services";
-import * as postsNormalisers from "./normalizr/normalisers/postsNormalisers";
+import normalisers from "./normalizr/normalisers";
+import toNormalisedImmutable from "./utilities/toNormalisedImmutable";
 
 function* profilePostsGetSaga(action) {
   try {
-    const posts = yield call(profileService.getProfilePosts, action.profileId);
+    let posts = yield call(profileService.getProfilePosts, action.profileId);
+
+    posts = yield call(
+      toNormalisedImmutable,
+      posts,
+      normalisers.postsListNormaliser
+    );
 
     yield put(actions.postsGetSuccess(posts));
   } catch (e) {}
@@ -16,7 +22,13 @@ function* profilePostsGetSaga(action) {
 
 function* profileGetSaga(action) {
   try {
-    const profile = yield call(profileService.getProfileInfo, action.profileId);
+    let profile = yield call(profileService.getProfileInfo, action.profileId);
+
+    profile = yield call(
+      toNormalisedImmutable,
+      profile,
+      normalisers.profileNormaliser
+    );
 
     yield put(actions.profileGetSuccess(profile));
   } catch (e) {}

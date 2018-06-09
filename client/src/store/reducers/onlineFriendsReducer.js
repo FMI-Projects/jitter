@@ -1,10 +1,11 @@
 import { Map, List } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
-import * as formatImage from "../../utilities/formatters/formatImage";
+import comparators from "./comparators";
 
 const initialState = new Map({
-  onlineFriends: new List()
+  onlineFriends: new Map(),
+  onlineFriendsList: new List()
 });
 
 const onlineFriendsReducer = (state = initialState, action) => {
@@ -24,51 +25,45 @@ const onlineFriendsReducer = (state = initialState, action) => {
 };
 
 const applyOnlineFriendsAdd = (state, action) => {
-  const existingFriend = state
-    .get("onlineFriends")
-    .find(f => f.get("_id") === action.friendId);
-
-  const friend = new Map({
-    ...action.friend,
-    profilePictureUrl: formatImage.getFullUrl(action.friend.profilePictureUrl)
-  });
-
-  if (existingFriend) {
-    const friendIndex = state.get("onlineFriends").indexOf(existingFriend);
-
-    return state.update("onlineFriends", onlineFriends =>
-      onlineFriends.set(friendIndex, friend)
-    );
-  } else {
-    return state.update("onlineFriends", onlineFriends =>
-      onlineFriends.unshift(friend)
+  if (!state.hasIn(["onlineFriends", action.get("result")])) {
+    state = state.update("onlineFriendsList", onlineFriendsList =>
+      onlineFriendsList.push(action.get("result"))
     );
   }
-};
 
-const applyOnlineFriendsRemove = (state, action) => {
-  const friend = state
-    .get("onlineFriends")
-    .find(f => f.get("_id") === action.profileId);
-  const friendIndex = state.get("onlineFriends").indexOf(friend);
-
-  return state.update("onlineFriends", onlineFriends =>
-    onlineFriends.delete(friendIndex)
-  );
-};
-
-const applyOnlineFriendsSet = (state, action) => {
-  const onlineFriends = new List(
-    action.onlineFriends.map(
-      ofr =>
-        new Map({
-          ...ofr,
-          profilePictureUrl: formatImage.getFullUrl(ofr.profilePictureUrl)
-        })
+  state = state.update("onlineFriends", onlineFriends =>
+    onlineFriends.mergeWith(
+      comparators.compareShallow,
+      action.onlineFriends.getIn(["entities", "profile"])
     )
   );
 
-  return state.set("onlineFriends", onlineFriends);
+  return state;
+};
+
+const applyOnlineFriendsRemove = (state, action) => {
+  state = state.deleteIn(["onlineFriends", action.profileId]);
+
+  state = state.update("onlineFriendsList", onlineFriends =>
+    onlineFriends.filter(f => f !== action.profileId)
+  );
+
+  return state;
+};
+
+const applyOnlineFriendsSet = (state, action) => {
+  state = state.update("onlineFriends", onlineFriends =>
+    onlineFriends.mergeWith(
+      comparators.compareShallow,
+      action.onlineFriends.getIn(["entities", "profile"])
+    )
+  );
+
+  state = state.update("onlineFriendsList", onlineFriends =>
+    onlineFriends.concat(new List(action.onlineFriends.get("result")))
+  );
+
+  return state;
 };
 
 export default onlineFriendsReducer;

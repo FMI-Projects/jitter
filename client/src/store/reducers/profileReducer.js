@@ -1,8 +1,8 @@
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
-import normalizers from "./normalizers";
+import comparators from "./comparators";
 
 const initialState = new Map({
   profileId: null,
@@ -12,7 +12,7 @@ const initialState = new Map({
   bio: null,
   birthday: null,
   gender: null,
-  friendships: new Map(),
+  friendships: new Map({ byId: new Map(), allIds: new List() }),
   friendshipsWith: new Map(),
   loading: true
 });
@@ -35,40 +35,37 @@ const applyProfileGet = (state, action) => {
 };
 
 const applyProfileGetSuccess = (state, action) => {
+  const profile = action.profile.getIn([
+    "entities",
+    "profile",
+    action.profile.get("result")
+  ]);
   state = state.merge({
-    profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl),
-    profileId: action._id,
-    firstName: action.firstName,
-    lastName: action.lastName,
-    bio: action.bio,
-    birthday: action.birthday,
-    gender: action.gender,
+    profilePictureUrl: profile.get("profilePictureUrl"),
+    profileId: profile.get("_id"),
+    firstName: profile.get("firstName"),
+    lastName: profile.get("lastName"),
+    bio: profile.get("bio"),
+    birthday: profile.get("birthday"),
+    gender: profile.get("gender"),
     loading: false
   });
 
-  const normalizedFriendships = action.friendships.map(f =>
-    normalizers.friendshipNormalizer(f)
-  );
-
-  state = state.set(
-    "friendships",
-    new Map(
-      normalizedFriendships.map(f => ({
-        [f.normalizedFriendship._id]: {
-          ...f.normalizedFriendship
-        }
-      }))
+  state = state.updateIn(["friendships", "byId"], friendships =>
+    friendships.mergeWith(
+      comparators.compareShallow,
+      action.profile.getIn(["entities", "friendship"])
     )
   );
 
-  state = state.set(
-    "friendshipsWith",
-    new Map(
-      normalizedFriendships.map(f => ({
-        [f.with._id]: {
-          ...f.with
-        }
-      }))
+  state = state.updateIn(["friendships", "allIds"], friendships =>
+    friendships.concat(action.profile.get("result"))
+  );
+
+  state = state.update("friendshipsWith", friendshipsWith =>
+    friendshipsWith.mergeWith(
+      comparators.compareShallow,
+      action.profile.getIn(["entities", "with"])
     )
   );
 

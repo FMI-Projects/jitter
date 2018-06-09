@@ -4,6 +4,7 @@ import { eventChannel } from "redux-saga";
 import { put, call, take, fork, cancel } from "redux-saga/effects";
 
 import sagas from "./sagas";
+import payloadToNormalisedImmutable from "./utilities/payloadToNormalisedImmutable";
 
 const patch = wildcard(io.Manager);
 const baseUrl = "http://localhost:8000";
@@ -45,7 +46,12 @@ function initializeSocket(token) {
       socket.emit("authentication", { token });
       socket.on("authenticated", () => {
         socket.on("*", params => {
-          return emitter({ type: params.data[0], ...params.data[1] });
+          const actionType = params.data[0];
+          const payload = payloadToNormalisedImmutable(
+            actionType,
+            params.data[1]
+          );
+          return emitter({ type: actionType, ...payload });
         });
       });
     });

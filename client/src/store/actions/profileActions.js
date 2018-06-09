@@ -7,25 +7,9 @@ export const profileGet = profileId => {
   };
 };
 
-export const profileGetSuccess = ({
-  _id,
-  firstName,
-  lastName,
-  profilePictureUrl,
-  gender,
-  bio,
-  birthday,
-  friendships
-}) => {
+export const profileGetSuccess = (profile) => {
   return {
     type: actionTypes.PROFILE_GET_SUCCESS,
-    _id,
-    firstName,
-    lastName,
-    profilePictureUrl,
-    gender,
-    bio,
-    birthday,
-    friendships
+    profile
   };
 };

@@ -3,18 +3,27 @@ import { put, call, takeLatest } from "redux-saga/effects";
 import * as actions from "../actions";
 import * as actionTypes from "../actions/actionTypes";
 import { profileService } from "../../services";
+import normalisers from "./normalizr/normalisers";
+import toNormalisedImmutable from "./utilities/toNormalisedImmutable";
 
 function* userProfileGetInfoSaga(action) {
   try {
     const { firstName, lastName, profilePictureUrl, friendships } = yield call(
       profileService.getCurrentProfileInfo
     );
+
+    const friendshipData = yield call(
+      toNormalisedImmutable,
+      friendships,
+      normalisers.friendshipListNormaliser
+    );
+
     yield put(
       actions.userProfileSetInfo(
         firstName,
         lastName,
         profilePictureUrl,
-        friendships
+        friendshipData
       )
     );
   } catch (e) {}
@@ -22,23 +31,36 @@ function* userProfileGetInfoSaga(action) {
 
 function* userProfileSendFriendRequestSaga(action) {
   try {
-    const friendship = yield call(
+    let friendship = yield call(
       profileService.sendFriendRequest,
       action.profileId
     );
+
+    friendship = yield call(
+      toNormalisedImmutable,
+      friendship,
+      normalisers.friendshipNormaliser
+    );
+
     yield put(actions.userProfileAddFriendship(friendship));
   } catch (e) {}
 }
 
 function* userProfileUpdateFriendRequestSaga(action) {
   try {
-    const friendship = yield call(
+    let friendship = yield call(
       profileService.updateFriendRequest,
       action.profileId,
       action.action
     );
 
     if (action.action === "Accept") {
+      friendship = yield call(
+        toNormalisedImmutable,
+        friendship,
+        normalisers.friendshipNormaliser
+      );
+
       yield put(actions.userProfileUpdateFriendship(friendship));
     } else {
       yield put(actions.userProfileDeleteFriendship(action.profileId));

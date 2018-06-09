@@ -5,6 +5,8 @@ import * as actions from "../actions";
 import * as actionTypes from "../actions/actionTypes";
 import { commentService } from "../../services";
 import * as formatError from "../../utilities/formatters/formatError";
+import normalisers from "./normalizr/normalisers";
+import toNormalisedImmutable from "./utilities/toNormalisedImmutable";
 
 function* commentsDeleteSaga(action) {
   try {
@@ -16,10 +18,16 @@ function* commentsDeleteSaga(action) {
 
 function* commentsUpdateSaga(action) {
   try {
-    const comment = yield call(
+    let comment = yield call(
       commentService.updateComment,
       action.payload.get("_id"),
       action.payload.get("content")
+    );
+
+    comment = yield call(
+      toNormalisedImmutable,
+      comment,
+      normalisers.commentNormaliser
     );
 
     yield put(actions.commentsUpdateSuccess(comment));

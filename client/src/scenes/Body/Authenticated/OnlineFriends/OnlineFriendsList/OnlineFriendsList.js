@@ -15,14 +15,7 @@ const onlineFriendsList = props => (
       <div className={props.classes.online}>Online Friends</div>
     </Typography>
     <hr />
-    {props.friends.map(f => (
-      <OnlineFriend
-        key={f._id}
-        firstName={f.firstName}
-        lastName={f.lastName}
-        profilePictureUrl={f.profilePictureUrl}
-      />
-    ))}
+    {props.friends.map(f => <OnlineFriend key={f} id={f} />)}
   </Paper>
 );
 

@@ -1,8 +1,7 @@
-import { Map, List, Set, fromJS } from "immutable";
+import { Map, List } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as formatImage from "../../utilities/formatters/formatImage";
-import normalizers from "./normalizers";
 import comparators from "./comparators";
 
 const initialState = new Map({
@@ -71,23 +70,47 @@ const applyPostsGet = (state, action) => {
 const applyProfilePostsGetSuccess = (state, action) => {
   state = state.set("loading", false);
 
-  state = addPosts(state, action.posts);
+  state = state.updateIn(["posts", "byId"], existingPosts =>
+    existingPosts.merge(action.posts.getIn(["entities", "post"]))
+  );
+
+  state = state.updateIn(["posts", "allIds"], allIds =>
+    new List(action.posts.get("result")).concat(allIds)
+  );
+
+  state = state.update("authors", authors => existingAuthors =>
+    existingAuthors.mergeWith(
+      comparators.compareShallow,
+      action.posts.getIn(["entities", "profile"])
+    )
+  );
 
   return state;
 };
 
 const applyPostsCreateSuccess = (state, action) => {
-  return addPosts(state, [action.post]);
+  state = state.updateIn(["posts", "byId"], existingPosts =>
+    existingPosts.merge(action.posts.getIn(["entities", "post"]))
+  );
+
+  state = state.updateIn(["posts", "allIds"], allIds =>
+    allIds.unshift(action.posts.get("result"))
+  );
+
+  state = state.update("authors", authors => existingAuthors =>
+    existingAuthors.mergeWith(
+      comparators.compareShallow,
+      action.posts.getIn(["entities", "profile"])
+    )
+  );
+
+  return state;
 };
 
 const applyPostsUpdateSuccess = (state, action) => {
-  return state.updateIn(["posts", "byId", action.post._id], post =>
+  return state.updateIn(["posts", "byId", action.post.get("result")], post =>
     post.merge(
-      new Map({
-        title: action.post.title,
-        content: action.post.content,
-        imageUrl: formatImage.getFullUrl(action.post.imageUrl)
-      })
+      action.post.getIn(["entities", "post", action.post.get("result")])
     )
   );
 };
@@ -115,35 +138,61 @@ const applyPostsCommentsGet = (state, action) => {
 
 const applyPostsCommentsGetSuccess = (state, action) => {
   state = state.updateIn(["posts", "byId", action.postId], post =>
-    post.set("commentsLoading", false)
+    post.merge({
+      commentsLoading: false,
+      commentsLoaded: true
+    })
   );
 
-  const normalizedComments = action.comments.map(c =>
-    normalizers.commentNormalizer(c)
+  state = state.update("comments", existingComments =>
+    existingComments.mergeWith(
+      comparators.compareShallow,
+      action.comments.getIn(["entities", "comment"])
+    )
   );
 
-  state = addComments(state, normalizedComments.map(c => c.normalizedComment));
-  state = addAuthors(state, normalizedComments.map(c => c.author));
-  state = addCommentsToPost(
-    state,
-    normalizedComments.map(c => c.normalizedComment._id),
-    action.postId
+  state = state.update("authors", authors => existingAuthors =>
+    existingAuthors.mergeWith(
+      comparators.compareShallow,
+      action.comments.getIn(["entities", "profile"])
+    )
+  );
+
+  state = state.updateIn(
+    ["posts", "byId", action.postId, "comments"],
+    existingComments => existingComments.concat(action.comments.get("results"))
   );
 
   return state;
 };
 
 const applyPostsCommentCreateSuccess = (state, action) => {
-  const { normalizedComment, author } = normalizers.commentNormalizer(
-    action.comment
+  state = state.update("comments", existingComments =>
+    existingComments.mergeWith(
+      comparators.compareShallow,
+      action.comment.getIn(["entities", "comment"])
+    )
   );
 
-  state = addComments(state, [normalizedComment]);
-  state = addAuthors(state, [author]);
-  state = addCommentsToPost(
-    state,
-    [normalizedComment._id],
-    action.comment.post
+  state = state.update("authors", authors => existingAuthors =>
+    existingAuthors.mergeWith(
+      comparators.compareShallow,
+      action.comment.getIn(["entities", "profile"])
+    )
+  );
+
+  state = state.updateIn(
+    [
+      "posts",
+      "byId",
+      action.comment.getIn([
+        "entities",
+        "comment",
+        action.comment.get("result")
+      ]),
+      "comments"
+    ],
+    existingComments => existingComments.push(action.comment.get("result"))
   );
 
   return state;
@@ -155,11 +204,6 @@ const applyCommentsDeleteSuccess = (state, action) => {
     comments => comments.filter(c => c !== action.commentId)
   );
 
-  state = state.updateIn(
-    ["posts", "byId", action.postId, "commentsSet"],
-    comments => comments.delete(action.commentId)
-  );
-
   state = state.update("comments", comments =>
     comments.delete(action.commentId)
   );
@@ -168,17 +212,23 @@ const applyCommentsDeleteSuccess = (state, action) => {
 };
 
 const applyCommentsUpdateSuccess = (state, action) => {
-  return state.updateIn(["comments", action.comment._id], comment =>
-    comment.merge(new Map({ content: action.comment.content }))
+  return state.updateIn(["comments", action.comment.get("result")], comment =>
+    comment.merge(
+      action.comment.getIn([
+        "entities",
+        "comment",
+        action.comment.get("result")
+      ])
+    )
   );
 };
 
 const applyPostsLikeSuccess = (state, action) => {
-  const { normalizedLike, author } = normalizers.likeNormalizer(action.like);
+  // const { normalizedLike, author } = normalizers.likeNormalizer(action.like);
 
-  state = addLikes(state, [normalizedLike]);
-  state = addAuthors(state, [author]);
-  state = addLikesToPost(state, [normalizedLike._id], action.like.post);
+  // state = addLikes(state, [normalizedLike]);
+  // state = addAuthors(state, [author]);
+  // state = addLikesToPost(state, [normalizedLike._id], action.like.post);
 
   return state;
 };
@@ -194,131 +244,31 @@ const applyPostsLikesGetSuccess = (state, action) => {
     post.set("likesLoading", false)
   );
 
-  const normalizedLikes = action.likes.map(l => normalizers.likeNormalizer(l));
+  // const normalizedLikes = action.likes.map(l => normalizers.likeNormalizer(l));
 
-  state = addLikes(state, normalizedLikes.map(l => l.normalizedLike));
-  state = addAuthors(state, normalizedLikes.map(l => l.author));
-  state = addLikesToPost(
-    state,
-    normalizedLikes.map(l => l.normalizedLike._id),
-    action.postId
-  );
+  // state = addLikes(state, normalizedLikes.map(l => l.normalizedLike));
+  // state = addAuthors(state, normalizedLikes.map(l => l.author));
+  // state = addLikesToPost(
+  //   state,
+  //   normalizedLikes.map(l => l.normalizedLike._id),
+  //   action.postId
+  // );
 
   return state;
 };
 
 const applyAddProfileToAuthors = (state, action) => {
-  const author = {
-    _id: action._id,
-    firstName: action.firstName,
-    lastName: action.lastName,
-    profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl)
-  };
+  const author = new Map({
+    [action._id]: new Map({
+      _id: action._id,
+      firstName: action.firstName,
+      lastName: action.lastName,
+      profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl)
+    })
+  });
 
-  return addAuthors(state, [author]);
-};
-
-const addPosts = (state, posts) => {
-  state = state.updateIn(["posts", "byId"], existingPosts =>
-    existingPosts.merge(
-      ...posts.map(p => {
-        return new Map({
-          [p._id]: new Map({
-            ...p,
-            imageUrl: formatImage.getFullUrl(p.imageUrl),
-            comments: new List(),
-            commentsSet: new Set(),
-            likes: new List(),
-            likesSet: new Set()
-          })
-        });
-      })
-    )
-  );
-
-  state = state.updateIn(["posts", "allIds"], allIds =>
-    new List(posts.map(p => p._id)).concat(allIds)
-  );
-
-  return state;
-};
-
-const addComments = (state, comments) => {
-  state = state.update("comments", existingComments =>
-    existingComments.mergeWith(
-      comparators.compareShallow,
-      ...comments.map(c => {
-        return new Map({
-          [c._id]: new Map({
-            ...c
-          })
-        });
-      })
-    )
-  );
-
-  return state;
-};
-
-const addAuthors = (state, authors) => {
-  state = state.update("authors", existingAuthors =>
-    existingAuthors.mergeWith(
-      comparators.compareShallow,
-      ...authors.map(a => {
-        return new Map({
-          [a._id]: new Map({
-            ...a,
-            profilePictureUrl: formatImage.getFullUrl(a.profilePictureUrl)
-          })
-        });
-      })
-    )
-  );
-
-  return state;
-};
-
-const addLikes = (state, likes) => {
-  state = state.update("likes", existingLikes =>
-    existingLikes.merge(
-      ...likes.map(l => {
-        return new Map({
-          [l._id]: new Map({
-            ...l
-          })
-        });
-      })
-    )
-  );
-
-  return state;
-};
-
-const addCommentsToPost = (state, commentIds, postId) => {
-  const postCommentIds = state.getIn(["posts", "byId", postId, "commentsSet"]);
-  const idsToAdd = commentIds.filter(ci => !postCommentIds.has(ci));
-
-  state = state.updateIn(["posts", "byId", postId, "comments"], comments =>
-    comments.concat(new List(idsToAdd))
-  );
-
-  state = state.updateIn(["posts", "byId", postId, "commentsSet"], commentIds =>
-    commentIds.union(new List(idsToAdd))
-  );
-
-  return state;
-};
-
-const addLikesToPost = (state, likeIds, postId) => {
-  const postLikeIds = state.getIn(["posts", "byId", postId, "likesSet"]);
-  const idsToAdd = likeIds.filter(li => !postLikeIds.has(li));
-
-  state = state.updateIn(["posts", "byId", postId, "likes"], likes =>
-    likes.concat(new List(idsToAdd))
-  );
-
-  state = state.updateIn(["posts", "byId", postId, "likesSet"], likeIds =>
-    likeIds.union(new List(idsToAdd))
+  state = state.update("authors", authors => existingAuthors =>
+    existingAuthors.mergeWith(comparators.compareShallow, author)
   );
 
   return state;
