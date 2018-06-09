@@ -60,19 +60,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  // const pendingFriendships = state
-  //   .getIn(["userProfile", "friendships", "byId"])
-  //   .filter(f => f.get("status") === "Pending");
-
-  // const pendingFriendshipsWith = state
-  //   .getIn(["userProfile", "friendships", "allIds"])
-  //   .filter((v, k) => pendingFriendships.keySeq().some(f => v === f))
-  //   .map(f => state.getIn(["userProfile", "friendshipsWith", f]));
-
-  // const unseenFriendshipsCount = pendingFriendships.filter(
-  //   f => f.get("seen") === false
-  // ).size;
-
   const pendingFriendshipsWith = friendshipSelectors.pendingFriendshipsWithSelector(
     state
   );
