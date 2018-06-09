@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form/immutable";
 import { connect } from "react-redux";
+import { Map } from "immutable";
 
 import * as actions from "store/actions";
 import CommentFormContent from "./CommentFormContent/CommentFormContent";
@@ -58,12 +59,20 @@ class CommentForm extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const author = new Map({
+    _id: state.getIn(["auth", "userId"]),
+    firstName: state.getIn(["userProfile", "firstName"]),
+    lastName: state.getIn(["userProfile", "lastName"]),
+    profilePictureUrl: state.getIn(["userProfile", "profilePictureUrl"])
+  });
+
   return {
     form: ownProps.formName,
     initialValues: {
       _id: ownProps._id,
       postId: ownProps.postId,
-      content: ownProps.content
+      content: ownProps.content,
+      author
     }
   };
 }

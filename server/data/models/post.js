@@ -189,7 +189,7 @@ PostSchema.statics.getReactionsCount = async function(postIds) {
 
 PostSchema.virtual("reactionsCount")
   .get(function() {
-    return this._reactionsCount || null;
+    return this._reactionsCount || 0;
   })
   .set(function(value) {
     this._reactionsCount = value;
@@ -197,7 +197,7 @@ PostSchema.virtual("reactionsCount")
 
 PostSchema.virtual("commentsCount")
   .get(function() {
-    return this._commentsCount || null;
+    return this._commentsCount || 0;
   })
   .set(function(value) {
     this._commentsCount = value;

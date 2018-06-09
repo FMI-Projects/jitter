@@ -7,8 +7,8 @@ import IconButton from "material-ui/IconButton";
 import Menu, { MenuItem } from "material-ui/Menu";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import EditPost from "../EditPost/EditPost";
-import DeletePost from "../DeletePost/DeletePost";
+import EditPost from "./EditPost/EditPost";
+import DeletePost from "./DeletePost/DeletePost";
 
 const postActions = props => {
   return (

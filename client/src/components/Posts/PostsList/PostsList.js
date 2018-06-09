@@ -18,7 +18,7 @@ class PostsList extends Component {
   };
 
   render() {
-    const { posts, classes, canAddPost, currentUserId } = this.props;
+    const { posts, classes, canAddPost } = this.props;
 
     return (
       <div className={classes.root}>
@@ -27,14 +27,10 @@ class PostsList extends Component {
         </div>
 
         <div className={classes.list}>
-          {posts.map(post => {
+          {posts.map(postId => {
             return (
-              <Fragment key={post._id}>
-                <PostCard
-                  currentUserId={currentUserId}
-                  canModify={currentUserId === post.author._id}
-                  post={post}
-                />
+              <Fragment key={postId}>
+                <PostCard post={postId} />
               </Fragment>
             );
           })}

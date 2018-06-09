@@ -1,7 +1,6 @@
 import { Map, List } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
-import * as formatImage from "../../utilities/formatters/formatImage";
 import comparators from "./comparators";
 
 const initialState = new Map({
@@ -78,7 +77,7 @@ const applyProfilePostsGetSuccess = (state, action) => {
     new List(action.posts.get("result")).concat(allIds)
   );
 
-  state = state.update("authors", authors => existingAuthors =>
+  state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(
       comparators.compareShallow,
       action.posts.getIn(["entities", "profile"])
@@ -90,17 +89,17 @@ const applyProfilePostsGetSuccess = (state, action) => {
 
 const applyPostsCreateSuccess = (state, action) => {
   state = state.updateIn(["posts", "byId"], existingPosts =>
-    existingPosts.merge(action.posts.getIn(["entities", "post"]))
+    existingPosts.merge(action.post.getIn(["entities", "post"]))
   );
 
   state = state.updateIn(["posts", "allIds"], allIds =>
-    allIds.unshift(action.posts.get("result"))
+    allIds.unshift(action.post.get("result"))
   );
 
-  state = state.update("authors", authors => existingAuthors =>
+  state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(
       comparators.compareShallow,
-      action.posts.getIn(["entities", "profile"])
+      action.post.getIn(["entities", "profile"])
     )
   );
 
@@ -151,16 +150,15 @@ const applyPostsCommentsGetSuccess = (state, action) => {
     )
   );
 
-  state = state.update("authors", authors => existingAuthors =>
+  state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(
       comparators.compareShallow,
       action.comments.getIn(["entities", "profile"])
     )
   );
 
-  state = state.updateIn(
-    ["posts", "byId", action.postId, "comments"],
-    existingComments => existingComments.concat(action.comments.get("results"))
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("comments", action.comments.get("result"))
   );
 
   return state;
@@ -174,7 +172,7 @@ const applyPostsCommentCreateSuccess = (state, action) => {
     )
   );
 
-  state = state.update("authors", authors => existingAuthors =>
+  state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(
       comparators.compareShallow,
       action.comment.getIn(["entities", "profile"])
@@ -188,7 +186,8 @@ const applyPostsCommentCreateSuccess = (state, action) => {
       action.comment.getIn([
         "entities",
         "comment",
-        action.comment.get("result")
+        action.comment.get("result"),
+        "post"
       ]),
       "comments"
     ],
@@ -258,16 +257,21 @@ const applyPostsLikesGetSuccess = (state, action) => {
 };
 
 const applyAddProfileToAuthors = (state, action) => {
+  const profile = action.profile.getIn([
+    "entities",
+    "profile",
+    action.profile.get("result")
+  ]);
   const author = new Map({
-    [action._id]: new Map({
-      _id: action._id,
-      firstName: action.firstName,
-      lastName: action.lastName,
-      profilePictureUrl: formatImage.getFullUrl(action.profilePictureUrl)
+    [profile.get("_id")]: new Map({
+      _id: profile.get("_id"),
+      firstName: profile.get("firstName"),
+      lastName: profile.get("lastName"),
+      profilePictureUrl: profile.get("profilePictureUrl")
     })
   });
 
-  state = state.update("authors", authors => existingAuthors =>
+  state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(comparators.compareShallow, author)
   );
 

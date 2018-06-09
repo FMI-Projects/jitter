@@ -44,6 +44,8 @@ function* postsCreateSaga(action) {
       imageKey
     );
 
+    post.author = action.payload.get("author");
+
     post = yield call(toNormalisedImmutable, post, normalisers.postNormaliser);
 
     yield put(actions.postsCreateSuccess(post));
@@ -110,6 +112,8 @@ function* postsCommentCreateSaga(action) {
       action.payload.get("postId"),
       action.payload.get("content")
     );
+
+    comment.author = action.payload.get("author");
 
     comment = yield call(
       toNormalisedImmutable,

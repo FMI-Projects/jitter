@@ -12,8 +12,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import DeleteComment from "../../DeleteComment/DeleteComment";
-import EditComment from "../../EditComment/EditComment";
+import DeleteComment from "./DeleteComment/DeleteComment";
+import EditComment from "./EditComment/EditComment";
 
 const commentActions = props => {
   return (
@@ -44,7 +44,7 @@ const commentActions = props => {
           onClose={props.handleDeleteDialogClick}
           open={props.deleteDialogOpen}
           commentId={props.comment._id}
-          postId={props.postId}
+          postId={props.comment.post}
         />
         <EditComment
           _id={props.comment._id}
@@ -65,8 +65,7 @@ commentActions.propTypes = {
   handleDeleteDialogClick: PropTypes.func.isRequired,
   deleteDialogOpen: PropTypes.bool.isRequired,
   editDialogOpen: PropTypes.bool.isRequired,
-  comment: PropTypes.object.isRequired,
-  postId: PropTypes.string.isRequired
+  comment: PropTypes.object.isRequired
 };
 
 export default commentActions;

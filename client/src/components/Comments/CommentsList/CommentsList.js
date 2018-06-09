@@ -1,38 +1,38 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import styles from "./CommentsList.styles";
 import List from "material-ui/List";
 import { withStyles } from "material-ui/styles";
 
-import CommentListItem from "./CommentListItem/CommentListItem";
-import ToJs from "hoc/ToJs/ToJs";
+import styles from "./CommentsList.styles";
 
-const commentsList = props => {
-  const { comments, classes, postId, currentUserId } = props;
-  return (
-    <div className={classes.root}>
-      <List>
-        {comments.map(comment => {
-          return (
-            <Fragment key={comment._id}>
-              <CommentListItem
-                comment={comment}
-                postId={postId}
-                canModify={currentUserId === comment.author._id}
-              />
-            </Fragment>
-          );
-        })}
-      </List>
-    </div>
-  );
-};
+import CommentListItem from "./CommentListItem/CommentListItem";
+
+const commentsList = props => (
+  <div className={props.classes.root}>
+    <List>
+      {props.commentIds.map(c => <CommentListItem key={c} commentId={c} />)}
+    </List>
+  </div>
+);
 
 commentsList.propTypes = {
-  comments: PropTypes.array,
-  classes: PropTypes.object.isRequired,
-  postId: PropTypes.string.isRequired,
-  currentUserId: PropTypes.string.isRequired
+  commentIds: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ToJs(commentsList));
+const mapStateToProps = (state, ownProps) => {
+  const commentIds = state.getIn([
+    "posts",
+    "posts",
+    "byId",
+    ownProps.postId,
+    "comments"
+  ]);
+
+  return {
+    commentIds
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(commentsList));

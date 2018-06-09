@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 import { withStyles } from "material-ui/styles";
 
-import PostForm from "../../PostForm/PostForm";
+import PostForm from "../../../../PostForm/PostForm";
 
-import styles from "../../PostsList/PostsList.styles";
+import styles from "../../../../PostsList/PostsList.styles";
 
 const editPost = props => {
   const { _id, title, content, imageUrl, open, onClose, classes } = props;

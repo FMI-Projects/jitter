@@ -1,7 +1,6 @@
 import { Map, List } from "immutable";
 
 import * as actionTypes from "../actions/actionTypes";
-import * as formatImage from "../../utilities/formatters/formatImage";
 import comparators from "./comparators";
 
 const initialState = new Map({

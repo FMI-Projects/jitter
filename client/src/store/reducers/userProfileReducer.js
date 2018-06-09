@@ -63,9 +63,9 @@ const applyUserProfileSetInfo = (state, action) => {
 };
 
 const applyUserProfileAddFriendship = (state, action) => {
-  if (!state.hasIn(["friendships", "byId"], action.friendship.get("result"))) {
+  if (!state.hasIn(["friendships", "byId", action.friendship.get("result")])) {
     state = state.updateIn(["friendships", "allIds"], friendships =>
-      friendships.push(action.friendships.get("result"))
+      friendships.push(action.friendship.get("result"))
     );
   }
 
@@ -79,7 +79,7 @@ const applyUserProfileAddFriendship = (state, action) => {
   state = state.update("friendshipsWith", friendshipsWith =>
     friendshipsWith.mergeWith(
       comparators.compareShallow,
-      action.friendships.getIn(["entities", "with"])
+      action.friendship.getIn(["entities", "with"])
     )
   );
 

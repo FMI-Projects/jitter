@@ -25,7 +25,7 @@ const onlineFriendsReducer = (state = initialState, action) => {
 };
 
 const applyOnlineFriendsAdd = (state, action) => {
-  if (!state.hasIn(["onlineFriends", action.get("result")])) {
+  if (!state.hasIn(["onlineFriends", action.onlineFriends.get("result")])) {
     state = state.update("onlineFriendsList", onlineFriendsList =>
       onlineFriendsList.push(action.get("result"))
     );

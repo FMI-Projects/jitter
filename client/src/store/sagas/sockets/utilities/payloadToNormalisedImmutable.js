@@ -9,9 +9,7 @@ const normalizeProperties = (type, payload) => {
       payload.friendship = normalisers.friendshipNormaliser(payload.friendship);
       break;
     case actionTypes.USER_PROFILE_UPDATE_FRIENDSHIP:
-      payload.friendship = normalisers.friendshipListNormaliser(
-        payload.friendship
-      );
+      payload.friendship = normalisers.friendshipNormaliser(payload.friendship);
       break;
     case actionTypes.ONLINE_FRIENDS_SET:
       payload.onlineFriends = normalisers.profileListNormaliser(

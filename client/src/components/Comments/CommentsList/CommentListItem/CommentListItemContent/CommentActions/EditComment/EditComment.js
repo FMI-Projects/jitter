@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 
-import CommentForm from "../../CommentForm/CommentForm";
+import CommentForm from "../../../../../CommentForm/CommentForm";
 
 const editComment = props => {
   const { open, _id, content, onClose } = props;
