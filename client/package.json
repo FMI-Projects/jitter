@@ -26,6 +26,7 @@
     "redux-immutable": "4.0.0",
     "redux-reset": "0.3.0",
     "redux-saga": "0.16.0",
+    "reselect": "^3.0.1",
     "socket.io-client": "2.1.0",
     "socketio-wildcard": "2.0.0"
   },

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as actions from "store/actions";
 import FriendRequestBadge from "./FriendRequestBadge/FriendRequestBadge";
 import FriendRequestsList from "./FriendRequestsList/FriendRequestsList";
+import * as friendshipSelectors from "store/reducers/selectors/friendshipSelectors";
 
 class FriendRequests extends Component {
   static propTypes = {
@@ -59,18 +60,25 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  const pendingFriendships = state
-    .getIn(["userProfile", "friendships", "byId"])
-    .filter(f => f.get("status") === "Pending");
+  // const pendingFriendships = state
+  //   .getIn(["userProfile", "friendships", "byId"])
+  //   .filter(f => f.get("status") === "Pending");
 
-  const pendingFriendshipsWith = state
-    .getIn(["userProfile", "friendships", "allIds"])
-    .filter((v, k) => pendingFriendships.keySeq().some(f => v === f))
-    .map(f => state.getIn(["userProfile", "friendshipsWith", f]));
+  // const pendingFriendshipsWith = state
+  //   .getIn(["userProfile", "friendships", "allIds"])
+  //   .filter((v, k) => pendingFriendships.keySeq().some(f => v === f))
+  //   .map(f => state.getIn(["userProfile", "friendshipsWith", f]));
 
-  const unseenFriendshipsCount = pendingFriendships.filter(
-    f => f.get("seen") === false
-  ).size;
+  // const unseenFriendshipsCount = pendingFriendships.filter(
+  //   f => f.get("seen") === false
+  // ).size;
+
+  const pendingFriendshipsWith = friendshipSelectors.pendingFriendshipsWithSelector(
+    state
+  );
+  const unseenFriendshipsCount = friendshipSelectors.unseenFriendshipsCountSelector(
+    state
+  );
 
   return {
     pendingFriendshipsWith,

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form/immutable";
 import { connect } from "react-redux";
-import { Map } from "immutable";
 
 import * as actions from "store/actions";
 import PostFormContent from "./PostFormContent/PostFormContent";
+import getAuthor from "store/reducers/selectors/authorSelector";
 
 class PostForm extends Component {
   static propTypes = {
@@ -56,12 +56,7 @@ class PostForm extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const author = new Map({
-    _id: state.getIn(["auth", "userId"]),
-    firstName: state.getIn(["userProfile", "firstName"]),
-    lastName: state.getIn(["userProfile", "lastName"]),
-    profilePictureUrl: state.getIn(["userProfile", "profilePictureUrl"])
-  });
+  const author = getAuthor(state);
 
   return {
     form: ownProps.formName,
