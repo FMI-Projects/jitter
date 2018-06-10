@@ -279,18 +279,19 @@ const applyPostsLikeSuccess = (state, action) => {
 };
 
 const applyPostsLikesGet = (state, action) => {
-  return state.updateIn(["posts", "byId", action.postId], post =>
-    post.set("likesLoading", true)
-  );
+  return state.updateIn(["posts", "byId", action.postId], post => {
+    if (post) {
+      return post.set("likesLoading", true);
+    }
+  });
 };
 
 const applyPostsLikesGetSuccess = (state, action) => {
-  state = state.updateIn(["posts", "byId", action.postId], post =>
-    post.merge({
-      likesLoading: false,
-      likesLoaded: true
-    })
-  );
+  state = state.updateIn(["posts", "byId", action.postId], post => {
+    if (post) {
+      return post.set("likesLoading", false);
+    }
+  });
 
   state = state.update("likes", existingLikes =>
     existingLikes.mergeWith(
@@ -299,9 +300,11 @@ const applyPostsLikesGetSuccess = (state, action) => {
     )
   );
 
-  state = state.updateIn(["posts", "byId", action.postId], post =>
-    post.set("likes", action.likes.get("result"))
-  );
+  state = state.updateIn(["posts", "byId", action.postId], post => {
+    if (post) {
+      return post.set("likes", action.likes.get("result"));
+    }
+  });
 
   return state;
 };
