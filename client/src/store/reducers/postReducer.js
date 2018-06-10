@@ -223,11 +223,57 @@ const applyCommentsUpdateSuccess = (state, action) => {
 };
 
 const applyPostsLikeSuccess = (state, action) => {
-  // const { normalizedLike, author } = normalizers.likeNormalizer(action.like);
+  state = state.update("likes", existingLikes =>
+    existingLikes.mergeWith(
+      comparators.compareShallow,
+      action.like.getIn(["entities", "like"])
+    )
+  );
 
-  // state = addLikes(state, [normalizedLike]);
-  // state = addAuthors(state, [author]);
-  // state = addLikesToPost(state, [normalizedLike._id], action.like.post);
+  // state = state.update("authors", existingAuthors =>
+  //   existingAuthors.mergeWith(
+  //     comparators.compareShallow,
+  //     action.like.getIn(["entities", "profile"])
+  //   )
+  // );
+
+  state = state.updateIn(
+    [
+      "posts",
+      "byId",
+      action.like.getIn([
+        "entities",
+        "like",
+        action.like.get("result"),
+        "post"
+      ]),
+      "likes"
+    ],
+    existingLikes => existingLikes.push(action.like.get("result"))
+  );
+
+  const reaction = action.like.getIn([
+    "entities",
+    "like",
+    action.like.get("result"),
+    "reaction"
+  ]);
+
+  state = state.updateIn(
+    [
+      "posts",
+      "byId",
+      action.like.getIn(["entities", "like", action.like.get("result"), "post"])
+    ],
+    post => {
+      post = post.setIn(
+        ["reactionsCount", reaction],
+        post.getIn(["reactionsCount", reaction]) + 1
+      );
+      post = post.setIn(["userReaction"], reaction);
+      return post;
+    }
+  );
 
   return state;
 };
@@ -240,18 +286,22 @@ const applyPostsLikesGet = (state, action) => {
 
 const applyPostsLikesGetSuccess = (state, action) => {
   state = state.updateIn(["posts", "byId", action.postId], post =>
-    post.set("likesLoading", false)
+    post.merge({
+      likesLoading: false,
+      likesLoaded: true
+    })
   );
 
-  // const normalizedLikes = action.likes.map(l => normalizers.likeNormalizer(l));
+  state = state.update("likes", existingLikes =>
+    existingLikes.mergeWith(
+      comparators.compareShallow,
+      action.likes.getIn(["entities", "like"])
+    )
+  );
 
-  // state = addLikes(state, normalizedLikes.map(l => l.normalizedLike));
-  // state = addAuthors(state, normalizedLikes.map(l => l.author));
-  // state = addLikesToPost(
-  //   state,
-  //   normalizedLikes.map(l => l.normalizedLike._id),
-  //   action.postId
-  // );
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("likes", action.likes.get("result"))
+  );
 
   return state;
 };
