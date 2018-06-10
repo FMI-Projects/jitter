@@ -21,7 +21,9 @@ class FriendRequests extends Component {
   };
 
   openFriendRequestsList = event => {
-    this.props.markFriendRequestsAsSeen();
+    if (this.props.unseenFriendshipsCount > 0) {
+      this.props.markFriendRequestsAsSeen();
+    }
     this.setState({ menuAnchor: event.currentTarget });
   };
 
