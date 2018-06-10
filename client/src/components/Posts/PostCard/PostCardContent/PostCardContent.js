@@ -18,6 +18,7 @@ import CommentIcon from "@material-ui/icons/Comment";
 
 import Comments from "./Comments/Comments";
 import PostActions from "./PostActions/PostActions";
+import PostLikes from "./Likes/Likes";
 
 import * as formatDate from "utilities/formatters/formatDate";
 import defaultUserImage from "assets/images/defaultUser.png";
@@ -114,7 +115,7 @@ class PostCardContent extends Component {
             <CardMedia className={classes.media} image={post.imageUrl} />
           ) : null}
           <CardActions className={classes.actions} disableActionSpacing>
-            {/* <PostLikes currentUserId={currentUserId} postId={post._id} /> */}
+            <PostLikes postId={post._id} />
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded

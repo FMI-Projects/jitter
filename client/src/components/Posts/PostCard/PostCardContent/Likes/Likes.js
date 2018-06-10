@@ -21,7 +21,7 @@ class PostLikes extends Component {
     getPostLikes: PropTypes.func.isRequired,
     likes: PropTypes.array,
     loading: PropTypes.bool,
-    currentUserId: PropTypes.string.isRequired,
+    currentUserId: PropTypes.string,
     likeId: PropTypes.string
   };
 
@@ -34,17 +34,8 @@ class PostLikes extends Component {
   };
 
   render() {
-    const { likes, loading } = this.props;
-    let likesCount = <Spinner size={10} />;
-
-    if (loading === false) {
-      const text = formatLikes.getLikesTest(likes.length);
-      likesCount = (
-        <Typography variant="body2" gutterBottom>
-          {`${likes.length} ${text}`} this
-        </Typography>
-      );
-    }
+    // const { likes, loading } = this.props;
+    const likesCount = <Spinner size={10} />;
 
     return (
       <div>
@@ -58,21 +49,21 @@ class PostLikes extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const post = state.posts.posts.find(p => p._id === ownProps.postId);
-  let likeId;
-  if (post.likes) {
-    const like = post.likes.find(
-      l => l.post === ownProps.postId && l.author._id === ownProps.currentUserId
-    );
-    if (like) {
-      likeId = like._id;
-    }
-  }
+  const post = state.getIn(["posts", "posts", "byId", ownProps.postId]);
+  // let likeId;
+  // if (post.likes) {
+  //   const like = post.likes.find(
+  //     l => l.post === ownProps.postId && l.author._id === ownProps.currentUserId
+  //   );
+  //   if (like) {
+  //     likeId = like._id;
+  //   }
+  // }
 
   return {
-    likes: post.likes,
-    loading: post.likesLoading,
-    likeId: likeId
+    loading: post.get("likesLoading"),
+    likesLoaded: post.get("likesLoaded")
+    // likeId: likeId
   };
 };
 

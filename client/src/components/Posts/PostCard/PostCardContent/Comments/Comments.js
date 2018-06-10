@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "store/actions";
 
-import CommentsList from "../../../../Comments/CommentsList/CommentsList";
-import CommentForm from "../../../../Comments/CommentForm/CommentForm";
-import Spinner from "../../../../UI/Spinner/Spinner";
+import CommentsList from "components/Comments/CommentsList/CommentsList";
+import CommentForm from "components/Comments/CommentForm/CommentForm";
+import Spinner from "components/UI/Spinner/Spinner";
 
 class Comments extends Component {
   static propTypes = {
@@ -61,7 +61,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Comments);
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);
