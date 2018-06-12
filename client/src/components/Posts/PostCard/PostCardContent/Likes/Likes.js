@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import IconButton from "material-ui/IconButton";
-import Typography from "material-ui/Typography";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-
-import * as formatLikes from "utilities/formatters/formatLikes";
-
 import Spinner from "components/UI/Spinner/Spinner.js";
+
+import LikesContent from "./LikesContent/LikesContent";
 
 import * as actions from "store/actions";
 
@@ -22,28 +18,38 @@ class PostLikes extends Component {
     likes: PropTypes.array,
     loading: PropTypes.bool,
     currentUserId: PropTypes.string,
-    likeId: PropTypes.string
+    likeId: PropTypes.string,
+    likesCount: PropTypes.number,
+    dislikesCount: PropTypes.number
   };
 
   componentDidMount() {
     this.props.getPostLikes(this.props.postId);
   }
 
-  handleLikeClick = () => {
-    this.props.likePost(this.props.postId, "Like");
+  handleLikeClick = reaction => {
+    this.props.likePost(this.props.postId, reaction);
   };
 
   render() {
-    // const { likes, loading } = this.props;
-    const likesCount = <Spinner size={10} />;
+    const { loading } = this.props;
+    let likesCount = <Spinner size={10} />;
+    let dislikesCount = <Spinner size={10} />;
+
+    const likeColor = "disabled";
+
+    if (loading === false) {
+      likesCount = this.props.likesCount;
+      dislikesCount = this.props.dislikesCount;
+    }
 
     return (
-      <div>
-        {likesCount}
-        <IconButton onClick={this.handleLikeClick} aria-label="Like">
-          <ThumbUpIcon />
-        </IconButton>
-      </div>
+      <LikesContent
+        handleLikeClick={this.handleLikeClick}
+        likeColor={likeColor}
+        likesCount={likesCount}
+        dislikesCount={dislikesCount}
+      />
     );
   }
 }
@@ -62,7 +68,9 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     loading: post.get("likesLoading"),
-    likesLoaded: post.get("likesLoaded")
+    likesLoaded: post.get("likesLoaded"),
+    likesCount: post.getIn(["reactionsCount", "Like"]),
+    dislikesCount: post.getIn(["reactionsCount", "Dislike"])
     // likeId: likeId
   };
 };
