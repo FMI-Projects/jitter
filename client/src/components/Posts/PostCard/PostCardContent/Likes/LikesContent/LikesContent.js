@@ -12,6 +12,7 @@ const likesContent = props => {
   const {
     handleLikeClick,
     likeColor,
+    dislikeColor,
     likesCount,
     dislikesCount,
     classes
@@ -24,7 +25,7 @@ const likesContent = props => {
       </IconButton>
       {likesCount}
       <IconButton onClick={e => handleLikeClick("Dislike")} aria-label="Like">
-        <ThumbDownIcon color={likeColor} />
+        <ThumbDownIcon color={dislikeColor} />
       </IconButton>
       {dislikesCount}
     </div>
@@ -34,6 +35,7 @@ const likesContent = props => {
 likesContent.propTypes = {
   handleLikeClick: PropTypes.func.isRequired,
   likeColor: PropTypes.string,
+  dislikeColor: PropTypes.string,
   likesCount: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   dislikesCount: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   classes: PropTypes.object.isRequired

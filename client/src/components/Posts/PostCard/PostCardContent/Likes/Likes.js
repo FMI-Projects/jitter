@@ -42,7 +42,10 @@ class PostLikes extends Component {
     let likesCount = <Spinner size={10} />;
     let dislikesCount = <Spinner size={10} />;
 
-    const likeColor = "disabled";
+    const likeColor =
+      this.props.userReaction === "Like" ? "primary" : "disabled";
+    const dislikeColor =
+      this.props.userReaction === "Dislike" ? "primary" : "disabled";
 
     if (loading === false) {
       likesCount = this.props.likesCount;
@@ -53,6 +56,7 @@ class PostLikes extends Component {
       <LikesContent
         handleLikeClick={this.handleLikeClick}
         likeColor={likeColor}
+        dislikeColor={dislikeColor}
         likesCount={likesCount}
         dislikesCount={dislikesCount}
       />

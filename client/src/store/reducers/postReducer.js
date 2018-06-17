@@ -344,10 +344,13 @@ const applyPostsLikeDeleteSuccess = (state, action) => {
     reaction => null
   );
 
-  state = state.updateIn(
-    ["posts", "byId", action.postId, "reactionsCount", action.like.reaction],
-    reactionCount => reactionCount - 1
-  );
+  state = state.updateIn(["posts", "byId", action.postId], post => {
+    post = post.setIn(
+      ["reactionsCount", action.like.reaction],
+      post.getIn(["reactionsCount", action.like.reaction]) - 1
+    );
+    return post;
+  });
 
   state = state.update("likes", likes => likes.delete(action.like._id));
 
