@@ -8,13 +8,18 @@ const createJwt = userId => {
         _id: userId.toHexString(),
         access
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h"
+      }
     )
     .toString();
 };
 
 const decodeJwt = token => {
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET, {
+    ignoreExpiration: true
+  });
   return decodedToken;
 };
 

@@ -21,7 +21,10 @@ describe("authToken", () => {
           _id: userId.toHexString(),
           access: "auth"
         },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        {
+          expiresIn: expect.any(String)
+        }
       );
       expect(createJwtResult).toEqual(result);
     });
@@ -37,7 +40,8 @@ describe("authToken", () => {
 
       expect(jwt.verify).toHaveBeenCalledWith(
         userToken,
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        { ignoreExpiration: true}
       );
       expect(decodeJwtResult).toEqual(result);
     });
