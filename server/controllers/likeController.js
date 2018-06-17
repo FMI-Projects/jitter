@@ -2,13 +2,16 @@ const Like = require("../data/models/like");
 
 const deleteLike = async (req, res, next) => {
   try {
-    const like = await Like.findByIdAndRemove(req.params.id);
+    const like = await Like.findOneAndRemove({
+      post: req.params.postId,
+      author: req.user._id
+    });
 
     if (!like) {
       return res.boom.notFound("Like not found!");
     }
 
-    res.status(204).send();
+    res.status(200).json({ like });
   } catch (e) {
     next(e);
   }

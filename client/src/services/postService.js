@@ -54,4 +54,11 @@ export default class PostService {
 
     return data;
   };
+
+  deletePostLike = async postId => {
+    const url = `/api/likes/${postId}`;
+    const response = await this.http.delete(url);
+
+    return response.data;
+  };
 }

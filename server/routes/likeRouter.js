@@ -5,7 +5,7 @@ const authorization = require("../middleware/authorization");
 const likeController = require("../controllers/likeController");
 
 likeRouter.delete(
-  "/:id",
+  "/:postId",
   authenticate,
   authorization.isLikeAuthor,
   likeController.deleteLike

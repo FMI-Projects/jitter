@@ -40,13 +40,12 @@ const isCommentAuthor = async (req, res, next) => {
 
 const isLikeAuthor = async (req, res, next) => {
   try {
-    const like = await Like.findById(req.params.id);
+    const like = await Like.findOne({
+      post: req.params.postId,
+      author: req.user._id
+    });
 
     if (!like) {
-      return res.boom.notFound("Like not found");
-    }
-
-    if (like.author.toHexString() !== req.user._id.toHexString()) {
       return res.boom.forbidden("Forbidden");
     }
 

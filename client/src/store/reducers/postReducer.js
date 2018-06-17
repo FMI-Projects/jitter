@@ -55,6 +55,9 @@ const postReducer = (state = initialState, action) => {
     case actionTypes.PROFILE_GET_SUCCESS: {
       return applyAddProfileToAuthors(state, action);
     }
+    case actionTypes.POSTS_LIKE_DELETE_SUCCESS: {
+      return applyPostsLikeDeleteSuccess(state, action);
+    }
     default:
       return state;
   }
@@ -327,6 +330,26 @@ const applyAddProfileToAuthors = (state, action) => {
   state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(comparators.compareShallow, author)
   );
+
+  return state;
+};
+
+const applyPostsLikeDeleteSuccess = (state, action) => {
+  state = state.updateIn(["posts", "byId", action.postId, "likes"], likes =>
+    likes.filter(l => l !== action.like._id)
+  );
+
+  state = state.updateIn(
+    ["posts", "byId", action.postId, "userReaction"],
+    reaction => null
+  );
+
+  state = state.updateIn(
+    ["posts", "byId", action.postId, "reactionsCount", action.like.reaction],
+    reactionCount => reactionCount - 1
+  );
+
+  state = state.update("likes", likes => likes.delete(action.like._id));
 
   return state;
 };

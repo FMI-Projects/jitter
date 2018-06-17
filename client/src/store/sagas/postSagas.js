@@ -157,11 +157,20 @@ function* postsLikesGetSaga(action) {
   } catch (e) {}
 }
 
+function* postsLikeDeleteSaga(action) {
+  try {
+    const data = yield call(postService.deletePostLike, action.postId);
+
+    yield put(actions.postsLikeDeleteSuccess(action.postId, data.like));
+  } catch (e) {}
+}
+
 const postSagas = [
   takeEvery(actionTypes.POSTS_COMMENTS_GET, postsCommentsGetSaga),
   takeEvery(actionTypes.POSTS_LIKES_GET, postsLikesGetSaga),
   takeLatest(actionTypes.POSTS_DELETE, postsDeleteSaga),
   takeLatest(actionTypes.POSTS_LIKE, postsLikeSaga),
+  takeLatest(actionTypes.POSTS_LIKE_DELETE, postsLikeDeleteSaga),
   takeLatest(actions.postCreate.REQUEST, postsCreateSaga),
   takeLatest(actions.postUpdate.REQUEST, postsUpdateSaga),
   takeLatest(actions.postCommentCreate.REQUEST, postsCommentCreateSaga)

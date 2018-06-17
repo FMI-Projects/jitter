@@ -93,3 +93,18 @@ export const postsLikesGetSuccess = (postId, likes) => {
     likes
   };
 };
+
+export const postsLikeDelete = postId => {
+  return {
+    type: actionTypes.POSTS_LIKE_DELETE,
+    postId
+  };
+};
+
+export const postsLikeDeleteSuccess = (postId, like) => {
+  return {
+    type: actionTypes.POSTS_LIKE_DELETE_SUCCESS,
+    postId,
+    like
+  };
+};

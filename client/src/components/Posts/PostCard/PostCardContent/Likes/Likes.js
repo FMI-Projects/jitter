@@ -15,12 +15,14 @@ class PostLikes extends Component {
     postId: PropTypes.string.isRequired,
     likePost: PropTypes.func.isRequired,
     getPostLikes: PropTypes.func.isRequired,
+    deletePostLike: PropTypes.func.isRequired,
     likes: PropTypes.array,
     loading: PropTypes.bool,
     currentUserId: PropTypes.string,
     likeId: PropTypes.string,
     likesCount: PropTypes.number,
-    dislikesCount: PropTypes.number
+    dislikesCount: PropTypes.number,
+    userReaction: PropTypes.string
   };
 
   componentDidMount() {
@@ -28,7 +30,11 @@ class PostLikes extends Component {
   }
 
   handleLikeClick = reaction => {
-    this.props.likePost(this.props.postId, reaction);
+    if (!this.props.userReaction) {
+      this.props.likePost(this.props.postId, reaction);
+    } else {
+      this.props.deletePostLike(this.props.postId);
+    }
   };
 
   render() {
@@ -56,22 +62,13 @@ class PostLikes extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const post = state.getIn(["posts", "posts", "byId", ownProps.postId]);
-  // let likeId;
-  // if (post.likes) {
-  //   const like = post.likes.find(
-  //     l => l.post === ownProps.postId && l.author._id === ownProps.currentUserId
-  //   );
-  //   if (like) {
-  //     likeId = like._id;
-  //   }
-  // }
 
   return {
     loading: post.get("likesLoading"),
     likesLoaded: post.get("likesLoaded"),
-    likesCount: post.getIn(["reactionsCount", "Like"]),
-    dislikesCount: post.getIn(["reactionsCount", "Dislike"])
-    // likeId: likeId
+    likesCount: post.getIn(["reactionsCount", "Like"]) || 0,
+    dislikesCount: post.getIn(["reactionsCount", "Dislike"]) || 0,
+    userReaction: post.get("userReaction")
   };
 };
 
@@ -79,7 +76,8 @@ const mapDispatchToProps = dispatch => {
   return {
     likePost: (postId, reaction) =>
       dispatch(actions.postsLike(postId, reaction)),
-    getPostLikes: postId => dispatch(actions.postsLikesGet(postId))
+    getPostLikes: postId => dispatch(actions.postsLikesGet(postId)),
+    deletePostLike: postId => dispatch(actions.postsLikeDelete(postId))
   };
 };
 
