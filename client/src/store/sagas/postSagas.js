@@ -159,9 +159,9 @@ function* postsLikesGetSaga(action) {
 
 function* postsLikeDeleteSaga(action) {
   try {
-    const data = yield call(postService.deletePostLike, action.postId);
+    yield call(postService.deletePostLike, action.postId);
 
-    yield put(actions.postsLikeDeleteSuccess(action.postId, data.like));
+    yield put(actions.postsLikeDeleteSuccess(action.postId));
   } catch (e) {}
 }
 

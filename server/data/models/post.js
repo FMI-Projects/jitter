@@ -86,11 +86,23 @@ PostSchema.statics.setPostVirtuals = async function(posts, currentUserId) {
   const reactionsCount = await Post.getReactionsCount(postIds);
   posts.forEach(p => {
     p.reactionsCount = reactionsCount[p._id.toHexString()];
+    if (!p.reactionsCount) {
+      p.reactionsCount = {};
+    }
+    if (!p.reactionsCount["Like"]) {
+      p.reactionsCount["Like"] = 0;
+    }
+    if (!p.reactionsCount["Dislike"]) {
+      p.reactionsCount["Dislike"] = 0;
+    }
   });
 
   const commentsCount = await Post.getCommentsCount(postIds);
   posts.forEach(p => {
     p.commentsCount = commentsCount[p._id.toHexString()];
+    if (!p.commentsCount) {
+      p.commentsCount = 0;
+    }
   });
 
   const userReactions = await Post.getUserReactions(postIds, currentUserId);
@@ -189,7 +201,7 @@ PostSchema.statics.getReactionsCount = async function(postIds) {
 
 PostSchema.virtual("reactionsCount")
   .get(function() {
-    return this._reactionsCount || { Like: 0, Dislike: 0 };
+    return this._reactionsCount;
   })
   .set(function(value) {
     this._reactionsCount = value;
@@ -197,7 +209,7 @@ PostSchema.virtual("reactionsCount")
 
 PostSchema.virtual("commentsCount")
   .get(function() {
-    return this._commentsCount || 0;
+    return this._commentsCount;
   })
   .set(function(value) {
     this._commentsCount = value;
@@ -205,7 +217,7 @@ PostSchema.virtual("commentsCount")
 
 PostSchema.virtual("userReaction")
   .get(function() {
-    return this._userReaction || null;
+    return this._userReaction;
   })
   .set(function(value) {
     this._userReaction = value;

@@ -13,7 +13,6 @@ const authRouter = require("../routes/authRouter");
 const userProfileRouter = require("../routes/userProfileRouter");
 const profileRouter = require("../routes/profileRouter");
 const postRouter = require("../routes/postRouter");
-const likeRouter = require("../routes/likeRouter");
 const commentRouter = require("../routes/commentRouter");
 const imageRouter = require("../routes/imageRouter");
 
@@ -32,7 +31,6 @@ app.use("/profile", userProfileRouter);
 app.use("/api/profiles", profileRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
-app.use("/api/likes", likeRouter);
 app.use("/api/images", imageRouter);
 
 app.use(errorHandler);

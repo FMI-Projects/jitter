@@ -5,9 +5,7 @@ export default class CommentService {
 
   deleteComment = async commentId => {
     const url = `/api/comments/${commentId}`;
-    const response = await this.http.delete(url);
-
-    return response.data;
+    await this.http.delete(url);
   };
 
   updateComment = async (commentId, content) => {

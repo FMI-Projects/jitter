@@ -27,9 +27,7 @@ export default class PostService {
 
   deletePost = async postId => {
     const url = `/api/posts/${postId}`;
-    const response = await this.http.delete(url);
-
-    return response.data;
+    await this.http.delete(url);
   };
 
   createPostComment = async (postId, content) => {
@@ -41,9 +39,9 @@ export default class PostService {
   };
 
   likePost = async (postId, reaction) => {
-    const url = `/api/posts/${postId}/likes`;
+    const url = `/api/posts/${postId}/like`;
     const likeData = { reaction };
-    const response = await this.http.post(url, likeData);
+    const response = await this.http.put(url, likeData);
 
     return response.data;
   };
@@ -56,7 +54,7 @@ export default class PostService {
   };
 
   deletePostLike = async postId => {
-    const url = `/api/likes/${postId}`;
+    const url = `/api/posts/${postId}/like`;
     const response = await this.http.delete(url);
 
     return response.data;

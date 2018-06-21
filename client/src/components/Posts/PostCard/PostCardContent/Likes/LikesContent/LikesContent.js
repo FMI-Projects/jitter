@@ -11,8 +11,7 @@ import styles from "./LikesContent.styles";
 const likesContent = props => {
   const {
     handleLikeClick,
-    likeColor,
-    dislikeColor,
+    userReaction,
     likesCount,
     dislikesCount,
     classes
@@ -21,11 +20,13 @@ const likesContent = props => {
   return (
     <div className={classes.base}>
       <IconButton onClick={e => handleLikeClick("Like")} aria-label="Like">
-        <ThumbUpIcon color={likeColor} />
+        <ThumbUpIcon color={userReaction === "Like" ? "primary" : "default"} />
       </IconButton>
       {likesCount}
       <IconButton onClick={e => handleLikeClick("Dislike")} aria-label="Like">
-        <ThumbDownIcon color={dislikeColor} />
+        <ThumbDownIcon
+          color={userReaction === "Dislike" ? "secondary" : "default"}
+        />
       </IconButton>
       {dislikesCount}
     </div>
@@ -34,10 +35,9 @@ const likesContent = props => {
 
 likesContent.propTypes = {
   handleLikeClick: PropTypes.func.isRequired,
-  likeColor: PropTypes.string,
-  dislikeColor: PropTypes.string,
-  likesCount: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  dislikesCount: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  likesCount: PropTypes.number.isRequired,
+  dislikesCount: PropTypes.number.isRequired,
+  userReaction: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 

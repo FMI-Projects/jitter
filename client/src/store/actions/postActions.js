@@ -101,10 +101,9 @@ export const postsLikeDelete = postId => {
   };
 };
 
-export const postsLikeDeleteSuccess = (postId, like) => {
+export const postsLikeDeleteSuccess = postId => {
   return {
     type: actionTypes.POSTS_LIKE_DELETE_SUCCESS,
-    postId,
-    like
+    postId
   };
 };

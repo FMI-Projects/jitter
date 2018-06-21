@@ -226,75 +226,46 @@ const applyCommentsUpdateSuccess = (state, action) => {
 };
 
 const applyPostsLikeSuccess = (state, action) => {
-  state = state.update("likes", existingLikes =>
-    existingLikes.mergeWith(
-      comparators.compareShallow,
-      action.like.getIn(["entities", "like"])
-    )
-  );
-
-  // state = state.update("authors", existingAuthors =>
-  //   existingAuthors.mergeWith(
-  //     comparators.compareShallow,
-  //     action.like.getIn(["entities", "profile"])
-  //   )
-  // );
-
-  state = state.updateIn(
-    [
-      "posts",
-      "byId",
-      action.like.getIn([
-        "entities",
-        "like",
-        action.like.get("result"),
-        "post"
-      ]),
-      "likes"
-    ],
-    existingLikes => existingLikes.push(action.like.get("result"))
-  );
-
-  const reaction = action.like.getIn([
+  const like = action.like.getIn([
     "entities",
     "like",
-    action.like.get("result"),
-    "reaction"
+    action.like.get("result")
   ]);
+  const reaction = like.get("reaction");
+  const postId = like.get("post");
 
-  state = state.updateIn(
-    [
-      "posts",
-      "byId",
-      action.like.getIn(["entities", "like", action.like.get("result"), "post"])
-    ],
-    post => {
-      post = post.setIn(
-        ["reactionsCount", reaction],
-        post.getIn(["reactionsCount", reaction]) + 1
-      );
-      post = post.setIn(["userReaction"], reaction);
-      return post;
-    }
-  );
+  const post = state.getIn(["posts", "byId", postId]);
+  const currentReaction = post.get("userReaction");
+
+  if (currentReaction) {
+    state = state.setIn(
+      ["posts", "byId", postId, "reactionsCount", currentReaction],
+      post.getIn(["reactionsCount", currentReaction]) - 1
+    );
+  }
+
+  state = state.updateIn(["posts", "byId", postId], post => {
+    post = post.setIn(
+      ["reactionsCount", reaction],
+      post.getIn(["reactionsCount", reaction]) + 1
+    );
+    post = post.setIn(["userReaction"], reaction);
+    return post;
+  });
 
   return state;
 };
 
 const applyPostsLikesGet = (state, action) => {
-  return state.updateIn(["posts", "byId", action.postId], post => {
-    if (post) {
-      return post.set("likesLoading", true);
-    }
-  });
+  return state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("likesLoading", true)
+  );
 };
 
 const applyPostsLikesGetSuccess = (state, action) => {
-  state = state.updateIn(["posts", "byId", action.postId], post => {
-    if (post) {
-      return post.set("likesLoading", false);
-    }
-  });
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("likesLoading", false)
+  );
 
   state = state.update("likes", existingLikes =>
     existingLikes.mergeWith(
@@ -303,11 +274,9 @@ const applyPostsLikesGetSuccess = (state, action) => {
     )
   );
 
-  state = state.updateIn(["posts", "byId", action.postId], post => {
-    if (post) {
-      return post.set("likes", action.likes.get("result"));
-    }
-  });
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.set("likes", action.likes.get("result"))
+  );
 
   return state;
 };
@@ -335,24 +304,20 @@ const applyAddProfileToAuthors = (state, action) => {
 };
 
 const applyPostsLikeDeleteSuccess = (state, action) => {
-  state = state.updateIn(["posts", "byId", action.postId, "likes"], likes =>
-    likes.filter(l => l !== action.like._id)
+  const userReaction = state.getIn([
+    "posts",
+    "byId",
+    action.postId,
+    "userReaction"
+  ]);
+
+  state = state.setIn(["posts", "byId", action.postId, "userReaction"], null);
+  state = state.updateIn(["posts", "byId", action.postId], post =>
+    post.setIn(
+      ["reactionsCount", userReaction],
+      post.getIn(["reactionsCount", userReaction]) - 1
+    )
   );
-
-  state = state.updateIn(
-    ["posts", "byId", action.postId, "userReaction"],
-    reaction => null
-  );
-
-  state = state.updateIn(["posts", "byId", action.postId], post => {
-    post = post.setIn(
-      ["reactionsCount", action.like.reaction],
-      post.getIn(["reactionsCount", action.like.reaction]) - 1
-    );
-    return post;
-  });
-
-  state = state.update("likes", likes => likes.delete(action.like._id));
 
   return state;
 };

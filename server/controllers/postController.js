@@ -94,14 +94,41 @@ const createComment = async (req, res, next) => {
 
 const likePost = async (req, res, next) => {
   try {
-    let like = new Like({
-      reaction: req.body.reaction,
-      author: req.user._id,
-      post: req.params.id
+    let like = await Like.findOne({
+      post: req.params.id,
+      author: req.user._id
     });
+
+    if (like) {
+      like.reaction = req.body.reaction;
+    } else {
+      like = new Like({
+        reaction: req.body.reaction,
+        author: req.user._id,
+        post: req.params.id
+      });
+    }
+
     like = await like.save();
 
     res.status(201).send(like);
+  } catch (e) {
+    next(e);
+  }
+};
+
+const deleteLike = async (req, res, next) => {
+  try {
+    const like = await Like.findOneAndRemove({
+      post: req.params.id,
+      author: req.user._id
+    });
+
+    if (!like) {
+      return res.boom.notFound("Like not found!");
+    }
+
+    res.status(204).send();
   } catch (e) {
     next(e);
   }
@@ -131,5 +158,6 @@ module.exports = {
   getPostComments,
   createComment,
   likePost,
+  deleteLike,
   getPostLikes
 };
