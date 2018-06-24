@@ -29,7 +29,6 @@ const profileReducer = (state = initialState, action) => {
     case actionTypes.USER_PROFILE_MARK_FRIENDSHIPS_SEEN: {
       return applyUserProfileMarkFriendshipsSeen(state, action);
     }
-
     default:
       return state;
   }

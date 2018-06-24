@@ -14,7 +14,7 @@ class PostsList extends Component {
     posts: PropTypes.array,
     currentUserId: PropTypes.string,
     classes: PropTypes.object,
-    canAddPost: PropTypes.bool.isRequired
+    canAddPost: PropTypes.bool
   };
 
   render() {
@@ -23,7 +23,7 @@ class PostsList extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.formButton}>
-          {canAddPost ? <AddPost /> : null}
+          {canAddPost === false ? null : <AddPost />}
         </div>
 
         <div className={classes.list}>

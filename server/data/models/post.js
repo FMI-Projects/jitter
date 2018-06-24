@@ -70,9 +70,11 @@ PostSchema.statics.findProfilesPosts = async function(
 ) {
   const Post = this;
 
-  let posts = await Post.find({ author: { $in: profileIds } }).sort({
-    _id: "descending"
-  });
+  let posts = await Post.find({ author: { $in: profileIds } })
+    .sort({
+      _id: "descending"
+    })
+    .populate("author", "_id firstName lastName profilePictureUrl");
 
   if (posts.length > 0) {
     posts = await Post.setPostVirtuals(posts, currentUserId);

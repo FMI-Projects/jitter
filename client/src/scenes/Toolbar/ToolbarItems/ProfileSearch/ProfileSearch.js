@@ -14,8 +14,7 @@ class ProfileSearch extends Component {
     searchClear: PropTypes.func.isRequired,
     searchGet: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    classes: PropTypes.object.isRequired
   };
 
   state = {
@@ -76,7 +75,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(withRouter(withStyles(styles)(OnClickOutside(ProfileSearch))));
+export default connect(null, mapDispatchToProps)(
+  withRouter(withStyles(styles)(OnClickOutside(ProfileSearch)))
+);

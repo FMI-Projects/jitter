@@ -76,7 +76,6 @@ const applyPostsGet = (state, action) => {
 };
 
 const applyPostsGetSuccess = (state, action) => {
-  console.log("ACTION POSTS: ", action.posts);
   state = state.set("loading", false);
 
   state = state.updateIn(["posts", "byId"], existingPosts =>
@@ -86,6 +85,8 @@ const applyPostsGetSuccess = (state, action) => {
   state = state.updateIn(["posts", "allIds"], allIds =>
     new List(action.posts.get("result")).concat(allIds)
   );
+
+  window.actionPosts = action.posts;
 
   state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(

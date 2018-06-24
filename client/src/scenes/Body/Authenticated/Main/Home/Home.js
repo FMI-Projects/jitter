@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "store/actions";
 
+import Grid from "material-ui/Grid";
+
+import NewsFeed from "./NewsFeed/NewsFeed";
+import Spinner from "components/UI/Spinner/Spinner";
+
 class Home extends Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
@@ -15,7 +20,20 @@ class Home extends Component {
   }
 
   render() {
-    return <h1>Empty home :(</h1>;
+    let home = <Spinner />;
+
+    if (this.props.loading === false) {
+      home = (
+        <Grid container>
+          <Grid item sm={3} />
+          <Grid item sm={9}>
+            <NewsFeed />
+          </Grid>
+        </Grid>
+      );
+    }
+
+    return home;
   }
 }
 
