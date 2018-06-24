@@ -80,6 +80,35 @@ const ProfileSchema = new mongoose.Schema({
   }
 });
 
+ProfileSchema.statics.searchProfiles = async function(searchQuery) {
+  const Profile = this;
+
+  const searchResult = await Profile.aggregate([
+    {
+      $addFields: {
+        name: {
+          $concat: ["$firstName", " ", "$lastName"]
+        }
+      }
+    },
+    {
+      $match: {
+        name: new RegExp(`.*${searchQuery}.*`, "i")
+      }
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        _id: 1,
+        profilePictureUrl: 1
+      }
+    }
+  ]);
+
+  return searchResult;
+};
+
 ProfileSchema.statics.getUserProfileInfo = async function(profileId) {
   const Profile = this;
 
@@ -111,11 +140,11 @@ ProfileSchema.statics.getProfileInfo = async function(profileId) {
 ProfileSchema.statics.getFriendIds = async function(profileId) {
   const Profile = this;
 
-  const profileInfo = await Profile.findById(profileId).select("friendships.with");
-
-  const ids = profileInfo.friendships.map(f =>
-    f.with.toHexString()
+  const profileInfo = await Profile.findById(profileId).select(
+    "friendships.with"
   );
+
+  const ids = profileInfo.friendships.map(f => f.with.toHexString());
 
   return ids;
 };

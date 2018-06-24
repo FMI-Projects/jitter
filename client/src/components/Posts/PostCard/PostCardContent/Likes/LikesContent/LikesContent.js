@@ -20,12 +20,12 @@ const likesContent = props => {
   return (
     <div className={classes.base}>
       <IconButton onClick={e => handleLikeClick("Like")} aria-label="Like">
-        <ThumbUpIcon color={userReaction === "Like" ? "primary" : "default"} />
+        <ThumbUpIcon color={userReaction === "Like" ? "primary" : "inherit"} />
       </IconButton>
       {likesCount}
       <IconButton onClick={e => handleLikeClick("Dislike")} aria-label="Like">
         <ThumbDownIcon
-          color={userReaction === "Dislike" ? "secondary" : "default"}
+          color={userReaction === "Dislike" ? "secondary" : "inherit"}
         />
       </IconButton>
       {dislikesCount}

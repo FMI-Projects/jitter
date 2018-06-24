@@ -6,6 +6,7 @@ import userProfileModalSagas from "./userProfileModalSagas";
 import postSagas from "./postSagas";
 import profileSagas from "./profileSagas";
 import commentSagas from "./commentSagas";
+import searchSagas from "./searchSagas";
 
 export default function* rootSaga() {
   yield all([
@@ -14,6 +15,7 @@ export default function* rootSaga() {
     ...userProfileModalSagas,
     ...postSagas,
     ...profileSagas,
-    ...commentSagas
+    ...commentSagas,
+    ...searchSagas
   ]);
 }

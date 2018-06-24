@@ -2,8 +2,9 @@ const styles = {
   root: {
     flexGrow: 1
   },
-  logo: {
-    flex: 1
+  search: {
+    flex: 1,
+    marginLeft: "50px"
   }
 };
 

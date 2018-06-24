@@ -7,6 +7,7 @@ import Toolbar from "material-ui/Toolbar";
 import styles from "./Toolbar.styles";
 import NavigationItems from "./NavigationItems/NavigationItems";
 import Logo from "./Logo/Logo";
+import ProfileSearch from "./ProfileSearch/ProfileSearch";
 
 const toolbar = props => {
   const { classes } = props;
@@ -14,8 +15,9 @@ const toolbar = props => {
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <div className={classes.logo}>
-            <Logo />
+          <Logo />
+          <div className={classes.search}>
+            <ProfileSearch />
           </div>
           <NavigationItems />
         </Toolbar>

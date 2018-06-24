@@ -29,7 +29,20 @@ const getProfileInfo = async (req, res, next) => {
   }
 };
 
+const searchProfiles = async (req, res, next) => {
+  try {
+    const searchQuery = req.query.name || "";
+
+    const profiles = await Profile.searchProfiles(searchQuery);
+
+    res.status(200).send(profiles);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   getProfilePosts,
-  getProfileInfo
+  getProfileInfo,
+  searchProfiles
 };
