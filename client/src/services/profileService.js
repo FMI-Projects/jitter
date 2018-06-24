@@ -49,4 +49,10 @@ export default class ProfileService {
     const { data } = await this.http.delete(url);
     return data;
   };
+
+  getNewsFeed = async () => {
+    const url = "/profile/feed";
+    const { data } = await this.http.get(url);
+    return data;
+  };
 }

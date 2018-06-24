@@ -75,8 +75,23 @@ function* userProfileDeleteFriendRequestSaga(action) {
   } catch (e) {}
 }
 
+function* newsFeedGetSaga(action) {
+  try {
+    let posts = yield call(profileService.getNewsFeed);
+
+    posts = yield call(
+      toNormalisedImmutable,
+      posts,
+      normalisers.postsListNormaliser
+    );
+
+    yield put(actions.newsFeedGetSuccess(posts));
+  } catch (e) {}
+}
+
 const userProfileSagas = [
   takeLatest(actionTypes.USER_PROFILE_GET_INFO, userProfileGetInfoSaga),
+  takeLatest(actionTypes.USER_NEWS_FEED_GET, newsFeedGetSaga),
   takeLatest(
     actionTypes.USER_PROFILE_SEND_FRIEND_REQUEST,
     userProfileSendFriendRequestSaga

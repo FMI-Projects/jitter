@@ -76,3 +76,16 @@ export const userProfileMarkFriendshipsSeen = profileId => {
     type: actionTypes.USER_PROFILE_MARK_FRIENDSHIPS_SEEN
   };
 };
+
+export const newsFeedGet = () => {
+  return {
+    type: actionTypes.USER_NEWS_FEED_GET
+  };
+};
+
+export const newsFeedGetSuccess = posts => {
+  return {
+    type: actionTypes.USER_NEWS_FEED_GET_SUCCESS,
+    posts
+  };
+};

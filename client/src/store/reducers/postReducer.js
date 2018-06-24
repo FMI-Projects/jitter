@@ -16,8 +16,14 @@ const postReducer = (state = initialState, action) => {
     case actionTypes.PROFILE_POSTS_GET: {
       return applyPostsGet(state, action);
     }
+    case actionTypes.USER_NEWS_FEED_GET: {
+      return applyPostsGet(state, action);
+    }
     case actionTypes.PROFILE_POSTS_GET_SUCCESS: {
-      return applyProfilePostsGetSuccess(state, action);
+      return applyPostsGetSuccess(state, action);
+    }
+    case actionTypes.USER_NEWS_FEED_GET_SUCCESS: {
+      return applyPostsGetSuccess(state, action);
     }
     case actionTypes.POSTS_CREATE_SUCCESS: {
       return applyPostsCreateSuccess(state, action);
@@ -69,7 +75,8 @@ const applyPostsGet = (state, action) => {
   return state.set("loading", true);
 };
 
-const applyProfilePostsGetSuccess = (state, action) => {
+const applyPostsGetSuccess = (state, action) => {
+  console.log("ACTION POSTS: ", action.posts);
   state = state.set("loading", false);
 
   state = state.updateIn(["posts", "byId"], existingPosts =>
