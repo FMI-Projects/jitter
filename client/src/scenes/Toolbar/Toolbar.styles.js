@@ -2,7 +2,7 @@ const styles = {
   root: {
     flexGrow: 1
   },
-  search: {
+  toolbarItems: {
     flex: 1,
     marginLeft: "50px"
   }

@@ -14,7 +14,8 @@ class ProfileSearch extends Component {
     searchClear: PropTypes.func.isRequired,
     searchGet: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   state = {
