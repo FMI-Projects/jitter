@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import OnClickOutside from "react-onclickoutside";
 
 import * as actions from "store/actions";
 import styles from "./ProfileSearch.styles";
@@ -37,7 +38,7 @@ class ProfileSearch extends Component {
     this.setState({ isListVisible: true });
   };
 
-  hideList = e => {
+  handleClickOutside = () => {
     this.setState({ isListVisible: false });
   };
 
@@ -48,7 +49,7 @@ class ProfileSearch extends Component {
 
   render() {
     return (
-      <div tabIndex="0" className={this.props.classes.search}>
+      <div className={this.props.classes.search}>
         <input
           type="text"
           autoComplete="off"
@@ -58,7 +59,6 @@ class ProfileSearch extends Component {
           value={this.state.searchText}
           onChange={this.handleTextChange}
           onFocus={this.displayList}
-          onBlur={this.hideList}
         />
         {this.state.isListVisible && this.state.searchText.length > 0 ? (
           <ProfileSearchList onItemClick={this.onProfileClick} />
@@ -78,4 +78,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   null,
   mapDispatchToProps
-)(withRouter(withStyles(styles)(ProfileSearch)));
+)(withRouter(withStyles(styles)(OnClickOutside(ProfileSearch))));

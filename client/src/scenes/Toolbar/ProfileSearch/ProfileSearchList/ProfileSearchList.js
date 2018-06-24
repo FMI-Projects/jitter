@@ -14,7 +14,7 @@ const profileSearchList = props => (
       props.profilesList.map(p => (
         <li
           key={p}
-          onMouseDown={() => props.onItemClick(p)}
+          onClick={() => props.onItemClick(p)}
           className={props.classes.menuItem}
         >
           <ProfileSearchItem profileId={p} />
