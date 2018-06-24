@@ -64,6 +64,23 @@ PostSchema.pre("remove", async function(next) {
   next();
 });
 
+PostSchema.statics.findProfilesPosts = async function(
+  profileIds,
+  currentUserId
+) {
+  const Post = this;
+
+  let posts = await Post.find({ author: { $in: profileIds } }).sort({
+    _id: "descending"
+  });
+
+  if (posts.length > 0) {
+    posts = await Post.setPostVirtuals(posts, currentUserId);
+  }
+
+  return posts;
+};
+
 PostSchema.statics.findProfilePosts = async function(profileId, currentUserId) {
   const Post = this;
 
@@ -86,23 +103,11 @@ PostSchema.statics.setPostVirtuals = async function(posts, currentUserId) {
   const reactionsCount = await Post.getReactionsCount(postIds);
   posts.forEach(p => {
     p.reactionsCount = reactionsCount[p._id.toHexString()];
-    if (!p.reactionsCount) {
-      p.reactionsCount = {};
-    }
-    if (!p.reactionsCount["Like"]) {
-      p.reactionsCount["Like"] = 0;
-    }
-    if (!p.reactionsCount["Dislike"]) {
-      p.reactionsCount["Dislike"] = 0;
-    }
   });
 
   const commentsCount = await Post.getCommentsCount(postIds);
   posts.forEach(p => {
     p.commentsCount = commentsCount[p._id.toHexString()];
-    if (!p.commentsCount) {
-      p.commentsCount = 0;
-    }
   });
 
   const userReactions = await Post.getUserReactions(postIds, currentUserId);
@@ -201,7 +206,18 @@ PostSchema.statics.getReactionsCount = async function(postIds) {
 
 PostSchema.virtual("reactionsCount")
   .get(function() {
-    return this._reactionsCount;
+    let reactionsCount = this._reactionsCount;
+    if (!reactionsCount) {
+      reactionsCount = {};
+    }
+    if (!reactionsCount["Like"]) {
+      reactionsCount["Like"] = 0;
+    }
+    if (!reactionsCount["Dislike"]) {
+      reactionsCount["Dislike"] = 0;
+    }
+
+    return reactionsCount;
   })
   .set(function(value) {
     this._reactionsCount = value;
@@ -209,7 +225,7 @@ PostSchema.virtual("reactionsCount")
 
 PostSchema.virtual("commentsCount")
   .get(function() {
-    return this._commentsCount;
+    return this._commentsCount || 0;
   })
   .set(function(value) {
     this._commentsCount = value;
@@ -217,7 +233,7 @@ PostSchema.virtual("commentsCount")
 
 PostSchema.virtual("userReaction")
   .get(function() {
-    return this._userReaction;
+    return this._userReaction || null;
   })
   .set(function(value) {
     this._userReaction = value;

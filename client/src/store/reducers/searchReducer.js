@@ -4,7 +4,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = new Map({
   profiles: new Map(),
-  profilesList: new List()
+  profilesList: new List(),
+  loaded: false
 });
 
 const searchReducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const searchReducer = (state = initialState, action) => {
 const applySearchGetSuccess = (state, action) => {
   state = state.set("profilesList", action.profiles.get("result"));
   state = state.set("profiles", action.profiles.getIn(["entities", "profile"]));
+  state = state.set("loaded", true);
 
   return state;
 };

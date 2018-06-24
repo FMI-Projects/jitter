@@ -151,12 +151,10 @@ const getUserNewsFeed = async (req, res, next) => {
   try {
     const acceptedFriendIds = await Profile.getAcceptedFriendIds(userId);
 
-    let newsFeedPosts = [];
-    for (let i = 0; i < acceptedFriendIds.length; i++) {
-      newsFeedPosts = newsFeedPosts.concat(
-        await Post.findProfilePosts(acceptedFriendIds[i])
-      );
-    }
+    const newsFeedPosts = await Post.findProfilesPosts(
+      [...acceptedFriendIds, userId],
+      userId
+    );
 
     res.status(200).send(newsFeedPosts);
   } catch (e) {
