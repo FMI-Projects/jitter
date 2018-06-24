@@ -9,5 +9,6 @@ profileRouter.get(
   profileController.getProfilePosts
 );
 profileRouter.get("/:id", authenticate, profileController.getProfileInfo);
+profileRouter.get("/", authenticate, profileController.searchProfiles);
 
 module.exports = profileRouter;

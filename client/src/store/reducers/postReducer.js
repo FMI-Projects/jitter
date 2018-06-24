@@ -98,11 +98,6 @@ const applyPostsGetSuccess = (state, action) => {
 };
 
 const applyPostsCreateSuccess = (state, action) => {
-  action.post = action.post.setIn(
-    ["entities", "post", action.post.get("result"), "reactionsCount"],
-    new Map({ Like: 0, Dislike: 0 })
-  );
-
   state = state.updateIn(["posts", "byId"], existingPosts =>
     existingPosts.merge(action.post.getIn(["entities", "post"]))
   );

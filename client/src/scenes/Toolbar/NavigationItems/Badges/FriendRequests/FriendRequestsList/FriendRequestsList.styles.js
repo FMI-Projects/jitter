@@ -10,6 +10,9 @@ const styles = {
   },
   friendRequestAction: {
     textAlign: "right"
+  },
+  profileLink: {
+    textDecoration: "none"
   }
 };
 

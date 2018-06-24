@@ -6,6 +6,7 @@ import userProfileReducer from "./userProfileReducer";
 import userProfileModalReducer from "./userProfileModalReducer";
 import profileReducer from "./profileReducer";
 import onlineFriendsReducer from "./onlineFriendsReducer";
+import searchReducer from "./searchReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   userProfileModal: userProfileModalReducer,
   profile: profileReducer,
   posts: postReducer,
-  onlineFriends: onlineFriendsReducer
+  onlineFriends: onlineFriendsReducer,
+  search: searchReducer
 });
 
 export default rootReducer;

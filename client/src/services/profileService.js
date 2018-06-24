@@ -55,4 +55,10 @@ export default class ProfileService {
     const { data } = await this.http.get(url);
     return data;
   };
+
+  searchProfiles = async searchQuery => {
+    const url = `/api/profiles?name=${searchQuery}`;
+    const { data } = await this.http.get(url);
+    return data;
+  };
 }

@@ -80,6 +80,35 @@ const ProfileSchema = new mongoose.Schema({
   }
 });
 
+ProfileSchema.statics.searchProfiles = async function(searchQuery) {
+  const Profile = this;
+
+  const searchResult = await Profile.aggregate([
+    {
+      $addFields: {
+        name: {
+          $concat: ["$firstName", " ", "$lastName"]
+        }
+      }
+    },
+    {
+      $match: {
+        name: new RegExp(`.*${searchQuery}.*`, "i")
+      }
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        _id: 1,
+        profilePictureUrl: 1
+      }
+    }
+  ]);
+
+  return searchResult;
+};
+
 ProfileSchema.statics.getUserProfileInfo = async function(profileId) {
   const Profile = this;
 
