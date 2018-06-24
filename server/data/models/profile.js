@@ -149,6 +149,20 @@ ProfileSchema.statics.getFriendIds = async function(profileId) {
   return ids;
 };
 
+ProfileSchema.statics.getAcceptedFriendIds = async function(profileId) {
+  const Profile = this;
+
+  const profileInfo = await Profile.findById(profileId).select(
+    "friendships.with friendships.status"
+  );
+
+  const ids = profileInfo.friendships
+    .filter(f => f.status === "Accepted")
+    .map(f => f.with.toHexString());
+
+  return ids;
+};
+
 ProfileSchema.statics.getByIds = async function(ids) {
   const Profile = this;
 

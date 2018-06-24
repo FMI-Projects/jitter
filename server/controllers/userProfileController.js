@@ -1,6 +1,7 @@
 const _ = require("lodash");
 
 const Profile = require("../data/models/profile");
+const Post = require("../data/models/post");
 const io = require("../sockets/io").getInstance();
 
 const getCurrentUserProfile = async (req, res, next) => {
@@ -144,10 +145,30 @@ const deleteFriendRequest = async (req, res, next) => {
   }
 };
 
+const getUserNewsFeed = async (req, res, next) => {
+  const userId = req.user._id.toHexString();
+
+  try {
+    const acceptedFriendIds = await Profile.getAcceptedFriendIds(userId);
+
+    let newsFeedPosts = [];
+    for (let i = 0; i < acceptedFriendIds.length; i++) {
+      newsFeedPosts = newsFeedPosts.concat(
+        await Post.findProfilePosts(acceptedFriendIds[i])
+      );
+    }
+
+    res.status(200).send(newsFeedPosts);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   getCurrentUserProfile,
   updateCurrentUserProfile,
   sendFriendRequest,
   updateFriendRequest,
-  deleteFriendRequest
+  deleteFriendRequest,
+  getUserNewsFeed
 };

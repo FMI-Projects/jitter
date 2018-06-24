@@ -8,6 +8,11 @@ userProfileRouter.get(
   authenticate,
   userProfileController.getCurrentUserProfile
 );
+userProfileRouter.get(
+  "/feed",
+  authenticate,
+  userProfileController.getUserNewsFeed
+);
 userProfileRouter.patch(
   "/",
   authenticate,
