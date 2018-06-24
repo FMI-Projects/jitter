@@ -86,8 +86,6 @@ const applyPostsGetSuccess = (state, action) => {
     new List(action.posts.get("result")).concat(allIds)
   );
 
-  window.actionPosts = action.posts;
-
   state = state.update("authors", existingAuthors =>
     existingAuthors.mergeWith(
       comparators.compareShallow,
