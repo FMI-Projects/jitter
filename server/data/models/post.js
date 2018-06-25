@@ -64,6 +64,26 @@ PostSchema.pre("remove", async function(next) {
   next();
 });
 
+PostSchema.statics.editPost = async function(
+  postId,
+  title,
+  content,
+  imageUrl,
+  currentUserId
+) {
+  const Post = this;
+
+  let post = await Post.findByIdAndUpdate(
+    postId,
+    { $set: { title, content, imageUrl } },
+    { new: true, runValidators: true }
+  );
+
+  post = await Post.setPostVirtuals([post], currentUserId);
+
+  return post;
+};
+
 PostSchema.statics.findProfilesPosts = async function(
   profileIds,
   currentUserId

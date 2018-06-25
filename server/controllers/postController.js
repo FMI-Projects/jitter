@@ -31,10 +31,12 @@ const getPost = async (req, res, next) => {
 const editPost = async (req, res, next) => {
   try {
     const { title, content, imageUrl } = req.body;
-    const post = await Post.findByIdAndUpdate(
+    const post = await Post.editPost(
       req.params.id,
-      { $set: { title, content, imageUrl } },
-      { new: true, runValidators: true }
+      title,
+      content,
+      imageUrl,
+      req.user._id
     );
 
     if (!post) {
