@@ -21,13 +21,17 @@ class Users {
     if (userId) {
       delete this.userBySocket[socketId];
       this.socketsByUser[userId].delete(socketId);
+
+      if (this.socketsByUser[userId].size === 0) {
+        delete this.socketsByUser[userId];
+      }
     }
 
     return userId;
   }
 
   isUserOnline(userId) {
-    return this.socketsByUser[userId] && this.socketsByUser[userId].length > 0;
+    return this.socketsByUser[userId] && this.socketsByUser[userId].size > 0;
   }
 
   getUserSocketIds(userId) {
