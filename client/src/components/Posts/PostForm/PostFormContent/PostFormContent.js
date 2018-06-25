@@ -10,6 +10,7 @@ import { TextField } from "redux-form-material-ui";
 import {
   required,
   postTitleMinLength,
+  postTitleMaxLength,
   postContentMaxLength
 } from "utilities/validation";
 import Spinner from "../../../UI/Spinner/Spinner";
@@ -49,7 +50,7 @@ const postForm = props => {
               name="title"
               component={TextField}
               label="Title"
-              validate={[required, postTitleMinLength]}
+              validate={[required, postTitleMinLength, postTitleMaxLength]}
             />
           </div>
           <div>
