@@ -79,7 +79,7 @@ PostSchema.statics.editPost = async function(
     { new: true, runValidators: true }
   );
 
-  post = await Post.setPostVirtuals([post], currentUserId);
+  post = (await Post.setPostsVirtuals([post], currentUserId)).pop();
 
   return post;
 };
@@ -97,7 +97,7 @@ PostSchema.statics.findProfilesPosts = async function(
     .populate("author", "_id firstName lastName profilePictureUrl");
 
   if (posts.length > 0) {
-    posts = await Post.setPostVirtuals(posts, currentUserId);
+    posts = await Post.setPostsVirtuals(posts, currentUserId);
   }
 
   return posts;
@@ -111,13 +111,13 @@ PostSchema.statics.findProfilePosts = async function(profileId, currentUserId) {
   });
 
   if (posts.length > 0) {
-    posts = await Post.setPostVirtuals(posts, currentUserId);
+    posts = await Post.setPostsVirtuals(posts, currentUserId);
   }
 
   return posts;
 };
 
-PostSchema.statics.setPostVirtuals = async function(posts, currentUserId) {
+PostSchema.statics.setPostsVirtuals = async function(posts, currentUserId) {
   const Post = this;
 
   const postIds = posts.map(p => p._id);

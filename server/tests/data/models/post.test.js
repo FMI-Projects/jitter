@@ -60,7 +60,7 @@ describe("post", () => {
 
         jest.spyOn(Post, "find").mockImplementation(params => mockQuery);
         jest
-          .spyOn(Post, "setPostVirtuals")
+          .spyOn(Post, "setPostsVirtuals")
           .mockImplementation(params => postsToReturn);
 
         const author = new ObjectID();
@@ -69,7 +69,7 @@ describe("post", () => {
         const posts = await Post.findProfilePosts(author, currentUserId);
 
         expect(Post.find).toHaveBeenCalledWith({ author });
-        expect(Post.setPostVirtuals).toHaveBeenCalledWith(
+        expect(Post.setPostsVirtuals).toHaveBeenCalledWith(
           postsToReturn,
           currentUserId
         );
