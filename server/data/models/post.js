@@ -64,6 +64,18 @@ PostSchema.pre("remove", async function(next) {
   next();
 });
 
+PostSchema.methods.excludeVirtuals = function() {
+  let post = this;
+
+  post = post.toObject();
+
+  delete post.userReaction;
+  delete post.commentsCount;
+  delete post.reactionsCount;
+
+  return post;
+};
+
 PostSchema.statics.editPost = async function(
   postId,
   title,
@@ -73,13 +85,11 @@ PostSchema.statics.editPost = async function(
 ) {
   const Post = this;
 
-  let post = await Post.findByIdAndUpdate(
+  const post = await Post.findByIdAndUpdate(
     postId,
     { $set: { title, content, imageUrl } },
     { new: true, runValidators: true }
   );
-
-  post = (await Post.setPostsVirtuals([post], currentUserId)).pop();
 
   return post;
 };

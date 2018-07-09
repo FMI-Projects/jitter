@@ -31,7 +31,7 @@ const getPost = async (req, res, next) => {
 const editPost = async (req, res, next) => {
   try {
     const { title, content, imageUrl } = req.body;
-    const post = await Post.editPost(
+    let post = await Post.editPost(
       req.params.id,
       title,
       content,
@@ -42,6 +42,8 @@ const editPost = async (req, res, next) => {
     if (!post) {
       return res.boom.notFound("Post not found");
     }
+
+    post = post.excludeVirtuals();
 
     res.status(200).send(post);
   } catch (e) {
