@@ -50,18 +50,17 @@ describe("post", () => {
   });
 
   describe("static methods", () => {
-    describe("findUserPosts", () => {
-      it("should return user posts with correct input", async () => {
-        const postsToReturn = "somePosts";
+    describe("findProfilePosts", () => {
+      it("should return profile posts with correct input", async () => {
+        const postsToReturn = ["somePosts"];
 
         const mockQuery = {
-          sort: jest.fn().mockResolvedValue(postsToReturn)
+          sort: jest.fn().mockReturnThis(),
+          fill: jest.fn().mockReturnThis(),
+          exec: jest.fn().mockResolvedValue(postsToReturn)
         };
 
         jest.spyOn(Post, "find").mockImplementation(params => mockQuery);
-        jest
-          .spyOn(Post, "setPostsVirtuals")
-          .mockImplementation(params => postsToReturn);
 
         const author = new ObjectID();
         const currentUserId = new ObjectID();
@@ -69,10 +68,12 @@ describe("post", () => {
         const posts = await Post.findProfilePosts(author, currentUserId);
 
         expect(Post.find).toHaveBeenCalledWith({ author });
-        expect(Post.setPostsVirtuals).toHaveBeenCalledWith(
-          postsToReturn,
-          currentUserId
-        );
+        expect(mockQuery.sort).toHaveBeenCalledWith({
+          _id: "descending"
+        });
+        expect(mockQuery.fill.mock.calls.length).toBe(3);
+        expect(mockQuery.exec).toHaveBeenCalled();
+
         expect(posts).toEqual(postsToReturn);
       });
     });
