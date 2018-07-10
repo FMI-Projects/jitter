@@ -4,9 +4,7 @@ const Like = require("../data/models/like");
 
 const createPost = async (req, res, next) => {
   try {
-    let post = new Post(req.body);
-    post.author = req.user._id;
-    post = await post.save();
+    const post = await Post.createPost(req.body, req.user._id);
 
     res.status(201).send(post);
   } catch (e) {
@@ -31,19 +29,16 @@ const getPost = async (req, res, next) => {
 const editPost = async (req, res, next) => {
   try {
     const { title, content, imageUrl } = req.body;
-    let post = await Post.editPost(
+
+    const post = await Post.findByIdAndUpdate(
       req.params.id,
-      title,
-      content,
-      imageUrl,
-      req.user._id
+      { $set: { title, content, imageUrl } },
+      { new: true, runValidators: true }
     );
 
     if (!post) {
       return res.boom.notFound("Post not found");
     }
-
-    post = post.excludeVirtuals();
 
     res.status(200).send(post);
   } catch (e) {

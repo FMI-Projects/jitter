@@ -146,7 +146,7 @@ const deleteFriendRequest = async (req, res, next) => {
 };
 
 const getUserNewsFeed = async (req, res, next) => {
-  const userId = req.user._id.toHexString();
+  const userId = req.user._id;
 
   try {
     const acceptedFriendIds = await Profile.getAcceptedFriendIds(userId);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose-fill");
 const idValidator = require("mongoose-id-validator");
 
 const postConstants = require("../../utilities/constants/postConstants");
@@ -64,32 +64,14 @@ PostSchema.pre("remove", async function(next) {
   next();
 });
 
-PostSchema.methods.excludeVirtuals = function() {
-  let post = this;
+PostSchema.statics.createPost = async function(postData, author) {
+  let post = new Post(postData);
+  post.author = author;
+  post = await post.save();
 
-  post = post.toObject();
-
-  delete post.userReaction;
-  delete post.commentsCount;
-  delete post.reactionsCount;
-
-  return post;
-};
-
-PostSchema.statics.editPost = async function(
-  postId,
-  title,
-  content,
-  imageUrl,
-  currentUserId
-) {
-  const Post = this;
-
-  const post = await Post.findByIdAndUpdate(
-    postId,
-    { $set: { title, content, imageUrl } },
-    { new: true, runValidators: true }
-  );
+  post.__reactionsCount = { Like: 0, Dislike: 0 };
+  post.__commentsCount = 0;
+  post.__userReaction = null;
 
   return post;
 };
@@ -100,15 +82,17 @@ PostSchema.statics.findProfilesPosts = async function(
 ) {
   const Post = this;
 
-  let posts = await Post.find({ author: { $in: profileIds } })
+  const posts = await Post.find({ author: { $in: profileIds } })
     .sort({
       _id: "descending"
     })
-    .populate("author", "_id firstName lastName profilePictureUrl");
+    .populate("author", "_id firstName lastName profilePictureUrl")
+    .fill("reactionsCount")
+    .fill("commentsCount")
+    .fill("userReaction", currentUserId)
+    .exec();
 
-  if (posts.length > 0) {
-    posts = await Post.setPostsVirtuals(posts, currentUserId);
-  }
+  setDefaultVirtualsIfUndefined(posts);
 
   return posts;
 };
@@ -116,159 +100,121 @@ PostSchema.statics.findProfilesPosts = async function(
 PostSchema.statics.findProfilePosts = async function(profileId, currentUserId) {
   const Post = this;
 
-  let posts = await Post.find({ author: profileId }).sort({
-    _id: "descending"
-  });
-
-  if (posts.length > 0) {
-    posts = await Post.setPostsVirtuals(posts, currentUserId);
-  }
-
-  return posts;
-};
-
-PostSchema.statics.setPostsVirtuals = async function(posts, currentUserId) {
-  const Post = this;
-
-  const postIds = posts.map(p => p._id);
-
-  const reactionsCount = await Post.getReactionsCount(postIds);
-  posts.forEach(p => {
-    p.reactionsCount = reactionsCount[p._id.toHexString()];
-  });
-
-  const commentsCount = await Post.getCommentsCount(postIds);
-  posts.forEach(p => {
-    p.commentsCount = commentsCount[p._id.toHexString()];
-  });
-
-  const userReactions = await Post.getUserReactions(postIds, currentUserId);
-  posts.forEach(p => {
-    p.userReaction = userReactions[p._id.toHexString()];
-  });
-
-  return posts;
-};
-
-PostSchema.statics.getUserReactions = async function(postIds, userId) {
-  const Post = this;
-
-  const userReactions = await Post.model("Like")
-    .find({
-      post: { $in: postIds },
-      author: userId
+  const posts = await Post.find({ author: profileId })
+    .sort({
+      _id: "descending"
     })
-    .select("reaction post");
+    .fill("reactionsCount")
+    .fill("commentsCount")
+    .fill("userReaction", currentUserId)
+    .exec();
 
-  const reactionsMap = {};
+  setDefaultVirtualsIfUndefined(posts);
 
-  userReactions.forEach(r => {
-    reactionsMap[r.post.toHexString()] = r.reaction;
-  });
-
-  return reactionsMap;
+  return posts;
 };
 
-PostSchema.statics.getCommentsCount = async function(postIds) {
-  const Post = this;
+const setDefaultVirtualsIfUndefined = posts => {
+  posts.forEach(p => {
+    p.__reactionsCount = p.__reactionsCount || { Like: 0, Dislike: 0 };
+    p.__commentsCount = p.__commentsCount || 0;
+    p.__userReaction = p.__userReaction || null;
+  });
+};
 
-  const commentsCount = await Post.model("Comment").aggregate([
-    {
-      $match: {
-        post: {
-          $in: postIds
-        }
-      }
-    },
-    {
-      $group: {
-        _id: {
-          post: "$post"
+PostSchema.fill("reactionsCount")
+  .value()
+  .multi(function(docs, ids, callback) {
+    this.db.model("Like").aggregate(
+      [
+        {
+          $match: {
+            post: {
+              $in: ids
+            }
+          }
         },
-        count: { $sum: 1 }
-      }
-    }
-  ]);
-
-  const commentsMap = {};
-  commentsCount.forEach(r => {
-    const postId = r._id.post.toHexString();
-
-    commentsMap[postId] = r.count;
-  });
-
-  return commentsMap;
-};
-
-PostSchema.statics.getReactionsCount = async function(postIds) {
-  const Post = this;
-
-  const reactionsCount = await Post.model("Like").aggregate([
-    {
-      $match: {
-        post: {
-          $in: postIds
-        }
-      }
-    },
-    {
-      $group: {
-        _id: {
-          post: "$post",
-          reaction: "$reaction"
+        {
+          $group: {
+            _id: "$post",
+            likesCount: {
+              $sum: {
+                $cond: [{ $eq: ["$reaction", "Like"] }, 1, 0]
+              }
+            },
+            dislikesCount: {
+              $sum: {
+                $cond: [{ $eq: ["$reaction", "Dislike"] }, 1, 0]
+              }
+            }
+          }
         },
-        count: { $sum: 1 }
-      }
-    }
-  ]);
-
-  const reactionsMap = {};
-  reactionsCount.forEach(r => {
-    const postId = r._id.post.toHexString();
-
-    if (!reactionsMap[postId]) {
-      reactionsMap[postId] = {};
-    }
-
-    reactionsMap[postId][r._id.reaction] = r.count;
+        {
+          $project: {
+            reactionsCount: {
+              Like: "$likesCount",
+              Dislike: "$dislikesCount"
+            }
+          }
+        }
+      ],
+      callback
+    );
   });
 
-  return reactionsMap;
-};
-
-PostSchema.virtual("reactionsCount")
-  .get(function() {
-    let reactionsCount = this._reactionsCount;
-    if (!reactionsCount) {
-      reactionsCount = {};
-    }
-    if (!reactionsCount["Like"]) {
-      reactionsCount["Like"] = 0;
-    }
-    if (!reactionsCount["Dislike"]) {
-      reactionsCount["Dislike"] = 0;
-    }
-
-    return reactionsCount;
-  })
-  .set(function(value) {
-    this._reactionsCount = value;
+PostSchema.fill("commentsCount")
+  .value()
+  .multi(function(docs, ids, callback) {
+    this.db.model("Comment").aggregate(
+      [
+        {
+          $match: {
+            post: {
+              $in: ids
+            }
+          }
+        },
+        {
+          $group: {
+            _id: "$post",
+            commentsCount: { $sum: 1 }
+          }
+        }
+      ],
+      callback
+    );
   });
 
-PostSchema.virtual("commentsCount")
-  .get(function() {
-    return this._commentsCount || 0;
-  })
-  .set(function(value) {
-    this._commentsCount = value;
-  });
-
-PostSchema.virtual("userReaction")
-  .get(function() {
-    return this._userReaction || null;
-  })
-  .set(function(value) {
-    this._userReaction = value;
+PostSchema.fill("userReaction")
+  .value()
+  .multi(function(docs, ids, currentUserId, callback) {
+    this.db.model("Like").aggregate(
+      [
+        {
+          $match: {
+            $and: [
+              {
+                post: {
+                  $in: ids
+                }
+              },
+              {
+                author: {
+                  $eq: currentUserId
+                }
+              }
+            ]
+          }
+        },
+        {
+          $group: {
+            _id: "$post",
+            userReaction: { $first: "$reaction" }
+          }
+        }
+      ],
+      callback
+    );
   });
 
 if (process.env.NODE_ENV !== "test") {
