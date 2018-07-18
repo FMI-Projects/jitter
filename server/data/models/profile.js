@@ -16,7 +16,10 @@ const ProfileSchema = new mongoose.Schema({
     trim: true,
     maxlength: [
       profileConstants.firstName.maxLength,
-      validationMessages.maxLength("First name")
+      validationMessages.maxLength(
+        "First name",
+        profileConstants.firstName.maxLength
+      )
     ]
   },
   lastName: {
@@ -25,7 +28,10 @@ const ProfileSchema = new mongoose.Schema({
     trim: true,
     maxlength: [
       profileConstants.lastName.maxLength,
-      validationMessages.maxLength("Last name")
+      validationMessages.maxLength(
+        "Last name",
+        profileConstants.lastName.maxLength
+      )
     ]
   },
   bio: {
@@ -33,7 +39,7 @@ const ProfileSchema = new mongoose.Schema({
     trim: true,
     maxlength: [
       profileConstants.bio.maxLength,
-      validationMessages.maxLength("Bio")
+      validationMessages.maxLength("Bio", profileConstants.bio.maxLength)
     ],
     default: null
   },
