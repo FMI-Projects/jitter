@@ -38,6 +38,8 @@
     "eject": "cross-env NODE_PATH=src/ react-scripts eject"
   },
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-react": "^7.7.0"
   },
