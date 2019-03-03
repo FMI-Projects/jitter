@@ -42,7 +42,6 @@
     "supertest": "^3.0.0"
   },
    "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/"
+    "testEnvironment": "node"
   }
 }
