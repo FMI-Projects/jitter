@@ -40,5 +40,9 @@
     "mockgoose": "^7.3.5",
     "nodemon": "^1.17.2",
     "supertest": "^3.0.0"
+  },
+   "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/"
   }
 }
