@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
 
-import PostCard from "../PostCard/PostCard";
-import AddPost from "./AddPost/AddPost";
+import PostCard from "components/Posts/PostCard/PostCard";
+import AddPost from "./AddPost";
 import styles from "./PostsList.styles";
 import ToJs from "hoc/ToJs/ToJs";
 

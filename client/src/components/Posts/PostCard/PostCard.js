@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import PostCardContent from "./PostCardContent/PostCardContent";
+import PostCardContent from "./PostCardContent";
 import makePostSelector from "store/reducers/selectors/postSelector";
 
-const postCard = props => (
+const PostCard = props => (
   <PostCardContent post={props.post} canModify={props.canModify} />
 );
 
-postCard.propTypes = {
+PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   canModify: PropTypes.bool.isRequired
 };
@@ -27,4 +27,4 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 };
 
-export default connect(makeMapStateToProps)(postCard);
+export default connect(makeMapStateToProps)(PostCard);

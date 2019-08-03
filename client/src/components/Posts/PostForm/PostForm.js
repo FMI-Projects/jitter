@@ -4,7 +4,7 @@ import { reduxForm } from "redux-form/immutable";
 import { connect } from "react-redux";
 
 import * as actions from "store/actions";
-import PostFormContent from "./PostFormContent/PostFormContent";
+import PostFormContent from "./PostFormContent";
 import getAuthor from "store/reducers/selectors/authorSelector";
 
 class PostForm extends Component {

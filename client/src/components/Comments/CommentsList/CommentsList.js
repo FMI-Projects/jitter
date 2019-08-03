@@ -6,9 +6,9 @@ import { withStyles } from "material-ui/styles";
 
 import styles from "./CommentsList.styles";
 
-import CommentListItem from "./CommentListItem/CommentListItem";
+import CommentListItem from "./CommentListItem";
 
-const commentsList = props => (
+const CommentsList = props => (
   <div className={props.classes.root}>
     <List>
       {props.commentIds.map(c => <CommentListItem key={c} commentId={c} />)}
@@ -16,7 +16,7 @@ const commentsList = props => (
   </div>
 );
 
-commentsList.propTypes = {
+CommentsList.propTypes = {
   commentIds: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
@@ -35,4 +35,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(commentsList));
+export default connect(mapStateToProps)(withStyles(styles)(CommentsList));

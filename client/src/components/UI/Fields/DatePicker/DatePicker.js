@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import DatePicker from "material-ui-pickers/DatePicker";
+import MaterialDatePicker from "material-ui-pickers/DatePicker";
 
-const datePicker = props => {
+const DatePicker = props => {
   const value = props.input.value ? new Date(props.input.value) : null;
 
   return (
-    <DatePicker
+    <MaterialDatePicker
       {...props.input}
       id={props.id}
       label={props.label}
@@ -19,7 +19,7 @@ const datePicker = props => {
   );
 };
 
-datePicker.propTypes = {
+DatePicker.propTypes = {
   input: PropTypes.object.isRequired,
   label: PropTypes.string,
   disableFuture: PropTypes.bool,
@@ -27,4 +27,4 @@ datePicker.propTypes = {
   id: PropTypes.string.isRequired
 };
 
-export default datePicker;
+export default DatePicker;

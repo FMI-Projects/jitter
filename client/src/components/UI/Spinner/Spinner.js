@@ -5,7 +5,7 @@ import { CircularProgress } from "material-ui/Progress";
 
 import styles from "./Spinner.styles";
 
-const spinner = props => {
+const Spinner = props => {
   const { classes, size } = props;
 
   return (
@@ -19,13 +19,13 @@ const spinner = props => {
   );
 };
 
-spinner.defaultProps = {
+Spinner.defaultProps = {
   size: 100
 };
 
-spinner.propTypes = {
+Spinner.propTypes = {
   classes: PropTypes.object.isRequired,
   size: PropTypes.number
 };
 
-export default withStyles(styles)(spinner);
+export default withStyles(styles)(Spinner);

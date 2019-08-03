@@ -4,7 +4,7 @@ import { reduxForm } from "redux-form/immutable";
 import { connect } from "react-redux";
 
 import * as actions from "store/actions";
-import CommentFormContent from "./CommentFormContent/CommentFormContent";
+import CommentFormContent from "./CommentFormContent";
 import getAuthor from "store/reducers/selectors/authorSelector";
 
 class CommentForm extends Component {

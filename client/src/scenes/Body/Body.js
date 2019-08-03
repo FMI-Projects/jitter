@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import BodyContent from "./BodyContent";
 
-const body = props => (
+const Body = props => (
   <BodyContent
     isAuthenticated={props.isAuthenticated}
     firstLogin={props.firstLogin}
@@ -13,7 +13,7 @@ const body = props => (
   </BodyContent>
 );
 
-body.propTypes = {
+Body.propTypes = {
   children: PropTypes.element.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   firstLogin: PropTypes.bool.isRequired
@@ -26,4 +26,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(body);
+export default connect(mapStateToProps)(Body);

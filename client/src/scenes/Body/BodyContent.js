@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import Grid from "material-ui/Grid";
 import { withStyles } from "material-ui/styles";
 
-import ProfileModal from "./Authenticated/ProfileModal/ProfileModal";
-import OnlineFriends from "./Authenticated/OnlineFriends/OnlineFriends";
+import ProfileModal from "scenes/ProfileModal/ProfileModal";
+import OnlineFriends from "scenes/OnlineFriends/OnlineFriends";
 import styles from "./BodyContent.styles";
 
-const bodyContent = props => {
+const BodyContent = props => {
   let body = props.children;
 
   if (props.isAuthenticated) {
@@ -35,11 +35,11 @@ const bodyContent = props => {
   return <main className={props.classes.main}>{body}</main>;
 };
 
-bodyContent.propTypes = {
+BodyContent.propTypes = {
   children: PropTypes.element.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   firstLogin: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(bodyContent);
+export default withStyles(styles)(BodyContent);

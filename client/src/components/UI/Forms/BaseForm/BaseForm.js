@@ -5,9 +5,10 @@ import { withStyles } from "material-ui/styles";
 import Paper from "material-ui/Paper";
 import Card, { CardHeader } from "material-ui/Card";
 import { Grid } from "material-ui";
+
 import styles from "./BaseForm.styles";
 
-const baseForm = props => {
+const BaseForm = props => {
   return (
     <div style={props.style} className={props.classes.base}>
       <Grid container>
@@ -23,11 +24,11 @@ const baseForm = props => {
   );
 };
 
-baseForm.propTypes = {
+BaseForm.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   style: PropTypes.object
 };
 
-export default withStyles(styles)(baseForm);
+export default withStyles(styles)(BaseForm);

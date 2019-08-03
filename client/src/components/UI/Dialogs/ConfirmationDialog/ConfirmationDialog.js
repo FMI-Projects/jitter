@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Dialog, { DialogTitle, DialogActions } from "material-ui/Dialog";
 import Button from "material-ui/Button";
 
-const confirmationDialog = props => {
+const ConfirmationDialog = props => {
   const { open, onClose, handleCancel, handleOk, text } = props;
   return (
     <Fragment>
@@ -26,7 +26,7 @@ const confirmationDialog = props => {
   );
 };
 
-confirmationDialog.propTypes = {
+ConfirmationDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
@@ -34,4 +34,4 @@ confirmationDialog.propTypes = {
   text: PropTypes.string.isRequired
 };
 
-export default confirmationDialog;
+export default ConfirmationDialog;
