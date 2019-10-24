@@ -19,7 +19,7 @@
     "express-boom": "2.0.0",
     "faker": "4.1.0",
     "jsonwebtoken": "8.2.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "mongodb": "3.0.4",
     "mongoose": "^5.4.12",
     "mongoose-fill": "^1.7.0",
